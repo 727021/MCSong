@@ -1,5 +1,6 @@
-MCLawl
+MCSong
 =============
+
 MCSong is a server software for Minecraft Classic written in C# and semi-actively developed by [727021](https://github.com/727021). It is based on [MCLawl](http://minecraft.gamepedia.net/Custom_Servers/MCLawl) by Zallist, Lawlcat, and Valek.
 
 ---
