@@ -22,6 +22,7 @@ using System.Text;
 using System.Windows.Forms;
 using System.Threading;
 using System.Text.RegularExpressions;
+using System.Net;
 using MCSong;
 
 namespace MCSong.Gui
@@ -111,14 +112,30 @@ namespace MCSong.Gui
 
             //if (File.Exists(Logger.ErrorLogPath))
                 //txtErrors.Lines = File.ReadAllLines(Logger.ErrorLogPath);
+            try
+            {
+                if (File.Exists("extra/Changelog.txt"))
+                {
+                    File.Delete("extra/Changelog.txt");
+                }
+                WebClient Web = new WebClient();
+                Web.DownloadFile("http://updates.mcsong.x10.mx/changelog.txt", "extra/Changelog.txt");
+                Web.Dispose();
+            }
+            catch { }
             if (File.Exists("extra/Changelog.txt"))
             {
                 txtChangelog.Text = "Changelog for " + Server.Version + ":";
                 foreach (string line in File.ReadAllLines(("extra/Changelog.txt")))
                 {
                     txtChangelog.AppendText("\r\n           " + line);
-                }            
+                }
             }
+            else
+            {
+                txtChangelog.Text = "Changelog for " + Server.Version + "\r\n\r\nChangelog not found!\r\nDownload it manually from http://updates.mcsong.x10.mx/changelog.txt and save it as \'extra/Changelog.txt\'";
+            }
+            txtCurrentVersion.Text = Server.Version;
         }
 
         void SettingsUpdate()
@@ -129,7 +146,7 @@ namespace MCSong.Gui
                 VoidDelegate d = new VoidDelegate(SettingsUpdate);
                 this.Invoke(d);
             }  else {
-                this.Text = Server.name + " MCSong Version: " + Server.Version;
+                this.Text = Server.name + " - MCSong Version: " + Server.Version;
             }
         }
 
@@ -355,13 +372,6 @@ namespace MCSong.Gui
         private void gBChat_Enter(object sender, EventArgs e)
         {
 
-        }
-
-        private void btnExtra_Click_1(object sender, EventArgs e) {
-            if (!prevLoaded) { PropertyForm = new PropertyWindow(); prevLoaded = true; }
-            PropertyForm.Show();
-            PropertyForm.Top = this.Top + this.Height - txtCommandsUsed.Height;
-            PropertyForm.Left = this.Left;
         }
 
         private void Window_Resize(object sender, EventArgs e) {
@@ -591,6 +601,115 @@ namespace MCSong.Gui
                     }
                 }
             }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                if (File.Exists("extra/Changelog.txt"))
+                {
+                    File.Delete("extra/Changelog.txt");
+                }
+                WebClient Web = new WebClient();
+                Web.DownloadFile("http://updates.mcsong.x10.mx/changelog.txt", "extra/Changelog.txt");
+                Web.Dispose();
+            }
+            catch { }
+            if (File.Exists("extra/Changelog.txt"))
+            {
+                txtChangelog.Text = "Changelog for " + Server.Version + ":";
+                foreach (string line in File.ReadAllLines(("extra/Changelog.txt")))
+                {
+                    txtChangelog.AppendText("\r\n           " + line);
+                }
+            }
+            else
+            {
+                txtChangelog.Text = "Changelog for " + Server.Version + "\r\n\r\nChangelog not found!\r\nDownload it manually from http://updates.mcsong.x10.mx/changelog.txt and save it as \'extra/Changelog.txt\'";
+            }
+            txtCurrentVersion.Text = Server.Version;
+        }
+
+        private void btnChat_Click(object sender, EventArgs e)
+        {
+            if (txtInput.Text == null || txtInput.Text.Trim() == "") { return; }
+            string text = txtInput.Text.Trim();
+            string newtext = text;
+            if (txtInput.Text[0] == '#')
+            {
+                newtext = text.Remove(0, 1).Trim();
+                Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + newtext);
+                Server.s.Log("(OPs): Console: " + newtext);
+                IRCBot.Say("Console: " + newtext, true);
+                //   WriteLine("(OPs):<CONSOLE> " + txtInput.Text);
+                txtInput.Clear();
+            }
+            else
+            {
+                Player.GlobalMessage("Console [&a" + Server.ZallState + Server.DefaultColor + "]: &f" + txtInput.Text);
+                IRCBot.Say("Console [" + Server.ZallState + "]: " + txtInput.Text);
+                WriteLine("<CONSOLE> " + txtInput.Text);
+                txtInput.Clear();
+            }
+        }
+
+        private void btnCommand_Click(object sender, EventArgs e)
+        {
+            string sentCmd = "", sentMsg = "";
+
+            if (txtCommands.Text == null || txtCommands.Text.Trim() == "")
+            {
+                newCommand("CONSOLE: Whitespace commands are not allowed.");
+                txtCommands.Clear();
+                return;
+            }
+
+            if (txtCommands.Text[0] == '/')
+                if (txtCommands.Text.Length > 1)
+                    txtCommands.Text = txtCommands.Text.Substring(1);
+
+            if (txtCommands.Text.IndexOf(' ') != -1)
+            {
+                sentCmd = txtCommands.Text.Split(' ')[0];
+                sentMsg = txtCommands.Text.Substring(txtCommands.Text.IndexOf(' ') + 1);
+            }
+            else if (txtCommands.Text != "")
+            {
+                sentCmd = txtCommands.Text;
+            }
+            else
+            {
+                return;
+            }
+
+            try
+            {
+                Command.all.Find(sentCmd).Use(null, sentMsg);
+                newCommand("CONSOLE: USED /" + sentCmd + " " + sentMsg);
+            }
+            catch (Exception ex)
+            {
+                Server.ErrorLog(ex);
+                newCommand("CONSOLE: Failed command.");
+            }
+
+            txtCommands.Clear();
+        }
+
+        private void btnRestart_Click(object sender, EventArgs e)
+        {
+            Player.GlobalMessage("A restart has been initiated by the console.");
+            Player.GlobalMessage("The server will now begin auto restart procedures.");
+            Server.s.Log("A restart has been initiated by the console.");
+            Server.s.Log("The server will now begin auto restart procedures.");
+
+            if (notifyIcon1 != null)
+            {
+                notifyIcon1.Icon = null;
+                notifyIcon1.Visible = false;
+            }
+            MCLawl_.Gui.Program.ExitProgram(true);
         }
     }
 }
