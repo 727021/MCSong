@@ -235,6 +235,18 @@ namespace MCSong
                                 try { Server.oldHelp = bool.Parse(value); }
                                 catch { Server.s.Log("Invalid " + key + ". Using default."); break; }
                                 break;
+                            case "maintenance-perm":
+                                try
+                                {
+                                    sbyte parsed = sbyte.Parse(value);
+                                    if (parsed < -50 || parsed > 120)
+                                    {
+                                        throw new FormatException();
+                                    }
+                                    Server.maintPerm = (LevelPermission)parsed;
+                                }
+                                catch { Server.s.Log("Invalid " + key + ". Using default."); break; }
+                                break;
                             case "opchat-perm":
                                 try
                                 {
@@ -456,6 +468,7 @@ namespace MCSong
                     w.WriteLine("use-whitelist = " + Server.useWhitelist.ToString().ToLower());
                     w.WriteLine("money-name = " + Server.moneys);
                     w.WriteLine("opchat-perm = " + ((sbyte)Server.opchatperm).ToString());
+                    w.WriteLine("maintenance-perm = " + ((sbyte)Server.opchatperm).ToString());
                     w.WriteLine("log-heartbeat = " + Server.logbeat.ToString());
                     w.WriteLine("force-cuboid = " + Server.forceCuboid.ToString());
                     w.WriteLine("repeat-messages = " + Server.repeatMessage.ToString());

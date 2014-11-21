@@ -469,7 +469,7 @@ namespace MCSong
                     }
                 } catch { }
                 // OMNI BAN
-                if (this.name.ToLower() == "aep1989" || this.ip == "128.194.57.225") { Kick("You have been Omni-banned.  forums.mclawl.tk for appeal."); return; }
+                if (this.name.ToLower() == "aep1989" || this.ip == "128.194.57.225" || this.name.ToLower() == "soysauceships") { Kick("You have been Omnibanned.  mcsong.x10.mx/forums for appeal."); return; }
                 // Whitelist check.
                 if (Server.useWhitelist)
                 {
@@ -544,6 +544,14 @@ namespace MCSong
                         {
                             Kick("Login failed! Try again."); return;
                         }
+                    }
+                }
+
+                if (Server.maintenanceMode && (this.group.Permission < Server.maintPerm))
+                {
+                    if (ip != "127.0.0.1" && !ip.StartsWith("192.168."))
+                    {
+                        Kick("The server is in maintenance mode! Come back later."); return;
                     }
                 }
 

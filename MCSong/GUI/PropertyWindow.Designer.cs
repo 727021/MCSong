@@ -31,6 +31,8 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.cmbMaintenance = new System.Windows.Forms.ComboBox();
+            this.label33 = new System.Windows.Forms.Label();
             this.chkLogBeat = new System.Windows.Forms.CheckBox();
             this.cmbOpChat = new System.Windows.Forms.ComboBox();
             this.lblOpChat = new System.Windows.Forms.Label();
@@ -55,11 +57,13 @@
             this.label27 = new System.Windows.Forms.Label();
             this.label22 = new System.Windows.Forms.Label();
             this.label21 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.txtDepth = new System.Windows.Forms.TextBox();
             this.txtMain = new System.Windows.Forms.TextBox();
             this.txtMaps = new System.Windows.Forms.TextBox();
             this.txtPlayers = new System.Windows.Forms.TextBox();
+            this.txtHost = new System.Windows.Forms.TextBox();
             this.txtPort = new System.Windows.Forms.TextBox();
             this.label2 = new System.Windows.Forms.Label();
             this.label5 = new System.Windows.Forms.Label();
@@ -74,6 +78,7 @@
             this.ChkTunnels = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.chkRepeatMessages = new System.Windows.Forms.CheckBox();
             this.chkForceCuboid = new System.Windows.Forms.CheckBox();
             this.txtShutdown = new System.Windows.Forms.TextBox();
             this.txtBanMessage = new System.Windows.Forms.TextBox();
@@ -142,9 +147,6 @@
             this.btnDiscard = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.txtHost = new System.Windows.Forms.TextBox();
-            this.label30 = new System.Windows.Forms.Label();
-            this.chkRepeatMessages = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -170,6 +172,8 @@
             // tabPage1
             // 
             this.tabPage1.AutoScroll = true;
+            this.tabPage1.Controls.Add(this.cmbMaintenance);
+            this.tabPage1.Controls.Add(this.label33);
             this.tabPage1.Controls.Add(this.chkLogBeat);
             this.tabPage1.Controls.Add(this.cmbOpChat);
             this.tabPage1.Controls.Add(this.lblOpChat);
@@ -220,7 +224,25 @@
             this.tabPage1.Size = new System.Drawing.Size(337, 404);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Server";
-            this.tabPage1.Click += new System.EventHandler(this.tabPage1_Click);
+            // 
+            // cmbMaintenance
+            // 
+            this.cmbMaintenance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMaintenance.FormattingEnabled = true;
+            this.cmbMaintenance.Location = new System.Drawing.Point(247, 289);
+            this.cmbMaintenance.Name = "cmbMaintenance";
+            this.cmbMaintenance.Size = new System.Drawing.Size(81, 21);
+            this.cmbMaintenance.TabIndex = 26;
+            this.toolTip.SetToolTip(this.cmbMaintenance, "Rank required to join while in maintenance mode");
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(140, 292);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(98, 13);
+            this.label33.TabIndex = 25;
+            this.label33.Text = "Maintenance Rank:";
             // 
             // chkLogBeat
             // 
@@ -232,7 +254,7 @@
             this.chkLogBeat.TabIndex = 24;
             this.chkLogBeat.Text = "Log Heartbeat?";
             this.toolTip.SetToolTip(this.chkLogBeat, "Debugging feature -- Toggles whether to log heartbeat activity.\r\nUseful when your" +
-                    " server gets a URL slowly or not at all.");
+        " server gets a URL slowly or not at all.");
             this.chkLogBeat.UseVisualStyleBackColor = true;
             // 
             // cmbOpChat
@@ -308,7 +330,7 @@
             // 
             this.cmbIRCColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbIRCColour.FormattingEnabled = true;
-            this.cmbIRCColour.Location = new System.Drawing.Point(239, 280);
+            this.cmbIRCColour.Location = new System.Drawing.Point(239, 256);
             this.cmbIRCColour.Name = "cmbIRCColour";
             this.cmbIRCColour.Size = new System.Drawing.Size(57, 21);
             this.cmbIRCColour.TabIndex = 9;
@@ -319,12 +341,12 @@
             // 
             this.cmbDefaultColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbDefaultColour.FormattingEnabled = true;
-            this.cmbDefaultColour.Location = new System.Drawing.Point(239, 253);
+            this.cmbDefaultColour.Location = new System.Drawing.Point(99, 256);
             this.cmbDefaultColour.Name = "cmbDefaultColour";
             this.cmbDefaultColour.Size = new System.Drawing.Size(57, 21);
             this.cmbDefaultColour.TabIndex = 9;
             this.toolTip.SetToolTip(this.cmbDefaultColour, "The colour of the default chat used in the server.\nFor example, when you are aske" +
-                    "d to select two corners in a cuboid.");
+        "d to select two corners in a cuboid.");
             this.cmbDefaultColour.SelectedIndexChanged += new System.EventHandler(this.cmbDefaultColour_SelectedIndexChanged);
             // 
             // chkMono
@@ -359,7 +381,7 @@
             this.chkIRC.TabIndex = 4;
             this.chkIRC.Text = "Use IRC";
             this.toolTip.SetToolTip(this.chkIRC, "Whether to use the IRC bot or not.\nIRC stands for Internet Relay Chat and allows " +
-                    "for communication with the server while outside Minecraft.");
+        "for communication with the server while outside Minecraft.");
             this.chkIRC.UseVisualStyleBackColor = true;
             // 
             // chkPublic
@@ -396,13 +418,13 @@
             this.chkWorld.TabIndex = 4;
             this.chkWorld.Text = "World chat";
             this.toolTip.SetToolTip(this.chkWorld, "If disabled, every map has isolated chat.\nIf enabled, every map is able to commun" +
-                    "icate without special letters.");
+        "icate without special letters.");
             this.chkWorld.UseVisualStyleBackColor = true;
             // 
             // label23
             // 
             this.label23.AutoSize = true;
-            this.label23.Location = new System.Drawing.Point(182, 283);
+            this.label23.Location = new System.Drawing.Point(182, 259);
             this.label23.Name = "label23";
             this.label23.Size = new System.Drawing.Size(51, 13);
             this.label23.TabIndex = 3;
@@ -434,7 +456,7 @@
             // label10
             // 
             this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(166, 256);
+            this.label10.Location = new System.Drawing.Point(26, 259);
             this.label10.Name = "label10";
             this.label10.Size = new System.Drawing.Size(71, 13);
             this.label10.TabIndex = 3;
@@ -467,6 +489,15 @@
             this.label21.TabIndex = 3;
             this.label21.Text = "Max Players:";
             // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(17, 119);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(95, 13);
+            this.label30.TabIndex = 3;
+            this.label30.Text = "Default host state:";
+            // 
             // label3
             // 
             this.label3.AutoSize = true;
@@ -478,7 +509,7 @@
             // 
             // txtDepth
             // 
-            this.txtDepth.Location = new System.Drawing.Point(52, 285);
+            this.txtDepth.Location = new System.Drawing.Point(52, 312);
             this.txtDepth.Name = "txtDepth";
             this.txtDepth.Size = new System.Drawing.Size(41, 21);
             this.txtDepth.TabIndex = 2;
@@ -511,6 +542,14 @@
             this.toolTip.SetToolTip(this.txtPlayers, "The total number of players which can login.\nDefault = 12");
             this.txtPlayers.TextChanged += new System.EventHandler(this.txtPlayers_TextChanged);
             // 
+            // txtHost
+            // 
+            this.txtHost.Location = new System.Drawing.Point(118, 116);
+            this.txtHost.Name = "txtHost";
+            this.txtHost.Size = new System.Drawing.Size(75, 21);
+            this.txtHost.TabIndex = 2;
+            this.txtHost.TextChanged += new System.EventHandler(this.txtPort_TextChanged);
+            // 
             // txtPort
             // 
             this.txtPort.Location = new System.Drawing.Point(52, 60);
@@ -518,7 +557,7 @@
             this.txtPort.Size = new System.Drawing.Size(60, 21);
             this.txtPort.TabIndex = 2;
             this.toolTip.SetToolTip(this.txtPort, "The port that the server will output on.\nDefault = 25565\n\nChanging will reset you" +
-                    "r ExternalURL.");
+        "r ExternalURL.");
             this.txtPort.TextChanged += new System.EventHandler(this.txtPort_TextChanged);
             // 
             // label2
@@ -573,7 +612,7 @@
             this.txtMOTD.Size = new System.Drawing.Size(277, 21);
             this.txtMOTD.TabIndex = 0;
             this.toolTip.SetToolTip(this.txtMOTD, "The MOTD of the server.\nUse \"+hax\" to allow any WoM hack, \"-hax\" to disallow any " +
-                    "hacks at all and use \"-fly\" and whatnot to disallow other things.");
+        "hacks at all and use \"-fly\" and whatnot to disallow other things.");
             // 
             // txtChannel
             // 
@@ -590,7 +629,7 @@
             this.txtIRCServer.Size = new System.Drawing.Size(211, 21);
             this.txtIRCServer.TabIndex = 0;
             this.toolTip.SetToolTip(this.txtIRCServer, "The IRC server to be used.\nDefault = irc.esper.net\nBetter choice = irc.foonetic.n" +
-                    "et");
+        "et");
             // 
             // txtNick
             // 
@@ -612,7 +651,7 @@
             // 
             this.ChkTunnels.Appearance = System.Windows.Forms.Appearance.Button;
             this.ChkTunnels.AutoSize = true;
-            this.ChkTunnels.Location = new System.Drawing.Point(11, 256);
+            this.ChkTunnels.Location = new System.Drawing.Point(11, 283);
             this.ChkTunnels.Name = "ChkTunnels";
             this.ChkTunnels.Size = new System.Drawing.Size(82, 23);
             this.ChkTunnels.TabIndex = 4;
@@ -623,7 +662,7 @@
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(8, 288);
+            this.label7.Location = new System.Drawing.Point(8, 315);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(39, 13);
             this.label7.TabIndex = 3;
@@ -669,6 +708,17 @@
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Misc";
             // 
+            // chkRepeatMessages
+            // 
+            this.chkRepeatMessages.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkRepeatMessages.AutoSize = true;
+            this.chkRepeatMessages.Location = new System.Drawing.Point(195, 89);
+            this.chkRepeatMessages.Name = "chkRepeatMessages";
+            this.chkRepeatMessages.Size = new System.Drawing.Size(127, 23);
+            this.chkRepeatMessages.TabIndex = 29;
+            this.chkRepeatMessages.Text = "Repeat message blocks";
+            this.chkRepeatMessages.UseVisualStyleBackColor = true;
+            // 
             // chkForceCuboid
             // 
             this.chkForceCuboid.Appearance = System.Windows.Forms.Appearance.Button;
@@ -679,7 +729,7 @@
             this.chkForceCuboid.TabIndex = 29;
             this.chkForceCuboid.Text = "Force Cuboid";
             this.toolTip.SetToolTip(this.chkForceCuboid, "When true, runs an attempted cuboid despite cuboid limits, until it hits the grou" +
-                    "p limit for that user.");
+        "p limit for that user.");
             this.chkForceCuboid.UseVisualStyleBackColor = true;
             // 
             // txtShutdown
@@ -874,7 +924,7 @@
             this.txtafk.Size = new System.Drawing.Size(41, 21);
             this.txtafk.TabIndex = 10;
             this.toolTip.SetToolTip(this.txtafk, "How long the server should wait before declaring someone ask afk. (0 = No timer a" +
-                    "t all)");
+        "t all)");
             // 
             // label9
             // 
@@ -1331,34 +1381,6 @@
             this.toolTip.ToolTipTitle = "Information";
             this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip_Popup);
             // 
-            // txtHost
-            // 
-            this.txtHost.Location = new System.Drawing.Point(118, 116);
-            this.txtHost.Name = "txtHost";
-            this.txtHost.Size = new System.Drawing.Size(75, 21);
-            this.txtHost.TabIndex = 2;
-            this.txtHost.TextChanged += new System.EventHandler(this.txtPort_TextChanged);
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(17, 119);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(95, 13);
-            this.label30.TabIndex = 3;
-            this.label30.Text = "Default host state:";
-            // 
-            // chkRepeatMessages
-            // 
-            this.chkRepeatMessages.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkRepeatMessages.AutoSize = true;
-            this.chkRepeatMessages.Location = new System.Drawing.Point(195, 89);
-            this.chkRepeatMessages.Name = "chkRepeatMessages";
-            this.chkRepeatMessages.Size = new System.Drawing.Size(127, 23);
-            this.chkRepeatMessages.TabIndex = 29;
-            this.chkRepeatMessages.Text = "Repeat message blocks";
-            this.chkRepeatMessages.UseVisualStyleBackColor = true;
-            // 
             // PropertyWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1507,5 +1529,7 @@
         private System.Windows.Forms.Label label30;
         private System.Windows.Forms.TextBox txtHost;
         private System.Windows.Forms.CheckBox chkRepeatMessages;
+        private System.Windows.Forms.ComboBox cmbMaintenance;
+        private System.Windows.Forms.Label label33;
     }
 }

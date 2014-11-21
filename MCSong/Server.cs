@@ -109,6 +109,8 @@ namespace MCSong
 
         public static bool chatmod = false;
 
+        public static bool maintenanceMode = false;
+
 
         //Settings
         #region Server Settings
@@ -197,6 +199,9 @@ namespace MCSong
         public static string moneys = "moneys";
         public static LevelPermission opchatperm = LevelPermission.Operator;
         public static bool logbeat = false;
+
+        public static LevelPermission maintPerm = LevelPermission.Admin;
+        public static bool maintKick = true;
 
         public static bool mono = false;
 

@@ -33,17 +33,24 @@ namespace MCSong.Gui
             cmbColor.Items.AddRange(colors);
 
             string opchatperm = "";
+            string maintperm = "";
             foreach (Group grp in Group.GroupList)
             {
                 cmbDefaultRank.Items.Add(grp.name);
                 cmbOpChat.Items.Add(grp.name);
+                cmbMaintenance.Items.Add(grp.name);
                 if (grp.Permission == Server.opchatperm)
                 {
                     opchatperm = grp.name;
                 }
+                if (grp.Permission == Server.maintPerm)
+                {
+                    maintperm = grp.name;
+                }
             }
             cmbDefaultRank.SelectedIndex = 1;
             cmbOpChat.SelectedIndex = (opchatperm != "") ? cmbOpChat.Items.IndexOf(opchatperm) : 1;
+            cmbMaintenance.SelectedIndex = (maintperm != "") ? cmbMaintenance.Items.IndexOf(maintperm) : 1;
             
             //Load server stuff
             LoadProp("properties/server.properties");
@@ -431,6 +438,7 @@ namespace MCSong.Gui
                     w.WriteLine("use-whitelist = " + Server.useWhitelist.ToString().ToLower());
                     w.WriteLine("money-name = " + txtMoneys.Text);
                     w.WriteLine("opchat-perm = " + ((sbyte)Group.GroupList.Find(grp => grp.name == cmbOpChat.Items[cmbOpChat.SelectedIndex].ToString()).Permission).ToString());
+                    w.WriteLine("maintenance-perm = " + ((sbyte)Group.GroupList.Find(grp => grp.name == cmbMaintenance.Items[cmbMaintenance.SelectedIndex].ToString()).Permission).ToString());
                     w.WriteLine("log-heartbeat = " + chkLogBeat.Checked.ToString().ToLower());
                     w.WriteLine("force-cuboid = " + chkForceCuboid.Checked.ToString().ToLower());
                     w.WriteLine("repeat-messages = " + chkRepeatMessages.Checked.ToString());
@@ -534,11 +542,6 @@ namespace MCSong.Gui
         }
 
         private void tabPage2_Click(object sender, EventArgs e)
-        {
-
-        }
-
-        private void tabPage1_Click(object sender, EventArgs e)
         {
 
         }

@@ -61,12 +61,16 @@ namespace MCSong.Gui
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chkMaintenance = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.txtHost = new System.Windows.Forms.TextBox();
+            this.label1 = new System.Windows.Forms.Label();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnRestart = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
             this.btnProperties = new System.Windows.Forms.Button();
             this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
             this.gBCommands = new System.Windows.Forms.GroupBox();
             this.btnCommand = new System.Windows.Forms.Button();
             this.txtCommandsUsed = new System.Windows.Forms.TextBox();
@@ -75,7 +79,6 @@ namespace MCSong.Gui
             this.btnChat = new System.Windows.Forms.Button();
             this.txtLog = new System.Windows.Forms.TextBox();
             this.txtInput = new System.Windows.Forms.TextBox();
-            this.txtHost = new System.Windows.Forms.TextBox();
             this.txtUrl = new System.Windows.Forms.TextBox();
             this.tpLogs = new System.Windows.Forms.TabPage();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
@@ -117,11 +120,9 @@ namespace MCSong.Gui
             this.iconContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
             this.shutdownServer = new System.Windows.Forms.ToolStripMenuItem();
-            this.groupBox3 = new System.Windows.Forms.GroupBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.chkMaintenance = new System.Windows.Forms.CheckBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.groupBox3.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.gBCommands.SuspendLayout();
             this.gBChat.SuspendLayout();
@@ -134,7 +135,6 @@ namespace MCSong.Gui
             this.mapsStrip.SuspendLayout();
             this.playerStrip.SuspendLayout();
             this.iconContext.SuspendLayout();
-            this.groupBox3.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -168,6 +168,56 @@ namespace MCSong.Gui
             this.tabPage1.Size = new System.Drawing.Size(573, 488);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
+            // 
+            // chkMaintenance
+            // 
+            this.chkMaintenance.AutoSize = true;
+            this.chkMaintenance.Location = new System.Drawing.Point(438, 11);
+            this.chkMaintenance.Name = "chkMaintenance";
+            this.chkMaintenance.Size = new System.Drawing.Size(118, 17);
+            this.chkMaintenance.TabIndex = 38;
+            this.chkMaintenance.Text = "Maintenance Mode";
+            this.chkMaintenance.UseVisualStyleBackColor = true;
+            this.chkMaintenance.CheckedChanged += new System.EventHandler(this.chkMaintenance_CheckedChanged);
+            // 
+            // label2
+            // 
+            this.label2.Location = new System.Drawing.Point(517, 464);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(46, 13);
+            this.label2.TabIndex = 36;
+            this.label2.Text = "© 2014";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Controls.Add(this.txtHost);
+            this.groupBox3.Controls.Add(this.label1);
+            this.groupBox3.Location = new System.Drawing.Point(6, 448);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(200, 37);
+            this.groupBox3.TabIndex = 37;
+            this.groupBox3.TabStop = false;
+            // 
+            // txtHost
+            // 
+            this.txtHost.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtHost.Location = new System.Drawing.Point(85, 13);
+            this.txtHost.Name = "txtHost";
+            this.txtHost.Size = new System.Drawing.Size(109, 21);
+            this.txtHost.TabIndex = 28;
+            this.txtHost.Text = "Alive";
+            this.txtHost.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtHost.TextChanged += new System.EventHandler(this.txtHost_TextChanged);
+            this.txtHost.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommands_KeyDown);
+            // 
+            // label1
+            // 
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(4, 16);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(75, 13);
+            this.label1.TabIndex = 35;
+            this.label1.Text = "Console State:";
             // 
             // groupBox2
             // 
@@ -228,15 +278,6 @@ namespace MCSong.Gui
             this.button1.Text = "Updater";
             this.button1.UseVisualStyleBackColor = true;
             this.button1.Click += new System.EventHandler(this.button1_Click_1);
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(4, 16);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(75, 13);
-            this.label1.TabIndex = 35;
-            this.label1.Text = "Console State:";
             // 
             // gBCommands
             // 
@@ -333,18 +374,6 @@ namespace MCSong.Gui
             this.txtInput.Size = new System.Drawing.Size(365, 21);
             this.txtInput.TabIndex = 27;
             this.txtInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInput_KeyDown);
-            // 
-            // txtHost
-            // 
-            this.txtHost.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtHost.Location = new System.Drawing.Point(85, 13);
-            this.txtHost.Name = "txtHost";
-            this.txtHost.Size = new System.Drawing.Size(109, 21);
-            this.txtHost.TabIndex = 28;
-            this.txtHost.Text = "Alive";
-            this.txtHost.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            this.txtHost.TextChanged += new System.EventHandler(this.txtHost_TextChanged);
-            this.txtHost.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommands_KeyDown);
             // 
             // txtUrl
             // 
@@ -715,34 +744,6 @@ namespace MCSong.Gui
             this.shutdownServer.Text = "Shutdown Server";
             this.shutdownServer.Click += new System.EventHandler(this.shutdownServer_Click);
             // 
-            // groupBox3
-            // 
-            this.groupBox3.Controls.Add(this.txtHost);
-            this.groupBox3.Controls.Add(this.label1);
-            this.groupBox3.Location = new System.Drawing.Point(6, 448);
-            this.groupBox3.Name = "groupBox3";
-            this.groupBox3.Size = new System.Drawing.Size(200, 37);
-            this.groupBox3.TabIndex = 37;
-            this.groupBox3.TabStop = false;
-            // 
-            // label2
-            // 
-            this.label2.Location = new System.Drawing.Point(517, 464);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 13);
-            this.label2.TabIndex = 36;
-            this.label2.Text = "© 2014";
-            // 
-            // chkMaintenance
-            // 
-            this.chkMaintenance.AutoSize = true;
-            this.chkMaintenance.Location = new System.Drawing.Point(438, 11);
-            this.chkMaintenance.Name = "chkMaintenance";
-            this.chkMaintenance.Size = new System.Drawing.Size(118, 17);
-            this.chkMaintenance.TabIndex = 38;
-            this.chkMaintenance.Text = "Maintenance Mode";
-            this.chkMaintenance.UseVisualStyleBackColor = true;
-            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -757,6 +758,8 @@ namespace MCSong.Gui
             this.tabControl1.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
             this.tabPage1.PerformLayout();
+            this.groupBox3.ResumeLayout(false);
+            this.groupBox3.PerformLayout();
             this.groupBox2.ResumeLayout(false);
             this.gBCommands.ResumeLayout(false);
             this.gBCommands.PerformLayout();
@@ -774,8 +777,6 @@ namespace MCSong.Gui
             this.mapsStrip.ResumeLayout(false);
             this.playerStrip.ResumeLayout(false);
             this.iconContext.ResumeLayout(false);
-            this.groupBox3.ResumeLayout(false);
-            this.groupBox3.PerformLayout();
             this.ResumeLayout(false);
 
         }

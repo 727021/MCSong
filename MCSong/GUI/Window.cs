@@ -711,5 +711,33 @@ namespace MCSong.Gui
             }
             MCLawl_.Gui.Program.ExitProgram(true);
         }
+
+        private void chkMaintenance_CheckedChanged(object sender, EventArgs e)
+        {
+            if (chkMaintenance.Checked)
+            {
+                Server.maintenanceMode = true;
+                Player.GlobalMessage(c.purple + "MAINTENANCE MODE " + Server.DefaultColor + "has been turned " + c.green + "ON");
+                Server.s.Log("MAINTENANCE MODE has been turned ON");
+                if (Server.maintKick)
+                {
+                    Player.GlobalMessage("Kicking all players ranked below " + Level.PermissionToName(Server.maintPerm));
+                    Server.s.Log("Kicking all players ranked below" + Level.PermissionToName(Server.maintPerm));
+                    foreach (Player p in Player.players)
+                    {
+                        if (p.group.Permission < Server.maintPerm)
+                        {
+                            p.Kick("Kicked for server maintenance!");
+                        }
+                    }
+                }
+            }
+            else if (!chkMaintenance.Checked)
+            {
+                Server.maintenanceMode = false;
+                Player.GlobalMessage(c.purple + "MAINTENANCE MODE " + Server.DefaultColor + "has been turned " + c.red + "OFF");
+                Server.s.Log("MAINTENANCE MODE has been turned OFF");
+            }
+        }
     }
 }

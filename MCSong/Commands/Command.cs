@@ -98,6 +98,7 @@ namespace MCSong
             all.Add(new CmdLine());
             all.Add(new CmdLoad());
             all.Add(new CmdLowlag());
+            all.Add(new CmdMaintenance());
             all.Add(new CmdMap());
             all.Add(new CmdMapInfo());
             all.Add(new CmdMe());
