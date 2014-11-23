@@ -147,6 +147,7 @@
             this.btnDiscard = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
+            this.chkMaintKick = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -172,6 +173,7 @@
             // tabPage1
             // 
             this.tabPage1.AutoScroll = true;
+            this.tabPage1.Controls.Add(this.chkMaintKick);
             this.tabPage1.Controls.Add(this.cmbMaintenance);
             this.tabPage1.Controls.Add(this.label33);
             this.tabPage1.Controls.Add(this.chkLogBeat);
@@ -1381,6 +1383,17 @@
             this.toolTip.ToolTipTitle = "Information";
             this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip_Popup);
             // 
+            // chkMaintKick
+            // 
+            this.chkMaintKick.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkMaintKick.AutoSize = true;
+            this.chkMaintKick.Location = new System.Drawing.Point(218, 225);
+            this.chkMaintKick.Name = "chkMaintKick";
+            this.chkMaintKick.Size = new System.Drawing.Size(101, 23);
+            this.chkMaintKick.TabIndex = 2;
+            this.chkMaintKick.Text = "Maintenance Kick";
+            this.chkMaintKick.UseVisualStyleBackColor = true;
+            // 
             // PropertyWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1531,5 +1544,6 @@
         private System.Windows.Forms.CheckBox chkRepeatMessages;
         private System.Windows.Forms.ComboBox cmbMaintenance;
         private System.Windows.Forms.Label label33;
+        private System.Windows.Forms.CheckBox chkMaintKick;
     }
 }

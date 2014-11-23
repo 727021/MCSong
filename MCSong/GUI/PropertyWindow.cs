@@ -330,6 +330,9 @@ namespace MCSong.Gui
                             case "money-name":
                                 txtMoneys.Text = value;
                                 break;
+                            case "maintenance-kick":
+                                chkMaintKick.Checked = (value.ToLower() == "true") ? true : false;
+                                break;
                             case "mono":
                                 chkMono.Checked = (value.ToLower() == "true") ? true : false;
                                 break;
@@ -439,6 +442,7 @@ namespace MCSong.Gui
                     w.WriteLine("money-name = " + txtMoneys.Text);
                     w.WriteLine("opchat-perm = " + ((sbyte)Group.GroupList.Find(grp => grp.name == cmbOpChat.Items[cmbOpChat.SelectedIndex].ToString()).Permission).ToString());
                     w.WriteLine("maintenance-perm = " + ((sbyte)Group.GroupList.Find(grp => grp.name == cmbMaintenance.Items[cmbMaintenance.SelectedIndex].ToString()).Permission).ToString());
+                    w.WriteLine("maintenance-kick = " + chkMaintKick.Checked.ToString().ToLower());
                     w.WriteLine("log-heartbeat = " + chkLogBeat.Checked.ToString().ToLower());
                     w.WriteLine("force-cuboid = " + chkForceCuboid.Checked.ToString().ToLower());
                     w.WriteLine("repeat-messages = " + chkRepeatMessages.Checked.ToString());

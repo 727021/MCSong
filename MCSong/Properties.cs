@@ -247,6 +247,10 @@ namespace MCSong
                                 }
                                 catch { Server.s.Log("Invalid " + key + ". Using default."); break; }
                                 break;
+                            case "maintenance-kick":
+                                try { Server.maintKick = bool.Parse(value); }
+                                catch { Server.s.Log("Invalid " + key + ". Using default."); break; }
+                                break;
                             case "opchat-perm":
                                 try
                                 {
@@ -469,6 +473,7 @@ namespace MCSong
                     w.WriteLine("money-name = " + Server.moneys);
                     w.WriteLine("opchat-perm = " + ((sbyte)Server.opchatperm).ToString());
                     w.WriteLine("maintenance-perm = " + ((sbyte)Server.opchatperm).ToString());
+                    w.WriteLine("maintenance-kick = " + Server.maintKick.ToString().ToLower());
                     w.WriteLine("log-heartbeat = " + Server.logbeat.ToString());
                     w.WriteLine("force-cuboid = " + Server.forceCuboid.ToString());
                     w.WriteLine("repeat-messages = " + Server.repeatMessage.ToString());
