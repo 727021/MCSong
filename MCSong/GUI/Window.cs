@@ -225,6 +225,11 @@ namespace MCSong.Gui
             } else {
                 liClients.Items.Clear();
                 Player.players.ForEach(delegate(Player p) { liClients.Items.Add(p.name); });
+                txtPlayerCount.Clear();
+                txtPlayerCount.Text = Player.players.Count.ToString() + "/";
+                int guests = 0;
+                Player.players.ForEach(delegate(Player p) { if (p.group.Permission == LevelPermission.Guest) { guests++; } });
+                txtPlayerCount.AppendText(guests.ToString());
             }
         }
 
@@ -237,6 +242,8 @@ namespace MCSong.Gui
                 foreach (Level level in Server.levels) {
                     liMaps.Items.Add(level.name + " - " + level.physics);
                 }
+                liUnloaded.Items.Clear();
+                
             }
         }
 
@@ -738,6 +745,23 @@ namespace MCSong.Gui
                 Player.GlobalMessage(c.purple + "MAINTENANCE MODE " + Server.DefaultColor + "has been turned " + c.red + "OFF");
                 Server.s.Log("MAINTENANCE MODE has been turned OFF");
             }
+        }
+
+        private void liMaps_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            liUnloaded.SetSelected(liUnloaded.SelectedIndex, false);
+
+            foreach (Control c in panel2.Controls)
+            {
+                if (c is TextBox)
+                {
+                    TextBox txt = (TextBox)c;
+                    txt.Clear();
+                    txt.Update();
+                }
+            }
+
+            txtLevelPath.Text = new FileInfo("levels/" + Level.Find(liMaps.SelectedItem.ToString()).name + ".lvl").FullName;
         }
     }
 }
