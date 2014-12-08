@@ -92,7 +92,6 @@ namespace MCSong.Gui
             this.button2 = new System.Windows.Forms.Button();
             this.txtChangelog = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.liMaps = new System.Windows.Forms.ListBox();
             this.mapsStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.physicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
@@ -120,6 +119,10 @@ namespace MCSong.Gui
             this.iconContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
             this.shutdownServer = new System.Windows.Forms.ToolStripMenuItem();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.liMaps = new System.Windows.Forms.ListBox();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.panel2 = new System.Windows.Forms.Panel();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -135,6 +138,9 @@ namespace MCSong.Gui
             this.mapsStrip.SuspendLayout();
             this.playerStrip.SuspendLayout();
             this.iconContext.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.panel1.SuspendLayout();
+            this.panel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -143,6 +149,7 @@ namespace MCSong.Gui
             this.tabControl1.Controls.Add(this.tpLogs);
             this.tabControl1.Controls.Add(this.btnChangelog);
             this.tabControl1.Controls.Add(this.tabPage2);
+            this.tabControl1.Controls.Add(this.tabPage3);
             this.tabControl1.Cursor = System.Windows.Forms.Cursors.Default;
             this.tabControl1.Font = new System.Drawing.Font("Calibri", 8.25F);
             this.tabControl1.Location = new System.Drawing.Point(1, 12);
@@ -513,26 +520,14 @@ namespace MCSong.Gui
             // 
             // tabPage2
             // 
-            this.tabPage2.Controls.Add(this.liMaps);
-            this.tabPage2.Controls.Add(this.liClients);
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.panel1);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
             this.tabPage2.Size = new System.Drawing.Size(573, 488);
             this.tabPage2.TabIndex = 4;
-            this.tabPage2.Text = "tabPage2";
-            this.tabPage2.UseVisualStyleBackColor = true;
-            // 
-            // liMaps
-            // 
-            this.liMaps.ContextMenuStrip = this.mapsStrip;
-            this.liMaps.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.liMaps.FormattingEnabled = true;
-            this.liMaps.Location = new System.Drawing.Point(226, 254);
-            this.liMaps.Name = "liMaps";
-            this.liMaps.ScrollAlwaysVisible = true;
-            this.liMaps.Size = new System.Drawing.Size(120, 186);
-            this.liMaps.TabIndex = 35;
+            this.tabPage2.Text = "Players";
             // 
             // mapsStrip
             // 
@@ -673,10 +668,10 @@ namespace MCSong.Gui
             this.liClients.ContextMenuStrip = this.playerStrip;
             this.liClients.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.liClients.FormattingEnabled = true;
-            this.liClients.Location = new System.Drawing.Point(226, 49);
+            this.liClients.Location = new System.Drawing.Point(4, 3);
             this.liClients.Name = "liClients";
             this.liClients.ScrollAlwaysVisible = true;
-            this.liClients.Size = new System.Drawing.Size(120, 199);
+            this.liClients.Size = new System.Drawing.Size(120, 472);
             this.liClients.TabIndex = 34;
             // 
             // playerStrip
@@ -744,6 +739,46 @@ namespace MCSong.Gui
             this.shutdownServer.Text = "Shutdown Server";
             this.shutdownServer.Click += new System.EventHandler(this.shutdownServer_Click);
             // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage3.Controls.Add(this.panel2);
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Padding = new System.Windows.Forms.Padding(3);
+            this.tabPage3.Size = new System.Drawing.Size(573, 488);
+            this.tabPage3.TabIndex = 5;
+            this.tabPage3.Text = "Levels";
+            // 
+            // liMaps
+            // 
+            this.liMaps.ContextMenuStrip = this.mapsStrip;
+            this.liMaps.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.liMaps.FormattingEnabled = true;
+            this.liMaps.Location = new System.Drawing.Point(3, 3);
+            this.liMaps.Name = "liMaps";
+            this.liMaps.ScrollAlwaysVisible = true;
+            this.liMaps.Size = new System.Drawing.Size(120, 225);
+            this.liMaps.TabIndex = 36;
+            // 
+            // panel1
+            // 
+            this.panel1.Controls.Add(this.liClients);
+            this.panel1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel1.Location = new System.Drawing.Point(3, 3);
+            this.panel1.Name = "panel1";
+            this.panel1.Size = new System.Drawing.Size(567, 482);
+            this.panel1.TabIndex = 35;
+            // 
+            // panel2
+            // 
+            this.panel2.Controls.Add(this.liMaps);
+            this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.panel2.Location = new System.Drawing.Point(3, 3);
+            this.panel2.Name = "panel2";
+            this.panel2.Size = new System.Drawing.Size(567, 482);
+            this.panel2.TabIndex = 37;
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -777,6 +812,9 @@ namespace MCSong.Gui
             this.mapsStrip.ResumeLayout(false);
             this.playerStrip.ResumeLayout(false);
             this.iconContext.ResumeLayout(false);
+            this.tabPage3.ResumeLayout(false);
+            this.panel1.ResumeLayout(false);
+            this.panel2.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -835,7 +873,6 @@ namespace MCSong.Gui
         private Label label3;
         private Button btnChat;
         private TabPage tabPage2;
-        private ListBox liMaps;
         private ListBox liClients;
         private Button btnCommand;
         private GroupBox groupBox2;
@@ -844,5 +881,9 @@ namespace MCSong.Gui
         private CheckBox chkMaintenance;
         private Label label2;
         private GroupBox groupBox3;
+        private Panel panel1;
+        private TabPage tabPage3;
+        private Panel panel2;
+        private ListBox liMaps;
     }
 }
