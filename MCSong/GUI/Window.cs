@@ -166,6 +166,8 @@ namespace MCSong.Gui
                 else
                 {
                     txtErrors.AppendText(Environment.NewLine + message);
+                    txtErrors.SelectionStart = txtErrors.Text.Length;
+                    txtErrors.ScrollToCaret();
                 }
             } catch { }
         }
@@ -181,6 +183,8 @@ namespace MCSong.Gui
                 else
                 {
                     txtSystem.AppendText(Environment.NewLine + message);
+                    txtSystem.SelectionStart = txtSystem.Text.Length;
+                    txtSystem.ScrollToCaret();
                 }
             } catch { }
         }
@@ -198,6 +202,8 @@ namespace MCSong.Gui
                 this.Invoke(d, new object[] { s });
             } else {
                 txtLog.AppendText(s);
+                txtLog.SelectionStart = txtLog.Text.Length;
+                txtLog.ScrollToCaret();
             }
         }
         /// <summary>
@@ -212,6 +218,8 @@ namespace MCSong.Gui
                 this.Invoke(d, new object[] { s });
             } else {
                 txtLog.AppendText("\r\n" + s);
+                txtLog.SelectionStart = txtLog.Text.Length;
+                txtLog.ScrollToCaret();
             }
         }
         /// <summary>
@@ -346,19 +354,31 @@ namespace MCSong.Gui
             }
             else
             {
-                txtCommandsUsed.AppendText("\r\n" + p); 
+                txtCommandsUsed.AppendText("\r\n" + p);
+                txtCommandsUsed.SelectionStart = txtCommandsUsed.Text.Length;
+                txtCommandsUsed.ScrollToCaret();
             }
         }
 
-        void ChangeCheck(string newCheck) { Server.ZallState = newCheck; }
+        void ChangeCheck(string newCheck)
+        {
+            Server.ZallState = newCheck;
+        }
 
         private void txtHost_TextChanged(object sender, EventArgs e)
         {
-            if (txtHost.Text != "") ChangeCheck(txtHost.Text);
+            if (txtHost.Text != "")
+            {
+                ChangeCheck(txtHost.Text);
+            }
         }
 
         private void btnProperties_Click_1(object sender, EventArgs e) {
-            if (!prevLoaded) { PropertyForm = new PropertyWindow(); prevLoaded = true; }
+            if (!prevLoaded)
+            {
+                PropertyForm = new PropertyWindow();
+                prevLoaded = true;
+            }
             PropertyForm.Show();
         }
 
@@ -749,7 +769,22 @@ namespace MCSong.Gui
 
         private void liMaps_SelectedIndexChanged(object sender, EventArgs e)
         {
-            liUnloaded.SetSelected(liUnloaded.SelectedIndex, false);
+            if ((liMaps.SelectedIndex < 0) || (liMaps.SelectedIndex.ToString().Trim() == ""))
+            {
+                foreach (Control c in panel2.Controls)
+                {
+                    if (c is TextBox)
+                    {
+                        TextBox txt = (TextBox)c;
+                        txt.Clear();
+                        txt.Update();
+                    }
+                }
+
+                return;
+            }
+
+            if (liUnloaded.SelectedIndex > -1) { liUnloaded.SetSelected(liUnloaded.SelectedIndex, false); }
 
             foreach (Control c in panel2.Controls)
             {
@@ -762,6 +797,38 @@ namespace MCSong.Gui
             }
 
             txtLevelPath.Text = new FileInfo("levels/" + Level.Find(liMaps.SelectedItem.ToString()).name + ".lvl").FullName;
+        }
+
+        private void liUnloaded_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if ((liUnloaded.SelectedIndex < 0) || (liUnloaded.SelectedIndex.ToString().Trim() == ""))
+            {
+                foreach (Control c in panel2.Controls)
+                {
+                    if (c is TextBox)
+                    {
+                        TextBox txt = (TextBox)c;
+                        txt.Clear();
+                        txt.Update();
+                    }
+                }
+
+                return;
+            }
+
+            if (liMaps.SelectedIndex > -1) { liMaps.SetSelected(liMaps.SelectedIndex, false); }
+
+            foreach (Control c in panel2.Controls)
+            {
+                if (c is TextBox)
+                {
+                    TextBox txt = (TextBox)c;
+                    txt.Clear();
+                    txt.Update();
+                }
+            }
+
+            txtLevelPath.Text = new FileInfo("levels/" + Level.Find(liUnloaded.SelectedItem.ToString()).name + ".lvl").FullName;
         }
     }
 }

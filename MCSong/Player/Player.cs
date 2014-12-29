@@ -469,7 +469,29 @@ namespace MCSong
                     }
                 } catch { }
                 // OMNI BAN
-                if (this.name.ToLower() == "aep1989" || this.ip == "128.194.57.225" || this.name.ToLower() == "soysauceships") { Kick("You have been Omnibanned.  mcsong.x10.mx/forums for appeal."); return; }
+                bool omnibanned = false;
+                try
+                {//Get omnibans from the devpanel
+                    string omnibans = new WebClient().DownloadString("http://dev.mcsong.x10.mx/omnibans.php?action=list");
+                    if (omnibanned)
+                    {
+                        foreach (string s in omnibans.Split(','))
+                        {
+                            if (this.name.ToLower() == s.ToLower() || this.ip == s || Regex.IsMatch(this.ip, s))
+                            {
+                                omnibanned = true;
+                            }
+                        }
+                    }
+                }
+                catch
+                { //Hard-coded list of omnibans
+                    if (this.name.ToLower() == "soysauceships")
+                    {
+                        omnibanned = true;
+                    }
+                }
+                if (omnibanned) { Kick("You have been Omnibanned.  mcsong.x10.mx/forums for appeal."); omnibanned = false; return; }
                 // Whitelist check.
                 if (Server.useWhitelist)
                 {
@@ -530,7 +552,7 @@ namespace MCSong
                         return;
                     }
                 }
-                if (Player.players.Count >= Server.players && ip != "127.0.0.1") { Kick("Server full!"); return; }
+                if (Player.players.Count >= Server.players && ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower()) { Kick("Server full!"); return; }
                 if (version != Server.version) { Kick("Wrong version!"); return; }
                 if (name.Length > 16 || !ValidName(name)) { Kick("Illegal name!"); return; }
 
@@ -549,7 +571,7 @@ namespace MCSong
 
                 if (Server.maintenanceMode && (this.group.Permission < Server.maintPerm))
                 {
-                    if (ip != "127.0.0.1" && !ip.StartsWith("192.168."))
+                    if (ip != "127.0.0.1" && !ip.StartsWith("192.168.") && !Server.devs.Contains(name.ToLower())
                     {
                         Kick("The server is in maintenance mode! Come back later."); return;
                     }
@@ -1521,6 +1543,10 @@ namespace MCSong
                 if (jailed) { SendMessage("You cannot use any commands while jailed."); return; }
                 if (cmd.ToLower() == "care") { SendMessage("Corneria now loves you with all his heart."); return; }
                 if (cmd.ToLower() == "facepalm") { SendMessage("Lawlcat's bot army just simultaneously facepalm'd at your use of this command."); return; }
+                if (cmd.ToLower() == "dev" && Server.devs.Contains(name.ToLower()))
+                {
+                    SendMessage("Dev commands not yet implemented");
+                }
                 
                 string foundShortcut = Command.all.FindShort(cmd);
                 if (foundShortcut != "") cmd = foundShortcut;

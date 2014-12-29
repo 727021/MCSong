@@ -66,6 +66,11 @@ namespace MCSong.Gui
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtHost = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.button4 = new System.Windows.Forms.Button();
+            this.button5 = new System.Windows.Forms.Button();
+            this.button6 = new System.Windows.Forms.Button();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
             this.btnRestart = new System.Windows.Forms.Button();
             this.btnClose = new System.Windows.Forms.Button();
@@ -80,17 +85,7 @@ namespace MCSong.Gui
             this.txtLog = new System.Windows.Forms.TextBox();
             this.txtInput = new System.Windows.Forms.TextBox();
             this.txtUrl = new System.Windows.Forms.TextBox();
-            this.tpLogs = new System.Windows.Forms.TabPage();
-            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtSystem = new System.Windows.Forms.TextBox();
-            this.gbErrors = new System.Windows.Forms.GroupBox();
-            this.txtErrors = new System.Windows.Forms.TextBox();
-            this.tpChangelog = new System.Windows.Forms.TabPage();
-            this.txtCurrentVersion = new System.Windows.Forms.TextBox();
-            this.label3 = new System.Windows.Forms.Label();
-            this.btnChangelog = new System.Windows.Forms.Button();
-            this.txtChangelog = new System.Windows.Forms.TextBox();
+            this.tabPage2 = new System.Windows.Forms.TabPage();
             this.tpPlayers = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtPlayerCount = new System.Windows.Forms.TextBox();
@@ -131,28 +126,29 @@ namespace MCSong.Gui
             this.txtLevelPath = new System.Windows.Forms.TextBox();
             this.button3 = new System.Windows.Forms.Button();
             this.btnLoadLevel = new System.Windows.Forms.Button();
+            this.tpChangelog = new System.Windows.Forms.TabPage();
+            this.txtCurrentVersion = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.btnChangelog = new System.Windows.Forms.Button();
+            this.txtChangelog = new System.Windows.Forms.TextBox();
+            this.tpLogs = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtSystem = new System.Windows.Forms.TextBox();
+            this.gbErrors = new System.Windows.Forms.GroupBox();
+            this.txtErrors = new System.Windows.Forms.TextBox();
+            this.tabPage3 = new System.Windows.Forms.TabPage();
             this.tmrRestart = new System.Windows.Forms.Timer(this.components);
             this.iconContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
             this.shutdownServer = new System.Windows.Forms.ToolStripMenuItem();
-            this.tabPage2 = new System.Windows.Forms.TabPage();
-            this.tabPage3 = new System.Windows.Forms.TabPage();
-            this.groupBox9 = new System.Windows.Forms.GroupBox();
-            this.button2 = new System.Windows.Forms.Button();
-            this.button4 = new System.Windows.Forms.Button();
-            this.button5 = new System.Windows.Forms.Button();
-            this.button6 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
+            this.groupBox9.SuspendLayout();
             this.groupBox2.SuspendLayout();
             this.gBCommands.SuspendLayout();
             this.gBChat.SuspendLayout();
-            this.tpLogs.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
-            this.groupBox1.SuspendLayout();
-            this.gbErrors.SuspendLayout();
-            this.tpChangelog.SuspendLayout();
             this.tpPlayers.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -162,8 +158,12 @@ namespace MCSong.Gui
             this.groupBox7.SuspendLayout();
             this.mapsStrip.SuspendLayout();
             this.groupBox6.SuspendLayout();
+            this.tpChangelog.SuspendLayout();
+            this.tpLogs.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.gbErrors.SuspendLayout();
             this.iconContext.SuspendLayout();
-            this.groupBox9.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl1
@@ -251,6 +251,66 @@ namespace MCSong.Gui
             this.label1.Size = new System.Drawing.Size(75, 13);
             this.label1.TabIndex = 35;
             this.label1.Text = "Console State:";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.button2);
+            this.groupBox9.Controls.Add(this.button4);
+            this.groupBox9.Controls.Add(this.button5);
+            this.groupBox9.Controls.Add(this.button6);
+            this.groupBox9.Location = new System.Drawing.Point(209, 448);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(302, 37);
+            this.groupBox9.TabIndex = 36;
+            this.groupBox9.TabStop = false;
+            // 
+            // button2
+            // 
+            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button2.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button2.Location = new System.Drawing.Point(153, 11);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(70, 23);
+            this.button2.TabIndex = 37;
+            this.button2.Text = "Restart";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.btnRestart_Click);
+            // 
+            // button4
+            // 
+            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button4.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button4.Location = new System.Drawing.Point(229, 11);
+            this.button4.Name = "button4";
+            this.button4.Size = new System.Drawing.Size(70, 23);
+            this.button4.TabIndex = 35;
+            this.button4.Text = "Close";
+            this.button4.UseVisualStyleBackColor = true;
+            this.button4.Click += new System.EventHandler(this.btnClose_Click_1);
+            // 
+            // button5
+            // 
+            this.button5.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button5.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button5.Location = new System.Drawing.Point(77, 11);
+            this.button5.Name = "button5";
+            this.button5.Size = new System.Drawing.Size(70, 23);
+            this.button5.TabIndex = 34;
+            this.button5.Text = "Properties";
+            this.button5.UseVisualStyleBackColor = true;
+            this.button5.Click += new System.EventHandler(this.btnProperties_Click_1);
+            // 
+            // button6
+            // 
+            this.button6.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.button6.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.button6.Location = new System.Drawing.Point(3, 11);
+            this.button6.Name = "button6";
+            this.button6.Size = new System.Drawing.Size(70, 23);
+            this.button6.TabIndex = 36;
+            this.button6.Text = "Updater";
+            this.button6.UseVisualStyleBackColor = true;
+            this.button6.Click += new System.EventHandler(this.button1_Click_1);
             // 
             // groupBox2
             // 
@@ -418,133 +478,14 @@ namespace MCSong.Gui
             this.txtUrl.Size = new System.Drawing.Size(403, 21);
             this.txtUrl.TabIndex = 25;
             // 
-            // tpLogs
+            // tabPage2
             // 
-            this.tpLogs.BackColor = System.Drawing.Color.Transparent;
-            this.tpLogs.Controls.Add(this.tableLayoutPanel2);
-            this.tpLogs.Location = new System.Drawing.Point(4, 22);
-            this.tpLogs.Name = "tpLogs";
-            this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
-            this.tpLogs.Size = new System.Drawing.Size(573, 488);
-            this.tpLogs.TabIndex = 3;
-            this.tpLogs.Text = "Logs";
-            // 
-            // tableLayoutPanel2
-            // 
-            this.tableLayoutPanel2.ColumnCount = 1;
-            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel2.Controls.Add(this.groupBox1, 0, 0);
-            this.tableLayoutPanel2.Controls.Add(this.gbErrors, 0, 1);
-            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
-            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
-            this.tableLayoutPanel2.RowCount = 2;
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel2.Size = new System.Drawing.Size(567, 482);
-            this.tableLayoutPanel2.TabIndex = 0;
-            // 
-            // groupBox1
-            // 
-            this.groupBox1.Controls.Add(this.txtSystem);
-            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox1.Location = new System.Drawing.Point(3, 3);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(561, 235);
-            this.groupBox1.TabIndex = 5;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "System";
-            // 
-            // txtSystem
-            // 
-            this.txtSystem.BackColor = System.Drawing.Color.White;
-            this.txtSystem.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.txtSystem.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtSystem.Location = new System.Drawing.Point(3, 17);
-            this.txtSystem.Multiline = true;
-            this.txtSystem.Name = "txtSystem";
-            this.txtSystem.ReadOnly = true;
-            this.txtSystem.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtSystem.Size = new System.Drawing.Size(555, 215);
-            this.txtSystem.TabIndex = 1;
-            // 
-            // gbErrors
-            // 
-            this.gbErrors.Controls.Add(this.txtErrors);
-            this.gbErrors.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.gbErrors.Location = new System.Drawing.Point(3, 244);
-            this.gbErrors.Name = "gbErrors";
-            this.gbErrors.Size = new System.Drawing.Size(561, 235);
-            this.gbErrors.TabIndex = 4;
-            this.gbErrors.TabStop = false;
-            this.gbErrors.Text = "Errors";
-            // 
-            // txtErrors
-            // 
-            this.txtErrors.BackColor = System.Drawing.Color.White;
-            this.txtErrors.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.txtErrors.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.txtErrors.Location = new System.Drawing.Point(3, 17);
-            this.txtErrors.Multiline = true;
-            this.txtErrors.Name = "txtErrors";
-            this.txtErrors.ReadOnly = true;
-            this.txtErrors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtErrors.Size = new System.Drawing.Size(555, 215);
-            this.txtErrors.TabIndex = 1;
-            // 
-            // tpChangelog
-            // 
-            this.tpChangelog.BackColor = System.Drawing.Color.Transparent;
-            this.tpChangelog.Controls.Add(this.txtCurrentVersion);
-            this.tpChangelog.Controls.Add(this.label3);
-            this.tpChangelog.Controls.Add(this.btnChangelog);
-            this.tpChangelog.Controls.Add(this.txtChangelog);
-            this.tpChangelog.Location = new System.Drawing.Point(4, 22);
-            this.tpChangelog.Name = "tpChangelog";
-            this.tpChangelog.Padding = new System.Windows.Forms.Padding(3);
-            this.tpChangelog.Size = new System.Drawing.Size(573, 488);
-            this.tpChangelog.TabIndex = 1;
-            this.tpChangelog.Text = "Changelog";
-            // 
-            // txtCurrentVersion
-            // 
-            this.txtCurrentVersion.BackColor = System.Drawing.SystemColors.Window;
-            this.txtCurrentVersion.Location = new System.Drawing.Point(96, 8);
-            this.txtCurrentVersion.Name = "txtCurrentVersion";
-            this.txtCurrentVersion.ReadOnly = true;
-            this.txtCurrentVersion.Size = new System.Drawing.Size(94, 21);
-            this.txtCurrentVersion.TabIndex = 4;
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(7, 11);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(83, 13);
-            this.label3.TabIndex = 2;
-            this.label3.Text = "Current Version:";
-            // 
-            // btnChangelog
-            // 
-            this.btnChangelog.Location = new System.Drawing.Point(492, 6);
-            this.btnChangelog.Name = "btnChangelog";
-            this.btnChangelog.Size = new System.Drawing.Size(75, 23);
-            this.btnChangelog.TabIndex = 1;
-            this.btnChangelog.Text = "Reload";
-            this.btnChangelog.UseVisualStyleBackColor = true;
-            this.btnChangelog.Click += new System.EventHandler(this.button2_Click);
-            // 
-            // txtChangelog
-            // 
-            this.txtChangelog.BackColor = System.Drawing.Color.White;
-            this.txtChangelog.Cursor = System.Windows.Forms.Cursors.Arrow;
-            this.txtChangelog.Location = new System.Drawing.Point(7, 35);
-            this.txtChangelog.Multiline = true;
-            this.txtChangelog.Name = "txtChangelog";
-            this.txtChangelog.ReadOnly = true;
-            this.txtChangelog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtChangelog.Size = new System.Drawing.Size(557, 442);
-            this.txtChangelog.TabIndex = 0;
+            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Location = new System.Drawing.Point(4, 22);
+            this.tabPage2.Name = "tabPage2";
+            this.tabPage2.Size = new System.Drawing.Size(573, 488);
+            this.tabPage2.TabIndex = 6;
+            this.tabPage2.Text = "Chat";
             // 
             // tpPlayers
             // 
@@ -721,6 +662,7 @@ namespace MCSong.Gui
             this.liUnloaded.ScrollAlwaysVisible = true;
             this.liUnloaded.Size = new System.Drawing.Size(86, 225);
             this.liUnloaded.TabIndex = 37;
+            this.liUnloaded.SelectedIndexChanged += new System.EventHandler(this.liUnloaded_SelectedIndexChanged);
             // 
             // mapsStrip
             // 
@@ -905,6 +847,143 @@ namespace MCSong.Gui
             this.btnLoadLevel.Text = "Load →";
             this.btnLoadLevel.UseVisualStyleBackColor = true;
             // 
+            // tpChangelog
+            // 
+            this.tpChangelog.BackColor = System.Drawing.Color.Transparent;
+            this.tpChangelog.Controls.Add(this.txtCurrentVersion);
+            this.tpChangelog.Controls.Add(this.label3);
+            this.tpChangelog.Controls.Add(this.btnChangelog);
+            this.tpChangelog.Controls.Add(this.txtChangelog);
+            this.tpChangelog.Location = new System.Drawing.Point(4, 22);
+            this.tpChangelog.Name = "tpChangelog";
+            this.tpChangelog.Padding = new System.Windows.Forms.Padding(3);
+            this.tpChangelog.Size = new System.Drawing.Size(573, 488);
+            this.tpChangelog.TabIndex = 1;
+            this.tpChangelog.Text = "Changelog";
+            // 
+            // txtCurrentVersion
+            // 
+            this.txtCurrentVersion.BackColor = System.Drawing.SystemColors.Window;
+            this.txtCurrentVersion.Location = new System.Drawing.Point(96, 8);
+            this.txtCurrentVersion.Name = "txtCurrentVersion";
+            this.txtCurrentVersion.ReadOnly = true;
+            this.txtCurrentVersion.Size = new System.Drawing.Size(94, 21);
+            this.txtCurrentVersion.TabIndex = 4;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(7, 11);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(83, 13);
+            this.label3.TabIndex = 2;
+            this.label3.Text = "Current Version:";
+            // 
+            // btnChangelog
+            // 
+            this.btnChangelog.Location = new System.Drawing.Point(492, 6);
+            this.btnChangelog.Name = "btnChangelog";
+            this.btnChangelog.Size = new System.Drawing.Size(75, 23);
+            this.btnChangelog.TabIndex = 1;
+            this.btnChangelog.Text = "Reload";
+            this.btnChangelog.UseVisualStyleBackColor = true;
+            this.btnChangelog.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // txtChangelog
+            // 
+            this.txtChangelog.BackColor = System.Drawing.Color.White;
+            this.txtChangelog.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.txtChangelog.Location = new System.Drawing.Point(7, 35);
+            this.txtChangelog.Multiline = true;
+            this.txtChangelog.Name = "txtChangelog";
+            this.txtChangelog.ReadOnly = true;
+            this.txtChangelog.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtChangelog.Size = new System.Drawing.Size(557, 442);
+            this.txtChangelog.TabIndex = 0;
+            // 
+            // tpLogs
+            // 
+            this.tpLogs.BackColor = System.Drawing.Color.Transparent;
+            this.tpLogs.Controls.Add(this.tableLayoutPanel2);
+            this.tpLogs.Location = new System.Drawing.Point(4, 22);
+            this.tpLogs.Name = "tpLogs";
+            this.tpLogs.Padding = new System.Windows.Forms.Padding(3);
+            this.tpLogs.Size = new System.Drawing.Size(573, 488);
+            this.tpLogs.TabIndex = 3;
+            this.tpLogs.Text = "Logs";
+            // 
+            // tableLayoutPanel2
+            // 
+            this.tableLayoutPanel2.ColumnCount = 1;
+            this.tableLayoutPanel2.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel2.Controls.Add(this.groupBox1, 0, 0);
+            this.tableLayoutPanel2.Controls.Add(this.gbErrors, 0, 1);
+            this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(3, 3);
+            this.tableLayoutPanel2.Name = "tableLayoutPanel2";
+            this.tableLayoutPanel2.RowCount = 2;
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
+            this.tableLayoutPanel2.Size = new System.Drawing.Size(567, 482);
+            this.tableLayoutPanel2.TabIndex = 0;
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtSystem);
+            this.groupBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(561, 235);
+            this.groupBox1.TabIndex = 5;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "System";
+            // 
+            // txtSystem
+            // 
+            this.txtSystem.BackColor = System.Drawing.Color.White;
+            this.txtSystem.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.txtSystem.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtSystem.Location = new System.Drawing.Point(3, 17);
+            this.txtSystem.Multiline = true;
+            this.txtSystem.Name = "txtSystem";
+            this.txtSystem.ReadOnly = true;
+            this.txtSystem.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtSystem.Size = new System.Drawing.Size(555, 215);
+            this.txtSystem.TabIndex = 1;
+            // 
+            // gbErrors
+            // 
+            this.gbErrors.Controls.Add(this.txtErrors);
+            this.gbErrors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbErrors.Location = new System.Drawing.Point(3, 244);
+            this.gbErrors.Name = "gbErrors";
+            this.gbErrors.Size = new System.Drawing.Size(561, 235);
+            this.gbErrors.TabIndex = 4;
+            this.gbErrors.TabStop = false;
+            this.gbErrors.Text = "Errors";
+            // 
+            // txtErrors
+            // 
+            this.txtErrors.BackColor = System.Drawing.Color.White;
+            this.txtErrors.Cursor = System.Windows.Forms.Cursors.Arrow;
+            this.txtErrors.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtErrors.Location = new System.Drawing.Point(3, 17);
+            this.txtErrors.Multiline = true;
+            this.txtErrors.Name = "txtErrors";
+            this.txtErrors.ReadOnly = true;
+            this.txtErrors.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtErrors.Size = new System.Drawing.Size(555, 215);
+            this.txtErrors.TabIndex = 1;
+            // 
+            // tabPage3
+            // 
+            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage3.Location = new System.Drawing.Point(4, 22);
+            this.tabPage3.Name = "tabPage3";
+            this.tabPage3.Size = new System.Drawing.Size(573, 488);
+            this.tabPage3.TabIndex = 7;
+            this.tabPage3.Text = "System";
+            // 
             // tmrRestart
             // 
             this.tmrRestart.Enabled = true;
@@ -932,84 +1011,6 @@ namespace MCSong.Gui
             this.shutdownServer.Text = "Shutdown Server";
             this.shutdownServer.Click += new System.EventHandler(this.shutdownServer_Click);
             // 
-            // tabPage2
-            // 
-            this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage2.Location = new System.Drawing.Point(4, 22);
-            this.tabPage2.Name = "tabPage2";
-            this.tabPage2.Size = new System.Drawing.Size(573, 488);
-            this.tabPage2.TabIndex = 6;
-            this.tabPage2.Text = "Chat";
-            // 
-            // tabPage3
-            // 
-            this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage3.Location = new System.Drawing.Point(4, 22);
-            this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(573, 488);
-            this.tabPage3.TabIndex = 7;
-            this.tabPage3.Text = "System";
-            // 
-            // groupBox9
-            // 
-            this.groupBox9.Controls.Add(this.button2);
-            this.groupBox9.Controls.Add(this.button4);
-            this.groupBox9.Controls.Add(this.button5);
-            this.groupBox9.Controls.Add(this.button6);
-            this.groupBox9.Location = new System.Drawing.Point(209, 448);
-            this.groupBox9.Name = "groupBox9";
-            this.groupBox9.Size = new System.Drawing.Size(302, 37);
-            this.groupBox9.TabIndex = 36;
-            this.groupBox9.TabStop = false;
-            // 
-            // button2
-            // 
-            this.button2.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button2.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button2.Location = new System.Drawing.Point(153, 11);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(70, 23);
-            this.button2.TabIndex = 37;
-            this.button2.Text = "Restart";
-            this.button2.UseVisualStyleBackColor = true;
-            this.button2.Click += new System.EventHandler(this.btnRestart_Click);
-            // 
-            // button4
-            // 
-            this.button4.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button4.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button4.Location = new System.Drawing.Point(229, 11);
-            this.button4.Name = "button4";
-            this.button4.Size = new System.Drawing.Size(70, 23);
-            this.button4.TabIndex = 35;
-            this.button4.Text = "Close";
-            this.button4.UseVisualStyleBackColor = true;
-            this.button4.Click += new System.EventHandler(this.btnClose_Click_1);
-            // 
-            // button5
-            // 
-            this.button5.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button5.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button5.Location = new System.Drawing.Point(77, 11);
-            this.button5.Name = "button5";
-            this.button5.Size = new System.Drawing.Size(70, 23);
-            this.button5.TabIndex = 34;
-            this.button5.Text = "Properties";
-            this.button5.UseVisualStyleBackColor = true;
-            this.button5.Click += new System.EventHandler(this.btnProperties_Click_1);
-            // 
-            // button6
-            // 
-            this.button6.Cursor = System.Windows.Forms.Cursors.Hand;
-            this.button6.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button6.Location = new System.Drawing.Point(3, 11);
-            this.button6.Name = "button6";
-            this.button6.Size = new System.Drawing.Size(70, 23);
-            this.button6.TabIndex = 36;
-            this.button6.Text = "Updater";
-            this.button6.UseVisualStyleBackColor = true;
-            this.button6.Click += new System.EventHandler(this.button1_Click_1);
-            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1027,19 +1028,12 @@ namespace MCSong.Gui
             this.tabPage1.PerformLayout();
             this.groupBox3.ResumeLayout(false);
             this.groupBox3.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
             this.groupBox2.ResumeLayout(false);
             this.gBCommands.ResumeLayout(false);
             this.gBCommands.PerformLayout();
             this.gBChat.ResumeLayout(false);
             this.gBChat.PerformLayout();
-            this.tpLogs.ResumeLayout(false);
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.gbErrors.ResumeLayout(false);
-            this.gbErrors.PerformLayout();
-            this.tpChangelog.ResumeLayout(false);
-            this.tpChangelog.PerformLayout();
             this.tpPlayers.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -1051,8 +1045,15 @@ namespace MCSong.Gui
             this.groupBox7.ResumeLayout(false);
             this.mapsStrip.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
+            this.tpChangelog.ResumeLayout(false);
+            this.tpChangelog.PerformLayout();
+            this.tpLogs.ResumeLayout(false);
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.gbErrors.ResumeLayout(false);
+            this.gbErrors.PerformLayout();
             this.iconContext.ResumeLayout(false);
-            this.groupBox9.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }

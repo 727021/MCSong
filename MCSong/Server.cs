@@ -709,6 +709,7 @@ namespace MCSong
 
         public void Log(string message, bool systemMsg = false)
         {
+            message = stripColors(message);
             if (OnLog != null)
             {
                 if (!systemMsg)
@@ -763,6 +764,17 @@ namespace MCSong
                 if (grp.playerList.Contains(Username)) return grp.color;
             }
             return Group.standard.color;
+        }
+
+        public static string stripColors(string input)
+        {
+            string[] matches = new string[] { };
+            Regex.Matches(input, "/(&([a-f][0-9]))/g").CopyTo(matches, 0);
+            foreach (string s in matches)
+            {
+                input.Replace(s, "");
+            }
+            return input;
         }
     }
 }
