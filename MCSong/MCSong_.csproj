@@ -85,6 +85,8 @@
   <ItemGroup>
     <Compile Include="AutoSaver.cs" />
     <Compile Include="Block.cs" />
+    <Compile Include="Commands\CmdClearchat.cs" />
+    <Compile Include="Commands\CmdListcommands.cs" />
     <Compile Include="Commands\CmdMaintenance.cs" />
     <Compile Include="Commands\CmdPossess.cs" />
     <Compile Include="Commands\CmdTColor.cs" />

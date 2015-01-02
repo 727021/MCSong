@@ -1066,7 +1066,7 @@ namespace MCSong.Gui
         private GroupBox gBCommands;
         private TextBox txtCommandsUsed;
         private GroupBox gBChat;
-        private TextBox txtLog;
+        internal TextBox txtLog;
         private TextBox txtCommands;
         private TextBox txtInput;
         private TextBox txtUrl;
@@ -1117,7 +1117,7 @@ namespace MCSong.Gui
         private GroupBox groupBox2;
         private Button btnRestart;
         private Label label1;
-        private CheckBox chkMaintenance;
+        internal CheckBox chkMaintenance;
         private Label label2;
         private GroupBox groupBox3;
         private Panel panel1;

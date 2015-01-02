@@ -33,41 +33,22 @@ namespace MCSong
                         }
                     }
                 }
-                if (MCSong.Gui.Window.thisWindow != null)
+                if (!Server.console)
                 {
-                    CheckBox cl = null;
-                    foreach (Control ctrl in MCSong.Gui.Window.thisWindow.Controls)
-                    {
-                        if (ctrl is CheckBox && ctrl.Name == "chkMaintenance")
-                        {
-                            cl = (CheckBox)ctrl;
-                        }
-                    }
-                    if (cl != null)
-                    {
-                        cl.Checked = true;
-                    }
+                    MCSong.Gui.Window.thisWindow.chkMaintenance.CheckState = CheckState.Checked;
+                    MCSong.Gui.Window.thisWindow.chkMaintenance.Update();
                 }
+                
             }
             else if (Server.maintenanceMode)
             {
                 Server.maintenanceMode = false;
                 Player.GlobalMessage(c.purple + "MAINTENANCE MODE " + Server.DefaultColor + "has been turned " + c.red + "OFF");
                 Server.s.Log("MAINTENANCE MODE has been turned OFF");
-                if (MCSong.Gui.Window.thisWindow != null)
+                if (!Server.console)
                 {
-                    CheckBox cl = null;
-                    foreach (Control ctrl in MCSong.Gui.Window.thisWindow.Controls)
-                    {
-                        if (ctrl is CheckBox && ctrl.Name == "chkMaintenance")
-                        {
-                            cl = (CheckBox)ctrl;
-                        }
-                    }
-                    if (cl != null)
-                    {
-                        cl.Checked = false;
-                    }
+                    MCSong.Gui.Window.thisWindow.chkMaintenance.CheckState = CheckState.Unchecked;
+                    MCSong.Gui.Window.thisWindow.chkMaintenance.Update();
                 }
             }
         }

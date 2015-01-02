@@ -552,7 +552,7 @@ namespace MCSong
                         return;
                     }
                 }
-                if (Player.players.Count >= Server.players && ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower()) { Kick("Server full!"); return; }
+                if (Player.players.Count >= Server.players && ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower())) { Kick("Server full!"); return; }
                 if (version != Server.version) { Kick("Wrong version!"); return; }
                 if (name.Length > 16 || !ValidName(name)) { Kick("Illegal name!"); return; }
 
@@ -571,7 +571,7 @@ namespace MCSong
 
                 if (Server.maintenanceMode && (this.group.Permission < Server.maintPerm))
                 {
-                    if (ip != "127.0.0.1" && !ip.StartsWith("192.168.") && !Server.devs.Contains(name.ToLower())
+                    if (ip != "127.0.0.1" && !ip.StartsWith("192.168.") && !Server.devs.Contains(name.ToLower()))
                     {
                         Kick("The server is in maintenance mode! Come back later."); return;
                     }
@@ -1705,6 +1705,9 @@ namespace MCSong
         public static void SendMessage(Player p, string message)
         {
             if (p == null) {
+
+                message = Server.stripColors(message);
+
                 if (storeHelp)
                 {
                     storedHelp += message + "\r\n";

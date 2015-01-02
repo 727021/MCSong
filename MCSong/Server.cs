@@ -772,7 +772,7 @@ namespace MCSong
             Regex.Matches(input, "/(&([a-f][0-9]))/g").CopyTo(matches, 0);
             foreach (string s in matches)
             {
-                input.Replace(s, "");
+                input = input.Replace(s, "");
             }
             return input;
         }
