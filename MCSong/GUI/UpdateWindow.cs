@@ -21,9 +21,10 @@ namespace MCSong.Gui
         }
         private void UpdateWindow_Load(object sender, EventArgs e)
         {
+            this.Icon = new Icon(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("MCSong.Lawl.ico"));
             UpdLoadProp("properties/update.properties");
             WebClient client = new WebClient();
-            client.DownloadFile("http://www.mclawl.tk/revs.txt", "text/revs.txt");
+            client.DownloadFile("http://updates.mcsong.x10.mx/revs.txt", "text/revs.txt");
             listRevisions.Items.Clear();
             FileInfo file = new FileInfo("text/revs.txt");
             StreamReader stRead = file.OpenText();

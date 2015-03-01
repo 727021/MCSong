@@ -645,6 +645,7 @@ namespace MCSong.Gui
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.liUnloaded);
+            this.groupBox7.Enabled = false;
             this.groupBox7.Location = new System.Drawing.Point(5, 3);
             this.groupBox7.Name = "groupBox7";
             this.groupBox7.Size = new System.Drawing.Size(98, 251);
@@ -840,6 +841,7 @@ namespace MCSong.Gui
             // 
             // btnLoadLevel
             // 
+            this.btnLoadLevel.Enabled = false;
             this.btnLoadLevel.Location = new System.Drawing.Point(11, 260);
             this.btnLoadLevel.Name = "btnLoadLevel";
             this.btnLoadLevel.Size = new System.Drawing.Size(86, 23);
@@ -982,7 +984,6 @@ namespace MCSong.Gui
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(573, 488);
             this.tabPage3.TabIndex = 7;
-            this.tabPage3.Text = "System";
             // 
             // tmrRestart
             // 

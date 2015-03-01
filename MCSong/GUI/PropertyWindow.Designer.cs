@@ -31,6 +31,7 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.chkMaintKick = new System.Windows.Forms.CheckBox();
             this.cmbMaintenance = new System.Windows.Forms.ComboBox();
             this.label33 = new System.Windows.Forms.Label();
             this.chkLogBeat = new System.Windows.Forms.CheckBox();
@@ -147,7 +148,6 @@
             this.btnDiscard = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.chkMaintKick = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.tabPage4.SuspendLayout();
@@ -226,6 +226,17 @@
             this.tabPage1.Size = new System.Drawing.Size(337, 404);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Server";
+            // 
+            // chkMaintKick
+            // 
+            this.chkMaintKick.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkMaintKick.AutoSize = true;
+            this.chkMaintKick.Location = new System.Drawing.Point(218, 225);
+            this.chkMaintKick.Name = "chkMaintKick";
+            this.chkMaintKick.Size = new System.Drawing.Size(101, 23);
+            this.chkMaintKick.TabIndex = 2;
+            this.chkMaintKick.Text = "Maintenance Kick";
+            this.chkMaintKick.UseVisualStyleBackColor = true;
             // 
             // cmbMaintenance
             // 
@@ -1383,17 +1394,6 @@
             this.toolTip.ToolTipTitle = "Information";
             this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip_Popup);
             // 
-            // chkMaintKick
-            // 
-            this.chkMaintKick.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkMaintKick.AutoSize = true;
-            this.chkMaintKick.Location = new System.Drawing.Point(218, 225);
-            this.chkMaintKick.Name = "chkMaintKick";
-            this.chkMaintKick.Size = new System.Drawing.Size(101, 23);
-            this.chkMaintKick.TabIndex = 2;
-            this.chkMaintKick.Text = "Maintenance Kick";
-            this.chkMaintKick.UseVisualStyleBackColor = true;
-            // 
             // PropertyWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1405,6 +1405,8 @@
             this.Controls.Add(this.tabControl);
             this.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
+            this.MaximizeBox = false;
+            this.MinimizeBox = false;
             this.Name = "PropertyWindow";
             this.Text = "Properties";
             this.Load += new System.EventHandler(this.PropertyWindow_Load);
