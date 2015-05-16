@@ -20,8 +20,8 @@ namespace MCSong
     public class CmdTempBan : Command
     {
         public override string name { get { return "tempban"; } }
-        public override string shortcut { get { return "tb"; } }
-        public override string type { get { return "moderation"; } }
+        public override string[] aliases { get { return new string[] { "tb" }; } }
+        public override CommandType type { get { return CommandType.Moderation; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }
         public CmdTempBan() { }

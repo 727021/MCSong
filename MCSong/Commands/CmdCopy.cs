@@ -7,8 +7,8 @@ namespace MCSong
     public class CmdCopy : Command
     {
         public override string name { get { return "copy"; } }
-        public override string shortcut { get { return "c"; } }
-        public override string type { get { return "build"; } }
+        public override string[] aliases { get { return new string[] { "c" }; } }
+        public override CommandType type { get { return CommandType.Building; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }
         public int allowoffset = 0;

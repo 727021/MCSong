@@ -22,8 +22,8 @@ namespace MCSong
     class CmdHeartbeat : Command
     {
         public override string name { get { return "heartbeat"; } }
-        public override string shortcut { get { return "beat"; } }
-        public override string type { get { return "other"; } }
+        public override string[] aliases { get { return new string[] { "beat" }; } }
+        public override CommandType type { get { return CommandType.Other; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Nobody; } }
         public CmdHeartbeat() { }

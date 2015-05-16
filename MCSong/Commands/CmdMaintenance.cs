@@ -9,8 +9,8 @@ namespace MCSong
     class CmdMaintenance : Command
     {
         public override string name { get { return "maintenance"; } }
-        public override string shortcut { get { return "maint"; } }
-        public override string type { get { return "mod"; } }
+        public override string[] aliases { get { return new string[] { "maint" }; } }
+        public override CommandType type { get { return CommandType.Moderation; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
         public CmdMaintenance() { }

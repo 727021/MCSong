@@ -19,8 +19,8 @@ namespace MCSong
     public class CmdHelp : Command
     {
         public override string name { get { return "help"; } }
-        public override string shortcut { get { return ""; } }
-        public override string type { get { return "information"; } }
+        public override string[] aliases { get { return new string[] { "" }; } }
+        public override CommandType type { get { return CommandType.Information; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public CmdHelp() { }
@@ -44,7 +44,6 @@ namespace MCSong
                             Player.SendMessage(p, "Use &b/help mod" + Server.DefaultColor + " for a list of moderation commands.");
                             Player.SendMessage(p, "Use &b/help information" + Server.DefaultColor + " for a list of information commands.");
                             Player.SendMessage(p, "Use &b/help other" + Server.DefaultColor + " for a list of other commands.");
-                            Player.SendMessage(p, "Use &b/help short" + Server.DefaultColor + " for a list of shortcuts.");
                             Player.SendMessage(p, "Use &b/help old" + Server.DefaultColor + " to view the Old help menu.");
                             Player.SendMessage(p, "Use &b/help [command] or /help [block] " + Server.DefaultColor + "to view more info.");
                         } break;
@@ -62,7 +61,7 @@ namespace MCSong
                         {
                             if (p == null || p.group.commands.All().Contains(comm))
                             {
-                                if (comm.type.Contains("build")) message += ", " + getColor(comm.name) + comm.name;
+                                if (comm.type == CommandType.Building) message += ", " + getColor(comm.name) + comm.name;
                             }
                         }
 
@@ -76,7 +75,7 @@ namespace MCSong
                         {
                             if (p == null || p.group.commands.All().Contains(comm))
                             {
-                                if (comm.type.Contains("mod")) message += ", " + getColor(comm.name) + comm.name;
+                                if (comm.type == CommandType.Moderation) message += ", " + getColor(comm.name) + comm.name;
                             }
                         }
 
@@ -90,7 +89,7 @@ namespace MCSong
                         {
                             if (p == null || p.group.commands.All().Contains(comm))
                             {
-                                if (comm.type.Contains("info")) message += ", " + getColor(comm.name) + comm.name;
+                                if (comm.type == CommandType.Information) message += ", " + getColor(comm.name) + comm.name;
                             }
                         }
 
@@ -104,24 +103,12 @@ namespace MCSong
                         {
                             if (p == null || p.group.commands.All().Contains(comm))
                             {
-                                if (comm.type.Contains("other")) message += ", " + getColor(comm.name) + comm.name;
+                                if (comm.type == CommandType.Other) message += ", " + getColor(comm.name) + comm.name;
                             }
                         }
 
                         if (message == "") { Player.SendMessage(p, "No commands of this type are available to you."); break; }
                         Player.SendMessage(p, "Other commands you may use:");
-                        Player.SendMessage(p, message.Remove(0, 2) + ".");
-                        break;
-                    case "short":
-                        message = "";
-                        foreach (Command comm in Command.all.commands)
-                        {
-                            if (p == null || p.group.commands.All().Contains(comm))
-                            {
-                                if (comm.shortcut != "") message += ", &b" + comm.shortcut + " " + Server.DefaultColor + "[" + comm.name + "]";
-                            }
-                        }
-                        Player.SendMessage(p, "Available shortcuts:");
                         Player.SendMessage(p, message.Remove(0, 2) + ".");
                         break;
                     case "old":
@@ -136,13 +123,21 @@ namespace MCSong
                         Player.SendMessage(p, "Available commands:");
                         Player.SendMessage(p, commandsFound.Remove(0, 2));
                         Player.SendMessage(p, "Type \"/help <command>\" for more help.");
-                        Player.SendMessage(p, "Type \"/help shortcuts\" for shortcuts.");
                         break;
                     default:
                         Command cmd = Command.all.Find(message);
                         if (cmd != null)
                         {
                             cmd.Help(p);
+                            if (cmd.aliases.Length > 0 && !String.IsNullOrWhiteSpace(cmd.aliases[0]))
+                            {
+                                string al = "";
+                                foreach (string a in cmd.aliases)
+                                {
+                                    al += ", " + a;
+                                }
+                                Player.SendMessage(p, "Aliases: " + al.Remove(0, 2));
+                            }
                             string foundRank = Level.PermissionToName(GrpCommands.allowedCommands.Find(grpComm => grpComm.commandName == cmd.name).lowestRank);
                             Player.SendMessage(p, "Rank needed: " + getColor(cmd.name) + foundRank);
                             return;

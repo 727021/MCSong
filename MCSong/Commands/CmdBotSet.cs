@@ -6,8 +6,8 @@ namespace MCSong
     public class CmdBotSet : Command
     {
         public override string name { get { return "botset"; } }
-        public override string shortcut { get { return ""; } }
-        public override string type { get { return "other"; } }
+        public override string[] aliases { get { return new string[] { "" }; } }
+        public override CommandType type { get { return CommandType.Other; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }
         public CmdBotSet() { }

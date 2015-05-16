@@ -5,8 +5,8 @@ namespace MCSong
     public class CmdMute : Command
     {
         public override string name { get { return "mute"; } }
-        public override string shortcut { get { return ""; } }
-        public override string type { get { return "mod"; } }
+        public override string[] aliases { get { return new string[] { "" }; } }
+        public override CommandType type { get { return CommandType.Moderation; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdMute() { }

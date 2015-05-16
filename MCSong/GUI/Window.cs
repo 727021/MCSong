@@ -796,7 +796,7 @@ namespace MCSong.Gui
                 }
             }
 
-            txtLevelPath.Text = new FileInfo("levels/" + Level.Find(liMaps.SelectedItem.ToString()).name + ".lvl").FullName;
+            //txtLevelPath.Text = new FileInfo("levels/" + Level.Find(liMaps.SelectedItem.ToString()).name + ".lvl").FullName;
         }
 
         private void liUnloaded_SelectedIndexChanged(object sender, EventArgs e)

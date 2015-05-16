@@ -23,22 +23,29 @@ namespace MCSong.Gui
         {
             this.Icon = new Icon(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("MCSong.Lawl.ico"));
             UpdLoadProp("properties/update.properties");
-            WebClient client = new WebClient();
-            client.DownloadFile("http://updates.mcsong.x10.mx/revs.txt", "text/revs.txt");
-            listRevisions.Items.Clear();
-            FileInfo file = new FileInfo("text/revs.txt");
-            StreamReader stRead = file.OpenText();
-            if (File.Exists("text/revs.txt"))
+            try
             {
-                while (!stRead.EndOfStream)
+                WebClient client = new WebClient();
+                client.DownloadFile("http://updates.mcsong.x10.mx/versions.txt", "text/revs.txt");
+                listRevisions.Items.Clear();
+                FileInfo file = new FileInfo("text/revs.txt");
+                StreamReader stRead = file.OpenText();
+                if (File.Exists("text/revs.txt"))
                 {
-                    listRevisions.Items.Add(stRead.ReadLine());
+                    while (!stRead.EndOfStream)
+                    {
+                        listRevisions.Items.Add(stRead.ReadLine());
+                    }
                 }
+                stRead.Close();
+                stRead.Dispose();
+                file.Delete();
+                client.Dispose();
             }
-            stRead.Close();
-            stRead.Dispose();
-            file.Delete();
-            client.Dispose();
+            catch
+            {
+                MessageBox.Show("Could not load versions", "Error", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
+            }
         }
 
 

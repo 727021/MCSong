@@ -64,6 +64,8 @@ namespace MCSong.Gui
             {
                 Server.s.Log("Failed to load commands and blocks!");
             }
+
+            updateIRC();
         }
 
         private void PropertyWindow_Unload(object sender, EventArgs e) {
@@ -208,6 +210,12 @@ namespace MCSong.Gui
                                 break;
                             case "irc-opchannel":
                                 txtOpChannel.Text = value;
+                                break;
+                            case "irc-identify":
+                                chkIrcIdentify.Checked = (value.ToLower() == "true") ? true : false;
+                                break;
+                            case "irc-password":
+                                txtIrcPass.Text = value; 
                                 break;
                             case "anti-tunnels":
                                 ChkTunnels.Checked = (value.ToLower() == "true") ? true : false;
@@ -424,8 +432,8 @@ namespace MCSong.Gui
                     w.WriteLine("irc-channel = " + txtChannel.Text);
                     w.WriteLine("irc-opchannel = " + txtOpChannel.Text);
                     w.WriteLine("irc-port = " + Server.ircPort.ToString());
-                    w.WriteLine("irc-identify = " + Server.ircIdentify.ToString());
-                    w.WriteLine("irc-password = " + Server.ircPassword);
+                    w.WriteLine("irc-identify = " + chkIrcIdentify.Checked.ToString());
+                    w.WriteLine("irc-password = " + txtIrcPass.Text);
                     w.WriteLine();
                     w.WriteLine("# other options");
                     w.WriteLine("anti-tunnels = " + ChkTunnels.Checked.ToString().ToLower());
@@ -829,8 +837,30 @@ namespace MCSong.Gui
             Command.all.Find("help").Use(null, toHelp);
             Player.storeHelp = false;
             string messageInfo = "Help information for " + toHelp + ":\r\n\r\n";
-            messageInfo += Player.storedHelp;
+            messageInfo += Server.stripColors(Player.storedHelp);
             MessageBox.Show(messageInfo);
+        }
+
+        private void chkIRC_CheckedChanged(object sender, EventArgs e)
+        {
+            updateIRC();
+        }
+
+        private void chkIrcIdentify_CheckedChanged(object sender, EventArgs e)
+        {
+            txtIrcPass.Enabled = chkIrcIdentify.Checked;
+        }
+
+        private void updateIRC()
+        {
+            foreach (Control c in gbIRC.Controls)
+            {
+                if (c != chkIRC)
+                {
+                    c.Enabled = chkIRC.Checked;
+                }
+            }
+            txtIrcPass.Enabled = (chkIRC.Checked) ? chkIrcIdentify.Checked : false;
         }
     }
 }

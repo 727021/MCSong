@@ -23,8 +23,8 @@ namespace MCSong
     public class CmdAbout : Command
     {
         public override string name { get { return "about"; } }
-        public override string shortcut { get { return "b"; } }
-        public override string type { get { return "information"; } }
+        public override string[] aliases { get { return new string[] { "b" }; } }
+        public override CommandType type { get { return CommandType.Information; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
         public CmdAbout() { }

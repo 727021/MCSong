@@ -6,8 +6,8 @@ namespace MCSong
     public class CmdMegaboid : Command
     {
         public override string name { get { return "megaboid"; } }
-        public override string shortcut { get { return "zm"; } }
-        public override string type { get { return "build"; } }
+        public override string[] aliases { get { return new string[] { "zm" }; } }
+        public override CommandType type { get { return CommandType.Building; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdMegaboid() { }

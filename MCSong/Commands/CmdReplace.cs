@@ -20,8 +20,8 @@ namespace MCSong
     public class CmdReplace : Command
     {
         public override string name { get { return "replace"; } }
-        public override string shortcut { get { return "r"; } }
-        public override string type { get { return "build"; } }
+        public override string[] aliases { get { return new string[] { "r" }; } }
+        public override CommandType type { get { return CommandType.Building; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }
         public CmdReplace() { }
