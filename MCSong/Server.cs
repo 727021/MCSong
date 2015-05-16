@@ -203,6 +203,11 @@ namespace MCSong
         public static LevelPermission maintPerm = LevelPermission.Admin;
         public static bool maintKick = true;
 
+        // CPE
+        public static bool cpe = true;
+        public static bool cpeClickDistance = false;
+        public static int cpeClickDistanceVersion = 1;
+
         public static bool mono = false;
 
         public static bool flipHead = false;

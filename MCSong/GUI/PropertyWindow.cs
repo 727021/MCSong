@@ -9,7 +9,7 @@ using System.Windows.Forms;
 using System.IO;
 
 namespace MCSong.Gui
-{//TEST
+{
     public partial class PropertyWindow : Form
     {
         public PropertyWindow() {
