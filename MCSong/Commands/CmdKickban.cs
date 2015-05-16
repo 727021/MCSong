@@ -19,8 +19,8 @@ namespace MCSong
     public class CmdKickban : Command
     {
         public override string name { get { return "kickban"; } }
-        public override string shortcut { get { return "kb"; } }
-        public override string type { get { return "mod"; } }
+        public override string[] aliases { get { return new string[] { "kb" }; } }
+        public override CommandType type { get { return CommandType.Moderation; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdKickban() { }

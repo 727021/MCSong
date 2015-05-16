@@ -117,7 +117,7 @@ namespace MCSong
                             throw new Exception("Hash not set");
                         }
 
-                        url = "http://www.mclawl.tk/hbannounce.php";
+                        url = "http://mcsong.x10.mx/heartbeat.php";
 
                         if (Player.number > 0)
                         {
@@ -133,6 +133,7 @@ namespace MCSong
                             }
                             if (Player.number - hidden > 0)
                                 postVars += "&players=" + players.Substring(0, players.Length - 1);
+                            postVars += "&pcount=" + (Player.number - hidden).ToString();
                         }
 
                         worlds = "";
@@ -144,7 +145,6 @@ namespace MCSong
 
                         postVars += "&motd=" + UrlEncode(Server.motd) +
                                 "&lvlcount=" + (byte)Server.levels.Count +
-                                "&lawlversion=" + Server.Version.Replace(".0", "") +
                                 "&hash=" + hash;
 
                         goto default;

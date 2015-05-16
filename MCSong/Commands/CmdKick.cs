@@ -19,8 +19,8 @@ namespace MCSong
     public class CmdKick : Command
     {
         public override string name { get { return "kick"; } }
-        public override string shortcut { get { return "k"; } }
-        public override string type { get { return "mod"; } }
+        public override string[] aliases { get { return new string[] { "k" }; } }
+        public override CommandType type { get { return CommandType.Moderation; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }
         public CmdKick() { }

@@ -768,13 +768,7 @@ namespace MCSong
 
         public static string stripColors(string input)
         {
-            string[] matches = new string[] { };
-            Regex.Matches(input, "/(&([a-f][0-9]))/g").CopyTo(matches, 0);
-            foreach (string s in matches)
-            {
-                input = input.Replace(s, "");
-            }
-            return input;
+            return input.Replace("&0", "").Replace("&1", "").Replace("&2", "").Replace("&3", "").Replace("&4", "").Replace("&5", "").Replace("&6", "").Replace("&7", "").Replace("&8", "").Replace("&9", "").Replace("&a", "").Replace("&b", "").Replace("&c", "").Replace("&d", "").Replace("&e", "").Replace("&f", "");
         }
     }
 }

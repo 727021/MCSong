@@ -6,8 +6,8 @@ namespace MCSong
     public class CmdDelete : Command
     {
         public override string name { get { return "delete"; } }
-        public override string shortcut { get { return "d"; } }
-        public override string type { get { return "build"; } }
+        public override string[] aliases { get { return new string[] { "d" }; } }
+        public override CommandType type { get { return CommandType.Building; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }
         public CmdDelete() { }

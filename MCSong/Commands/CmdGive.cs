@@ -5,8 +5,8 @@ namespace MCSong
     public class CmdGive : Command
     {
         public override string name { get { return "give"; } }
-        public override string shortcut { get { return "gib"; } }
-        public override string type { get { return "other"; } }
+        public override string[] aliases { get { return new string[] { "gib" }; } }
+        public override CommandType type { get { return CommandType.Other; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
         public CmdGive() { }

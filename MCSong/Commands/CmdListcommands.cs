@@ -8,8 +8,8 @@ namespace MCSong
     class CmdListcommands : Command
     {
         public override string name { get { return "listcommands"; } }
-        public override string shortcut { get { return ""; } }
-        public override string type { get { return "other"; } }
+        public override string[] aliases { get { return new string[] { "" }; } }
+        public override CommandType type { get { return CommandType.Other; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Nobody; } }
         public CmdListcommands() { }
@@ -26,7 +26,7 @@ namespace MCSong
 
                     foreach (Command c in Command.all.commands)
                     {
-                        if (c.type.StartsWith("b"))
+                        if (c.type == CommandType.Building)
                         {
                             Commands.Add("all.Add(new " + c.GetType().Name + "());");
                         }
@@ -39,7 +39,7 @@ namespace MCSong
 
                     foreach (Command c in Command.all.commands)
                     {
-                        if (c.type.StartsWith("m"))
+                        if (c.type == CommandType.Moderation)
                         {
                             Commands.Add("all.Add(new " + c.GetType().Name + "());");
                         }
@@ -52,7 +52,7 @@ namespace MCSong
 
                     foreach (Command c in Command.all.commands)
                     {
-                        if (c.type.StartsWith("i"))
+                        if (c.type == CommandType.Information)
                         {
                             Commands.Add("all.Add(new " + c.GetType().Name + "());");
                         }
@@ -65,7 +65,7 @@ namespace MCSong
 
                     foreach (Command c in Command.all.commands)
                     {
-                        if (c.type.StartsWith("o"))
+                        if (c.type == CommandType.Other)
                         {
                             Commands.Add("all.Add(new " + c.GetType().Name + "());");
                         }

@@ -21,8 +21,8 @@ namespace MCSong
     public class CmdUnload : Command
     {
         public override string name { get { return "unload"; } }
-        public override string shortcut { get { return ""; } }
-        public override string type { get { return "mod"; } }
+        public override string[] aliases { get { return new string[] { "" }; } }
+        public override CommandType type { get { return CommandType.Moderation; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdUnload() { }

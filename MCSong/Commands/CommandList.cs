@@ -51,8 +51,20 @@ namespace MCSong
         {
             name = name.ToLower(); foreach (Command cmd in commands)
             {
-                if (cmd.name == name.ToLower() || cmd.shortcut == name.ToLower()) { return cmd; }
+                if (cmd.name == name.ToLower() || hasAlias(cmd, name)) { return cmd; }
             } return null;
+        }
+
+        private bool hasAlias(Command cmd, string alias)
+        {
+            foreach (string s in cmd.aliases)
+            {
+                if (s == alias.ToLower())
+                {
+                    return true;
+                }
+            }
+            return false;
         }
 
         public string FindShort(string shortcut)
@@ -62,7 +74,7 @@ namespace MCSong
             shortcut = shortcut.ToLower();
             foreach (Command cmd in commands)
             {
-                if (cmd.shortcut == shortcut) return cmd.name;
+                if (hasAlias(cmd, shortcut)) return cmd.name;
             }
             return "";
         }

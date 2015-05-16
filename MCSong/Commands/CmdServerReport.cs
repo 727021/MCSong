@@ -24,8 +24,8 @@ namespace MCSong
     public class CmdServerReport : Command
     {
         public override string name { get { return "serverreport"; } }
-        public override string shortcut { get { return "sr"; } }
-        public override string type { get { return "information"; } }
+        public override string[] aliases { get { return new string[] { "sr" }; } }
+        public override CommandType type { get { return CommandType.Information; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
         public CmdServerReport() { }

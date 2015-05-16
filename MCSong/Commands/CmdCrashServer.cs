@@ -8,8 +8,8 @@ namespace MCSong
     public class CmdCrashServer : Command
     {
         public override string name { get { return "crashserver"; } }
-        public override string shortcut { get { return "crash"; } }
-        public override string type { get { return "mod"; } }
+        public override string[] aliases { get { return new string[] { "crash" }; } }
+        public override CommandType type { get { return CommandType.Moderation; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public CmdCrashServer() { }

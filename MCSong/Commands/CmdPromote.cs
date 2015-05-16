@@ -19,8 +19,8 @@ namespace MCSong
     public class CmdPromote : Command
     {
         public override string name { get { return "promote"; } }
-        public override string shortcut { get { return "pr"; } }
-        public override string type { get { return "mod"; } }
+        public override string[] aliases { get { return new string[] { "pr" }; } }
+        public override CommandType type { get { return CommandType.Moderation; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdPromote() { }

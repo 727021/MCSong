@@ -18,12 +18,19 @@ using MCSong.Commands;
 
 namespace MCSong
 {
+    public enum CommandType
+    {
+        Building,
+        Moderation,
+        Information,
+        Other
+    }
+
     public abstract class Command
     {
         public abstract string name { get; }
-        public abstract string shortcut { get; }
-        //public abstract string[] aliases { get; } [TODO]
-        public abstract string type { get; }
+        public abstract string[] aliases { get; }
+        public abstract CommandType type { get; }
         public abstract bool museumUsable { get; }
         public abstract LevelPermission defaultRank { get; }
         public abstract void Use(Player p, string message);
@@ -132,6 +139,7 @@ namespace MCSong
             // Information Commands
             all.Add(new CmdAbout());
             all.Add(new CmdAfk());
+            all.Add(new CmdAliases());
             all.Add(new CmdBlocks());
             all.Add(new CmdClones());
             all.Add(new CmdDevs());

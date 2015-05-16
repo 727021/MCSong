@@ -6,8 +6,8 @@ namespace MCSong
     public class CmdMode : Command
     {
         public override string name { get { return "mode"; } }
-        public override string shortcut { get { return ""; } }
-        public override string type { get { return "build"; } }
+        public override string[] aliases { get { return new string[] { "" }; } }
+        public override CommandType type { get { return CommandType.Building; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
         public CmdMode() { }

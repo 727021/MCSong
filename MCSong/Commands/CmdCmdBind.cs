@@ -5,8 +5,8 @@ namespace MCSong
     public class CmdCmdBind : Command
     {
         public override string name { get { return "cmdbind"; } }
-        public override string shortcut { get { return "cb"; } }
-        public override string type { get { return "build"; } }
+        public override string[] aliases { get { return new string[] { "cb" }; } }
+        public override CommandType type { get { return CommandType.Building; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }
         public CmdCmdBind() { }

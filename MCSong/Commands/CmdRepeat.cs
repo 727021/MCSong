@@ -5,8 +5,8 @@ namespace MCSong
     public class CmdRepeat : Command
     {
         public override string name { get { return "repeat"; } }
-        public override string shortcut { get { return "m"; } }
-        public override string type { get { return "other"; } }
+        public override string[] aliases { get { return new string[] { "m" }; } }
+        public override CommandType type { get { return CommandType.Other; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
         public CmdRepeat() { }

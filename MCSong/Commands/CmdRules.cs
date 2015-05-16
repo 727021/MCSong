@@ -22,8 +22,8 @@ namespace MCSong
     class CmdRules : Command
     {
         public override string name { get { return "rules"; } }
-        public override string shortcut { get { return ""; } }
-        public override string type { get { return "information"; } }
+        public override string[] aliases { get { return new string[] { "" }; } }
+        public override CommandType type { get { return CommandType.Information; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public CmdRules() { }

@@ -19,8 +19,8 @@ namespace MCSong
     public class CmdEmote : Command
     {
         public override string name { get { return "emote"; } }
-        public override string shortcut { get { return "<3"; } }
-        public override string type { get { return "other"; } }
+        public override string[] aliases { get { return new string[] { "<3" }; } }
+        public override CommandType type { get { return CommandType.Other; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public CmdEmote() { }

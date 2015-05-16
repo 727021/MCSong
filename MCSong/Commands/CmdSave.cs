@@ -21,8 +21,8 @@ namespace MCSong
     public class CmdSave : Command
     {
         public override string name { get { return "save"; } }
-        public override string shortcut { get { return ""; } }
-        public override string type { get { return "mod"; } }
+        public override string[] aliases { get { return new string[] { "" }; } }
+        public override CommandType type { get { return CommandType.Moderation; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdSave() { }

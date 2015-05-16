@@ -5,8 +5,8 @@ namespace MCSong
     public class CmdMove : Command
     {
         public override string name { get { return "move"; } }
-        public override string shortcut { get { return ""; } }
-        public override string type { get { return "other"; } }
+        public override string[] aliases { get { return new string[] { "" }; } }
+        public override CommandType type { get { return CommandType.Other; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public CmdMove() { }

@@ -22,8 +22,8 @@ namespace MCSong
     public class CmdFixGrass : Command
     {
         public override string name { get { return "fixgrass"; } }
-        public override string shortcut { get { return ""; } }
-        public override string type { get { return "moderation"; } }
+        public override string[] aliases { get { return new string[] { "" }; } }
+        public override CommandType type { get { return CommandType.Moderation; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
         public CmdFixGrass() { }
