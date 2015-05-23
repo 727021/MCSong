@@ -66,9 +66,14 @@
     <Reference Include="Meebey.SmartIrc4net">
       <HintPath>.\Meebey.SmartIrc4net.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Data, Version=6.2.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\MySql.Data.dll</HintPath>
+    </Reference>
+    <Reference Include="Newtonsoft.Json, Version=4.5.0.0, Culture=neutral, PublicKeyToken=30ad4fe6b2a6aeed, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\Newtonsoft.Json.dll</HintPath>
     </Reference>
     <Reference Include="PresentationCore" />
     <Reference Include="PresentationFramework" />
@@ -88,6 +93,7 @@
   <ItemGroup>
     <Compile Include="AutoSaver.cs" />
     <Compile Include="Block.cs" />
+    <Compile Include="ChatBuffer.cs" />
     <Compile Include="Commands\CmdAliases.cs" />
     <Compile Include="Commands\CmdClearchat.cs" />
     <Compile Include="Commands\CmdListcommands.cs" />
@@ -301,6 +307,7 @@
     <Compile Include="Queue\TorrentException.cs" />
     <Compile Include="Scripting.cs" />
     <Compile Include="Server.cs" />
+    <Compile Include="SongBeat.cs" />
     <Compile Include="Updater.cs" />
     <EmbeddedResource Include="GUI\PropertyWindow.resx">
       <DependentUpon>PropertyWindow.cs</DependentUpon>

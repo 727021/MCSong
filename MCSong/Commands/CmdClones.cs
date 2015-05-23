@@ -13,13 +13,22 @@ namespace MCSong
         public override string name { get { return "clones"; } }
         public override string[] aliases { get { return new string[] { "" }; } }
         public override CommandType type { get { return CommandType.Information; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }
         public CmdClones() { }
 
         public override void Use(Player p, string message)
         {
-            if (message == "") message = p.name;
+            if (message == "")
+            {
+                if (p == null)
+                {
+                    Help(p);
+                    return;
+                }
+                message = p.name;
+            }
 
             string originalName = message.ToLower();
 

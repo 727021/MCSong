@@ -21,6 +21,7 @@ namespace MCSong
         public override string name { get { return "promote"; } }
         public override string[] aliases { get { return new string[] { "pr" }; } }
         public override CommandType type { get { return CommandType.Moderation; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdPromote() { }

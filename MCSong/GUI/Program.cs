@@ -148,9 +148,17 @@ namespace MCLawl_.Gui
                 Command cmd = Command.all.Find(sentCmd);
                 if (cmd != null)
                 {
-                    cmd.Use(null, sentMsg);
-                    Console.WriteLine("CONSOLE: USED /" + sentCmd + " " + sentMsg);
-                    handleComm(Console.ReadLine());
+                    if (cmd.consoleUsable)
+                    {
+                        cmd.Use(null, sentMsg);
+                        Console.WriteLine("CONSOLE: USED /" + sentCmd + " " + sentMsg);
+                        handleComm(Console.ReadLine());
+                    }
+                    else
+                    {
+                        Console.WriteLine("CONSOLE: Cannot use /" + sentCmd);
+                        handleComm(Console.ReadLine());
+                    }
                     return;
                 }
             }
@@ -161,6 +169,7 @@ namespace MCLawl_.Gui
                 handleComm(Console.ReadLine());
                 return;
             }
+            
 
         talk: handleComm("say " + MCSong.Group.findPerm(LevelPermission.Admin).color + "Console: &f" + s);
             handleComm(Console.ReadLine());

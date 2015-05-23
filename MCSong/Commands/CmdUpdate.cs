@@ -23,14 +23,14 @@ namespace MCSong
         public override string name { get { return "update"; } }
         public override string[] aliases { get { return new string[] { "" }; } }
         public override CommandType type { get { return CommandType.Information; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
-        public override LevelPermission defaultRank { get { return LevelPermission.AdvBuilder; } }
+        public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdUpdate() { }
 
         public override void Use(Player p, string message)
         {
-            if (p == null || p.group.Permission > LevelPermission.AdvBuilder) MCLawl_.Gui.Program.UpdateCheck(false, p);
-            else Player.SendMessage(p, "Ask an Operator to do it!");
+            MCLawl_.Gui.Program.UpdateCheck(false, p);
         }
         public override void Help(Player p)
         {

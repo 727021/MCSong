@@ -10,6 +10,7 @@ namespace MCSong
         public override string name { get { return "clearblockchanges"; } }
         public override string[] aliases { get { return new string[] { "cbc" }; } }
         public override CommandType type { get { return CommandType.Moderation; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
         public CmdClearBlockChanges() { }
@@ -18,7 +19,8 @@ namespace MCSong
         {
             Level l = Level.Find(message);
             if (l == null && message != "") { Player.SendMessage(p, "Could not find level."); return; }
-            if (l == null) l = p.level;
+            if (l == null && p != null) l = p.level;
+            if (l == null && p == null) { Player.SendMessage(p, "Could not find level."); return; }
 
             MySQL.executeQuery("TRUNCATE TABLE `Block" + l.name + "`");
             Player.SendMessage(p, "Cleared &cALL" + Server.DefaultColor + " recorded block changes in: &d" + l.name);

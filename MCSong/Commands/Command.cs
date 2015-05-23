@@ -32,6 +32,7 @@ namespace MCSong
         public abstract string[] aliases { get; }
         public abstract CommandType type { get; }
         public abstract bool museumUsable { get; }
+        public abstract bool consoleUsable { get; }
         public abstract LevelPermission defaultRank { get; }
         public abstract void Use(Player p, string message);
         public abstract void Help(Player p);

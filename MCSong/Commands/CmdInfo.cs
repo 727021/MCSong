@@ -21,6 +21,7 @@ namespace MCSong
         public override string name { get { return "info"; } }
         public override string[] aliases { get { return new string[] { "" }; } }
         public override CommandType type { get { return CommandType.Information; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public CmdInfo() { }
@@ -33,8 +34,19 @@ namespace MCSong
             }
             else
             {
-                Player.SendMessage(p, "This server runs on &bMCLawl" + Server.DefaultColor + ", which started as MCSharp, and was made much more feature-packed by Zallist, then picked up again and had development continued by Lawlcat, Valek and Zallist.");
-                Player.SendMessage(p, "This server's version: &a" + System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString());
+                Player.SendMessage(p, "This server runs on &bMCSong" + Server.DefaultColor + ", a fork of MCLawl, which was developed by Lawlcat, Valek, and Zallist.");
+                Player.SendMessage(p, "This server's version: &a" + Server.Version);
+                Player.SendMessage(p, "MCSong Webite/Forums: http://mcsong.x10.mx/");
+                string devlist = "";
+                string temp;
+                foreach (string dev in Server.devs)
+                {
+                    temp = dev.Substring(0, 1);
+                    temp = temp.ToUpper() + dev.Remove(0, 1);
+                    devlist += temp + ", ";
+                }
+                devlist = devlist.Remove(devlist.Length - 2);
+                Player.SendMessage(p, "&9MCSong Development Team: " + Server.DefaultColor + devlist);
 
                 TimeSpan up = DateTime.Now - Server.timeOnline;
                 string upTime = "Time online: &b";
@@ -49,6 +61,7 @@ namespace MCSong
                 Player.SendMessage(p, upTime);
 
                 if (Server.updateTimer.Interval > 1000) Player.SendMessage(p, "Server is currently in &5Low Lag" + Server.DefaultColor + " mode.");
+                Player.SendMessage(p, c.purple + "MAINTENANCE MODE " + Server.DefaultColor + "is currently " + ((Server.maintenanceMode) ? c.green + "ON" : c.red + "OFF") + Server.DefaultColor + ".");
             }
         }
         public override void Help(Player p)
