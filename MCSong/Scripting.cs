@@ -69,6 +69,9 @@ namespace MCSong
                 "\t\t// CommandType.Building, CommandType.Moderation, CommandType.Information, CommandType.Other" + Environment.NewLine +
                 "\t\tpublic override CommandType type { get { return CommandType.Other; } }" + Environment.NewLine +
                 Environment.NewLine +
+                "\t\t// Determines whether or not this command can be used from the console. Block/map altering commands or commands that use p as a player should be made false to avoid errors." + Environment.NewLine +
+                "\t\tpublic override bool consoleUsable { get { return false; } }" + Environment.NewLine +
+                Environment.NewLine +
                 "\t\t// Determines whether or not this command can be used in a museum.  Block/map altering commands should be made false to avoid errors." + Environment.NewLine +
                 "\t\tpublic override bool museumUsable { get { return false; } }" + Environment.NewLine +
                 Environment.NewLine +

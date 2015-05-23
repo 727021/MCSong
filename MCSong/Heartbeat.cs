@@ -79,7 +79,7 @@ namespace MCSong
                     lawlBeatTimer.Interval = 300000;
                     try
                     {
-                        Pump(Beat.MCSong);;
+                        Pump(Beat.MCSong);
                     }
                     catch (Exception e)
                     {

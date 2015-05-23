@@ -10,6 +10,7 @@ namespace MCSong
         public override string name { get { return "hacks"; } }
         public override string[] aliases { get { return new string[] { "" }; } }
         public override CommandType type { get { return CommandType.Moderation; } }
+        public override bool consoleUsable { get { return false; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public CmdHacks() { }
@@ -22,7 +23,7 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/hacks - HACK THE PLANET");
+            Player.SendMessage(p, "/hacks - Grants access to core server program");
         }
     }
 

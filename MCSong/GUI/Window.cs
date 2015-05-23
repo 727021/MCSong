@@ -277,11 +277,14 @@ namespace MCSong.Gui
             MCLawl_.Gui.Program.ExitProgram(false);
         }
 
+        private ChatBuffer cbInput = new ChatBuffer();
+
         private void txtInput_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
             {
-                if (txtInput.Text == null || txtInput.Text.Trim()=="") { return; }
+                if (txtInput.Text == null || txtInput.Text.Trim() == "") { return; }
+                cbInput.addEntry(txtInput.Text);
                 string text = txtInput.Text.Trim();
                 string newtext = text;
                 if (txtInput.Text[0] == '#')
@@ -301,7 +304,18 @@ namespace MCSong.Gui
                     txtInput.Clear();
                 }
             }
+            else if (e.KeyCode == Keys.Up)
+            {
+                string up = cbInput.up();
+                txtInput.Text = (up == "") ? txtInput.Text : up;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                txtInput.Text = cbInput.down();
+            }
         }
+
+        private ChatBuffer cbCommands = new ChatBuffer();
 
         private void txtCommands_KeyDown(object sender, KeyEventArgs e) {
             if (e.KeyCode == Keys.Enter) {
@@ -313,6 +327,8 @@ namespace MCSong.Gui
                     txtCommands.Clear();
                     return;
                 }
+
+                cbCommands.addEntry(txtCommands.Text);
 
                 if (txtCommands.Text[0] == '/')
                     if (txtCommands.Text.Length > 1)
@@ -327,15 +343,41 @@ namespace MCSong.Gui
                     return;
                 }
 
-                try { 
-                    Command.all.Find(sentCmd).Use(null, sentMsg);
-                    newCommand("CONSOLE: USED /" + sentCmd + " " + sentMsg);
-                } catch (Exception ex) {
-                    Server.ErrorLog(ex);
-                    newCommand("CONSOLE: Failed command."); 
+                if (Command.all.Find(sentCmd) == null)
+                {
+                    newCommand("CONSOLE: Command not found.");
+                    txtCommands.Clear();
+                    return;
+                }
+
+                if (Command.all.Find(sentCmd).consoleUsable)
+                {
+                    try
+                    {
+                        Command.all.Find(sentCmd).Use(null, sentMsg);
+                        newCommand("CONSOLE: USED /" + sentCmd + " " + sentMsg);
+                    }
+                    catch (Exception ex)
+                    {
+                        Server.ErrorLog(ex);
+                        newCommand("CONSOLE: Failed command.");
+                    }
+                }
+                else
+                {
+                    newCommand("CONSOLE: Cannot use /" + sentCmd);
                 }
 
                 txtCommands.Clear();
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                string up = cbCommands.up();
+                txtCommands.Text = (up == "") ? txtCommands.Text : up;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                txtCommands.Text = cbCommands.down();
             }
         }
 
@@ -653,7 +695,7 @@ namespace MCSong.Gui
             }
             else
             {
-                txtChangelog.Text = "Changelog for " + Server.Version + "\r\n\r\nChangelog not found!\r\nDownload it manually from http://updates.mcsong.x10.mx/changelog.txt and save it as \'extra/Changelog.txt\'";
+                txtChangelog.Text = "Changelog for " + Server.Version + ":\r\n\r\nChangelog not found!\r\nDownload it manually from http://updates.mcsong.x10.mx/changelog.txt and save it as \'extra/Changelog.txt\'";
             }
             txtCurrentVersion.Text = Server.Version;
         }
@@ -739,11 +781,14 @@ namespace MCSong.Gui
             MCLawl_.Gui.Program.ExitProgram(true);
         }
 
-        private void chkMaintenance_CheckedChanged(object sender, EventArgs e)
+        private void chkMaintenance_Click(object sender, EventArgs e)
         {
             if (chkMaintenance.Checked)
             {
                 Server.maintenanceMode = true;
+                chkMaintenance.ForeColor = Color.Red;
+                chkMaintenance.Font = new Font(chkMaintenance.Font, FontStyle.Bold);
+                thisWindow.Text += " [MAINTENANCE MODE]";
                 Player.GlobalMessage(c.purple + "MAINTENANCE MODE " + Server.DefaultColor + "has been turned " + c.green + "ON");
                 Server.s.Log("MAINTENANCE MODE has been turned ON");
                 if (Server.maintKick)
@@ -762,6 +807,9 @@ namespace MCSong.Gui
             else if (!chkMaintenance.Checked)
             {
                 Server.maintenanceMode = false;
+                chkMaintenance.ForeColor = Color.Black;
+                chkMaintenance.Font = new Font(chkMaintenance.Font, FontStyle.Regular);
+                thisWindow.Text = thisWindow.Text.Replace(" [MAINTENANCE MODE]", "");
                 Player.GlobalMessage(c.purple + "MAINTENANCE MODE " + Server.DefaultColor + "has been turned " + c.red + "OFF");
                 Server.s.Log("MAINTENANCE MODE has been turned OFF");
             }
@@ -829,6 +877,51 @@ namespace MCSong.Gui
             }
 
             txtLevelPath.Text = new FileInfo("levels/" + Level.Find(liUnloaded.SelectedItem.ToString()).name + ".lvl").FullName;
+        }
+
+        public static void updateMaintenance()
+        {
+            if (!thisWindow.InvokeRequired)
+            {
+                thisWindow.chkMaintenance.Checked = Server.maintenanceMode;
+            }
+            else
+            {
+                thisWindow.Invoke(new Action(updateMaintenance));
+            }
+        }
+
+        public static void clearChatBuffer()
+        {
+            if (!thisWindow.InvokeRequired)
+            {
+                thisWindow.cbInput.clear();
+            }
+            else
+            {
+                thisWindow.Invoke(new Action(clearChatBuffer));
+            }
+        }
+
+        private void btnPlay_Click(object sender, EventArgs e)
+        {
+            btnPlay.Enabled = false;
+            if (txtUrl.Text.StartsWith("http"))
+            {
+                try
+                {
+                    System.Diagnostics.Process.Start(txtUrl.Text);
+                }
+                catch (Exception ex)
+                {
+                    Server.ErrorLog(ex);
+                }
+            }
+            else
+            {
+                MessageBox.Show("The URL found was invalid and could not be started.", "Invalid URL", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+            }
+            btnPlay.Enabled = true;
         }
     }
 }

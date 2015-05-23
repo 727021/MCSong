@@ -21,6 +21,7 @@ namespace MCSong
         public override string name { get { return "roll"; } }
         public override string[] aliases { get { return new string[] { "" }; } }
         public override CommandType type { get { return CommandType.Other; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdRoll() { }
@@ -33,6 +34,7 @@ namespace MCSong
             try { max = int.Parse(message.Split(' ')[1]); }
             catch { max = 7; }
 
+            if (p == null) { Player.GlobalMessage(Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "] rolled a &a" + rand.Next(Math.Min(min, max), Math.Max(min, max) + 1).ToString() + Server.DefaultColor + " (" + Math.Min(min, max) + "|" + Math.Max(min, max) + ")"); return; }
             Player.GlobalMessage(p.color + p.name + Server.DefaultColor + " rolled a &a" + rand.Next(Math.Min(min, max), Math.Max(min, max) + 1).ToString() + Server.DefaultColor + " (" + Math.Min(min, max) + "|" + Math.Max(min, max) + ")");
         }
         public override void Help(Player p)

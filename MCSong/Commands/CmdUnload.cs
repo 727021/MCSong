@@ -23,6 +23,7 @@ namespace MCSong
         public override string name { get { return "unload"; } }
         public override string[] aliases { get { return new string[] { "" }; } }
         public override CommandType type { get { return CommandType.Moderation; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdUnload() { }
@@ -63,7 +64,7 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/unload [level] - Unloads a level.");
+            Player.SendMessage(p, "/unload <level> - Unloads a level.");
             Player.SendMessage(p, "/unload empty - Unloads an empty level.");
         }
     }

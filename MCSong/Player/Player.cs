@@ -132,6 +132,18 @@ namespace MCSong
         public bool teamchat = false;
         public int health = 100;
 
+        // CPE
+        public bool cpe = false;
+        public string cpeName = "";
+        public short cpeCount = 0;
+        // extensions (set to true if shared by client/server)
+        public bool cpeClickDistance = false;
+
+        private int cpeExtSent = 0;
+
+
+        public short clickDistance = 160;
+
         //Copy
         public List<CopyPos> CopyBuffer = new List<CopyPos>();
         public struct CopyPos { public ushort x, y, z; public byte type; }
@@ -395,6 +407,16 @@ namespace MCSong
                             goto default;
                         length = 65;
                         break; // chat
+                    case 16:
+                        length = 67;
+                        break; // extinfo
+                    case 17:
+                        length = 69;
+                        break; // extentry
+                    case 66:
+                        length = 130;
+                        cpe = true;
+                        break; // cpe
                     default:
                         Kick("Unhandled message id \"" + msg + "\"!");
                         return new byte[0];
@@ -429,6 +451,15 @@ namespace MCSong
                             if (!loggedIn)
                                 break;
                             HandleChat(message);
+                            break;
+                        case 16:
+                            HandleExtInfo(message);
+                            break;
+                        case 17:
+                            HandleExtEntry(message);
+                            break;
+                        case 66:
+                            HandleLogin(message);
                             break;
                     }
                     //thread.Start((object)message);
@@ -593,6 +624,18 @@ namespace MCSong
                 catch { }
                 group = Group.findPlayerGroup(name);
 
+                if (Server.cpe && cpe)
+                {
+                    if (Server.cpeClickDistance)// Make sure at least 1 extension is enabled on the server
+                    {
+                        SendExtInfo();
+                        SendExtEntry();
+                        while (cpeExtSent < cpeCount) { }// Wait for ExtInfo and ExtEntry from client before sending MOTD
+                    }
+                }
+
+                
+
                 SendMotd();
                 SendMap();
                 Loading = true;
@@ -736,6 +779,32 @@ namespace MCSong
             if (emoteList.Contains(name)) parseSmiley = false;
             GlobalChat(null, "&a+ " + this.color + this.prefix + this.name + Server.DefaultColor + " has joined the game.", false);
             Server.s.Log(name + " [" + ip + "] has joined the server.");
+
+            if (cpe && cpeClickDistance)
+            {
+                SendClickDistance(clickDistance);
+            }
+        }
+
+        public void HandleExtInfo(byte[] message)
+        {
+            cpeName = enc.GetString(message, 0, 64).Trim();
+            cpeCount = NTHOshort(message, 64);
+        }
+
+        public void HandleExtEntry(byte[] message)
+        {
+            string extName = enc.GetString(message, 0, 64).Trim();
+            switch (extName)
+            {
+                case "ClickDistance":
+                    if (Server.cpeClickDistance && (NTHOint(message, 64) == Server.cpeClickDistanceVersion))
+                    {
+                        cpeClickDistance = true;
+                    }
+                    break;
+            }
+            cpeExtSent++;
         }
 
         public void SetPrefix()
@@ -1908,6 +1977,35 @@ namespace MCSong
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
+
+        public void SendExtInfo()
+        {
+            byte[] buffer = new byte[66];
+
+            StringFormat("MCSong Server", 64).CopyTo(buffer, 0);
+            HTNO((short)0).CopyTo(buffer, 65);
+            
+            SendRaw(16, buffer);
+        }
+
+        public void SendExtEntry()
+        {
+            if (Server.cpeClickDistance)
+            {
+                byte[] buffer = new byte[68];
+                StringFormat("ClickDistance", 64).CopyTo(buffer, 0);
+                HTNO(1).CopyTo(buffer, 66);
+                SendRaw(17, buffer);
+            }
+        }
+
+        public void SendClickDistance(short distance)
+        {
+            byte[] buffer = new byte[2];
+            HTNO(distance).CopyTo(buffer, 0);
+            SendRaw(18, buffer);
+        }
+
         public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty)
         {
             pos = new ushort[3] { x, y, z }; // This could be remove and not effect the server :/
@@ -2458,7 +2556,23 @@ namespace MCSong
             Buffer.BlockCopy(x, offset, y, 0, 2); Array.Reverse(y);
             return BitConverter.ToUInt16(y, 0);
         }
+        public static short NTHOshort(byte[] x, int offset)
+        {
+            byte[] y = new byte[2];
+            Buffer.BlockCopy(x, offset, y, 0, 2); Array.Reverse(y);
+            return BitConverter.ToInt16(y, 0);
+        }
+        public static int NTHOint(byte[] x, int offset)
+        {
+            byte[] y = new byte[2];
+            Buffer.BlockCopy(x, offset, y, 0, 2); Array.Reverse(y);
+            return BitConverter.ToInt32(y, 0);
+        }
         public static byte[] HTNO(short x)
+        {
+            byte[] y = BitConverter.GetBytes(x); Array.Reverse(y); return y;
+        }
+        public static byte[] HTNO(int x)
         {
             byte[] y = BitConverter.GetBytes(x); Array.Reverse(y); return y;
         }

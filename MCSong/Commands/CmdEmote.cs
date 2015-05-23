@@ -21,6 +21,7 @@ namespace MCSong
         public override string name { get { return "emote"; } }
         public override string[] aliases { get { return new string[] { "<3" }; } }
         public override CommandType type { get { return CommandType.Other; } }
+        public override bool consoleUsable { get { return false; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public CmdEmote() { }

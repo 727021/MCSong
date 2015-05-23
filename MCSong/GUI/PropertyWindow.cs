@@ -489,6 +489,10 @@ namespace MCSong.Gui
                     w.WriteLine("cheap-message-given = " + txtCheap.Text);
                     w.WriteLine("rank-super = " + chkrankSuper.Checked.ToString().ToLower());
                     w.WriteLine("default-rank = " + cmbDefaultRank.Items[cmbDefaultRank.SelectedIndex].ToString());
+                    w.WriteLine();
+                    w.WriteLine("#Extensions");
+                    w.WriteLine("cpe = " + Server.cpe.ToString().ToLower());
+                    w.WriteLine("click-distance = " + Server.cpeClickDistance.ToString().ToLower());
                 }
                 w.Flush();
                 w.Close();

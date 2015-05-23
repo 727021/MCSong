@@ -7,6 +7,7 @@ namespace MCSong
         public override string name { get { return "clearchat"; } }
         public override string[] aliases { get { return new string[] { "cc" }; } }
         public override CommandType type { get { return CommandType.Other; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public CmdClearchat() { }
@@ -20,7 +21,11 @@ namespace MCSong
                 case "player":
                     if (p == null)
                     {
-                        if (!Server.console) MCSong.Gui.Window.thisWindow.txtLog.Clear();
+                        if (!Server.console)
+                        {
+                            MCSong.Gui.Window.thisWindow.txtLog.Clear();
+                            MCSong.Gui.Window.clearChatBuffer();
+                        }
                         else Console.Clear();
                     }
                     else
@@ -38,7 +43,11 @@ namespace MCSong
                             Clear(pl);
                     if (p == null)
                     {
-                        if (!Server.console) MCSong.Gui.Window.thisWindow.txtLog.Clear();
+                        if (!Server.console)
+                        {
+                            MCSong.Gui.Window.thisWindow.txtLog.Clear();
+                            MCSong.Gui.Window.clearChatBuffer();
+                        }
                         else Console.Clear();
                     }
                     Server.s.Log("Server chat has been cleared by " + ((p == null) ? "Console" : p.color + p.name));

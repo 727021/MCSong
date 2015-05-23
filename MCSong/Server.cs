@@ -111,6 +111,8 @@ namespace MCSong
 
         public static bool maintenanceMode = false;
 
+        public static string externalURL = "";
+
 
         //Settings
         #region Server Settings
@@ -139,7 +141,7 @@ namespace MCSong
 
         public static bool irc = false;
         public static int ircPort = 6667;
-        public static string ircNick = "MCZall_Minecraft_Bot";
+        public static string ircNick = "MCSong_Minecraft_Bot";
         public static string ircServer = "irc.esper.net";
         public static string ircChannel = "#changethis";
         public static string ircOpChannel = "#changethistoo";
@@ -198,10 +200,17 @@ namespace MCSong
         public static string customShutdownMessage = "Server shutdown. Rejoin in 10 seconds.";
         public static string moneys = "moneys";
         public static LevelPermission opchatperm = LevelPermission.Operator;
+
         public static bool logbeat = false;
+        public static BeatType beat = BeatType.ClassiCube;
 
         public static LevelPermission maintPerm = LevelPermission.Admin;
         public static bool maintKick = true;
+
+        // CPE
+        public static bool cpe = true;
+        public static bool cpeClickDistance = false;
+        public static int cpeClickDistanceVersion = 1;
 
         public static bool mono = false;
 
@@ -473,7 +482,7 @@ namespace MCSong
             {
                 try
                 {
-                    Heartbeat.Init();
+                    SongBeat.Init();
                 }
                 catch (Exception e)
                 {
