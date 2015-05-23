@@ -21,6 +21,7 @@ namespace MCSong
         public override string name { get { return "goto"; } }
         public override string[] aliases { get { return new string[] { "g" }; } }
         public override CommandType type { get { return CommandType.Other; } }
+        public override bool consoleUsable { get { return false; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
         public CmdGoto() { }

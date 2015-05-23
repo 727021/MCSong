@@ -22,6 +22,7 @@ namespace MCSong
         public override string name { get { return "paint"; } }
         public override string[] aliases { get { return new string[] { "p" }; } }
         public override CommandType type { get { return CommandType.Building; } }
+        public override bool consoleUsable { get { return false; } }
         public override bool museumUsable { get { return false; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Builder; } }
         public CmdPaint() { }

@@ -11,6 +11,7 @@ namespace MCSong
         public override string name { get { return "maintenance"; } }
         public override string[] aliases { get { return new string[] { "maint" }; } }
         public override CommandType type { get { return CommandType.Moderation; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Admin; } }
         public CmdMaintenance() { }
@@ -35,8 +36,7 @@ namespace MCSong
                 }
                 if (!Server.console)
                 {
-                    MCSong.Gui.Window.thisWindow.chkMaintenance.CheckState = CheckState.Checked;
-                    MCSong.Gui.Window.thisWindow.chkMaintenance.Update();
+                    MCSong.Gui.Window.updateMaintenance();
                 }
                 
             }
@@ -47,8 +47,7 @@ namespace MCSong
                 Server.s.Log("MAINTENANCE MODE has been turned OFF");
                 if (!Server.console)
                 {
-                    MCSong.Gui.Window.thisWindow.chkMaintenance.CheckState = CheckState.Unchecked;
-                    MCSong.Gui.Window.thisWindow.chkMaintenance.Update();
+                    MCSong.Gui.Window.updateMaintenance();
                 }
             }
         }

@@ -8,14 +8,18 @@ namespace MCSong
         public override string name { get { return "map"; } }
         public override string[] aliases { get { return new string[] { "" }; } }
         public override CommandType type { get { return CommandType.Moderation; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Guest; } }
         public CmdMap() { }
 
         public override void Use(Player p, string message)
         {
-            if (message == "") message = p.level.name;
-
+            if (message == "")
+            {
+                if (p == null) { Help(p); return; }
+                message = p.level.name;
+            }
             Level foundLevel;
 
             if (message.IndexOf(' ') == -1)

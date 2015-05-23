@@ -24,6 +24,7 @@ namespace MCSong
         public override string name { get { return "devs"; } }
         public override string[] aliases { get { return new string[] { "" }; } }
         public override CommandType type { get { return CommandType.Information; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Banned; } }
         public CmdDevs() { }
@@ -40,7 +41,7 @@ namespace MCSong
                 devlist += temp + ", ";
             }
             devlist = devlist.Remove(devlist.Length - 2);
-            Player.SendMessage(p, "&9MCLawl Development Team: " + Server.DefaultColor + devlist);
+            Player.SendMessage(p, "&9MCSong Development Team: " + Server.DefaultColor + devlist);
         }
 
         public override void Help(Player p)

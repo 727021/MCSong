@@ -142,6 +142,7 @@ namespace MCSong.Gui
             this.iconContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
             this.shutdownServer = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnPlay = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -187,6 +188,7 @@ namespace MCSong.Gui
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
+            this.tabPage1.Controls.Add(this.btnPlay);
             this.tabPage1.Controls.Add(this.chkMaintenance);
             this.tabPage1.Controls.Add(this.label2);
             this.tabPage1.Controls.Add(this.groupBox3);
@@ -205,13 +207,13 @@ namespace MCSong.Gui
             // chkMaintenance
             // 
             this.chkMaintenance.AutoSize = true;
-            this.chkMaintenance.Location = new System.Drawing.Point(438, 11);
+            this.chkMaintenance.Location = new System.Drawing.Point(449, 11);
             this.chkMaintenance.Name = "chkMaintenance";
             this.chkMaintenance.Size = new System.Drawing.Size(118, 17);
             this.chkMaintenance.TabIndex = 38;
             this.chkMaintenance.Text = "Maintenance Mode";
             this.chkMaintenance.UseVisualStyleBackColor = true;
-            this.chkMaintenance.CheckedChanged += new System.EventHandler(this.chkMaintenance_CheckedChanged);
+            this.chkMaintenance.Click += new System.EventHandler(this.chkMaintenance_Click);
             // 
             // label2
             // 
@@ -219,7 +221,7 @@ namespace MCSong.Gui
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(46, 13);
             this.label2.TabIndex = 36;
-            this.label2.Text = "© 2014";
+            this.label2.Text = "© 2015";
             // 
             // groupBox3
             // 
@@ -378,9 +380,9 @@ namespace MCSong.Gui
             this.gBCommands.Controls.Add(this.txtCommandsUsed);
             this.gBCommands.Controls.Add(this.txtCommands);
             this.gBCommands.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.gBCommands.Location = new System.Drawing.Point(416, 34);
+            this.gBCommands.Location = new System.Drawing.Point(392, 34);
             this.gBCommands.Name = "gBCommands";
-            this.gBCommands.Size = new System.Drawing.Size(151, 408);
+            this.gBCommands.Size = new System.Drawing.Size(175, 408);
             this.gBCommands.TabIndex = 34;
             this.gBCommands.TabStop = false;
             this.gBCommands.Text = "Commands";
@@ -388,7 +390,7 @@ namespace MCSong.Gui
             // btnCommand
             // 
             this.btnCommand.Font = new System.Drawing.Font("Calibri", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnCommand.Location = new System.Drawing.Point(124, 384);
+            this.btnCommand.Location = new System.Drawing.Point(148, 384);
             this.btnCommand.Margin = new System.Windows.Forms.Padding(0);
             this.btnCommand.Name = "btnCommand";
             this.btnCommand.Size = new System.Drawing.Size(21, 21);
@@ -408,7 +410,7 @@ namespace MCSong.Gui
             this.txtCommandsUsed.Name = "txtCommandsUsed";
             this.txtCommandsUsed.ReadOnly = true;
             this.txtCommandsUsed.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-            this.txtCommandsUsed.Size = new System.Drawing.Size(137, 359);
+            this.txtCommandsUsed.Size = new System.Drawing.Size(161, 359);
             this.txtCommandsUsed.TabIndex = 0;
             // 
             // txtCommands
@@ -416,7 +418,7 @@ namespace MCSong.Gui
             this.txtCommands.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtCommands.Location = new System.Drawing.Point(8, 384);
             this.txtCommands.Name = "txtCommands";
-            this.txtCommands.Size = new System.Drawing.Size(113, 21);
+            this.txtCommands.Size = new System.Drawing.Size(137, 21);
             this.txtCommands.TabIndex = 28;
             this.txtCommands.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtCommands_KeyDown);
             // 
@@ -428,7 +430,7 @@ namespace MCSong.Gui
             this.gBChat.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.gBChat.Location = new System.Drawing.Point(6, 34);
             this.gBChat.Name = "gBChat";
-            this.gBChat.Size = new System.Drawing.Size(404, 408);
+            this.gBChat.Size = new System.Drawing.Size(380, 408);
             this.gBChat.TabIndex = 32;
             this.gBChat.TabStop = false;
             this.gBChat.Text = "Chat";
@@ -436,7 +438,7 @@ namespace MCSong.Gui
             // btnChat
             // 
             this.btnChat.Font = new System.Drawing.Font("Calibri", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnChat.Location = new System.Drawing.Point(376, 384);
+            this.btnChat.Location = new System.Drawing.Point(353, 384);
             this.btnChat.Margin = new System.Windows.Forms.Padding(0);
             this.btnChat.Name = "btnChat";
             this.btnChat.Size = new System.Drawing.Size(21, 21);
@@ -456,7 +458,7 @@ namespace MCSong.Gui
             this.txtLog.Name = "txtLog";
             this.txtLog.ReadOnly = true;
             this.txtLog.ScrollBars = System.Windows.Forms.ScrollBars.Both;
-            this.txtLog.Size = new System.Drawing.Size(391, 359);
+            this.txtLog.Size = new System.Drawing.Size(368, 359);
             this.txtLog.TabIndex = 1;
             // 
             // txtInput
@@ -464,7 +466,7 @@ namespace MCSong.Gui
             this.txtInput.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.txtInput.Location = new System.Drawing.Point(6, 384);
             this.txtInput.Name = "txtInput";
-            this.txtInput.Size = new System.Drawing.Size(365, 21);
+            this.txtInput.Size = new System.Drawing.Size(344, 21);
             this.txtInput.TabIndex = 27;
             this.txtInput.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtInput_KeyDown);
             // 
@@ -472,10 +474,10 @@ namespace MCSong.Gui
             // 
             this.txtUrl.Cursor = System.Windows.Forms.Cursors.Default;
             this.txtUrl.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.txtUrl.Location = new System.Drawing.Point(7, 7);
+            this.txtUrl.Location = new System.Drawing.Point(6, 9);
             this.txtUrl.Name = "txtUrl";
             this.txtUrl.ReadOnly = true;
-            this.txtUrl.Size = new System.Drawing.Size(403, 21);
+            this.txtUrl.Size = new System.Drawing.Size(380, 21);
             this.txtUrl.TabIndex = 25;
             // 
             // tabPage2
@@ -1012,6 +1014,16 @@ namespace MCSong.Gui
             this.shutdownServer.Text = "Shutdown Server";
             this.shutdownServer.Click += new System.EventHandler(this.shutdownServer_Click);
             // 
+            // btnPlay
+            // 
+            this.btnPlay.Location = new System.Drawing.Point(392, 7);
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(40, 23);
+            this.btnPlay.TabIndex = 39;
+            this.btnPlay.Text = "Play";
+            this.btnPlay.UseVisualStyleBackColor = true;
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1144,5 +1156,6 @@ namespace MCSong.Gui
         private Button button6;
         private TabPage tabPage2;
         private TabPage tabPage3;
+        private Button btnPlay;
     }
 }

@@ -23,6 +23,7 @@ namespace MCSong
         public override string name { get { return "color"; } }
         public override string[] aliases { get { return new string[] { "" }; } }
         public override CommandType type { get { return CommandType.Other; } }
+        public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
         public CmdColor() { }
@@ -66,6 +67,7 @@ namespace MCSong
             }
             else
             {
+                if (p == null) { Help(p); return; }
                 if (message == "del")
                 {
                     MySQL.executeQuery("UPDATE Players SET color = '' WHERE name = '" + p.name + "'");
