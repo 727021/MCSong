@@ -157,6 +157,7 @@
             this.Name = "UpdateWindow";
             this.Text = "MCSong Updater";
             this.Load += new System.EventHandler(this.UpdateWindow_Load);
+            this.Disposed += new System.EventHandler(this.UpdateWindow_Unload);
             this.groupBox1.ResumeLayout(false);
             this.groupBox1.PerformLayout();
             this.groupBox2.ResumeLayout(false);

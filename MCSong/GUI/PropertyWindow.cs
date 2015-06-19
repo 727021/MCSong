@@ -7,11 +7,23 @@ using System.Linq;
 using System.Text;
 using System.Windows.Forms;
 using System.IO;
+using System.Threading;
 
 namespace MCSong.Gui
 {
     public partial class PropertyWindow : Form
     {
+        private const int CP_NOCLOSE_BUTTON = 0x200;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams myCp = base.CreateParams;
+                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
+                return myCp;
+            }
+        }
+
         public PropertyWindow() {
             InitializeComponent();
         }
@@ -31,17 +43,26 @@ namespace MCSong.Gui
             cmbDefaultColour.Items.AddRange(colors);
             cmbIRCColour.Items.AddRange(colors);
             cmbColor.Items.AddRange(colors);
+            cmbGlobalColor.Items.AddRange(colors);
+
+            
 
             string opchatperm = "";
+            string adminchatperm = "";
             string maintperm = "";
             foreach (Group grp in Group.GroupList)
             {
                 cmbDefaultRank.Items.Add(grp.name);
                 cmbOpChat.Items.Add(grp.name);
+                cmbAdminChat.Items.Add(grp.name);
                 cmbMaintenance.Items.Add(grp.name);
                 if (grp.Permission == Server.opchatperm)
                 {
                     opchatperm = grp.name;
+                }
+                if (grp.Permission == Server.adminchatperm)
+                {
+                    adminchatperm = grp.name;
                 }
                 if (grp.Permission == Server.maintPerm)
                 {
@@ -50,6 +71,7 @@ namespace MCSong.Gui
             }
             cmbDefaultRank.SelectedIndex = 1;
             cmbOpChat.SelectedIndex = (opchatperm != "") ? cmbOpChat.Items.IndexOf(opchatperm) : 1;
+            cmbAdminChat.SelectedIndex = (adminchatperm != "") ? cmbAdminChat.Items.IndexOf(adminchatperm) : 1;
             cmbMaintenance.SelectedIndex = (maintperm != "") ? cmbMaintenance.Items.IndexOf(maintperm) : 1;
             
             //Load server stuff
@@ -66,10 +88,13 @@ namespace MCSong.Gui
             }
 
             updateIRC();
+            UpdateGC();
         }
 
-        private void PropertyWindow_Unload(object sender, EventArgs e) {
+        private void PropertyWindow_Unload(object sender, EventArgs e)
+        {
             Window.prevLoaded = false;
+            Window.thisWindow.CheckGlobal();
         }
 
         List<Group> storedRanks = new List<Group>();
@@ -151,7 +176,7 @@ namespace MCSong.Gui
                         {
                             case "server-name":
                                 if (ValidString(value, "![]:.,{}~-+()?_/\\ ")) txtName.Text = value;
-                                else txtName.Text = "[MCZall] Minecraft server";
+                                else txtName.Text = "[MCSong] Minecraft server";
                                 break;
                             case "motd":
                                 if (ValidString(value, "![]&:.,{}~-+()?_/\\ ")) txtMOTD.Text = value;
@@ -217,6 +242,18 @@ namespace MCSong.Gui
                             case "irc-password":
                                 txtIrcPass.Text = value; 
                                 break;
+                            case "global-chat":
+                                chkGlobal.Checked = (value.ToLower() == "true") ? true : false;
+                                break;
+                            case "gc-nick":
+                                txtGlobalNick.Text = value;
+                                break;
+                            case "gc-identify":
+                                chkGlobalIdentify.Checked = (value.ToLower() == "true") ? true : false;
+                                break;
+                            case "gc-password":
+                                txtGlobalPassword.Text = value;
+                                break;
                             case "anti-tunnels":
                                 ChkTunnels.Checked = (value.ToLower() == "true") ? true : false;
                                 break;
@@ -268,6 +305,14 @@ namespace MCSong.Gui
                                     color = c.Name(value); if (color != "") color = value; else { Server.s.Log("Could not find " + value); return; }
                                 }
                                 cmbIRCColour.SelectedIndex = cmbIRCColour.Items.IndexOf(c.Name(value)); break;
+                            case "gc-color":
+                                color = c.Parse(value);
+                                if (color == "")
+                                {
+                                    color = c.Name(value); if (color != "") color = value; else { Server.s.Log("Could not find " + value); return; }
+                                }
+                                cmbGlobalColor.SelectedIndex = cmbGlobalColor.Items.IndexOf(c.Name(value));
+                                break;
                             case "default-rank":
                                 try {
                                     if (cmbDefaultRank.Items.IndexOf(value.ToLower()) != -1)
@@ -435,6 +480,12 @@ namespace MCSong.Gui
                     w.WriteLine("irc-identify = " + chkIrcIdentify.Checked.ToString());
                     w.WriteLine("irc-password = " + txtIrcPass.Text);
                     w.WriteLine();
+                    w.WriteLine("# Global Chat");
+                    w.WriteLine("global-chat = " + chkGlobal.Checked.ToString().ToLower());
+                    w.WriteLine("gc-nick = " + txtGlobalNick.Text);
+                    w.WriteLine("gc-identify = " + chkGlobalIdentify.Checked.ToString().ToLower());
+                    w.WriteLine("gc-password = " + txtGlobalPassword.Text);
+                    w.WriteLine();
                     w.WriteLine("# other options");
                     w.WriteLine("anti-tunnels = " + ChkTunnels.Checked.ToString().ToLower());
                     w.WriteLine("max-depth = " + txtDepth.Text);
@@ -449,6 +500,7 @@ namespace MCSong.Gui
                     w.WriteLine("use-whitelist = " + Server.useWhitelist.ToString().ToLower());
                     w.WriteLine("money-name = " + txtMoneys.Text);
                     w.WriteLine("opchat-perm = " + ((sbyte)Group.GroupList.Find(grp => grp.name == cmbOpChat.Items[cmbOpChat.SelectedIndex].ToString()).Permission).ToString());
+                    w.WriteLine("adminchat-perm = " + ((sbyte)Group.GroupList.Find(grp => grp.name == cmbAdminChat.Items[cmbAdminChat.SelectedIndex].ToString()).Permission).ToString());
                     w.WriteLine("maintenance-perm = " + ((sbyte)Group.GroupList.Find(grp => grp.name == cmbMaintenance.Items[cmbMaintenance.SelectedIndex].ToString()).Permission).ToString());
                     w.WriteLine("maintenance-kick = " + chkMaintKick.Checked.ToString().ToLower());
                     w.WriteLine("log-heartbeat = " + chkLogBeat.Checked.ToString().ToLower());
@@ -475,6 +527,7 @@ namespace MCSong.Gui
                     w.WriteLine("#Colors");
                     w.WriteLine("defaultColor = " + cmbDefaultColour.Items[cmbDefaultColour.SelectedIndex].ToString());
                     w.WriteLine("irc-color = " + cmbIRCColour.Items[cmbIRCColour.SelectedIndex].ToString());
+                    w.WriteLine("gc-color = " + cmbGlobalColor.Items[cmbGlobalColor.SelectedIndex].ToString());
                     w.WriteLine();
                     w.WriteLine("#Running on mono?");
                     w.WriteLine("mono = " + chkMono.Checked.ToString().ToLower());
@@ -510,6 +563,11 @@ namespace MCSong.Gui
 
         private void cmbIRCColour_SelectedIndexChanged(object sender, EventArgs e) {
             lblIRC.BackColor = Color.FromName(cmbIRCColour.Items[cmbIRCColour.SelectedIndex].ToString());
+        }
+
+        private void cmbGlobalColor_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            lblGlobalColor.BackColor = Color.FromName(cmbGlobalColor.Items[cmbGlobalColor.SelectedIndex].ToString());
         }
 
         void removeDigit(TextBox foundTxt) {
@@ -865,6 +923,60 @@ namespace MCSong.Gui
                 }
             }
             txtIrcPass.Enabled = (chkIRC.Checked) ? chkIrcIdentify.Checked : false;
+            try { lblIRC.BackColor = Color.FromName(cmbIRCColour.Items[cmbIRCColour.SelectedIndex].ToString()); }
+            catch { lblIRC.BackColor = Color.FromName(c.Name(Server.IRCColour)); }
+        }
+
+        private void button2_Click(object sender, EventArgs e)
+        {
+            txtGlobalNick.Text = "SONG_" + new Random().Next(1000, 9999).ToString();
+        }
+
+        private void chkGlobalIdentify_CheckedChanged(object sender, EventArgs e)
+        {
+            txtGlobalPassword.Enabled = chkGlobalIdentify.Checked;
+        }
+
+        private void UpdateGC()
+        {
+            foreach (Control c in gbGlobal.Controls)
+            {
+                if (c != chkGlobal)
+                {
+                    c.Enabled = chkGlobal.Checked;
+                }
+            }
+            txtGlobalPassword.Enabled = (chkGlobal.Checked) ? chkGlobalIdentify.Checked : false;
+            try { lblGlobalColor.BackColor = Color.FromName(cmbGlobalColor.Items[cmbGlobalColor.SelectedIndex].ToString()); }
+            catch { lblGlobalColor.BackColor = Color.FromName(c.Name(Server.gcColor)); }
+        }
+
+        private void chkGlobal_CheckedChanged(object sender, EventArgs e)
+        {
+            UpdateGC();
+        }
+        
+        //public static FolderBrowserDialogEx fbd;
+        private void btnBackupLocation_Click(object sender, EventArgs e)
+        {/*
+            Thread t = new Thread((ThreadStart)(() =>
+            {
+                PropertyWindow.fbd = new FolderBrowserDialogEx
+                {
+                    Description = "Slect a backup location:",
+                    ShowNewFolderButton = true,
+                    ShowEditBox = true,
+                    ShowFullPathInEditBox = true,
+                    RootFolder = Environment.SpecialFolder.MyComputer,
+                    NewStyle = true,
+                };
+                fbd.SelectedPath = txtBackupLocation.Text.Replace('/', '\\');
+                DialogResult dr = fbd.ShowDialog();
+                if (dr == DialogResult.OK)
+                    txtBackupLocation.Text = fbd.SelectedPath;
+            }));
+            t.SetApartmentState(ApartmentState.STA);
+            t.Start();*/
         }
     }
 }

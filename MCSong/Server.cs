@@ -42,6 +42,9 @@ namespace MCSong
         public delegate void VoidHandler();
 
         public event LogHandler OnLog;
+        public event LogHandler OnOp;
+        public event LogHandler OnAdmin;
+        public event LogHandler OnGlobal;
         public event LogHandler OnSystem;
         public event LogHandler OnCommand;
         public event LogHandler OnError;
@@ -78,7 +81,10 @@ namespace MCSong
         public static PlayerList bannedIP;
         public static PlayerList whiteList;
         public static PlayerList ircControllers;
+        public static PlayerList gcAgreed;
+
         public static List<string> devs = new List<string>(new string[] { "727021" });
+        public static List<string> devnicks = new List<string>(new string[] { "_727021" });
 
         public static List<TempBan> tempBans = new List<TempBan>();
         public struct TempBan { public string name; public DateTime allowedJoin; }
@@ -113,6 +119,7 @@ namespace MCSong
 
         public static string externalURL = "";
 
+        public static bool cancelShutdown = false;
 
         //Settings
         #region Server Settings
@@ -148,6 +155,11 @@ namespace MCSong
         public static bool ircIdentify = false;
         public static string ircPassword = "";
 
+        public static bool gc = true;
+        public static string gcNick = "SONG_" + new Random().Next(1000, 9999).ToString();
+        public static bool gcIdentify = false;
+        public static string gcPassword = "";
+
         public static bool restartOnError = true;
 
         public static bool antiTunnel = true;
@@ -179,11 +191,12 @@ namespace MCSong
         public static string MySQLPort = "3306";
         public static string MySQLUsername = "root";
         public static string MySQLPassword = "password";
-        public static string MySQLDatabaseName = "MCZallDB";
+        public static string MySQLDatabaseName = "MCSongDB";
         public static bool MySQLPooling = true;
 
         public static string DefaultColor = "&e";
         public static string IRCColour = "&5";
+        public static string gcColor = "&6";
 
         public static int afkminutes = 10;
         public static int afkkick = 45;
@@ -199,10 +212,10 @@ namespace MCSong
         public static bool customShutdown = false;
         public static string customShutdownMessage = "Server shutdown. Rejoin in 10 seconds.";
         public static string moneys = "moneys";
-        public static LevelPermission opchatperm = LevelPermission.Operator;
+        public static LevelPermission opchatperm = LevelPermission.Operator;// #
+        public static LevelPermission adminchatperm = LevelPermission.Admin;// ;
 
         public static bool logbeat = false;
-        public static BeatType beat = BeatType.ClassiCube;
 
         public static LevelPermission maintPerm = LevelPermission.Admin;
         public static bool maintKick = true;
@@ -373,6 +386,7 @@ namespace MCSong
             {
                 bannedIP = PlayerList.Load("banned-ip.txt", null);
                 ircControllers = PlayerList.Load("IRC_Controllers.txt", null);
+                gcAgreed = PlayerList.Load("GCAgreed.txt", null);
 
                 foreach (Group grp in Group.GroupList)
                     grp.playerList = PlayerList.Load(grp.fileName, grp);
@@ -532,6 +546,10 @@ namespace MCSong
                 {
                     new IRCBot();
                 }
+                if (Server.gc)
+                {
+                    new GlobalBot();
+                }
             
 
                 //      string CheckName = "FROSTEDBUTTS";
@@ -615,6 +633,8 @@ namespace MCSong
 
                 Log("Finished setting up server");
             });
+
+            PluginManager.AutoLoad();
         }
         
         public static bool Setup()
@@ -645,7 +665,7 @@ namespace MCSong
                     p = new Player(listen.EndAccept(result));
                     listen.BeginAccept(new AsyncCallback(Accept), null);
                 }
-                catch (SocketException e)
+                catch (SocketException)
                 {
                     if (p != null)
                         p.Disconnect();
@@ -661,6 +681,10 @@ namespace MCSong
 
         public static void Exit()
         {
+            PluginManager.loaded.ForEach(delegate(Plugin p)
+            {
+                PluginManager.Unload(p);
+            });
             List<string> players = new List<string>();
             foreach (Player p in Player.players) { p.save(); players.Add(p.name); }
             foreach (string p in players)
@@ -716,6 +740,24 @@ namespace MCSong
             if (OnURLChange != null) OnURLChange(url);
         }
 
+        public void LogOp(string message)
+        {
+            message = stripColors(message);
+            if (OnOp != null) { OnOp(message); }
+            Log("(OPs): " + message);
+        }
+        public void LogAdmin(string message)
+        {
+            message = stripColors(message);
+            if (OnAdmin != null) { OnAdmin(message); }
+            Log("(Admin): " + message);
+        }
+        public void LogGC(string message)
+        {
+            message = stripColors(message);
+            if (OnGlobal != null) { OnGlobal(message); }
+            Log("[GLOBAL]" + message);
+        }
         public void Log(string message, bool systemMsg = false)
         {
             message = stripColors(message);
@@ -777,7 +819,8 @@ namespace MCSong
 
         public static string stripColors(string input)
         {
-            return input.Replace("&0", "").Replace("&1", "").Replace("&2", "").Replace("&3", "").Replace("&4", "").Replace("&5", "").Replace("&6", "").Replace("&7", "").Replace("&8", "").Replace("&9", "").Replace("&a", "").Replace("&b", "").Replace("&c", "").Replace("&d", "").Replace("&e", "").Replace("&f", "");
+            return new Regex("&[0-9a-f]", RegexOptions.IgnoreCase).Replace(input, "");// Why not use regex?
+            //return input.Replace("&0", "").Replace("&1", "").Replace("&2", "").Replace("&3", "").Replace("&4", "").Replace("&5", "").Replace("&6", "").Replace("&7", "").Replace("&8", "").Replace("&9", "").Replace("&a", "").Replace("&b", "").Replace("&c", "").Replace("&d", "").Replace("&e", "").Replace("&f", "");
         }
     }
 }

@@ -10,7 +10,7 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>MCSong</RootNamespace>
     <AssemblyName>MCSong_</AssemblyName>
-    <TargetFrameworkVersion>v4.5.1</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
     <TargetFrameworkProfile>
     </TargetFrameworkProfile>
     <FileAlignment>512</FileAlignment>
@@ -94,11 +94,21 @@
     <Compile Include="AutoSaver.cs" />
     <Compile Include="Block.cs" />
     <Compile Include="ChatBuffer.cs" />
+    <Compile Include="Commands\CmdAdminChat.cs" />
+    <Compile Include="Commands\CmdAgree.cs" />
     <Compile Include="Commands\CmdAliases.cs" />
     <Compile Include="Commands\CmdClearchat.cs" />
+    <Compile Include="Commands\CmdClickdistance.cs" />
+    <Compile Include="Commands\CmdExtensions.cs" />
+    <Compile Include="Commands\CmdGCRules.cs" />
     <Compile Include="Commands\CmdListcommands.cs" />
     <Compile Include="Commands\CmdMaintenance.cs" />
+    <Compile Include="Commands\CmdOpChat.cs">
+      <SubType>Code</SubType>
+    </Compile>
+    <Compile Include="Commands\CmdPlugin.cs" />
     <Compile Include="Commands\CmdPossess.cs" />
+    <Compile Include="Commands\CmdShutdown.cs" />
     <Compile Include="Commands\CmdTColor.cs" />
     <Compile Include="Commands\CmdCmdUnload.cs" />
     <Compile Include="Commands\CmdCmdLoad.cs" />
@@ -127,6 +137,9 @@
     <Compile Include="Commands\CmdAward.cs" />
     <Compile Include="Commands\CmdAwards.cs" />
     <Compile Include="Commands\CmdAwardMod.cs" />
+    <Compile Include="Commands\CmdVoice.cs">
+      <SubType>Code</SubType>
+    </Compile>
     <Compile Include="CTFGame.cs" />
     <Compile Include="FindReference.cs" />
     <Compile Include="Color.cs" />
@@ -203,7 +216,6 @@
     <Compile Include="Commands\CmdUndo.cs" />
     <Compile Include="Commands\CmdUnload.cs" />
     <Compile Include="Commands\CmdUnloaded.cs" />
-    <Compile Include="Commands\CmdVoice.cs" />
     <Compile Include="Commands\CmdWhitelist.cs" />
     <Compile Include="Commands\CmdWhois.cs" />
     <Compile Include="Commands\CmdWhowas.cs" />
@@ -244,7 +256,6 @@
     <Compile Include="Commands\CmdCmdBind.cs" />
     <Compile Include="Commands\CmdRepeat.cs" />
     <Compile Include="Commands\CmdEmote.cs" />
-    <Compile Include="Commands\CmdOpChat.cs" />
     <Compile Include="Commands\CmdWhisper.cs" />
     <Compile Include="Commands\CmdRenameLvl.cs" />
     <Compile Include="Commands\CmdHollow.cs" />
@@ -264,7 +275,11 @@
     <Compile Include="Commands\CmdTrust.cs" />
     <Compile Include="Commands\CmdText.cs" />
     <Compile Include="Commands\CmdView.cs" />
+    <Compile Include="GlobalBot.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="GUI\FolderBrowserDialogEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="GUI\PropertyWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -291,6 +306,9 @@
     <Compile Include="Player\Player.cs" />
     <Compile Include="Player\PlayerBot.cs" />
     <Compile Include="Player\PlayerList.cs" />
+    <Compile Include="Plugins\Plugin.cs" />
+    <Compile Include="Plugins\PluginList.cs" />
+    <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Properties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GUI\Window.cs">
@@ -305,6 +323,8 @@
     <Compile Include="Queue\ICacheable.cs" />
     <Compile Include="Queue\MainLoop.cs" />
     <Compile Include="Queue\TorrentException.cs" />
+    <Compile Include="Remote\Remote.cs" />
+    <Compile Include="Remote\RemoteServer.cs" />
     <Compile Include="Scripting.cs" />
     <Compile Include="Server.cs" />
     <Compile Include="SongBeat.cs" />
@@ -320,6 +340,10 @@
     <EmbeddedResource Include="GUI\Window.resx">
       <DependentUpon>Window.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -350,7 +374,9 @@
   <ItemGroup>
     <None Include="app.config" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <None Include="Resources\Icon1.ico" />
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

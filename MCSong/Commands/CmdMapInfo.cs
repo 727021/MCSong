@@ -49,6 +49,7 @@ namespace MCSong
                 case 2: Player.SendMessage(p, "Physics are &aAdvanced" + Server.DefaultColor + " on &b" + foundLevel.name); break;
                 case 3: Player.SendMessage(p, "Physics are &aHardcore" + Server.DefaultColor + " on &b" + foundLevel.name); break;
                 case 4: Player.SendMessage(p, "Physics are &aInstant" + Server.DefaultColor + " on &b" + foundLevel.name); break;
+                case 5: Player.SendMessage(p, "Physics are &aDoors-Only" + Server.DefaultColor + " on &b" + foundLevel.name); break;
             }
 
             try

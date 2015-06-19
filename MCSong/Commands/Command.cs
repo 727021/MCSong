@@ -14,7 +14,6 @@
 */
 using System;
 using System.Collections.Generic;
-using MCSong.Commands;
 
 namespace MCSong
 {
@@ -42,7 +41,7 @@ namespace MCSong
         public static void InitAll()
         {
             // Development Commands - DO NOT USE
-            //all.Add(new CmdHeartbeat());
+            all.Add(new CmdHeartbeat());// Dev-only perms
             //all.Add(new CmdListcommands());
 
             // Building Commands
@@ -92,6 +91,7 @@ namespace MCSong
             all.Add(new CmdBotRemove());
             all.Add(new CmdBotSummon());
             all.Add(new CmdClearBlockChanges());
+            all.Add(new CmdClickdistance());
             all.Add(new CmdCmdSet());
             all.Add(new CmdCrashServer());
             all.Add(new CmdDeleteLvl());
@@ -128,6 +128,7 @@ namespace MCSong
             all.Add(new CmdSave());
             all.Add(new CmdSetRank());
             all.Add(new CmdSetspawn());
+            all.Add(new CmdShutdown());
             all.Add(new CmdTempBan());
             all.Add(new CmdTrust());
             all.Add(new CmdUnban());
@@ -144,6 +145,7 @@ namespace MCSong
             all.Add(new CmdBlocks());
             all.Add(new CmdClones());
             all.Add(new CmdDevs());
+            all.Add(new CmdGCRules());
             all.Add(new CmdHasirc());
             all.Add(new CmdHelp());
             all.Add(new CmdHost());
@@ -166,6 +168,8 @@ namespace MCSong
             all.Add(new CmdWhowas());
 
             // Other Commands
+            all.Add(new CmdAdminChat());
+            all.Add(new CmdAgree());
             all.Add(new CmdAward());
             all.Add(new CmdAwardMod());
             all.Add(new CmdAwards());
@@ -196,6 +200,7 @@ namespace MCSong
             all.Add(new CmdRainbow());
             all.Add(new CmdRepeat());
             all.Add(new CmdRide());
+            all.Add(new CmdPlugin());
             all.Add(new CmdRoll());
             all.Add(new CmdSay());
             all.Add(new CmdSend());

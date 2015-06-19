@@ -126,7 +126,7 @@ namespace MCSong
             parameters.GenerateExecutable = false;
             parameters.MainClass = commandName;
             parameters.OutputAssembly = dllpath + "Cmd" + commandName + ".dll";
-            parameters.ReferencedAssemblies.Add("MCLawl_.dll");
+            parameters.ReferencedAssemblies.Add("MCSong_.dll");
             StreamReader sr = new StreamReader(sourcepath + "cmd" + commandName + ".cs");
             results = compiler.CompileAssemblyFromSource(parameters, sr.ReadToEnd());
             sr.Dispose();

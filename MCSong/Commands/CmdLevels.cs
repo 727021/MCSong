@@ -21,7 +21,7 @@ namespace MCSong
     public class CmdLevels : Command
     {
         public override string name { get { return "levels"; } }
-        public override string[] aliases { get { return new string[] { "" }; } }
+        public override string[] aliases { get { return new string[] { "maps", "worlds" }; } }
         public override CommandType type { get { return CommandType.Information; } }
         public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }

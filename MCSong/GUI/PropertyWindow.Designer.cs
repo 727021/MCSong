@@ -29,8 +29,11 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(PropertyWindow));
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.cmbAdminChat = new System.Windows.Forms.ComboBox();
+            this.label36 = new System.Windows.Forms.Label();
             this.chkMaintKick = new System.Windows.Forms.CheckBox();
             this.cmbMaintenance = new System.Windows.Forms.ComboBox();
             this.label33 = new System.Windows.Forms.Label();
@@ -67,6 +70,7 @@
             this.ChkTunnels = new System.Windows.Forms.CheckBox();
             this.label7 = new System.Windows.Forms.Label();
             this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.btnBackupLocation = new System.Windows.Forms.Button();
             this.chkRepeatMessages = new System.Windows.Forms.CheckBox();
             this.chkForceCuboid = new System.Windows.Forms.CheckBox();
             this.txtShutdown = new System.Windows.Forms.TextBox();
@@ -150,7 +154,17 @@
             this.label6 = new System.Windows.Forms.Label();
             this.txtChannel = new System.Windows.Forms.TextBox();
             this.txtIRCServer = new System.Windows.Forms.TextBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.gbGlobal = new System.Windows.Forms.GroupBox();
+            this.button2 = new System.Windows.Forms.Button();
+            this.txtGlobalPassword = new System.Windows.Forms.TextBox();
+            this.chkGlobal = new System.Windows.Forms.CheckBox();
+            this.label37 = new System.Windows.Forms.Label();
+            this.cmbGlobalColor = new System.Windows.Forms.ComboBox();
+            this.chkGlobalIdentify = new System.Windows.Forms.CheckBox();
+            this.label40 = new System.Windows.Forms.Label();
+            this.txtGlobalNick = new System.Windows.Forms.TextBox();
+            this.lblGlobalColor = new System.Windows.Forms.Label();
+            this.label38 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnDiscard = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
@@ -164,6 +178,7 @@
             this.tabPage6.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.gbIRC.SuspendLayout();
+            this.gbGlobal.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -178,12 +193,14 @@
             this.tabControl.Location = new System.Drawing.Point(0, 12);
             this.tabControl.Name = "tabControl";
             this.tabControl.SelectedIndex = 0;
-            this.tabControl.Size = new System.Drawing.Size(345, 430);
+            this.tabControl.Size = new System.Drawing.Size(362, 430);
             this.tabControl.TabIndex = 0;
             // 
             // tabPage1
             // 
             this.tabPage1.AutoScroll = true;
+            this.tabPage1.Controls.Add(this.cmbAdminChat);
+            this.tabPage1.Controls.Add(this.label36);
             this.tabPage1.Controls.Add(this.chkMaintKick);
             this.tabPage1.Controls.Add(this.cmbMaintenance);
             this.tabPage1.Controls.Add(this.label33);
@@ -222,15 +239,34 @@
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage1.Size = new System.Drawing.Size(337, 404);
+            this.tabPage1.Size = new System.Drawing.Size(354, 404);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Server";
+            // 
+            // cmbAdminChat
+            // 
+            this.cmbAdminChat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAdminChat.FormattingEnabled = true;
+            this.cmbAdminChat.Location = new System.Drawing.Point(248, 289);
+            this.cmbAdminChat.Name = "cmbAdminChat";
+            this.cmbAdminChat.Size = new System.Drawing.Size(81, 21);
+            this.cmbAdminChat.TabIndex = 28;
+            this.toolTip.SetToolTip(this.cmbAdminChat, "Default rank required to read admin chat.");
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(151, 292);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(87, 13);
+            this.label36.TabIndex = 27;
+            this.label36.Text = "Admin Chat rank:";
             // 
             // chkMaintKick
             // 
             this.chkMaintKick.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkMaintKick.AutoSize = true;
-            this.chkMaintKick.Location = new System.Drawing.Point(227, 260);
+            this.chkMaintKick.Location = new System.Drawing.Point(227, 196);
             this.chkMaintKick.Name = "chkMaintKick";
             this.chkMaintKick.Size = new System.Drawing.Size(101, 23);
             this.chkMaintKick.TabIndex = 2;
@@ -241,7 +277,7 @@
             // 
             this.cmbMaintenance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
             this.cmbMaintenance.FormattingEnabled = true;
-            this.cmbMaintenance.Location = new System.Drawing.Point(247, 289);
+            this.cmbMaintenance.Location = new System.Drawing.Point(247, 225);
             this.cmbMaintenance.Name = "cmbMaintenance";
             this.cmbMaintenance.Size = new System.Drawing.Size(81, 21);
             this.cmbMaintenance.TabIndex = 26;
@@ -250,7 +286,7 @@
             // label33
             // 
             this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(140, 292);
+            this.label33.Location = new System.Drawing.Point(140, 228);
             this.label33.Name = "label33";
             this.label33.Size = new System.Drawing.Size(98, 13);
             this.label33.TabIndex = 25;
@@ -575,6 +611,7 @@
             // tabPage4
             // 
             this.tabPage4.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage4.Controls.Add(this.btnBackupLocation);
             this.tabPage4.Controls.Add(this.chkRepeatMessages);
             this.tabPage4.Controls.Add(this.chkForceCuboid);
             this.tabPage4.Controls.Add(this.txtShutdown);
@@ -608,9 +645,22 @@
             this.tabPage4.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.tabPage4.Location = new System.Drawing.Point(4, 22);
             this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(337, 404);
+            this.tabPage4.Size = new System.Drawing.Size(354, 404);
             this.tabPage4.TabIndex = 3;
             this.tabPage4.Text = "Misc";
+            // 
+            // btnBackupLocation
+            // 
+            this.btnBackupLocation.Enabled = false;
+            this.btnBackupLocation.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnBackupLocation.Image = ((System.Drawing.Image)(resources.GetObject("btnBackupLocation.Image")));
+            this.btnBackupLocation.Location = new System.Drawing.Point(300, 10);
+            this.btnBackupLocation.Margin = new System.Windows.Forms.Padding(0);
+            this.btnBackupLocation.Name = "btnBackupLocation";
+            this.btnBackupLocation.Size = new System.Drawing.Size(28, 23);
+            this.btnBackupLocation.TabIndex = 30;
+            this.btnBackupLocation.UseVisualStyleBackColor = true;
+            this.btnBackupLocation.Click += new System.EventHandler(this.btnBackupLocation_Click);
             // 
             // chkRepeatMessages
             // 
@@ -860,7 +910,7 @@
             // 
             this.txtBackupLocation.Location = new System.Drawing.Point(60, 12);
             this.txtBackupLocation.Name = "txtBackupLocation";
-            this.txtBackupLocation.Size = new System.Drawing.Size(262, 21);
+            this.txtBackupLocation.Size = new System.Drawing.Size(234, 21);
             this.txtBackupLocation.TabIndex = 2;
             // 
             // txtMoneys
@@ -915,7 +965,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(337, 404);
+            this.tabPage2.Size = new System.Drawing.Size(354, 404);
             this.tabPage2.TabIndex = 4;
             this.tabPage2.Text = "Ranks";
             // 
@@ -1060,7 +1110,7 @@
             this.tabPage3.Controls.Add(this.listCommands);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(337, 404);
+            this.tabPage3.Size = new System.Drawing.Size(354, 404);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Commands";
             this.toolTip.SetToolTip(this.tabPage3, "Which ranks can use which commands.");
@@ -1159,7 +1209,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(337, 404);
+            this.tabPage5.Size = new System.Drawing.Size(354, 404);
             this.tabPage5.TabIndex = 5;
             this.tabPage5.Text = "Blocks";
             // 
@@ -1248,7 +1298,7 @@
             this.tabPage6.Controls.Add(this.tableLayoutPanel1);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(337, 404);
+            this.tabPage6.Size = new System.Drawing.Size(354, 404);
             this.tabPage6.TabIndex = 6;
             this.tabPage6.Text = "IRC/Global";
             // 
@@ -1257,14 +1307,14 @@
             this.tableLayoutPanel1.ColumnCount = 1;
             this.tableLayoutPanel1.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
             this.tableLayoutPanel1.Controls.Add(this.gbIRC, 0, 0);
-            this.tableLayoutPanel1.Controls.Add(this.groupBox2, 0, 1);
+            this.tableLayoutPanel1.Controls.Add(this.gbGlobal, 0, 1);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 0);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(337, 404);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(354, 404);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // gbIRC
@@ -1287,7 +1337,7 @@
             this.gbIRC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbIRC.Location = new System.Drawing.Point(3, 3);
             this.gbIRC.Name = "gbIRC";
-            this.gbIRC.Size = new System.Drawing.Size(331, 196);
+            this.gbIRC.Size = new System.Drawing.Size(348, 196);
             this.gbIRC.TabIndex = 0;
             this.gbIRC.TabStop = false;
             this.gbIRC.Text = "IRC";
@@ -1402,6 +1452,7 @@
             this.cmbIRCColour.Size = new System.Drawing.Size(57, 21);
             this.cmbIRCColour.TabIndex = 23;
             this.toolTip.SetToolTip(this.cmbIRCColour, "The colour of the IRC nicks used in the IRC.");
+            this.cmbIRCColour.SelectedIndexChanged += new System.EventHandler(this.cmbIRCColour_SelectedIndexChanged);
             // 
             // label6
             // 
@@ -1429,15 +1480,121 @@
             this.toolTip.SetToolTip(this.txtIRCServer, "The IRC server to be used.\nDefault = irc.esper.net\nBetter choice = irc.foonetic.n" +
         "et");
             // 
-            // groupBox2
+            // gbGlobal
             // 
-            this.groupBox2.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.groupBox2.Location = new System.Drawing.Point(3, 205);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(331, 196);
-            this.groupBox2.TabIndex = 1;
-            this.groupBox2.TabStop = false;
-            this.groupBox2.Text = "Global Chat";
+            this.gbGlobal.Controls.Add(this.button2);
+            this.gbGlobal.Controls.Add(this.txtGlobalPassword);
+            this.gbGlobal.Controls.Add(this.chkGlobal);
+            this.gbGlobal.Controls.Add(this.label37);
+            this.gbGlobal.Controls.Add(this.cmbGlobalColor);
+            this.gbGlobal.Controls.Add(this.chkGlobalIdentify);
+            this.gbGlobal.Controls.Add(this.label40);
+            this.gbGlobal.Controls.Add(this.txtGlobalNick);
+            this.gbGlobal.Controls.Add(this.lblGlobalColor);
+            this.gbGlobal.Controls.Add(this.label38);
+            this.gbGlobal.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.gbGlobal.Location = new System.Drawing.Point(3, 205);
+            this.gbGlobal.Name = "gbGlobal";
+            this.gbGlobal.Size = new System.Drawing.Size(348, 196);
+            this.gbGlobal.TabIndex = 1;
+            this.gbGlobal.TabStop = false;
+            this.gbGlobal.Text = "Global Chat";
+            // 
+            // button2
+            // 
+            this.button2.Location = new System.Drawing.Point(107, 20);
+            this.button2.Name = "button2";
+            this.button2.Size = new System.Drawing.Size(105, 23);
+            this.button2.TabIndex = 38;
+            this.button2.Text = "Generate New Nick";
+            this.button2.UseVisualStyleBackColor = true;
+            this.button2.Click += new System.EventHandler(this.button2_Click);
+            // 
+            // txtGlobalPassword
+            // 
+            this.txtGlobalPassword.Location = new System.Drawing.Point(66, 80);
+            this.txtGlobalPassword.Name = "txtGlobalPassword";
+            this.txtGlobalPassword.Size = new System.Drawing.Size(94, 21);
+            this.txtGlobalPassword.TabIndex = 36;
+            // 
+            // chkGlobal
+            // 
+            this.chkGlobal.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkGlobal.AutoSize = true;
+            this.chkGlobal.Location = new System.Drawing.Point(9, 20);
+            this.chkGlobal.Name = "chkGlobal";
+            this.chkGlobal.Size = new System.Drawing.Size(92, 23);
+            this.chkGlobal.TabIndex = 30;
+            this.chkGlobal.Text = "Use Global Chat";
+            this.toolTip.SetToolTip(this.chkGlobal, "Whether to use MCSong Global Chat. Global Chat allows you to talk to all other MC" +
+        "Song servers with it enabled.");
+            this.chkGlobal.UseVisualStyleBackColor = true;
+            this.chkGlobal.CheckedChanged += new System.EventHandler(this.chkGlobal_CheckedChanged);
+            // 
+            // label37
+            // 
+            this.label37.AutoSize = true;
+            this.label37.Location = new System.Drawing.Point(5, 83);
+            this.label37.Name = "label37";
+            this.label37.Size = new System.Drawing.Size(56, 13);
+            this.label37.TabIndex = 37;
+            this.label37.Text = "Password:";
+            // 
+            // cmbGlobalColor
+            // 
+            this.cmbGlobalColor.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbGlobalColor.FormattingEnabled = true;
+            this.cmbGlobalColor.Location = new System.Drawing.Point(232, 53);
+            this.cmbGlobalColor.Name = "cmbGlobalColor";
+            this.cmbGlobalColor.Size = new System.Drawing.Size(57, 21);
+            this.cmbGlobalColor.TabIndex = 33;
+            this.toolTip.SetToolTip(this.cmbGlobalColor, "The colour of the GC nicks used in the GC.");
+            this.cmbGlobalColor.SelectedIndexChanged += new System.EventHandler(this.cmbGlobalColor_SelectedIndexChanged);
+            // 
+            // chkGlobalIdentify
+            // 
+            this.chkGlobalIdentify.AutoSize = true;
+            this.chkGlobalIdentify.Location = new System.Drawing.Point(165, 82);
+            this.chkGlobalIdentify.Name = "chkGlobalIdentify";
+            this.chkGlobalIdentify.Size = new System.Drawing.Size(126, 17);
+            this.chkGlobalIdentify.TabIndex = 35;
+            this.chkGlobalIdentify.Text = "Identify with NickServ";
+            this.chkGlobalIdentify.UseVisualStyleBackColor = true;
+            this.chkGlobalIdentify.CheckedChanged += new System.EventHandler(this.chkGlobalIdentify_CheckedChanged);
+            // 
+            // label40
+            // 
+            this.label40.AutoSize = true;
+            this.label40.Location = new System.Drawing.Point(177, 56);
+            this.label40.Name = "label40";
+            this.label40.Size = new System.Drawing.Size(49, 13);
+            this.label40.TabIndex = 32;
+            this.label40.Text = "GC color:";
+            // 
+            // txtGlobalNick
+            // 
+            this.txtGlobalNick.Location = new System.Drawing.Point(66, 53);
+            this.txtGlobalNick.Name = "txtGlobalNick";
+            this.txtGlobalNick.Size = new System.Drawing.Size(94, 21);
+            this.txtGlobalNick.TabIndex = 30;
+            this.toolTip.SetToolTip(this.txtGlobalNick, "The Nick that Global Chat will try to use");
+            // 
+            // lblGlobalColor
+            // 
+            this.lblGlobalColor.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblGlobalColor.Location = new System.Drawing.Point(295, 53);
+            this.lblGlobalColor.Name = "lblGlobalColor";
+            this.lblGlobalColor.Size = new System.Drawing.Size(21, 21);
+            this.lblGlobalColor.TabIndex = 34;
+            // 
+            // label38
+            // 
+            this.label38.AutoSize = true;
+            this.label38.Location = new System.Drawing.Point(31, 54);
+            this.label38.Name = "label38";
+            this.label38.Size = new System.Drawing.Size(30, 13);
+            this.label38.TabIndex = 31;
+            this.label38.Text = "Nick:";
             // 
             // btnSave
             // 
@@ -1464,7 +1621,7 @@
             // btnApply
             // 
             this.btnApply.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApply.Location = new System.Drawing.Point(266, 448);
+            this.btnApply.Location = new System.Drawing.Point(280, 447);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 1;
@@ -1486,7 +1643,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(345, 475);
+            this.ClientSize = new System.Drawing.Size(361, 475);
             this.Controls.Add(this.btnApply);
             this.Controls.Add(this.btnDiscard);
             this.Controls.Add(this.btnSave);
@@ -1514,6 +1671,8 @@
             this.tableLayoutPanel1.ResumeLayout(false);
             this.gbIRC.ResumeLayout(false);
             this.gbIRC.PerformLayout();
+            this.gbGlobal.ResumeLayout(false);
+            this.gbGlobal.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -1642,9 +1801,22 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.TextBox txtChannel;
         private System.Windows.Forms.TextBox txtIRCServer;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox gbGlobal;
         private System.Windows.Forms.TextBox txtIrcPass;
         private System.Windows.Forms.Label label35;
         private System.Windows.Forms.CheckBox chkIrcIdentify;
+        private System.Windows.Forms.ComboBox cmbAdminChat;
+        private System.Windows.Forms.Label label36;
+        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.TextBox txtGlobalPassword;
+        private System.Windows.Forms.CheckBox chkGlobal;
+        private System.Windows.Forms.Label label37;
+        private System.Windows.Forms.ComboBox cmbGlobalColor;
+        private System.Windows.Forms.CheckBox chkGlobalIdentify;
+        private System.Windows.Forms.Label label40;
+        private System.Windows.Forms.TextBox txtGlobalNick;
+        private System.Windows.Forms.Label lblGlobalColor;
+        private System.Windows.Forms.Label label38;
+        private System.Windows.Forms.Button btnBackupLocation;
     }
 }

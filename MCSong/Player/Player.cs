@@ -27,6 +27,32 @@ namespace MCSong
 {
     public sealed class Player
     {
+        #region Events
+
+        public bool noKick = false, noSendMessage = false, noJoin = false, noBlockchange = false;
+
+        // Kick
+        public delegate void OnPlayerKickedEventHandler(Player p, string reason);
+        public static event OnPlayerKickedEventHandler OnPlayerKickedEvent = null;
+        public delegate void OnKickedEventHandler(string reason);
+        public event OnKickedEventHandler OnKickedEvent = null;
+        // SendMessage
+        public delegate void OnPlayerSendMessageEventHandler(Player p, string message);
+        public static event OnPlayerSendMessageEventHandler OnPlayerSendMessageEvent = null;
+        public delegate void OnSendMessageEventHandler(string message);
+        public event OnSendMessageEventHandler OnSendMessageEvent = null;
+        // Join
+        public delegate void OnPlayerJoinEventHandler(Player p);
+        public static event OnPlayerJoinEventHandler OnPlayerJoinEvent = null;
+        // Blockchange
+        public delegate void OnPlayerBlockchangeEventHandler(Player p, ushort x, ushort y, ushort z, byte type);
+        public static event OnPlayerBlockchangeEventHandler OnPlayerBlockchangeEvent = null;
+        public delegate void OnBlockchangeEventHandler(ushort x, ushort y, ushort z, byte type);
+        public event OnBlockchangeEventHandler OnBlockchangeEvent = null;
+
+        #endregion
+
+
         public static List<Player> players = new List<Player>();
         public static Dictionary<string, string> left = new Dictionary<string, string>();
         public static List<Player> connections = new List<Player>(Server.players);
@@ -76,6 +102,8 @@ namespace MCSong
         public bool parseSmiley = true;
         public bool smileySaved = true;
         public bool opchat = false;
+        public bool adminchat = false;
+        public bool gcRead = false;
         public bool onWhitelist = false;
         public bool whisper = false;
         public string whisperTo = "";
@@ -122,6 +150,8 @@ namespace MCSong
         public bool voice = false;
         public string voicestring = "";
 
+        public string agreestring = "";
+
         //CTF
         public Team team;
         public Team hasflag;
@@ -136,10 +166,12 @@ namespace MCSong
         public bool cpe = false;
         public string cpeName = "";
         public short cpeCount = 0;
+
+        private int cpeExtSent = 0;
         // extensions (set to true if shared by client/server)
         public bool cpeClickDistance = false;
 
-        private int cpeExtSent = 0;
+        
 
 
         public short clickDistance = 160;
@@ -202,6 +234,8 @@ namespace MCSong
         public static int spamChatCount = 3;
         public static int spamChatTimer = 4;
         Queue<DateTime> spamChatLog = new Queue<DateTime>(spamChatCount);
+
+        public object[] CustomCommandVars = new object[] { };
 
         public bool loggedIn = false;
         public Player(Socket s)
@@ -282,6 +316,7 @@ namespace MCSong
                         if (!Group.Find("Nobody").commands.Contains("award") && !Group.Find("Nobody").commands.Contains("awards") && !Group.Find("Nobody").commands.Contains("awardmod")) SendMessage("You have " + Awards.awardAmount(name) + " awards.");
                     }
                     catch { }
+
                 };
 
                 afkTimer.Elapsed += delegate
@@ -371,7 +406,7 @@ namespace MCSong
                 p.socket.BeginReceive(p.tempbuffer, 0, p.tempbuffer.Length, SocketFlags.None,
                                       new AsyncCallback(Receive), p);
             }
-            catch (SocketException e)
+            catch (SocketException)
             {
                 p.Disconnect();
             }
@@ -487,6 +522,16 @@ namespace MCSong
                 name = enc.GetString(message, 1, 64).Trim();
                 string verify = enc.GetString(message, 65, 32).Trim();
                 byte type = message[129];
+
+                if (OnPlayerJoinEvent != null) OnPlayerJoinEvent(this);
+
+                if (noJoin)
+                {
+                    try { this.Disconnect(); }
+                    catch { }
+                    return;
+                }
+
                 try
                 {
                     Server.TempBan tBan = Server.tempBans.Find(tB => tB.name.ToLower() == name.ToLower());
@@ -622,6 +667,7 @@ namespace MCSong
                 
                 try { left.Remove(name.ToLower()); }
                 catch { }
+
                 group = Group.findPlayerGroup(name);
 
                 if (Server.cpe && cpe)
@@ -846,6 +892,10 @@ namespace MCSong
                 Kick("Unknown block type!");
                 return;
             }
+
+            if (OnPlayerBlockchangeEvent != null) OnPlayerBlockchangeEvent(this, x, y, z, type);
+            if (OnBlockchangeEvent != null) OnBlockchangeEvent(x, y, z, type);
+            if (noBlockchange) return;
 
             byte b = level.GetTile(x, y, z);
             if (b == Block.Zero) { return; }
@@ -1523,9 +1573,31 @@ namespace MCSong
                     GlobalMessageOps("To Ops &f-" + color + name + "&f- " + newtext);
                     if (group.Permission < Server.opchatperm && !Server.devs.Contains(name.ToLower()))
                         SendMessage("To Ops &f-" + color + name + "&f- " + newtext);
-                    Server.s.Log("(OPs): " + name + ": " + newtext);
+                    Server.s.LogOp(name + ": " + newtext);
                     IRCBot.Say(name + ": " + newtext, true);
                     return;
+                }
+                if (text[0] == ';' || adminchat)
+                {
+                    string newtext = text;
+                    if (text[0] == ';') newtext = text.Remove(0, 1).Trim();
+
+                    GlobalMessageAdmins("To Admins &f-" + color + name + "&f- " + newtext);
+                    if (group.Permission < Server.adminchatperm && !Server.devs.Contains(name.ToLower()))
+                        SendMessage("To Admins &f-" + color + name + "&f- " + newtext);
+                    Server.s.LogAdmin(name + ": " + newtext);
+                    IRCBot.Say(name + ": " + newtext, true);
+                    return;
+                }
+                if (text[0] == '\\')
+                {
+                    if (!Server.gc) { SendMessage("Global Chat is currently disabled."); return; }
+                    if (!Server.gcAgreed.Contains(name)) { SendMessage("You must agree to the /gcrules before using Global Chat."); return; }
+                    string newtext = text.Remove(0, 1).Trim();
+
+                    GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] " + name + ": &f" + newtext);
+                    Server.s.LogGC("[" + Server.gcNick + "] " + name + ": " + newtext);
+                    GlobalBot.Say(name + ": " + newtext);
                 }
 
                 if (this.teamchat)
@@ -1680,41 +1752,31 @@ namespace MCSong
 
                     switch (cmd.ToLower())
                     {    //Check for command switching
-                        case "guest": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
-                        case "builder": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
-                        case "advbuilder":
-                        case "adv": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
-                        case "operator":
-                        case "op": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
-                        case "super":
-                        case "superop": message = message + " " + cmd.ToLower(); cmd = "setrank"; break;
-                        case "cut": cmd = "copy"; message = "cut"; break;
-                        case "admins": message = "superop"; cmd = "viewranks"; break;
-                        case "ops": message = "op"; cmd = "viewranks"; break;
-                        case "banned": message = cmd; cmd = "viewranks"; break;
-
-                        case "ps": message = "ps " + message; cmd = "map"; break;
-
-                        //How about we start adding commands from other softwares
-                        //and seamlessly switch here?
-                        case "bhb":
-                        case "hbox": cmd = "cuboid"; message = "hollow"; break;
-                        case "blb":
-                        case "box": cmd = "cuboid"; break;
-                        case "sphere": cmd = "spheroid"; break;
-                        case "cmdlist":
-                        case "commands":
-                        case "cmdhelp": cmd = "help"; break;
-                        case "who": cmd = "players"; break;
-                        case "worlds":
-                        case "maps": cmd = "levels"; break;
-                        case "mapsave": cmd = "save"; break;
-                        case "mapload": cmd = "load"; break;
-                        case "materials": cmd = "blocks"; break;
+                        case "cut": cmd = "copy"; message = "cut"; goto retry;
+                        case "ps": message = "ps " + message; cmd = "map"; goto retry;
 
                         default: retry = false; break;  //Unknown command, then
                     }
 
+                    foreach (Group grp in Group.GroupList)
+                    {
+                        if (cmd.ToLower() == grp.name.ToLower())
+                        {
+                            message = message + " " + cmd.ToLower();
+                            cmd = "setrank";
+                            retry = true;
+                            break;
+                        }
+                        if (cmd.ToLower() == grp.name.ToLower() + "s")
+                        {
+                            message = cmd;
+                            cmd = "viewranks";
+                            retry = true;
+                            break;
+                        }
+                    }
+
+                retry:
                     if (retry) HandleCommand(cmd, message);
                     else SendMessage("Unknown command \"" + cmd + "\"!");
                 }
@@ -1888,6 +1950,11 @@ namespace MCSong
             int totalTries = 0;
         retryTag: try
             {
+
+                if (OnPlayerSendMessageEvent != null) OnPlayerSendMessageEvent(this, message);
+                if (OnSendMessageEvent != null) OnSendMessageEvent(message);
+                if (noSendMessage) return;
+
                 foreach (string line in Wordwrap(message))
                 {
                     string newLine = line;
@@ -2001,9 +2068,11 @@ namespace MCSong
 
         public void SendClickDistance(short distance)
         {
+            clickDistance = distance;
             byte[] buffer = new byte[2];
             HTNO(distance).CopyTo(buffer, 0);
             SendRaw(18, buffer);
+            Server.s.Log(name + "'s click distance was set to " + distance);
         }
 
         public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty)
@@ -2206,6 +2275,20 @@ namespace MCSong
         {
             players.ForEach(delegate(Player p) { if (p.level == l) Player.SendMessage(p, message); });
         }
+        public static void GlobalMessageGC(string message)
+        {
+            try
+            {
+                players.ForEach(delegate(Player p)
+                {
+                    if (Server.gcAgreed.Contains(p.name) || Server.devs.Contains(p.name.ToLower()))
+                    {
+                        Player.SendMessage(p, message);
+                    }
+                });
+            }
+            catch { Server.s.Log("Error occured with Global Chat"); }
+        }
         public static void GlobalMessageOps(string message)
         {
             try
@@ -2219,6 +2302,20 @@ namespace MCSong
                 });
             }
             catch { Server.s.Log("Error occured with Op Chat"); }
+        }
+        public static void GlobalMessageAdmins(string message)
+        {
+            try
+            {
+                players.ForEach(delegate(Player p)
+                {
+                    if (p.group.Permission >= Server.adminchatperm || Server.devs.Contains(p.name.ToLower()))
+                    {
+                        Player.SendMessage(p, message);
+                    }
+                });
+            }
+            catch { Server.s.Log("Error occured with Admin Chat"); }
         }
         public static void GlobalSpawn(Player from, ushort x, ushort y, ushort z, byte rotx, byte roty, bool self, string possession = "")
         {
@@ -2268,7 +2365,13 @@ namespace MCSong
         #endregion
         #region == DISCONNECTING ==
         public void Disconnect() { leftGame(); }
-        public void Kick(string kickString) { leftGame(kickString); }
+        public void Kick(string kickString)
+        {
+            if (Player.OnPlayerKickedEvent != null) OnPlayerKickedEvent(this, kickString);
+            if (this.OnKickedEvent != null) OnKickedEvent(kickString);
+            if (noKick) return;
+            leftGame(kickString);
+        }
 
         public void leftGame(string kickString = "", bool skip = false)
         {

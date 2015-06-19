@@ -462,7 +462,7 @@ namespace MCSong
             {
                 string[] lines = File.ReadAllLines("properties/block.properties");
 
-                if (lines.Length == 0) ;
+                if (lines.Length == 0) { }
                 else if (lines[0] == "#Version 2")
                 {
                     string[] colon = new string[] { " : " };

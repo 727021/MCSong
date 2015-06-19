@@ -30,7 +30,7 @@ namespace MCSong
 
         public override void Use(Player p, string message)
         {
-            MCLawl_.Gui.Program.UpdateCheck(false, p);
+            MCSong_.Gui.Program.UpdateCheck(false, p);
         }
         public override void Help(Player p)
         {

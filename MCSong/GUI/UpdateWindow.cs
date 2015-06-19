@@ -48,6 +48,11 @@ namespace MCSong.Gui
             }
         }
 
+        private void UpdateWindow_Unload(object sender, EventArgs e)
+        {
+            Window.updLoaded = false;
+        }
+
 
         public void UpdSave(string givenPath)
         {
@@ -126,10 +131,10 @@ namespace MCSong.Gui
         {
             if (Server.selectedrevision != "")
             {
-                MCLawl_.Gui.Program.PerformUpdate(true);
+                MCSong_.Gui.Program.PerformUpdate(true);
                 
             }
-            else { MCLawl_.Gui.Program.PerformUpdate(false); }
+            else { MCSong_.Gui.Program.PerformUpdate(false); }
       /*      if (!Program.CurrentUpdate)
                 Program.UpdateCheck();
             else

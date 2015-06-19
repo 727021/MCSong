@@ -30,11 +30,21 @@ namespace MCSong
 
         public override void Use(Player p, string message)
         {
+            if (message.ToLower() == "global")
+            {
+                Player.SendMessage(p, "Reloading the Global Chat bot...");
+                GlobalBot.Reset();
+                Player.SendMessage(p, "Global Chat bot was reloaded.");
+                return;
+            }
+            Player.SendMessage(p, "Reloading the IRCBot...");
             IRCBot.Reset();
+            Player.SendMessage(p, "IRCBot was reloaded.");
         }
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/resetbot - reloads the IRCBot. FOR EMERGENCIES ONLY!");
+            Player.SendMessage(p, "/resetbot global - reloads the Global Chat bot.");
         }
     }
 }
