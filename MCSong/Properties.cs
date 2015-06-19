@@ -147,6 +147,18 @@ namespace MCSong
                             case "irc-password":
                                 Server.ircPassword = value;
                                 break;
+                            case "global-chat":
+                                Server.gc = (value.ToLower() == "true") ? true : false;
+                                break;
+                            case "gc-nick":
+                                Server.gcNick = value;
+                                break;
+                            case "gc-identify":
+                                Server.gcIdentify = (value.ToLower() == "true") ? true : false;
+                                break;
+                            case "gc-password":
+                                Server.gcPassword = value;
+                                break;
                             case "anti-tunnels":
                                 Server.antiTunnel = (value.ToLower() == "true") ? true : false;
                                 break;
@@ -231,6 +243,14 @@ namespace MCSong
                                 }
                                 Server.IRCColour = color;
                                 break;
+                            case "gc-color":
+                                color = c.Parse(value);
+                                if (color == "")
+                                {
+                                    color = c.Name(value); if (color != "") color = value; else { Server.s.Log("Could not find " + value); return; }
+                                }
+                                Server.gcColor = color;
+                                break;
                             case "old-help":
                                 try { Server.oldHelp = bool.Parse(value); }
                                 catch { Server.s.Log("Invalid " + key + ". Using default."); break; }
@@ -262,6 +282,18 @@ namespace MCSong
                                     Server.opchatperm = (LevelPermission)parsed;
                                 }
                                 catch { Server.s.Log("Invalid " + key + ".  Using default."); break; }
+                                break;
+                            case "adminchat-perm":
+                                try
+                                {
+                                    sbyte parsed = sbyte.Parse(value);
+                                    if (parsed < -50 || parsed > 120)
+                                    {
+                                        throw new FormatException();
+                                    }
+                                    Server.adminchatperm = (LevelPermission)parsed;
+                                }
+                                catch { Server.s.Log("Invalid " + key + ". Using default."); break; }
                                 break;
                             case "log-heartbeat":
                                 try { Server.logbeat = bool.Parse(value); }
@@ -465,6 +497,12 @@ namespace MCSong
                     w.WriteLine("irc-identify = " + Server.ircIdentify.ToString());
                     w.WriteLine("irc-password = " + Server.ircPassword);
                     w.WriteLine();
+                    w.WriteLine("# Global Chat");
+                    w.WriteLine("global-chat = " + Server.gc.ToString().ToLower());
+                    w.WriteLine("gc-nick = " + Server.gcNick);
+                    w.WriteLine("gc-identify = " + Server.gcIdentify.ToString().ToLower());
+                    w.WriteLine("gc-password = " + Server.gcPassword);
+                    w.WriteLine();
                     w.WriteLine("# other options");
                     w.WriteLine("anti-tunnels = " + Server.antiTunnel.ToString().ToLower());
                     w.WriteLine("max-depth = " + Server.maxDepth.ToString().ToLower());
@@ -480,6 +518,7 @@ namespace MCSong
                     w.WriteLine("use-whitelist = " + Server.useWhitelist.ToString().ToLower());
                     w.WriteLine("money-name = " + Server.moneys);
                     w.WriteLine("opchat-perm = " + ((sbyte)Server.opchatperm).ToString());
+                    w.WriteLine("adminchat-perm = " + ((sbyte)Server.adminchatperm).ToString());
                     w.WriteLine("maintenance-perm = " + ((sbyte)Server.opchatperm).ToString());
                     w.WriteLine("maintenance-kick = " + Server.maintKick.ToString().ToLower());
                     w.WriteLine("log-heartbeat = " + Server.logbeat.ToString());
@@ -506,6 +545,7 @@ namespace MCSong
                     w.WriteLine("#Colors");
                     w.WriteLine("defaultColor = " + Server.DefaultColor);
                     w.WriteLine("irc-color = " + Server.IRCColour);
+                    w.WriteLine("gc-color = " + Server.gcColor);
                     w.WriteLine();
                     w.WriteLine("#Running on mono?");
                     w.WriteLine("mono = " + Server.mono);

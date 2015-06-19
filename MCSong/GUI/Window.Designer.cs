@@ -61,8 +61,9 @@ namespace MCSong.Gui
             this.components = new System.ComponentModel.Container();
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.btnPlay = new System.Windows.Forms.Button();
             this.chkMaintenance = new System.Windows.Forms.CheckBox();
-            this.label2 = new System.Windows.Forms.Label();
+            this.lblCopyright = new System.Windows.Forms.Label();
             this.groupBox3 = new System.Windows.Forms.GroupBox();
             this.txtHost = new System.Windows.Forms.TextBox();
             this.label1 = new System.Windows.Forms.Label();
@@ -86,6 +87,19 @@ namespace MCSong.Gui
             this.txtInput = new System.Windows.Forms.TextBox();
             this.txtUrl = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.groupBox14 = new System.Windows.Forms.GroupBox();
+            this.txtAdminOut = new System.Windows.Forms.TextBox();
+            this.btnAdminChat = new System.Windows.Forms.Button();
+            this.txtAdminIn = new System.Windows.Forms.TextBox();
+            this.groupBox15 = new System.Windows.Forms.GroupBox();
+            this.txtOpOut = new System.Windows.Forms.TextBox();
+            this.btnOpChat = new System.Windows.Forms.Button();
+            this.txtOpIn = new System.Windows.Forms.TextBox();
+            this.groupBox16 = new System.Windows.Forms.GroupBox();
+            this.txtGlobalOut = new System.Windows.Forms.TextBox();
+            this.btnGlobalChat = new System.Windows.Forms.Button();
+            this.txtGlobalIn = new System.Windows.Forms.TextBox();
             this.tpPlayers = new System.Windows.Forms.TabPage();
             this.panel1 = new System.Windows.Forms.Panel();
             this.txtPlayerCount = new System.Windows.Forms.TextBox();
@@ -127,6 +141,8 @@ namespace MCSong.Gui
             this.button3 = new System.Windows.Forms.Button();
             this.btnLoadLevel = new System.Windows.Forms.Button();
             this.tpChangelog = new System.Windows.Forms.TabPage();
+            this.txtLatestVersion = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
             this.txtCurrentVersion = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
             this.btnChangelog = new System.Windows.Forms.Button();
@@ -138,11 +154,30 @@ namespace MCSong.Gui
             this.gbErrors = new System.Windows.Forms.GroupBox();
             this.txtErrors = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+            this.label8 = new System.Windows.Forms.Label();
+            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
+            this.label7 = new System.Windows.Forms.Label();
+            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.linkLabel1 = new System.Windows.Forms.LinkLabel();
+            this.label5 = new System.Windows.Forms.Label();
+            this.lblInfoVersion = new System.Windows.Forms.Label();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
+            this.linkLabel10 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel9 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel8 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel7 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel6 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.txtDevList = new System.Windows.Forms.TextBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
             this.tmrRestart = new System.Windows.Forms.Timer(this.components);
             this.iconContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
             this.shutdownServer = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnPlay = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -150,6 +185,11 @@ namespace MCSong.Gui
             this.groupBox2.SuspendLayout();
             this.gBCommands.SuspendLayout();
             this.gBChat.SuspendLayout();
+            this.tabPage2.SuspendLayout();
+            this.tableLayoutPanel3.SuspendLayout();
+            this.groupBox14.SuspendLayout();
+            this.groupBox15.SuspendLayout();
+            this.groupBox16.SuspendLayout();
             this.tpPlayers.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
@@ -164,6 +204,10 @@ namespace MCSong.Gui
             this.tableLayoutPanel2.SuspendLayout();
             this.groupBox1.SuspendLayout();
             this.gbErrors.SuspendLayout();
+            this.tabPage3.SuspendLayout();
+            this.groupBox13.SuspendLayout();
+            this.groupBox12.SuspendLayout();
+            this.groupBox11.SuspendLayout();
             this.iconContext.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -190,7 +234,7 @@ namespace MCSong.Gui
             this.tabPage1.BackColor = System.Drawing.Color.Transparent;
             this.tabPage1.Controls.Add(this.btnPlay);
             this.tabPage1.Controls.Add(this.chkMaintenance);
-            this.tabPage1.Controls.Add(this.label2);
+            this.tabPage1.Controls.Add(this.lblCopyright);
             this.tabPage1.Controls.Add(this.groupBox3);
             this.tabPage1.Controls.Add(this.groupBox9);
             this.tabPage1.Controls.Add(this.groupBox2);
@@ -204,6 +248,16 @@ namespace MCSong.Gui
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Main";
             // 
+            // btnPlay
+            // 
+            this.btnPlay.Location = new System.Drawing.Point(392, 7);
+            this.btnPlay.Name = "btnPlay";
+            this.btnPlay.Size = new System.Drawing.Size(40, 23);
+            this.btnPlay.TabIndex = 39;
+            this.btnPlay.Text = "Play";
+            this.btnPlay.UseVisualStyleBackColor = true;
+            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
+            // 
             // chkMaintenance
             // 
             this.chkMaintenance.AutoSize = true;
@@ -215,13 +269,13 @@ namespace MCSong.Gui
             this.chkMaintenance.UseVisualStyleBackColor = true;
             this.chkMaintenance.Click += new System.EventHandler(this.chkMaintenance_Click);
             // 
-            // label2
+            // lblCopyright
             // 
-            this.label2.Location = new System.Drawing.Point(517, 464);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(46, 13);
-            this.label2.TabIndex = 36;
-            this.label2.Text = "© 2015";
+            this.lblCopyright.Location = new System.Drawing.Point(517, 464);
+            this.lblCopyright.Name = "lblCopyright";
+            this.lblCopyright.Size = new System.Drawing.Size(46, 13);
+            this.lblCopyright.TabIndex = 36;
+            this.lblCopyright.Text = "© ";
             // 
             // groupBox3
             // 
@@ -483,11 +537,161 @@ namespace MCSong.Gui
             // tabPage2
             // 
             this.tabPage2.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage2.Controls.Add(this.tableLayoutPanel3);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Size = new System.Drawing.Size(573, 488);
             this.tabPage2.TabIndex = 6;
             this.tabPage2.Text = "Chat";
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.ColumnCount = 1;
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Controls.Add(this.groupBox14, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.groupBox15, 0, 1);
+            this.tableLayoutPanel3.Controls.Add(this.groupBox16, 0, 2);
+            this.tableLayoutPanel3.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 3;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.33F));
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 33.34F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(573, 488);
+            this.tableLayoutPanel3.TabIndex = 0;
+            // 
+            // groupBox14
+            // 
+            this.groupBox14.Controls.Add(this.txtAdminOut);
+            this.groupBox14.Controls.Add(this.btnAdminChat);
+            this.groupBox14.Controls.Add(this.txtAdminIn);
+            this.groupBox14.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox14.Location = new System.Drawing.Point(3, 3);
+            this.groupBox14.Name = "groupBox14";
+            this.groupBox14.Size = new System.Drawing.Size(567, 156);
+            this.groupBox14.TabIndex = 0;
+            this.groupBox14.TabStop = false;
+            this.groupBox14.Text = "Admin Chat";
+            // 
+            // txtAdminOut
+            // 
+            this.txtAdminOut.Location = new System.Drawing.Point(6, 20);
+            this.txtAdminOut.Multiline = true;
+            this.txtAdminOut.Name = "txtAdminOut";
+            this.txtAdminOut.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtAdminOut.Size = new System.Drawing.Size(556, 103);
+            this.txtAdminOut.TabIndex = 38;
+            // 
+            // btnAdminChat
+            // 
+            this.btnAdminChat.Font = new System.Drawing.Font("Calibri", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnAdminChat.Location = new System.Drawing.Point(541, 129);
+            this.btnAdminChat.Margin = new System.Windows.Forms.Padding(0);
+            this.btnAdminChat.Name = "btnAdminChat";
+            this.btnAdminChat.Size = new System.Drawing.Size(21, 21);
+            this.btnAdminChat.TabIndex = 37;
+            this.btnAdminChat.Text = "→";
+            this.btnAdminChat.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnAdminChat.UseVisualStyleBackColor = true;
+            this.btnAdminChat.Click += new System.EventHandler(this.btnAdminChat_Click);
+            // 
+            // txtAdminIn
+            // 
+            this.txtAdminIn.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtAdminIn.Location = new System.Drawing.Point(6, 129);
+            this.txtAdminIn.Name = "txtAdminIn";
+            this.txtAdminIn.Size = new System.Drawing.Size(532, 21);
+            this.txtAdminIn.TabIndex = 36;
+            this.txtAdminIn.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtAdminIn_KeyDown);
+            // 
+            // groupBox15
+            // 
+            this.groupBox15.Controls.Add(this.txtOpOut);
+            this.groupBox15.Controls.Add(this.btnOpChat);
+            this.groupBox15.Controls.Add(this.txtOpIn);
+            this.groupBox15.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox15.Location = new System.Drawing.Point(3, 165);
+            this.groupBox15.Name = "groupBox15";
+            this.groupBox15.Size = new System.Drawing.Size(567, 156);
+            this.groupBox15.TabIndex = 1;
+            this.groupBox15.TabStop = false;
+            this.groupBox15.Text = "Op Chat";
+            // 
+            // txtOpOut
+            // 
+            this.txtOpOut.Location = new System.Drawing.Point(6, 20);
+            this.txtOpOut.Multiline = true;
+            this.txtOpOut.Name = "txtOpOut";
+            this.txtOpOut.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtOpOut.Size = new System.Drawing.Size(556, 103);
+            this.txtOpOut.TabIndex = 41;
+            // 
+            // btnOpChat
+            // 
+            this.btnOpChat.Font = new System.Drawing.Font("Calibri", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnOpChat.Location = new System.Drawing.Point(541, 129);
+            this.btnOpChat.Margin = new System.Windows.Forms.Padding(0);
+            this.btnOpChat.Name = "btnOpChat";
+            this.btnOpChat.Size = new System.Drawing.Size(21, 21);
+            this.btnOpChat.TabIndex = 40;
+            this.btnOpChat.Text = "→";
+            this.btnOpChat.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnOpChat.UseVisualStyleBackColor = true;
+            this.btnOpChat.Click += new System.EventHandler(this.btnOpChat_Click);
+            // 
+            // txtOpIn
+            // 
+            this.txtOpIn.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtOpIn.Location = new System.Drawing.Point(6, 129);
+            this.txtOpIn.Name = "txtOpIn";
+            this.txtOpIn.Size = new System.Drawing.Size(532, 21);
+            this.txtOpIn.TabIndex = 39;
+            this.txtOpIn.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtOpIn_KeyDown);
+            // 
+            // groupBox16
+            // 
+            this.groupBox16.Controls.Add(this.txtGlobalOut);
+            this.groupBox16.Controls.Add(this.btnGlobalChat);
+            this.groupBox16.Controls.Add(this.txtGlobalIn);
+            this.groupBox16.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.groupBox16.Location = new System.Drawing.Point(3, 327);
+            this.groupBox16.Name = "groupBox16";
+            this.groupBox16.Size = new System.Drawing.Size(567, 158);
+            this.groupBox16.TabIndex = 2;
+            this.groupBox16.TabStop = false;
+            this.groupBox16.Text = "Global Chat";
+            // 
+            // txtGlobalOut
+            // 
+            this.txtGlobalOut.Location = new System.Drawing.Point(6, 20);
+            this.txtGlobalOut.Multiline = true;
+            this.txtGlobalOut.Name = "txtGlobalOut";
+            this.txtGlobalOut.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
+            this.txtGlobalOut.Size = new System.Drawing.Size(556, 103);
+            this.txtGlobalOut.TabIndex = 44;
+            // 
+            // btnGlobalChat
+            // 
+            this.btnGlobalChat.Font = new System.Drawing.Font("Calibri", 8F, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnGlobalChat.Location = new System.Drawing.Point(541, 129);
+            this.btnGlobalChat.Margin = new System.Windows.Forms.Padding(0);
+            this.btnGlobalChat.Name = "btnGlobalChat";
+            this.btnGlobalChat.Size = new System.Drawing.Size(21, 21);
+            this.btnGlobalChat.TabIndex = 43;
+            this.btnGlobalChat.Text = "→";
+            this.btnGlobalChat.TextAlign = System.Drawing.ContentAlignment.TopCenter;
+            this.btnGlobalChat.UseVisualStyleBackColor = true;
+            this.btnGlobalChat.Click += new System.EventHandler(this.btnGlobalChat_Click);
+            // 
+            // txtGlobalIn
+            // 
+            this.txtGlobalIn.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.txtGlobalIn.Location = new System.Drawing.Point(6, 129);
+            this.txtGlobalIn.Name = "txtGlobalIn";
+            this.txtGlobalIn.Size = new System.Drawing.Size(532, 21);
+            this.txtGlobalIn.TabIndex = 42;
+            this.txtGlobalIn.KeyDown += new System.Windows.Forms.KeyEventHandler(this.txtGlobalIn_KeyDown);
             // 
             // tpPlayers
             // 
@@ -572,6 +776,7 @@ namespace MCSong.Gui
             this.liClients.ScrollAlwaysVisible = true;
             this.liClients.Size = new System.Drawing.Size(120, 446);
             this.liClients.TabIndex = 34;
+            this.liClients.SelectedIndexChanged += new System.EventHandler(this.liClients_SelectedIndexChanged);
             // 
             // playerStrip
             // 
@@ -854,6 +1059,8 @@ namespace MCSong.Gui
             // tpChangelog
             // 
             this.tpChangelog.BackColor = System.Drawing.Color.Transparent;
+            this.tpChangelog.Controls.Add(this.txtLatestVersion);
+            this.tpChangelog.Controls.Add(this.label2);
             this.tpChangelog.Controls.Add(this.txtCurrentVersion);
             this.tpChangelog.Controls.Add(this.label3);
             this.tpChangelog.Controls.Add(this.btnChangelog);
@@ -864,6 +1071,24 @@ namespace MCSong.Gui
             this.tpChangelog.Size = new System.Drawing.Size(573, 488);
             this.tpChangelog.TabIndex = 1;
             this.tpChangelog.Text = "Changelog";
+            // 
+            // txtLatestVersion
+            // 
+            this.txtLatestVersion.BackColor = System.Drawing.SystemColors.Window;
+            this.txtLatestVersion.Location = new System.Drawing.Point(287, 8);
+            this.txtLatestVersion.Name = "txtLatestVersion";
+            this.txtLatestVersion.ReadOnly = true;
+            this.txtLatestVersion.Size = new System.Drawing.Size(94, 21);
+            this.txtLatestVersion.TabIndex = 6;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(204, 11);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(77, 13);
+            this.label2.TabIndex = 5;
+            this.label2.Text = "Latest Version:";
             // 
             // txtCurrentVersion
             // 
@@ -982,10 +1207,234 @@ namespace MCSong.Gui
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage3.Controls.Add(this.groupBox13);
+            this.tabPage3.Controls.Add(this.groupBox12);
+            this.tabPage3.Controls.Add(this.groupBox11);
+            this.tabPage3.Controls.Add(this.groupBox10);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
             this.tabPage3.Size = new System.Drawing.Size(573, 488);
             this.tabPage3.TabIndex = 7;
+            this.tabPage3.Text = "Info";
+            // 
+            // groupBox13
+            // 
+            this.groupBox13.Controls.Add(this.linkLabel4);
+            this.groupBox13.Controls.Add(this.label8);
+            this.groupBox13.Controls.Add(this.linkLabel3);
+            this.groupBox13.Controls.Add(this.label7);
+            this.groupBox13.Controls.Add(this.linkLabel2);
+            this.groupBox13.Controls.Add(this.label6);
+            this.groupBox13.Controls.Add(this.linkLabel1);
+            this.groupBox13.Controls.Add(this.label5);
+            this.groupBox13.Controls.Add(this.lblInfoVersion);
+            this.groupBox13.Location = new System.Drawing.Point(7, 452);
+            this.groupBox13.Name = "groupBox13";
+            this.groupBox13.Size = new System.Drawing.Size(556, 33);
+            this.groupBox13.TabIndex = 3;
+            this.groupBox13.TabStop = false;
+            // 
+            // linkLabel4
+            // 
+            this.linkLabel4.AutoSize = true;
+            this.linkLabel4.Location = new System.Drawing.Point(485, 14);
+            this.linkLabel4.Name = "linkLabel4";
+            this.linkLabel4.Size = new System.Drawing.Size(59, 13);
+            this.linkLabel4.TabIndex = 0;
+            this.linkLabel4.TabStop = true;
+            this.linkLabel4.Text = "ClassiCube";
+            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(467, 14);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(12, 13);
+            this.label8.TabIndex = 7;
+            this.label8.Text = "|";
+            // 
+            // linkLabel3
+            // 
+            this.linkLabel3.AutoSize = true;
+            this.linkLabel3.Location = new System.Drawing.Point(366, 14);
+            this.linkLabel3.Name = "linkLabel3";
+            this.linkLabel3.Size = new System.Drawing.Size(95, 13);
+            this.linkLabel3.TabIndex = 6;
+            this.linkLabel3.TabStop = true;
+            this.linkLabel3.Text = "MCSong Server List";
+            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(347, 14);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(12, 13);
+            this.label7.TabIndex = 5;
+            this.label7.Text = "|";
+            // 
+            // linkLabel2
+            // 
+            this.linkLabel2.AutoSize = true;
+            this.linkLabel2.Location = new System.Drawing.Point(260, 14);
+            this.linkLabel2.Name = "linkLabel2";
+            this.linkLabel2.Size = new System.Drawing.Size(81, 13);
+            this.linkLabel2.TabIndex = 4;
+            this.linkLabel2.TabStop = true;
+            this.linkLabel2.Text = "MCSong Forums";
+            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(241, 14);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(12, 13);
+            this.label6.TabIndex = 3;
+            this.label6.Text = "|";
+            // 
+            // linkLabel1
+            // 
+            this.linkLabel1.AutoSize = true;
+            this.linkLabel1.Location = new System.Drawing.Point(149, 14);
+            this.linkLabel1.Name = "linkLabel1";
+            this.linkLabel1.Size = new System.Drawing.Size(86, 13);
+            this.linkLabel1.TabIndex = 2;
+            this.linkLabel1.TabStop = true;
+            this.linkLabel1.Text = "MCSong Website";
+            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(130, 14);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(12, 13);
+            this.label5.TabIndex = 1;
+            this.label5.Text = "|";
+            // 
+            // lblInfoVersion
+            // 
+            this.lblInfoVersion.AutoSize = true;
+            this.lblInfoVersion.Location = new System.Drawing.Point(7, 14);
+            this.lblInfoVersion.Name = "lblInfoVersion";
+            this.lblInfoVersion.Size = new System.Drawing.Size(116, 13);
+            this.lblInfoVersion.TabIndex = 0;
+            this.lblInfoVersion.Text = "MCSong Version 1.0.0.0";
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Controls.Add(this.linkLabel10);
+            this.groupBox12.Controls.Add(this.linkLabel9);
+            this.groupBox12.Controls.Add(this.linkLabel8);
+            this.groupBox12.Controls.Add(this.linkLabel7);
+            this.groupBox12.Controls.Add(this.linkLabel6);
+            this.groupBox12.Controls.Add(this.linkLabel5);
+            this.groupBox12.Location = new System.Drawing.Point(368, 227);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(195, 219);
+            this.groupBox12.TabIndex = 2;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "MCSong Server Owner Resources";
+            // 
+            // linkLabel10
+            // 
+            this.linkLabel10.AutoSize = true;
+            this.linkLabel10.Location = new System.Drawing.Point(8, 171);
+            this.linkLabel10.Name = "linkLabel10";
+            this.linkLabel10.Size = new System.Drawing.Size(123, 13);
+            this.linkLabel10.TabIndex = 5;
+            this.linkLabel10.TabStop = true;
+            this.linkLabel10.Text = "MCSong Remote Console";
+            this.linkLabel10.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel10_LinkClicked);
+            // 
+            // linkLabel9
+            // 
+            this.linkLabel9.AutoSize = true;
+            this.linkLabel9.Location = new System.Drawing.Point(8, 141);
+            this.linkLabel9.Name = "linkLabel9";
+            this.linkLabel9.Size = new System.Drawing.Size(132, 13);
+            this.linkLabel9.TabIndex = 4;
+            this.linkLabel9.TabStop = true;
+            this.linkLabel9.Text = "MCSong GitHub Repository";
+            this.linkLabel9.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel9_LinkClicked);
+            // 
+            // linkLabel8
+            // 
+            this.linkLabel8.AutoSize = true;
+            this.linkLabel8.Location = new System.Drawing.Point(8, 111);
+            this.linkLabel8.Name = "linkLabel8";
+            this.linkLabel8.Size = new System.Drawing.Size(139, 13);
+            this.linkLabel8.TabIndex = 3;
+            this.linkLabel8.TabStop = true;
+            this.linkLabel8.Text = "ClassiCube Client Download";
+            this.linkLabel8.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel8_LinkClicked);
+            // 
+            // linkLabel7
+            // 
+            this.linkLabel7.AutoSize = true;
+            this.linkLabel7.Location = new System.Drawing.Point(8, 81);
+            this.linkLabel7.Name = "linkLabel7";
+            this.linkLabel7.Size = new System.Drawing.Size(140, 13);
+            this.linkLabel7.TabIndex = 2;
+            this.linkLabel7.TabStop = true;
+            this.linkLabel7.Text = "Custom Commands / Plugins";
+            this.linkLabel7.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel7_LinkClicked);
+            // 
+            // linkLabel6
+            // 
+            this.linkLabel6.AutoSize = true;
+            this.linkLabel6.Location = new System.Drawing.Point(8, 51);
+            this.linkLabel6.Name = "linkLabel6";
+            this.linkLabel6.Size = new System.Drawing.Size(140, 13);
+            this.linkLabel6.TabIndex = 1;
+            this.linkLabel6.TabStop = true;
+            this.linkLabel6.Text = "Port Forwarding Instructions";
+            this.linkLabel6.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel6_LinkClicked);
+            // 
+            // linkLabel5
+            // 
+            this.linkLabel5.AutoSize = true;
+            this.linkLabel5.Location = new System.Drawing.Point(8, 21);
+            this.linkLabel5.Name = "linkLabel5";
+            this.linkLabel5.Size = new System.Drawing.Size(88, 13);
+            this.linkLabel5.TabIndex = 0;
+            this.linkLabel5.TabStop = true;
+            this.linkLabel5.Text = "MySQL Download";
+            this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.txtDevList);
+            this.groupBox11.Location = new System.Drawing.Point(368, 3);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(195, 219);
+            this.groupBox11.TabIndex = 1;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "MCSong Development Team";
+            // 
+            // txtDevList
+            // 
+            this.txtDevList.BackColor = System.Drawing.SystemColors.Window;
+            this.txtDevList.Cursor = System.Windows.Forms.Cursors.Default;
+            this.txtDevList.Location = new System.Drawing.Point(6, 20);
+            this.txtDevList.Multiline = true;
+            this.txtDevList.Name = "txtDevList";
+            this.txtDevList.ReadOnly = true;
+            this.txtDevList.Size = new System.Drawing.Size(183, 193);
+            this.txtDevList.TabIndex = 0;
+            this.txtDevList.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.txtDevList.GotFocus += new System.EventHandler(this.txtDevList_Focus);
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Location = new System.Drawing.Point(7, 3);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(355, 443);
+            this.groupBox10.TabIndex = 0;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Server Statistics";
             // 
             // tmrRestart
             // 
@@ -1014,16 +1463,6 @@ namespace MCSong.Gui
             this.shutdownServer.Text = "Shutdown Server";
             this.shutdownServer.Click += new System.EventHandler(this.shutdownServer_Click);
             // 
-            // btnPlay
-            // 
-            this.btnPlay.Location = new System.Drawing.Point(392, 7);
-            this.btnPlay.Name = "btnPlay";
-            this.btnPlay.Size = new System.Drawing.Size(40, 23);
-            this.btnPlay.TabIndex = 39;
-            this.btnPlay.Text = "Play";
-            this.btnPlay.UseVisualStyleBackColor = true;
-            this.btnPlay.Click += new System.EventHandler(this.btnPlay_Click);
-            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1047,6 +1486,14 @@ namespace MCSong.Gui
             this.gBCommands.PerformLayout();
             this.gBChat.ResumeLayout(false);
             this.gBChat.PerformLayout();
+            this.tabPage2.ResumeLayout(false);
+            this.tableLayoutPanel3.ResumeLayout(false);
+            this.groupBox14.ResumeLayout(false);
+            this.groupBox14.PerformLayout();
+            this.groupBox15.ResumeLayout(false);
+            this.groupBox15.PerformLayout();
+            this.groupBox16.ResumeLayout(false);
+            this.groupBox16.PerformLayout();
             this.tpPlayers.ResumeLayout(false);
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -1066,6 +1513,13 @@ namespace MCSong.Gui
             this.groupBox1.PerformLayout();
             this.gbErrors.ResumeLayout(false);
             this.gbErrors.PerformLayout();
+            this.tabPage3.ResumeLayout(false);
+            this.groupBox13.ResumeLayout(false);
+            this.groupBox13.PerformLayout();
+            this.groupBox12.ResumeLayout(false);
+            this.groupBox12.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
             this.iconContext.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1131,7 +1585,7 @@ namespace MCSong.Gui
         private Button btnRestart;
         private Label label1;
         internal CheckBox chkMaintenance;
-        private Label label2;
+        private Label lblCopyright;
         private GroupBox groupBox3;
         private Panel panel1;
         private TabPage tpLevels;
@@ -1157,5 +1611,40 @@ namespace MCSong.Gui
         private TabPage tabPage2;
         private TabPage tabPage3;
         private Button btnPlay;
+        private GroupBox groupBox13;
+        private LinkLabel linkLabel4;
+        private Label label8;
+        private LinkLabel linkLabel3;
+        private Label label7;
+        private LinkLabel linkLabel2;
+        private Label label6;
+        private LinkLabel linkLabel1;
+        private Label label5;
+        private Label lblInfoVersion;
+        private GroupBox groupBox12;
+        private LinkLabel linkLabel9;
+        private LinkLabel linkLabel8;
+        private LinkLabel linkLabel7;
+        private LinkLabel linkLabel6;
+        private LinkLabel linkLabel5;
+        private GroupBox groupBox11;
+        private GroupBox groupBox10;
+        private TextBox txtDevList;
+        private LinkLabel linkLabel10;
+        private TableLayoutPanel tableLayoutPanel3;
+        private GroupBox groupBox14;
+        private TextBox txtAdminOut;
+        private Button btnAdminChat;
+        private TextBox txtAdminIn;
+        private GroupBox groupBox15;
+        private TextBox txtOpOut;
+        private Button btnOpChat;
+        private TextBox txtOpIn;
+        private GroupBox groupBox16;
+        private TextBox txtGlobalOut;
+        private Button btnGlobalChat;
+        private TextBox txtGlobalIn;
+        private TextBox txtLatestVersion;
+        private Label label2;
     }
 }

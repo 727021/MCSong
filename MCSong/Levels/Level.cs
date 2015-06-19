@@ -926,6 +926,167 @@ namespace MCSong
         {
             try
             {
+                if (physics == 5)
+                {
+                    ushort x, y, z;
+
+                    lastCheck = ListCheck.Count;
+                    ListCheck.ForEach(delegate(Check C)
+                    {
+                        try
+                        {
+                            IntToPos(C.b, out x, out y, out z);
+                            string foundInfo = C.extraInfo;
+
+                        newPhysic:
+                            if (foundInfo != "")
+                            {
+                                int currentLoop = 0;
+                                if (foundInfo.Contains("wait"))
+                                    if (blocks[C.b] == Block.air) C.extraInfo = "";
+
+                                bool wait = false;
+                                int waitnum = 0;
+                                bool door = false;
+
+                                foreach (string s in C.extraInfo.Split(' '))
+                                {
+                                    if (currentLoop % 2 == 0)
+                                    {
+                                        switch (s)
+                                        {
+                                            case "wait":
+                                                wait = true;
+                                                waitnum = int.Parse(C.extraInfo.Split(' ')[currentLoop + 1]);
+                                                break;
+                                            case "door":
+                                                door = true;
+                                                break;
+                                        }
+                                    }
+                                    currentLoop++;
+                                }
+
+                            startCheck:
+                                if (wait)
+                                {
+                                    int storedInt = 0;
+                                    if (door && C.time < 2)
+                                    {
+                                        storedInt = IntOffset(C.b, -1, 0, 0);
+                                        if (Block.tDoor(blocks[storedInt])) { AddUpdate(storedInt, Block.air, false, "wait 10 door 1 revert " + blocks[storedInt].ToString()); }
+                                        storedInt = IntOffset(C.b, 1, 0, 0);
+                                        if (Block.tDoor(blocks[storedInt])) { AddUpdate(storedInt, Block.air, false, "wait 10 door 1 revert " + blocks[storedInt].ToString()); }
+                                        storedInt = IntOffset(C.b, 0, 1, 0);
+                                        if (Block.tDoor(blocks[storedInt])) { AddUpdate(storedInt, Block.air, false, "wait 10 door 1 revert " + blocks[storedInt].ToString()); }
+                                        storedInt = IntOffset(C.b, 0, -1, 0);
+                                        if (Block.tDoor(blocks[storedInt])) { AddUpdate(storedInt, Block.air, false, "wait 10 door 1 revert " + blocks[storedInt].ToString()); }
+                                        storedInt = IntOffset(C.b, 0, 0, 1);
+                                        if (Block.tDoor(blocks[storedInt])) { AddUpdate(storedInt, Block.air, false, "wait 10 door 1 revert " + blocks[storedInt].ToString()); }
+                                        storedInt = IntOffset(C.b, 0, 0, -1);
+                                        if (Block.tDoor(blocks[storedInt])) { AddUpdate(storedInt, Block.air, false, "wait 10 door 1 revert " + blocks[storedInt].ToString()); }
+                                    }
+
+                                    if (waitnum <= C.time)
+                                    {
+                                        wait = false;
+                                        C.extraInfo = C.extraInfo.Substring(0, C.extraInfo.IndexOf("wait ")) + C.extraInfo.Substring(C.extraInfo.IndexOf(' ', C.extraInfo.IndexOf("wait ") + 5) + 1);
+                                        //C.extraInfo = C.extraInfo.Substring(8);
+                                        goto startCheck;
+                                    }
+                                    else
+                                    {
+                                        C.time++;
+                                        foundInfo = "";
+                                        goto newPhysic;
+                                    }
+                                }
+                                else
+                                {
+                                    switch (blocks[C.b])
+                                    {
+                                        case Block.door_air:   //door_air         Change any door blocks nearby into door_air
+                                        case Block.door2_air:   //door_air         Change any door blocks nearby into door_air
+                                        case Block.door3_air:   //door_air         Change any door blocks nearby into door_air
+                                        case Block.door4_air:   //door_air         Change any door blocks nearby into door_air
+                                        case Block.door5_air:   //door_air         Change any door blocks nearby into door_air
+                                        case Block.door6_air:   //door_air         Change any door blocks nearby into door_air
+                                        case Block.door7_air:   //door_air         Change any door blocks nearby into door_air
+                                        case Block.door8_air:   //door_air         Change any door blocks nearby into door_air
+                                        case Block.door10_air:   //door_air         Change any door blocks nearby into door_air
+                                        case Block.door12_air:
+                                        case Block.door13_air:
+                                        case Block.door_iron_air:
+                                        case Block.door_dirt_air:
+                                        case Block.door_grass_air:
+                                        case Block.door_blue_air:
+                                        case Block.door_book_air:
+                                            AnyDoor(C, x, y, z, 16); break;
+                                        case Block.door11_air:
+                                        case Block.door14_air:
+                                            AnyDoor(C, x, y, z, 4, true); break;
+                                        case Block.door9_air:   //door_air         Change any door blocks nearby into door_air
+                                            AnyDoor(C, x, y, z, 4); break;
+
+                                        case Block.odoor1_air:
+                                        case Block.odoor2_air:
+                                        case Block.odoor3_air:
+                                        case Block.odoor4_air:
+                                        case Block.odoor5_air:
+                                        case Block.odoor6_air:
+                                        case Block.odoor7_air:
+                                        case Block.odoor8_air:
+                                        case Block.odoor9_air:
+                                        case Block.odoor10_air:
+                                        case Block.odoor11_air:
+                                        case Block.odoor12_air:
+
+                                        case Block.odoor1:
+                                        case Block.odoor2:
+                                        case Block.odoor3:
+                                        case Block.odoor4:
+                                        case Block.odoor5:
+                                        case Block.odoor6:
+                                        case Block.odoor7:
+                                        case Block.odoor8:
+                                        case Block.odoor9:
+                                        case Block.odoor10:
+                                        case Block.odoor11:
+                                        case Block.odoor12:
+                                            odoor(C); break;
+                                        default:    //non special blocks are then ignored, maybe it would be better to avoid getting here and cutting down the list
+                                            if (!C.extraInfo.Contains("wait")) C.time = 255;
+                                            break;
+                                    }
+                                }
+                            }
+                        }
+                        catch
+                        {
+                            ListCheck.Remove(C);
+                            //Server.s.Log(e.Message);
+                        }
+
+                    });
+
+                    ListCheck.RemoveAll(Check => Check.time == 255);  //Remove all that are finished with 255 time
+
+                    lastUpdate = ListUpdate.Count;
+                    ListUpdate.ForEach(delegate(Update C)
+                    {
+                        try
+                        {
+                            IntToPos(C.b, out x, out y, out z);
+                            Blockchange(x, y, z, C.type, false, C.extraInfo);
+                        }
+                        catch
+                        {
+                            Server.s.Log("Phys update issue");
+                        }
+                    });
+
+                    ListUpdate.Clear();
+                }
                 if (physics > 0)
                 {
                     ushort x, y, z; int mx, my, mz;

@@ -19,7 +19,7 @@ namespace MCSong
     public class CmdHelp : Command
     {
         public override string name { get { return "help"; } }
-        public override string[] aliases { get { return new string[] { "" }; } }
+        public override string[] aliases { get { return new string[] { "?", "cmdlist", "commands", "cmdhelp" }; } }
         public override CommandType type { get { return CommandType.Information; } }
         public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }

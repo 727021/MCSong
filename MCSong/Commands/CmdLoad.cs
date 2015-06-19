@@ -22,7 +22,7 @@ namespace MCSong
     public class CmdLoad : Command
     {
         public override string name { get { return "load"; } }
-        public override string[] aliases { get { return new string[] { "" }; } }
+        public override string[] aliases { get { return new string[] { "mapload" }; } }
         public override CommandType type { get { return CommandType.Moderation; } }
         public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }

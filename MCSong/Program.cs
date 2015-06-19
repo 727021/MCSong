@@ -53,7 +53,7 @@ exit:   Console.WriteLine("Bye!");
 
         static void openServer(string[] args)
         {
-            MCLawl_.Gui.Program.Main(args);
+            MCSong_.Gui.Program.Main(args);
         }
     }
 }

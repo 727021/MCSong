@@ -375,7 +375,7 @@ namespace MCSong
             {
                 string[] lines = File.ReadAllLines("properties/command.properties");
 
-                if (lines.Length == 0) ;
+                if (lines.Length == 0) { }
                 else if (lines[0] == "#Version 2")
                 {
                     string[] colon = new string[] { " : " };

@@ -20,7 +20,7 @@ namespace MCSong
     public class CmdCuboid : Command
     {
         public override string name { get { return "cuboid"; } }
-        public override string[] aliases { get { return new string[] { "z" }; } }
+        public override string[] aliases { get { return new string[] { "z", "blb", "box" }; } }
         public override CommandType type { get { return CommandType.Building; } }
         public override bool consoleUsable { get { return false; } }
         public override bool museumUsable { get { return false; } }

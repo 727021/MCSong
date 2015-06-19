@@ -19,8 +19,8 @@ namespace MCSong
         public override void Use(Player p, string message)
         {
             if (message != "") { Help(p); return; }
-            MCLawl_.Gui.Program.restartMe();
-            //MCLawl_.Gui.Program.ExitProgram(true);
+            MCSong_.Gui.Program.restartMe();
+            //MCSong_.Gui.Program.ExitProgram(true);
         }
         public override void Help(Player p)
         {

@@ -24,6 +24,7 @@ using System.Threading;
 using System.Text.RegularExpressions;
 using System.Net;
 using MCSong;
+using System.Diagnostics;
 
 namespace MCSong.Gui
 {
@@ -44,6 +45,18 @@ namespace MCSong.Gui
         internal static Server s;
 
         bool shuttingDown = false;
+
+        private const int CP_NOCLOSE_BUTTON = 0x200;
+        protected override CreateParams CreateParams
+        {
+            get
+            {
+                CreateParams myCp = base.CreateParams;
+                myCp.ClassStyle = myCp.ClassStyle | CP_NOCLOSE_BUTTON;
+                return myCp;
+            }
+        }
+
         public Window() {
             InitializeComponent();
         }
@@ -79,12 +92,18 @@ namespace MCSong.Gui
             this.Text = "<server name here>";
             this.Icon = new Icon(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("MCSong.Lawl.ico"));
 
+            lblCopyright.Text += DateTime.Today.Year.ToString();
+            txtGlobalOut.Enabled = txtGlobalIn.Enabled = btnGlobalChat.Enabled = Server.gc;
+
             this.Show();
             this.BringToFront();
             WindowState = FormWindowState.Normal;
 
             s = new Server();
             s.OnLog += WriteLine;
+            s.OnOp += WriteLineOp;
+            s.OnAdmin += WriteLineAdmin;
+            s.OnGlobal += WriteLineGlobal;
             s.OnCommand += newCommand;
             s.OnError += newError;
             s.OnSystem += newSystem;
@@ -125,17 +144,20 @@ namespace MCSong.Gui
             catch { }
             if (File.Exists("extra/Changelog.txt"))
             {
-                txtChangelog.Text = "Changelog for " + Server.Version + ":";
                 foreach (string line in File.ReadAllLines(("extra/Changelog.txt")))
                 {
-                    txtChangelog.AppendText("\r\n           " + line);
+                    txtChangelog.AppendText("\r\n\t\t" + line);
                 }
             }
             else
             {
-                txtChangelog.Text = "Changelog for " + Server.Version + "\r\n\r\nChangelog not found!\r\nDownload it manually from http://updates.mcsong.x10.mx/changelog.txt and save it as \'extra/Changelog.txt\'";
+                txtChangelog.Text = "\r\nChangelog not found!\r\nDownload it manually from http://updates.mcsong.x10.mx/changelog.txt and save it as \'extra/Changelog.txt\'";
             }
             txtCurrentVersion.Text = Server.Version;
+            try { txtLatestVersion.Enabled = true; txtLatestVersion.Text = new WebClient().DownloadString("http://updates.mcsong.x10.mx/curversion.txt"); }
+            catch { txtLatestVersion.Enabled = false; }
+
+            Server.devs.ForEach(delegate(string dev) { txtDevList.Text += (Environment.NewLine + dev); });
         }
 
         void SettingsUpdate()
@@ -222,6 +244,51 @@ namespace MCSong.Gui
                 txtLog.ScrollToCaret();
             }
         }
+        public void WriteLineOp(string s)
+        {
+            if (shuttingDown) return;
+            if (this.InvokeRequired)
+            {
+                LogDelegate d = new LogDelegate(WriteLineOp);
+                this.Invoke(d, new object[] { s });
+            }
+            else
+            {
+                txtOpOut.AppendText((txtOpOut.Text.Length > 0) ? "\r\n" + s : s);
+                txtOpOut.SelectionLength = txtOpOut.Text.Length;
+                txtOpOut.ScrollToCaret();
+            }
+        }
+        public void WriteLineAdmin(string s)
+        {
+            if (shuttingDown) return;
+            if (this.InvokeRequired)
+            {
+                LogDelegate d = new LogDelegate(WriteLineAdmin);
+                this.Invoke(d, new object[] { s });
+            }
+            else
+            {
+                txtAdminOut.AppendText((txtAdminOut.Text.Length > 0) ? "\r\n" + s : s);
+                txtAdminOut.SelectionLength = txtAdminOut.Text.Length;
+                txtAdminOut.ScrollToCaret();
+            }
+        }
+        public void WriteLineGlobal(string s)
+        {
+            if (shuttingDown) return;
+            if (this.InvokeRequired)
+            {
+                LogDelegate d = new LogDelegate(WriteLineGlobal);
+                this.Invoke(d, new object[] { s });
+            }
+            else
+            {
+                txtGlobalOut.AppendText((txtGlobalOut.Text.Length > 0) ? "\r\n" + s : s);
+                txtGlobalOut.SelectionLength = txtGlobalOut.Text.Length;
+                txtGlobalOut.ScrollToCaret();
+            }
+        }
         /// <summary>
         /// Updates the list of client names in the window
         /// </summary>
@@ -274,7 +341,7 @@ namespace MCSong.Gui
             if (notifyIcon1 != null) {
                 notifyIcon1.Visible = false;
             }
-            MCLawl_.Gui.Program.ExitProgram(false);
+            MCSong_.Gui.Program.ExitProgram(false);
         }
 
         private ChatBuffer cbInput = new ChatBuffer();
@@ -290,10 +357,27 @@ namespace MCSong.Gui
                 if (txtInput.Text[0] == '#')
                 {
                     newtext = text.Remove(0, 1).Trim();
-                    Player.GlobalMessageOps("To Ops &f-"+Server.DefaultColor +"Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + newtext);
-                    Server.s.Log("(OPs): Console: " + newtext);
+                    Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + newtext);
+                    Server.s.LogOp("Console: " + newtext);
                     IRCBot.Say("Console: " + newtext, true);
                  //   WriteLine("(OPs):<CONSOLE> " + txtInput.Text);
+                    txtInput.Clear();
+                }
+                else if (txtInput.Text[0] == ';')
+                {
+                    newtext = text.Remove(0, 1).Trim();
+                    Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + newtext);
+                    Server.s.LogAdmin("Console: " + newtext);
+                    IRCBot.Say("Console: " + newtext, true);
+                    txtInput.Clear();
+                }
+                else if (txtInput.Text[0] == '\\')
+                {
+                    if (!Server.gc) return;
+                    newtext = text.Remove(0, 1).Trim();
+                    Player.GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] Console: &f" + newtext);
+                    Server.s.LogGC("[" + Server.gcNick + "] Console: " + newtext);
+                    GlobalBot.Say("Console: " + newtext);
                     txtInput.Clear();
                 }
                 else
@@ -308,10 +392,12 @@ namespace MCSong.Gui
             {
                 string up = cbInput.up();
                 txtInput.Text = (up == "") ? txtInput.Text : up;
+                txtInput.SelectionLength = txtInput.Text.Length;
             }
             else if (e.KeyCode == Keys.Down)
             {
                 txtInput.Text = cbInput.down();
+                txtInput.SelectionLength = txtInput.Text.Length;
             }
         }
 
@@ -374,10 +460,12 @@ namespace MCSong.Gui
             {
                 string up = cbCommands.up();
                 txtCommands.Text = (up == "") ? txtCommands.Text : up;
+                txtCommands.SelectionLength = txtCommands.Text.Length;
             }
             else if (e.KeyCode == Keys.Down)
             {
                 txtCommands.Text = cbCommands.down();
+                txtCommands.SelectionLength = txtCommands.Text.Length;
             }
         }
 
@@ -385,7 +473,7 @@ namespace MCSong.Gui
             if (notifyIcon1 != null) {
                 notifyIcon1.Visible = false;
             }
-            MCLawl_.Gui.Program.ExitProgram(false); 
+            MCSong_.Gui.Program.ExitProgram(false); 
         }
 
         public void newCommand(string p) { 
@@ -415,18 +503,20 @@ namespace MCSong.Gui
             }
         }
 
-        private void btnProperties_Click_1(object sender, EventArgs e) {
+        private void btnProperties_Click_1(object sender, EventArgs e)
+        {
             if (!prevLoaded)
             {
                 PropertyForm = new PropertyWindow();
                 prevLoaded = true;
             }
             PropertyForm.Show();
+            PropertyForm.BringToFront();
         }
 
         private void btnUpdate_Click_1(object sender, EventArgs e) {
-            if (!MCLawl_.Gui.Program.CurrentUpdate)
-                MCLawl_.Gui.Program.UpdateCheck();
+            if (!MCSong_.Gui.Program.CurrentUpdate)
+                MCSong_.Gui.Program.UpdateCheck();
             else {
                 Thread messageThread = new Thread(new ThreadStart(delegate {
                     MessageBox.Show("Already checking for updates.");
@@ -435,6 +525,7 @@ namespace MCSong.Gui
         }
 
         public static bool prevLoaded = false;
+        public static bool updLoaded = false;
         Form PropertyForm;
         Form UpdateForm;
 
@@ -455,8 +546,13 @@ namespace MCSong.Gui
 
         private void button1_Click_1(object sender, EventArgs e)
         {
-            UpdateForm = new UpdateWindow();
+            if (!updLoaded)
+            {
+                UpdateForm = new UpdateWindow();
+                updLoaded = true;
+            }
             UpdateForm.Show();
+            UpdateForm.BringToFront();
         }
 
         private void tmrRestart_Tick(object sender, EventArgs e)
@@ -473,7 +569,7 @@ namespace MCSong.Gui
                         notifyIcon1.Icon = null;
                         notifyIcon1.Visible = false;
                     }
-                    MCLawl_.Gui.Program.ExitProgram(true);
+                    MCSong_.Gui.Program.ExitProgram(true);
                 }
             }
         }
@@ -495,7 +591,7 @@ namespace MCSong.Gui
             {
                 notifyIcon1.Visible = false;
             }
-            MCLawl_.Gui.Program.ExitProgram(false); 
+            MCSong_.Gui.Program.ExitProgram(false); 
         }
 
         private void voiceToolStripMenuItem_Click(object sender, EventArgs e)
@@ -670,6 +766,12 @@ namespace MCSong.Gui
                     }
                 }
             }
+            txtAdminOut.SelectionLength = txtAdminOut.Text.Length;
+            txtOpOut.SelectionLength = txtOpOut.Text.Length;
+            txtGlobalOut.SelectionLength = txtGlobalOut.Text.Length;
+            txtAdminOut.ScrollToCaret();
+            txtOpOut.ScrollToCaret();
+            txtGlobalOut.ScrollToCaret();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -687,31 +789,50 @@ namespace MCSong.Gui
             catch { }
             if (File.Exists("extra/Changelog.txt"))
             {
-                txtChangelog.Text = "Changelog for " + Server.Version + ":";
                 foreach (string line in File.ReadAllLines(("extra/Changelog.txt")))
                 {
-                    txtChangelog.AppendText("\r\n           " + line);
+                    txtChangelog.AppendText("\r\n\t\t" + line);
                 }
             }
             else
             {
-                txtChangelog.Text = "Changelog for " + Server.Version + ":\r\n\r\nChangelog not found!\r\nDownload it manually from http://updates.mcsong.x10.mx/changelog.txt and save it as \'extra/Changelog.txt\'";
+                txtChangelog.Text = "\r\nChangelog not found!\r\nDownload it manually from http://updates.mcsong.x10.mx/changelog.txt and save it as \'extra/Changelog.txt\'";
             }
             txtCurrentVersion.Text = Server.Version;
+            try { txtLatestVersion.Enabled = true; txtLatestVersion.Text = new WebClient().DownloadString("http://updates.mcsong.x10.mx/curversion.txt"); }
+            catch { txtLatestVersion.Enabled = false; }
         }
 
         private void btnChat_Click(object sender, EventArgs e)
         {
             if (txtInput.Text == null || txtInput.Text.Trim() == "") { return; }
+            cbInput.addEntry(txtInput.Text);
             string text = txtInput.Text.Trim();
             string newtext = text;
             if (txtInput.Text[0] == '#')
             {
                 newtext = text.Remove(0, 1).Trim();
                 Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + newtext);
-                Server.s.Log("(OPs): Console: " + newtext);
+                Server.s.LogOp("Console: " + newtext);
                 IRCBot.Say("Console: " + newtext, true);
                 //   WriteLine("(OPs):<CONSOLE> " + txtInput.Text);
+                txtInput.Clear();
+            }
+            else if (txtInput.Text[0] == ';')
+            {
+                newtext = text.Remove(0, 1).Trim();
+                Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + newtext);
+                Server.s.LogAdmin("Console: " + newtext);
+                IRCBot.Say("Console: " + newtext, true);
+                txtInput.Clear();
+            }
+            else if (txtInput.Text[0] == '\\')
+            {
+                if (!Server.gc) return;
+                newtext = text.Remove(0, 1).Trim();
+                Player.GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] Console: &f" + newtext);
+                Server.s.LogGC("[" + Server.gcNick + "] Console: " + newtext);
+                GlobalBot.Say("Console: " + newtext);
                 txtInput.Clear();
             }
             else
@@ -733,7 +854,7 @@ namespace MCSong.Gui
                 txtCommands.Clear();
                 return;
             }
-
+            cbCommands.addEntry(txtCommands.Text);
             if (txtCommands.Text[0] == '/')
                 if (txtCommands.Text.Length > 1)
                     txtCommands.Text = txtCommands.Text.Substring(1);
@@ -778,7 +899,7 @@ namespace MCSong.Gui
                 notifyIcon1.Icon = null;
                 notifyIcon1.Visible = false;
             }
-            MCLawl_.Gui.Program.ExitProgram(true);
+            MCSong_.Gui.Program.ExitProgram(true);
         }
 
         private void chkMaintenance_Click(object sender, EventArgs e)
@@ -884,6 +1005,18 @@ namespace MCSong.Gui
             if (!thisWindow.InvokeRequired)
             {
                 thisWindow.chkMaintenance.Checked = Server.maintenanceMode;
+                if (Server.maintenanceMode)
+                {
+                    thisWindow.chkMaintenance.Font = new Font(thisWindow.chkMaintenance.Font, FontStyle.Bold);
+                    thisWindow.chkMaintenance.ForeColor = Color.Red;
+                    thisWindow.Text += " [MAINTENANCE MODE]";
+                }
+                else
+                {
+                    thisWindow.chkMaintenance.Font = new Font(thisWindow.chkMaintenance.Font, FontStyle.Regular);
+                    thisWindow.chkMaintenance.ForeColor = Color.Black;
+                    thisWindow.Text = thisWindow.Text.Replace("[MAINTENANCE MODE]", "");
+                }
             }
             else
             {
@@ -910,7 +1043,7 @@ namespace MCSong.Gui
             {
                 try
                 {
-                    System.Diagnostics.Process.Start(txtUrl.Text);
+                    Process.Start(txtUrl.Text);
                 }
                 catch (Exception ex)
                 {
@@ -922,6 +1055,199 @@ namespace MCSong.Gui
                 MessageBox.Show("The URL found was invalid and could not be started.", "Invalid URL", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
             }
             btnPlay.Enabled = true;
+        }
+
+        private void txtDevList_Focus(object sender, EventArgs e)
+        {
+            lblInfoVersion.Focus();
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try { Process.Start("http://mcsong.x10.mx"); }
+            catch { MessageBox.Show("Unable to open link: http://mcsong.x10.mx", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void linkLabel2_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try { Process.Start("http://mcsong.x10.mx/forums/"); }
+            catch { MessageBox.Show("Unable to open link: http://mcsong.x10.mx/forums/", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void linkLabel3_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try { Process.Start("http://mcsong.x10.mx/servers/"); }
+            catch { MessageBox.Show("Unable to open link: http://mcsong.x10.mx/servers/", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void linkLabel4_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try { Process.Start("http://www.classicube.net/"); }
+            catch { MessageBox.Show("Unable to open link: http://www.classicube.net/", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void linkLabel5_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try { Process.Start("http://dev.mysql.com/downloads/windows/installer/"); }
+            catch { MessageBox.Show("Unable to open link: http://dev.mysql.com/downloads/windows/installer/", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void linkLabel6_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try { Process.Start("http://portforward.com/english/routers/port_forwarding/routerindex.htm"); }
+            catch { MessageBox.Show("Unable to open link: http://portforward.com/english/routers/port_forwarding/routerindex.htm", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void linkLabel7_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try { Process.Start("http://mcsong.x10.mx/forums/forumdisplay.php?fid=16"); }
+            catch { MessageBox.Show("Unable to open link: http://mcsong.x10.mx/forums/forumdisplay.php?fid=16", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void linkLabel8_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try { Process.Start("http://www.classicube.net/"); }
+            catch { MessageBox.Show("Unable to open link: http://www.classicube.net/", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void linkLabel9_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try { Process.Start("https://github.com/727021/MCSong"); }
+            catch { MessageBox.Show("Unable to open link: https://github.com/727021/MCSong", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void linkLabel10_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            try { Process.Start("http://mcsong.x10.mx/remote/"); }
+            catch { MessageBox.Show("Unable to open link: http://mcsong.x10.mx/remote/", "ERROR", MessageBoxButtons.OK, MessageBoxIcon.Error); }
+        }
+
+        private void liClients_SelectedIndexChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        ChatBuffer cbAdminChat = new ChatBuffer();
+        ChatBuffer cbOpChat = new ChatBuffer();
+        ChatBuffer cbGlobalChat = new ChatBuffer();
+
+        private void btnAdminChat_Click(object sender, EventArgs e)
+        {
+            if (txtAdminIn.Text == null || txtAdminIn.Text.Trim() == "") { return; }
+            cbAdminChat.addEntry(txtAdminIn.Text);
+            string text = txtAdminIn.Text.Trim();
+
+            Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + text);
+            Server.s.LogAdmin("Console: " + text);
+            IRCBot.Say("Console: " + text, true);
+            txtAdminIn.Clear();
+        }
+
+        private void btnOpChat_Click(object sender, EventArgs e)
+        {
+            if (txtOpIn.Text == null || txtOpIn.Text.Trim() == "") { return; }
+            cbOpChat.addEntry(txtOpIn.Text);
+            string text = txtOpIn.Text.Trim();
+
+            Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + text);
+            Server.s.LogOp("Console: " + text);
+            IRCBot.Say("Console: " + text, true);
+            txtOpIn.Clear();
+        }
+
+        private void btnGlobalChat_Click(object sender, EventArgs e)
+        {
+            if (txtGlobalIn.Text == null || txtGlobalIn.Text.Trim() == "") return;
+            cbGlobalChat.addEntry(txtGlobalIn.Text);
+            string text = txtGlobalIn.Text.Trim();
+
+            Player.GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] Console: &f" + text);
+            Server.s.LogGC("[" + Server.gcNick + "] Console: " + text);
+            GlobalBot.Say("Console: " + text);
+            txtGlobalIn.Clear();
+        }
+
+        private void txtAdminIn_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (txtAdminIn.Text == null || txtAdminIn.Text.Trim() == "") { return; }
+                cbAdminChat.addEntry(txtAdminIn.Text);
+                string text = txtAdminIn.Text.Trim();
+
+                Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + text);
+                Server.s.LogAdmin("Console: " + text);
+                IRCBot.Say("Console: " + text, true);
+                txtAdminIn.Clear();
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                string up = cbAdminChat.up();
+                txtAdminIn.Text = (up == "") ? txtAdminIn.Text : up;
+                txtAdminIn.SelectionLength = txtAdminIn.Text.Length;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                txtAdminIn.Text = cbAdminChat.down();
+                txtAdminIn.SelectionLength = txtAdminIn.Text.Length;
+            }
+        }
+
+        private void txtOpIn_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (txtOpIn.Text == null || txtOpIn.Text.Trim() == "") { return; }
+                cbOpChat.addEntry(txtOpIn.Text);
+                string text = txtOpIn.Text.Trim();
+
+                Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + text);
+                Server.s.LogOp("Console: " + text);
+                IRCBot.Say("Console: " + text, true);
+                txtOpIn.Clear();
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                string up = cbOpChat.up();
+                txtOpIn.Text = (up == "") ? txtOpIn.Text : up;
+                txtOpIn.SelectionLength = txtOpIn.Text.Length;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                txtOpIn.Text = cbOpChat.down();
+                txtOpIn.SelectionLength = txtOpIn.Text.Length;
+            }
+        }
+
+        private void txtGlobalIn_KeyDown(object sender, KeyEventArgs e)
+        {
+            if (e.KeyCode == Keys.Enter)
+            {
+                if (txtGlobalIn.Text == null || txtGlobalIn.Text.Trim() == "") return;
+                cbGlobalChat.addEntry(txtGlobalIn.Text);
+                string text = txtGlobalIn.Text.Trim();
+
+                Player.GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] Console: &f" + text);
+                Server.s.LogGC("[" + Server.gcNick + "] Console: " + text);
+                GlobalBot.Say("Console: " + text);
+                txtGlobalIn.Clear();
+            }
+            else if (e.KeyCode == Keys.Up)
+            {
+                string up = cbGlobalChat.up();
+                txtGlobalIn.Text = (up == "") ? txtGlobalIn.Text : up;
+                txtGlobalIn.SelectionLength = txtGlobalIn.Text.Length;
+            }
+            else if (e.KeyCode == Keys.Down)
+            {
+                txtGlobalIn.Text = cbGlobalChat.down();
+                txtGlobalIn.SelectionLength = txtGlobalIn.Text.Length;
+            }
+        }
+
+        public void CheckGlobal()
+        {
+            txtGlobalOut.Enabled = txtGlobalIn.Enabled = btnGlobalChat.Enabled = Server.gc;
         }
     }
 }

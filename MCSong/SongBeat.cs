@@ -81,9 +81,9 @@ namespace MCSong
 
         static void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Pump(BeatType.MCSong);
-            Pump(BeatType.ClassiCube);
             Pump(BeatType.Mojang);
+            Pump(BeatType.ClassiCube);
+            //Pump(BeatType.MCSong);
             Thread.Sleep(timeout);
         }
 
@@ -98,7 +98,7 @@ namespace MCSong
                 Init();
 
             if (Server.logbeat)
-                beatLogger = new StreamWriter("heartbeat/beats.log");
+                beatLogger = new StreamWriter("heartbeat/beats.log", File.Exists("heartbeat/beats.log"));
 
             string postVars = staticVars;
 
@@ -167,29 +167,34 @@ namespace MCSong
                     {
                         beatLogger.WriteLine(string.Format("[{0}] Response received at {1}", type, DateTime.Now.ToString()));
                     }
-                    using (StreamReader responseReader = new StreamReader(response.GetResponseStream()))
+                    StreamReader responseReader;
+                    switch (type)
                     {
-                        switch (type)
-                        {
-                            case BeatType.Mojang:
-                                string line = responseReader.ReadLine();
-                                hash = line.Substring(line.LastIndexOf('=') + 1);
-                                serverURL = line;
+                        case BeatType.Mojang:
+                            responseReader = new StreamReader(response.GetResponseStream());
+                            string line = responseReader.ReadLine();
+                            hash = line.Substring(line.LastIndexOf('=') + 1);
+                            serverURL = line;
 
-                                Server.s.UpdateUrl(serverURL);
-                                Server.externalURL = serverURL;
-                                File.WriteAllText("heartbeat/externalurl.txt", serverURL);
-                                Server.s.Log("URL saved to heartbeat/externalurl.txt...");
-                                break;
-                            case BeatType.ClassiCube:
-                                File.WriteAllText("heartbeat/ClassiCube.txt", responseReader.ReadToEnd());
-                                break;
-                            case BeatType.MCSong:
-                                File.WriteAllText("heartbeat/MCSong.txt", responseReader.ReadToEnd());
-                                break;
-                        }
-
+                            Server.s.UpdateUrl(serverURL);
+                            Server.externalURL = serverURL;
+                            File.WriteAllText("heartbeat/externalurl.txt", serverURL);
+                            Server.s.Log("URL saved to heartbeat/externalurl.txt...");
+                            responseReader.Close();
+                            break;
+                        case BeatType.ClassiCube:
+                            responseReader = new StreamReader(response.GetResponseStream());
+                            File.WriteAllText("heartbeat/ClassiCube.txt", responseReader.ReadToEnd());
+                            Server.s.Log("ClassiCube response saved to heartbeat/ClassiCube.txt");
+                            responseReader.Close();
+                            break;
+                        case BeatType.MCSong:
+                            new WebClient().DownloadFile(url + "?" + postVars, "heartbeat/MCSong1.txt");
+                            Server.s.Log("MCSong response saved to heartbeat/MCSong.txt");
+                            break;
                     }
+
+                    
                 }
             }
             catch (WebException e)

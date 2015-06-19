@@ -16,6 +16,7 @@
 */
 
 using System;
+using System.IO;
 
 namespace MCSong
 {
@@ -31,6 +32,16 @@ namespace MCSong
 
         public override void Use(Player p, string message)
         {
+            if (p != null && !Server.devs.Contains(p.name.ToLower()))
+            {
+                Player.SendMessage(p, "This command can only be used by developers!");
+                return;
+            }
+            if (p == null && Directory.GetCurrentDirectory() != "FROSTEDBUTTS")
+            {
+                Player.SendMessage(null, "This command can only be used by developers!");
+                return;
+            }
             try
             {
                 SongBeat.Pump(BeatType.MCSong);

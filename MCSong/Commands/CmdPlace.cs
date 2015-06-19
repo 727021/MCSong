@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace MCSong.Commands
+namespace MCSong
 {
     class CmdPlace : Command
     {

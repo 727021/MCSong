@@ -19,7 +19,7 @@ namespace MCSong
     public class CmdBlocks : Command
     {
         public override string name { get { return "blocks"; } }
-        public override string[] aliases { get { return new string[] { "bl" }; } }
+        public override string[] aliases { get { return new string[] { "bl", "materials" }; } }
         public override CommandType type { get { return CommandType.Information; } }
         public override bool consoleUsable { get { return true; } }
         public override bool museumUsable { get { return true; } }
