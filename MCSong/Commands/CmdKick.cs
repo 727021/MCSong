@@ -34,7 +34,7 @@ namespace MCSong
             if (message.Split(' ').Length > 1)
                 message = message.Substring(message.IndexOf(' ') + 1);
             else
-                if (p == null) message = "You were kicked by an IRC controller!"; else message = "You were kicked by " + p.name + "!";
+                if (p == null) message = "You were kicked by an Console!"; else message = "You were kicked by " + p.name + "!";
 
             if (p != null)
                 if (who == p)

@@ -20,22 +20,18 @@ namespace MCSong
         public override void Use(Player p, string message)
         {
             if (message == "") { Help(p); return; }
-            if (message.IndexOf("'") != -1) { Player.SendMessage(p, "Cannot parse request."); return; }
 
-            DataTable playerDb = MySQL.fillData("SELECT Name FROM Players WHERE IP='" + message + "'");
-
-            if (playerDb.Rows.Count == 0) { Player.SendMessage(p, "Could not find anyone with this IP"); return; }
-
-            string playerNames = "Players with this IP: ";
-
-            for (int i = 0; i < playerDb.Rows.Count; i++)
+            string players = "Players with this IP: ";
+            foreach (string f in Directory.GetFiles("db/players/"))
             {
-                playerNames += playerDb.Rows[i]["Name"] + ", ";
+                if (File.ReadAllText(f).Contains(message))
+                {
+                    players += f.Replace(".txt", "").Replace("db/players/", "") + ", ";
+                }
             }
-            playerNames = playerNames.Remove(playerNames.Length - 2);
-
-            Player.SendMessage(p, playerNames);
-            playerDb.Dispose();
+            if (players == "Players with this IP: ") { Player.SendMessage(p, "Could not find anyone with this IP"); return; }
+            players = players.Remove(players.Length - 2);
+            Player.SendMessage(p, players);
         }
         public override void Help(Player p)
         {

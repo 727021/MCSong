@@ -246,6 +246,24 @@ namespace MCSong
         public const byte snake = (byte)251;
         public const byte snaketail = (byte)252;
 
+        // CPE Blocks
+        public const byte cobbleslab = (byte)50;
+        public const byte rope = (byte)51;
+        public const byte sandstone = (byte)52;
+        public const byte snow = (byte)53;
+        public const byte cpefire = (byte)54;
+        public const byte lightpink = (byte)55;
+        public const byte forestgreen = (byte)56;
+        public const byte brown = (byte)57;
+        public const byte deepblue = (byte)58;
+        public const byte turquoise = (byte)59;
+        public const byte ice = (byte)60;
+        public const byte ceramic = (byte)61;
+        public const byte cpemagma = (byte)62;
+        public const byte pillar = (byte)63;
+        public const byte crate = (byte)64;
+        public const byte stonebrick = (byte)65;
+
         public static List<Blocks> BlockList = new List<Blocks>();
         public class Blocks
         {
@@ -597,6 +615,9 @@ namespace MCSong
                 case mushroom:
                 case redmushroom:
                 case shrub:
+                //CPE
+                case rope:
+                case cpefire:
                     return true;
             }
             return false;
@@ -709,7 +730,7 @@ namespace MCSong
                     return false;
             }
 
-            if (type > 49) { return false; }
+            if (type > 65) { return false; }
             return true;
         }
 
@@ -849,6 +870,12 @@ namespace MCSong
                 case Block.mushroom:
                 case Block.redmushroom:
                 case Block.bookcase:
+                //CPE
+                case Block.lightpink:
+                case Block.brown:
+                case Block.deepblue:
+                case Block.turquoise:
+                case Block.crate:
                     return true;
             }
             return false;
@@ -881,6 +908,7 @@ namespace MCSong
                 case Block.mushroom:
                 case Block.redmushroom:
                 case Block.shrub:
+                case Block.rope:
                     return true;
 
                 default:
@@ -1049,11 +1077,39 @@ namespace MCSong
                 case Block.deathwater:
 
                 case flagbase:
+                //CPE
+                case Block.cobbleslab:
+                case Block.rope:
+                case Block.sandstone:
+                case Block.snow:
+                case Block.cpefire:
+                case Block.lightpink:
+                case Block.forestgreen:
+                case Block.brown:
+                case Block.deepblue:
+                case Block.turquoise:
+                case Block.ice:
+                case Block.ceramic:
+                case Block.cpemagma:
+                case Block.pillar:
+                case Block.crate:
+                case Block.stonebrick:
                     return false;
 
                 default:
                     return true;
             }
+        }
+
+        public static bool Extended(byte b)
+        {
+            return (b >= (byte)50 && b <= (byte)65);
+        }
+
+        public static byte SupportLevel(byte b)
+        {
+            if (b >= (byte)50 && b <= (byte)65) return (byte)1;
+            else return (byte)0;
         }
 
         public static string Name(byte type)
@@ -1110,6 +1166,24 @@ namespace MCSong
                 case 47: return "bookcase";
                 case 48: return "mossy_cobblestone";
                 case 49: return "obsidian";
+
+                //CPE
+                case 50: return "cobblestone_slab";
+                case 51: return "rope";
+                case 52: return "sandstone";
+                case 53: return "snow";
+                case 54: return "cpefire";
+                case 55: return "lightpink";
+                case 56: return "forestgreen";
+                case 57: return "brown";
+                case 58: return "deepblue";
+                case 59: return "turquoise";
+                case 60: return "ice";
+                case 61: return "ceramic";
+                case 62: return "cpemagma";
+                case 63: return "pillar";
+                case 64: return "crate";
+                case 65: return "stonebrick";
 
                 case 70: return "flagbase";
                 case 100: return "op_glass";
@@ -1337,6 +1411,24 @@ namespace MCSong
                 case "mossy_cobblestone": return 48;
                 case "obsidian": return 49;
 
+                //CPE
+                case "cobblestone_slab": return 50;
+                case "rope": return 51;
+                case "sandstone": return 52;
+                case "snow": return 53;
+                case "cpefire": return 54;
+                case "lightpink": return 55;
+                case "forestgreen": return 56;
+                case "brown": return 57;
+                case "deepblue": return 58;
+                case "turquoise": return 59;
+                case "ice": return 60;
+                case "ceramic": return 61;
+                case "cpemagma": return 62;
+                case "pillar": return 63;
+                case "crate": return 64;
+                case "stonebrick": return 65;
+
                 case "op_glass": return 100;
                 case "opsidian": return 101;              //TODO Add command or just use bind?
                 case "op_brick": return 102;              //TODO
@@ -1533,6 +1625,30 @@ namespace MCSong
                 case "lava_shark": return fishlavashark;
 
                 default: return Zero;
+            }
+        }
+
+        public static byte Fallback(byte b)
+        {
+            switch (b)
+            {
+                case cobbleslab: return staircasestep;
+                case rope: return mushroom;
+                case sandstone: return sand;
+                case snow: return air;
+                case cpefire: return fire;
+                case lightpink: return pink;
+                case forestgreen: return green;
+                case brown: return dirt;
+                case deepblue: return blue;
+                case turquoise: return cyan;
+                case ice: return glass;
+                case ceramic: return iron;
+                case cpemagma: return obsidian;
+                case pillar: return white;
+                case crate: return wood;
+                case stonebrick: return stone;
+                default: return b;
             }
         }
 

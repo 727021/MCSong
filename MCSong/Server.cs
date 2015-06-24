@@ -222,8 +222,11 @@ namespace MCSong
 
         // CPE
         public static bool cpe = true;
-        public static bool cpeClickDistance = false;
+        public static bool cpeClickDistance = true;
         public static int cpeClickDistanceVersion = 1;
+        public static bool cpeCustomBlocks = true;
+        public static int cpeCustomBlocksVersion = 1;
+        public static readonly byte CustomBlockSupportLevel = (byte)1;
 
         public static bool mono = false;
 
@@ -247,12 +250,15 @@ namespace MCSong
             if (!Directory.Exists("properties")) Directory.CreateDirectory("properties");
             if (!Directory.Exists("bots")) Directory.CreateDirectory("bots");
             if (!Directory.Exists("text")) Directory.CreateDirectory("text");
+            if (!Directory.Exists("db")) Directory.CreateDirectory("db");
 
             if (!Directory.Exists("extra")) Directory.CreateDirectory("extra");
             if (!Directory.Exists("extra/undo")) Directory.CreateDirectory("extra/undo");
             if (!Directory.Exists("extra/undoPrevious")) Directory.CreateDirectory("extra/undoPrevious");
             if (!Directory.Exists("extra/copy/")) { Directory.CreateDirectory("extra/copy/"); }
             if (!Directory.Exists("extra/copyBackup/")) { Directory.CreateDirectory("extra/copyBackup/"); }
+
+            if (!Directory.Exists("db/players/")) Directory.CreateDirectory("db/players/");
 
             try
             {
@@ -683,7 +689,11 @@ namespace MCSong
         {
             PluginManager.loaded.ForEach(delegate(Plugin p)
             {
-                PluginManager.Unload(p);
+                try
+                {
+                    PluginManager.Unload(p);
+                }
+                catch { }
             });
             List<string> players = new List<string>();
             foreach (Player p in Player.players) { p.save(); players.Add(p.name); }
