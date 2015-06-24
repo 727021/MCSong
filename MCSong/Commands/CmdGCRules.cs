@@ -24,11 +24,8 @@ namespace MCSong
             Player.SendMessage(p, "4. Obey MCSong staff");
             Player.SendMessage(p, "5. Don't advertise");
             Player.SendMessage(p, "- - - - - - - - - - - - - -");
-            if (!Server.gcAgreed.Contains(p.name) && p != null && p.group.commands.Contains(Command.all.Find("global")))
-            {
-                Player.SendMessage(p, "Use &a/agree " + Server.DefaultColor + " to agree to the Global Chat rules.");
-                p.agreestring = "gcrules";
-            }
+            Player.SendMessage(p, "Use &a/agree " + Server.DefaultColor + " to agree to the Global Chat rules.");
+            p.agreestring = "gcrules";
         }
         public override void Help(Player p)
         {

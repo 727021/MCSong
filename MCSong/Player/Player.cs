@@ -25,6 +25,7 @@ using System.Data;
 
 namespace MCSong
 {
+
     public sealed class Player
     {
         #region Events
@@ -127,6 +128,7 @@ namespace MCSong
 
         public DateTime timeLogged;
         public DateTime firstLogin;
+        public DateTime lastLogin;
         public int totalLogins = 0;
         public int totalKicked = 0;
         public int overallDeath = 0;
@@ -170,7 +172,8 @@ namespace MCSong
         private int cpeExtSent = 0;
         // extensions (set to true if shared by client/server)
         public bool cpeClickDistance = false;
-
+        public bool cpeCustomBlocks = false;
+        public byte CustomBlockSupportLevel = 0;
         
 
 
@@ -355,7 +358,7 @@ namespace MCSong
 
         public void save()
         {
-            string commandString =
+            /*string commandString =
                 "UPDATE Players SET IP='" + ip + "'" +
                 ", LastLogin='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
                 ", totalLogin=" + totalLogins +
@@ -365,7 +368,9 @@ namespace MCSong
                 ", totalKicked=" + totalKicked +
                 " WHERE Name='" + name + "'";
 
-            MySQL.executeQuery(commandString);
+            MySQL.executeQuery(commandString);*/
+
+            PlayerDB.Save(this);
 
             try
             {
@@ -448,10 +453,9 @@ namespace MCSong
                     case 17:
                         length = 69;
                         break; // extentry
-                    case 66:
-                        length = 130;
-                        cpe = true;
-                        break; // cpe
+                    case 19:
+                        length = 2;
+                        break;
                     default:
                         Kick("Unhandled message id \"" + msg + "\"!");
                         return new byte[0];
@@ -493,8 +497,8 @@ namespace MCSong
                         case 17:
                             HandleExtEntry(message);
                             break;
-                        case 66:
-                            HandleLogin(message);
+                        case 19:
+                            HandleCustomBlockSupportLevel(message);
                             break;
                     }
                     //thread.Start((object)message);
@@ -523,6 +527,9 @@ namespace MCSong
                 string verify = enc.GetString(message, 65, 32).Trim();
                 byte type = message[129];
 
+                if (type == (byte)66)
+                    cpe = true;
+
                 if (OnPlayerJoinEvent != null) OnPlayerJoinEvent(this);
 
                 if (noJoin)
@@ -546,7 +553,7 @@ namespace MCSong
                 } catch { }
                 // OMNI BAN
                 bool omnibanned = false;
-                try
+                /*try
                 {//Get omnibans from the devpanel
                     string omnibans = new WebClient().DownloadString("http://dev.mcsong.x10.mx/omnibans.php?action=list");
                     if (omnibanned)
@@ -561,12 +568,12 @@ namespace MCSong
                     }
                 }
                 catch
-                { //Hard-coded list of omnibans
+                {*/ //Hard-coded list of omnibans
                     if (this.name.ToLower() == "soysauceships")
                     {
                         omnibanned = true;
                     }
-                }
+                //}
                 if (omnibanned) { Kick("You have been Omnibanned.  mcsong.x10.mx/forums for appeal."); omnibanned = false; return; }
                 // Whitelist check.
                 if (Server.useWhitelist)
@@ -672,51 +679,42 @@ namespace MCSong
 
                 if (Server.cpe && cpe)
                 {
-                    if (Server.cpeClickDistance)// Make sure at least 1 extension is enabled on the server
+                    // Make sure at least 1 extension is enabled on the server
+                    if (Server.cpeClickDistance || Server.cpeCustomBlocks)
                     {
                         SendExtInfo();
                         SendExtEntry();
-                        while (cpeExtSent < cpeCount) { }// Wait for ExtInfo and ExtEntry from client before sending MOTD
+                        Server.s.Log("Waiting for ExtInfo");
+                        OnExtInfo += delegate
+                        {
+                            Server.s.Log("Waiting for ExtEntry(s)");
+                            OnExtEntries += delegate
+                            {// Wait for ExtInfo and ExtEntry from client before sending MOTD
+                                if (Server.cpeCustomBlocks)
+                                {
+                                    SendCustomBlockSupportLevel();
+                                    Server.s.Log("Waiting for support level");
+                                    OnCustomBlocks += delegate
+                                    {
+                                        Server.s.Log("Support level found. Continuing to login.");
+                                        LoginPostCPE();
+                                    };
+                                }
+                                else
+                                {
+                                    LoginPostCPE();
+                                }
+                            };
+                        };
+                    }
+                    else
+                    {
+                        LoginPostCPE();
                     }
                 }
-
-                
-
-                SendMotd();
-                SendMap();
-                Loading = true;
-
-                if (disconnected) return;
-
-                loggedIn = true;
-                id = FreeId();
-
-                players.Add(this);
-                connections.Remove(this);
-
-                Server.s.PlayerListUpdate();
-
-                IRCBot.Say(name + " joined the game.");
-
-                //Test code to show when people come back with different accounts on the same IP
-                string temp = "Lately known as:";
-                bool found = false;
-                if (ip != "127.0.0.1")
+                else
                 {
-                    foreach (KeyValuePair<string, string> prev in left)
-                    {
-                        if (prev.Value == ip)
-                        {
-                            found = true;
-                            temp += " " + prev.Key;
-                        }
-                    }
-                    if (found)
-                    {
-                        GlobalMessageOps(temp);
-                        Server.s.Log(temp);
-                        IRCBot.Say(temp, true);       //Tells people in op channel on IRC
-                    }
+                    LoginPostCPE();                    
                 }
             }
             catch (Exception e)
@@ -725,7 +723,55 @@ namespace MCSong
                 Player.GlobalMessage("An error occurred: " + e.Message);
             }
 
-            DataTable playerDb = MySQL.fillData("SELECT * FROM Players WHERE Name='" + name + "'");
+            
+        }
+        public delegate void VoidHandler();
+        public event VoidHandler OnExtInfo = null;
+        public event VoidHandler OnExtEntries = null;
+        public event VoidHandler OnCustomBlocks = null;
+        public void LoginPostCPE()
+        {
+            Server.s.Log("CPE Negotiations Completed. Continuing with login.");
+            SendMotd();
+            SendMap();
+            Loading = true;
+
+            if (disconnected) return;
+
+            loggedIn = true;
+            id = FreeId();
+
+            players.Add(this);
+            connections.Remove(this);
+
+            Server.s.PlayerListUpdate();
+
+            IRCBot.Say(name + " joined the game.");
+
+            //Test code to show when people come back with different accounts on the same IP
+            string temp = "Lately known as:";
+            bool found = false;
+            if (ip != "127.0.0.1")
+            {
+                foreach (KeyValuePair<string, string> prev in left)
+                {
+                    if (prev.Value == ip)
+                    {
+                        found = true;
+                        temp += " " + prev.Key;
+                    }
+                }
+                if (found)
+                {
+                    GlobalMessageOps(temp);
+                    Server.s.Log(temp);
+                    IRCBot.Say(temp, true);       //Tells people in op channel on IRC
+                }
+            }
+            
+            // --------------------
+
+            /*DataTable playerDb = MySQL.fillData("SELECT * FROM Players WHERE Name='" + name + "'");
 
             if (playerDb.Rows.Count == 0)
             {
@@ -777,10 +823,11 @@ namespace MCSong
                 overallDeath = int.Parse(playerDb.Rows[0]["TotalDeaths"].ToString());
                 overallBlocks = int.Parse(playerDb.Rows[0]["totalBlocks"].ToString().Trim());
                 money = int.Parse(playerDb.Rows[0]["Money"].ToString());
-                totalKicked = int.Parse(playerDb.Rows[0]["totalKicked"].ToString());
-                SendMessage("Welcome back " + color + prefix + name + Server.DefaultColor + "! You've been here " + totalLogins + " times!");
-            }
-            playerDb.Dispose();
+                totalKicked = int.Parse(playerDb.Rows[0]["totalKicked"].ToString());*/
+            PlayerDB.Load(this);
+            SendMessage("Welcome back " + color + prefix + name + Server.DefaultColor + "! You've been here " + totalLogins + " times!");
+            //}
+            //playerDb.Dispose();
 
             if (Server.devs.Contains(this.name.ToLower()))
             {
@@ -830,12 +877,15 @@ namespace MCSong
             {
                 SendClickDistance(clickDistance);
             }
+
         }
 
         public void HandleExtInfo(byte[] message)
         {
             cpeName = enc.GetString(message, 0, 64).Trim();
             cpeCount = NTHOshort(message, 64);
+            Server.s.Log("ExtInfo Received: " + cpeName + " Extensions: " + cpeCount);
+            if (OnExtInfo != null) OnExtInfo();
         }
 
         public void HandleExtEntry(byte[] message)
@@ -849,8 +899,24 @@ namespace MCSong
                         cpeClickDistance = true;
                     }
                     break;
+                case "CustomBlocks":
+                    if (Server.cpeCustomBlocks && (NTHOint(message, 64) == Server.cpeCustomBlocksVersion))
+                    {
+                        cpeCustomBlocks = true;
+                    }
+                    break;
             }
+            Server.s.Log("ExtEntry Received: " + extName + " version " + NTHOint(message, 64));
             cpeExtSent++;
+            if (cpeCount == cpeExtSent)
+                if (OnExtEntries != null) OnExtEntries();
+        }
+
+        public void HandleCustomBlockSupportLevel(byte[] message)
+        {
+            Server.s.Log("CustomBlockSupportLevel Received: " + message[0]);
+            CustomBlockSupportLevel = (message[0] > Server.CustomBlockSupportLevel) ? Server.CustomBlockSupportLevel : message[0];
+             if (OnCustomBlocks != null) OnCustomBlocks();
         }
 
         public void SetPrefix()
@@ -2015,7 +2081,10 @@ namespace MCSong
 
             for (int i = 0; i < level.blocks.Length; ++i)
             {
-                buffer[4 + i] = Block.Convert(level.blocks[i]);
+                if (cpeCustomBlocks && (CustomBlockSupportLevel >= Block.SupportLevel(level.blocks[i])))
+                    buffer[4 + i] = Block.Convert(level.blocks[i]);
+                else
+                    buffer[4 + i] = Block.Convert(Block.Fallback(level.blocks[i]));
             }
 
             buffer = GZip(buffer);
@@ -2050,9 +2119,10 @@ namespace MCSong
             byte[] buffer = new byte[66];
 
             StringFormat("MCSong Server", 64).CopyTo(buffer, 0);
-            HTNO((short)0).CopyTo(buffer, 65);
+            HTNO((short)0).CopyTo(buffer, 64);
             
             SendRaw(16, buffer);
+            Server.s.Log("ExtInfo Sent");
         }
 
         public void SendExtEntry()
@@ -2061,8 +2131,17 @@ namespace MCSong
             {
                 byte[] buffer = new byte[68];
                 StringFormat("ClickDistance", 64).CopyTo(buffer, 0);
-                HTNO(1).CopyTo(buffer, 66);
+                HTNO(Server.cpeClickDistanceVersion).CopyTo(buffer, 64);
                 SendRaw(17, buffer);
+                Server.s.Log("ExtEntry Sent: ClickDistance");
+            }
+            if (Server.cpeCustomBlocks)
+            {
+                byte[] buffer = new byte[68];
+                StringFormat("CustomBlocks", 64).CopyTo(buffer, 0);
+                HTNO(Server.cpeCustomBlocksVersion).CopyTo(buffer, 64);
+                SendRaw(17, buffer);
+                Server.s.Log("ExtEntry Sent: CustomBlocks");
             }
         }
 
@@ -2073,6 +2152,14 @@ namespace MCSong
             HTNO(distance).CopyTo(buffer, 0);
             SendRaw(18, buffer);
             Server.s.Log(name + "'s click distance was set to " + distance);
+        }
+
+        public void SendCustomBlockSupportLevel()
+        {
+            byte[] buffer = new byte[1];
+            buffer[0] = Server.CustomBlockSupportLevel;
+            SendRaw(19, buffer);
+            Server.s.Log("CustomBlockSupportLevel Sent");
         }
 
         public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty)
@@ -2115,6 +2202,8 @@ namespace MCSong
         public void SendDie(byte id) { SendRaw(0x0C, new byte[1] { id }); }
         public void SendBlockchange(ushort x, ushort y, ushort z, byte type)
         {
+            if (!cpeCustomBlocks || (CustomBlockSupportLevel < Block.SupportLevel(type)))
+                type = Block.Fallback(type);
             if (x < 0 || y < 0 || z < 0) return;
             if (x >= level.width || y >= level.depth || z >= level.height) return;
 
