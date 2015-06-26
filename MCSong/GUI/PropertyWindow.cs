@@ -544,8 +544,7 @@ namespace MCSong.Gui
                     w.WriteLine("default-rank = " + cmbDefaultRank.Items[cmbDefaultRank.SelectedIndex].ToString());
                     w.WriteLine();
                     w.WriteLine("#Extensions");
-                    w.WriteLine("cpe = " + Server.cpe.ToString().ToLower());
-                    w.WriteLine("click-distance = " + Server.cpeClickDistance.ToString().ToLower());
+                    w.WriteLine("cpe = " + Server.cpe.ToString());
                 }
                 w.Flush();
                 w.Close();

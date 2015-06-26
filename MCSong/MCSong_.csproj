@@ -141,6 +141,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CTFGame.cs" />
+    <Compile Include="Extension.cs" />
     <Compile Include="Flatfile\PlayerDB.cs" />
     <Compile Include="FindReference.cs" />
     <Compile Include="Color.cs" />

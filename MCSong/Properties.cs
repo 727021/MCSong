@@ -397,12 +397,15 @@ namespace MCSong
                                     Server.ZallState = value;
                                 break;
                             case "cpe":
-                                try { Server.cpe = bool.Parse(value); }
-                                catch { Server.s.Log("Invalid " + key + ". Using default."); }
-                                break;
-                            case "click-distance":
-                                try { Server.cpeClickDistance = bool.Parse(value); }
-                                catch { Server.s.Log("Invalid " + key + ". Using default."); }
+                                Server.cpe = new ExtensionList();
+                                if (value.ToLower() == "none")
+                                    break;
+                                foreach (string s in value.Split(','))
+                                {
+                                    Extension e = Extension.all.Find(s.Trim());
+                                    if (e != null)
+                                        Server.cpe.Add(e);
+                                }
                                 break;
                         }
                     }
@@ -563,8 +566,7 @@ namespace MCSong
                     catch { w.WriteLine("default-rank = guest"); }
                     w.WriteLine();
                     w.WriteLine("#Extensions");
-                    w.WriteLine("cpe = " + Server.cpe.ToString().ToLower());
-                    w.WriteLine("click-distance = " + Server.cpeClickDistance.ToString().ToLower());
+                    w.WriteLine("cpe = " + Server.cpe.ToString());
                 }
                 w.Flush();
                 w.Close();
