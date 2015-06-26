@@ -221,11 +221,7 @@ namespace MCSong
         public static bool maintKick = true;
 
         // CPE
-        public static bool cpe = true;
-        public static bool cpeClickDistance = true;
-        public static int cpeClickDistanceVersion = 1;
-        public static bool cpeCustomBlocks = true;
-        public static int cpeCustomBlocksVersion = 1;
+        public static ExtensionList cpe = new ExtensionList { Extension.ClickDistance, Extension.CustomBlocks };
         public static readonly byte CustomBlockSupportLevel = (byte)1;
 
         public static bool mono = false;
@@ -233,6 +229,8 @@ namespace MCSong
         public static bool flipHead = false;
 
         public static bool shuttingDown = false;
+
+        public static bool debugMode = true;
         #endregion
 
         public static MainLoop ml;
@@ -785,7 +783,11 @@ namespace MCSong
 
             Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
         }
-
+        public void Debug(string message)
+        {
+            if (Server.debugMode)
+                Log("[Debug]" + message);
+        }
         public void ErrorCase(string message)
         {
             if (OnError != null)

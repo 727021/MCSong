@@ -168,11 +168,9 @@ namespace MCSong
         public bool cpe = false;
         public string cpeName = "";
         public short cpeCount = 0;
-
         private int cpeExtSent = 0;
-        // extensions (set to true if shared by client/server)
-        public bool cpeClickDistance = false;
-        public bool cpeCustomBlocks = false;
+
+        public ExtensionList extensions = new ExtensionList();
         public byte CustomBlockSupportLevel = 0;
         
 
@@ -448,15 +446,16 @@ namespace MCSong
                         length = 65;
                         break; // chat
                     case 16:
-                        length = 67;
+                        length = 66;
                         break; // extinfo
                     case 17:
-                        length = 69;
+                        length = 68;
                         break; // extentry
                     case 19:
-                        length = 2;
+                        length = 1;
                         break;
                     default:
+                        Server.s.Debug("Unhandled message id \"" + msg + "\"");
                         Kick("Unhandled message id \"" + msg + "\"!");
                         return new byte[0];
                 }
@@ -527,6 +526,8 @@ namespace MCSong
                 string verify = enc.GetString(message, 65, 32).Trim();
                 byte type = message[129];
 
+                Server.s.Debug("Packet Received(0): " + version + " " + name + " " + verify + " " + type);
+
                 if (type == (byte)66)
                     cpe = true;
 
@@ -536,6 +537,7 @@ namespace MCSong
                 {
                     try { this.Disconnect(); }
                     catch { }
+                    Server.s.Debug("PlayerJoinEvent cancelled (noJoin = true)");
                     return;
                 }
 
@@ -587,6 +589,7 @@ namespace MCSong
                     }
                     else
                     {
+                        // [TODO] KILL THIS SQL (convert to flatfile)
                         // Verify Names is off.  Gotta check the hard way.
                         DataTable ipQuery = MySQL.fillData("SELECT Name FROM Players WHERE IP = '" + ip + "'");
 
@@ -677,61 +680,25 @@ namespace MCSong
 
                 group = Group.findPlayerGroup(name);
 
-                if (Server.cpe && cpe)
+                if (Server.cpe.Count > 0 && cpe)
                 {
-                    // Make sure at least 1 extension is enabled on the server
-                    if (Server.cpeClickDistance || Server.cpeCustomBlocks)
-                    {
-                        SendExtInfo();
-                        SendExtEntry();
-                        Server.s.Log("Waiting for ExtInfo");
-                        OnExtInfo += delegate
-                        {
-                            Server.s.Log("Waiting for ExtEntry(s)");
-                            OnExtEntries += delegate
-                            {// Wait for ExtInfo and ExtEntry from client before sending MOTD
-                                if (Server.cpeCustomBlocks)
-                                {
-                                    SendCustomBlockSupportLevel();
-                                    Server.s.Log("Waiting for support level");
-                                    OnCustomBlocks += delegate
-                                    {
-                                        Server.s.Log("Support level found. Continuing to login.");
-                                        LoginPostCPE();
-                                    };
-                                }
-                                else
-                                {
-                                    LoginPostCPE();
-                                }
-                            };
-                        };
-                    }
-                    else
-                    {
-                        LoginPostCPE();
-                    }
+                    SendExtInfo();
+                    SendExtEntry();
                 }
                 else
                 {
-                    LoginPostCPE();                    
+                    FinishLogin();
                 }
             }
             catch (Exception e)
             {
                 Server.ErrorLog(e);
                 Player.GlobalMessage("An error occurred: " + e.Message);
-            }
-
-            
+            }            
         }
-        public delegate void VoidHandler();
-        public event VoidHandler OnExtInfo = null;
-        public event VoidHandler OnExtEntries = null;
-        public event VoidHandler OnCustomBlocks = null;
-        public void LoginPostCPE()
+        public void FinishLogin()
         {
-            Server.s.Log("CPE Negotiations Completed. Continuing with login.");
+            Server.s.Debug("Finishing player login...");
             SendMotd();
             SendMap();
             Loading = true;
@@ -873,7 +840,7 @@ namespace MCSong
             GlobalChat(null, "&a+ " + this.color + this.prefix + this.name + Server.DefaultColor + " has joined the game.", false);
             Server.s.Log(name + " [" + ip + "] has joined the server.");
 
-            if (cpe && cpeClickDistance)
+            if (cpe && extensions.Contains(Extension.ClickDistance))
             {
                 SendClickDistance(clickDistance);
             }
@@ -884,39 +851,45 @@ namespace MCSong
         {
             cpeName = enc.GetString(message, 0, 64).Trim();
             cpeCount = NTHOshort(message, 64);
-            Server.s.Log("ExtInfo Received: " + cpeName + " Extensions: " + cpeCount);
-            if (OnExtInfo != null) OnExtInfo();
+            Server.s.Debug("Packet Received(16): " + cpeName + " " + cpeCount);
+            if (cpeCount <= 0)
+            {
+                FinishLogin();
+            }
         }
 
+        private bool extraExt = false;
         public void HandleExtEntry(byte[] message)
         {
             string extName = enc.GetString(message, 0, 64).Trim();
-            switch (extName)
-            {
-                case "ClickDistance":
-                    if (Server.cpeClickDistance && (NTHOint(message, 64) == Server.cpeClickDistanceVersion))
-                    {
-                        cpeClickDistance = true;
-                    }
-                    break;
-                case "CustomBlocks":
-                    if (Server.cpeCustomBlocks && (NTHOint(message, 64) == Server.cpeCustomBlocksVersion))
-                    {
-                        cpeCustomBlocks = true;
-                    }
-                    break;
-            }
-            Server.s.Log("ExtEntry Received: " + extName + " version " + NTHOint(message, 64));
+            int extVersion = NTHOint(message, 64);//CHECK
+            Extension e = Server.cpe.Find(extName);
+
+            Server.s.Debug("Packet Received(17): " + extName + " " + extVersion);
+
+            if (extraExt) return;
             cpeExtSent++;
-            if (cpeCount == cpeExtSent)
-                if (OnExtEntries != null) OnExtEntries();
+            if (cpeExtSent > cpeCount) { Server.s.Log("Too many ExtEntry packets were received! Ignoring all extras..."); extraExt = true; return; }
+
+            if (e != null)// Is it enabled on the server?
+                if (extVersion == e.version)// Do the versions match?
+                    extensions.Add(e);
+
+            
+            
+            if (cpeExtSent == cpeCount)
+                if (extensions.Contains(Extension.CustomBlocks))
+                    SendCustomBlockSupportLevel();
+                else
+                    FinishLogin();
         }
 
         public void HandleCustomBlockSupportLevel(byte[] message)
         {
-            Server.s.Log("CustomBlockSupportLevel Received: " + message[0]);
+            Server.s.Debug("Packet Received(19): " + message[0]);
             CustomBlockSupportLevel = (message[0] > Server.CustomBlockSupportLevel) ? Server.CustomBlockSupportLevel : message[0];
-             if (OnCustomBlocks != null) OnCustomBlocks();
+            Server.s.Debug("Using support level " + CustomBlockSupportLevel);
+            FinishLogin();
         }
 
         public void SetPrefix()
@@ -942,6 +915,8 @@ namespace MCSong
                 byte action = message[6];
                 byte type = message[7];
 
+                Server.s.Debug("Packet Received(5): " + x + " " + y + " " + z + " " + action + " " + type);
+
                 manualChange(x, y, z, action, type);
             }
             catch (Exception e)
@@ -953,15 +928,46 @@ namespace MCSong
         }
         public void manualChange(ushort x, ushort y, ushort z, byte action, byte type)
         {
-            if (type > 49)
+            if (extensions.Contains(Extension.CustomBlocks))
             {
-                Kick("Unknown block type!");
-                return;
+                if (Block.SupportLevel(type) > CustomBlockSupportLevel)
+                {
+                    Kick("Unknown block type!");
+                    return;
+                }
+                else
+                {
+                    if (CustomBlockSupportLevel == 1)
+                    {
+                        if (type > 65)
+                        {
+                            Kick("Unknown block type!");
+                            return;
+                        }
+                    }
+                    else if (CustomBlockSupportLevel < 1)
+                    {
+                        if (type > 49)
+                        {
+                            Kick("Unknown block type!");
+                            return;
+                        }
+                    }
+                }
             }
+            else
+            {
+                if (type > 49)
+                {
+                    Kick("Unknown block type!");
+                    return;
+                }
+            }
+            
 
             if (OnPlayerBlockchangeEvent != null) OnPlayerBlockchangeEvent(this, x, y, z, type);
             if (OnBlockchangeEvent != null) OnBlockchangeEvent(x, y, z, type);
-            if (noBlockchange) return;
+            if (noBlockchange) { Server.s.Debug("BlockchangeEvent cancelled (noBlockchange = true)"); return; }
 
             byte b = level.GetTile(x, y, z);
             if (b == Block.Zero) { return; }
@@ -979,6 +985,7 @@ namespace MCSong
 
             if (!canBuild)
             {
+                Server.s.Debug("canBuild is false");
                 SendBlockchange(x, y, z, b);
                 return;
             }
@@ -1064,6 +1071,7 @@ namespace MCSong
             //Ignores updating blocks that are the same and send block only to the player
             if (b == (byte)((painting || action == 1) ? type : 0))
             {
+                Server.s.Debug("Painting or something");
                 if (painting || oldType != type) { SendBlockchange(x, y, z, b); } return;
             }
             //else
@@ -1249,8 +1257,8 @@ namespace MCSong
             switch (BlockAction)
             {
                 case 0:     //normal
-                    if (level.physics == 0)
-                    {
+                    //if (level.physics == 0)
+                    //{
                         switch (type)
                         {
                             case Block.dirt: //instant dirt to grass
@@ -1267,15 +1275,24 @@ namespace MCSong
                                 //else
                                 level.Blockchange(this, x, y, z, type);
                                 break;
+                            case Block.cobbleslab: // Cobble stair handler
+                                if (level.GetTile(x, (ushort)(y - 1), z) == Block.cobbleslab)
+                                {
+                                    SendBlockchange(x, y, z, Block.air);
+                                    level.Blockchange(this, x, (ushort)(y - 1), z, (byte)Block.stone);
+                                    break;
+                                }
+                                level.Blockchange(this, x, y, z, type);
+                                break;
                             default:
                                 level.Blockchange(this, x, y, z, type);
                                 break;
                         }
-                    }
-                    else
-                    {
-                        level.Blockchange(this, x, y, z, type);
-                    }
+                    //}
+                    //else
+                    //{
+                    //    level.Blockchange(this, x, y, z, type);
+                    //}
                     break;
                 case 6:
                     if (b == modeType) { SendBlockchange(x, y, z, b); return; }
@@ -1309,6 +1326,8 @@ namespace MCSong
             byte roty = message[8];
             pos = new ushort[3] { x, y, z };
             rot = new byte[2] { rotx, roty };
+
+            //Server.s.Debug("Packet Received(8): " + thisid + " " + x + " " + y + " " + z + " " + rotx + " " + roty);
         }
 
         public void RealDeath(ushort x, ushort y, ushort z)
@@ -1540,6 +1559,8 @@ namespace MCSong
 
                 //byte[] message = (byte[])m;
                 string text = enc.GetString(message, 1, 64).Trim();
+
+                Server.s.Debug("Packet Received(13): " + message[0] + " " + text);
 
                 if (storedMessage != "")
                 {
@@ -1869,6 +1890,7 @@ namespace MCSong
         }
         public void SendRaw(int id, byte[] send)
         {
+
             byte[] buffer = new byte[send.Length + 1];
             buffer[0] = (byte)id;
 
@@ -1876,19 +1898,13 @@ namespace MCSong
             string TxStr = "";
             for (int i = 0; i < buffer.Length; i++)
             {
-                TxStr += buffer[i] + " ";
+                TxStr += buffer[i];
             }
             int tries = 0;
         retry: try
             {
             
                 socket.BeginSend(buffer, 0, buffer.Length, SocketFlags.None, delegate(IAsyncResult result) { }, null);
-          /*      if (buffer[0] != 1)
-                {
-                    Server.s.Log("Buffer ID: " + buffer[0]);
-                    Server.s.Log("BUFFER LENGTH: " + buffer.Length);
-                    Server.s.Log(TxStr);
-                }*/
             }
             catch (SocketException)
             {
@@ -2019,7 +2035,7 @@ namespace MCSong
 
                 if (OnPlayerSendMessageEvent != null) OnPlayerSendMessageEvent(this, message);
                 if (OnSendMessageEvent != null) OnSendMessageEvent(message);
-                if (noSendMessage) return;
+                if (noSendMessage) { Server.s.Debug("SendMessageEvent cancelled (noSendMessage = true)"); return; }
 
                 foreach (string line in Wordwrap(message))
                 {
@@ -2030,6 +2046,7 @@ namespace MCSong
                     }
 
                     StringFormat(newLine, 64).CopyTo(buffer, 1);
+                    Server.s.Debug("Sending Packet(13): " + newLine);
                     SendRaw(13, buffer);
                 }
             }
@@ -2053,6 +2070,7 @@ namespace MCSong
             else
                 buffer[129] = 0;
 
+            Server.s.Debug("Sending Packet(0): 8 " + Server.name + " " + Server.motd + " " + buffer[129]);
             SendRaw(0, buffer);
             
         }
@@ -2069,11 +2087,13 @@ namespace MCSong
                 buffer[129] = 100;
             else
                 buffer[129] = 0;
+            Server.s.Debug("Sending Packet(0): " + ((level.motd == "ignore") ? Server.name + " " + Server.motd : level.motd) + " " + buffer[129]);
             SendRaw(0, buffer);
         }
 
         public void SendMap()
         {
+            Server.s.Debug("Sending Packet(2)");
             SendRaw(2);
             byte[] buffer = new byte[level.blocks.Length + 4];
             BitConverter.GetBytes(IPAddress.HostToNetworkOrder(level.blocks.Length)).CopyTo(buffer, 0);
@@ -2081,7 +2101,7 @@ namespace MCSong
 
             for (int i = 0; i < level.blocks.Length; ++i)
             {
-                if (cpeCustomBlocks && (CustomBlockSupportLevel >= Block.SupportLevel(level.blocks[i])))
+                if (extensions.Contains(Extension.CustomBlocks) && (CustomBlockSupportLevel >= Block.SupportLevel(level.blocks[i])))
                     buffer[4 + i] = Block.Convert(level.blocks[i]);
                 else
                     buffer[4 + i] = Block.Convert(Block.Fallback(level.blocks[i]));
@@ -2099,6 +2119,7 @@ namespace MCSong
                 Buffer.BlockCopy(buffer, length, tempbuffer, 0, buffer.Length - length);
                 buffer = tempbuffer;
                 send[1026] = (byte)(i * 100 / number);
+                Server.s.Debug("Sending Packet(3): " + length + " {chunk data} " + (i * 100 / number).ToString());
                 SendRaw(3, send);
                 if (ip == "127.0.0.1") { }
                 else if (Server.updateTimer.Interval > 1000) Thread.Sleep(100);
@@ -2107,6 +2128,7 @@ namespace MCSong
             HTNO((short)level.width).CopyTo(buffer, 0);
             HTNO((short)level.depth).CopyTo(buffer, 2);
             HTNO((short)level.height).CopyTo(buffer, 4);
+            Server.s.Debug("Sending Packet(4): " + level.width + " " + level.depth + " " + level.height);
             SendRaw(4, buffer);
             Loading = false;
 
@@ -2119,29 +2141,21 @@ namespace MCSong
             byte[] buffer = new byte[66];
 
             StringFormat("MCSong Server", 64).CopyTo(buffer, 0);
-            HTNO((short)0).CopyTo(buffer, 64);
-            
+            HTNO((short)Server.cpe.Count).CopyTo(buffer, 64);
+
+            Server.s.Debug("Sending Packet(16): MCSong Server " + Server.cpe.Count);
             SendRaw(16, buffer);
-            Server.s.Log("ExtInfo Sent");
         }
 
         public void SendExtEntry()
         {
-            if (Server.cpeClickDistance)
+            foreach (Extension e in Server.cpe)
             {
                 byte[] buffer = new byte[68];
-                StringFormat("ClickDistance", 64).CopyTo(buffer, 0);
-                HTNO(Server.cpeClickDistanceVersion).CopyTo(buffer, 64);
+                StringFormat(e.name, 64).CopyTo(buffer, 0);
+                HTNO(e.version).CopyTo(buffer, 64);
+                Server.s.Debug("Sending Packet(17): " + e.name + " " + e.version);
                 SendRaw(17, buffer);
-                Server.s.Log("ExtEntry Sent: ClickDistance");
-            }
-            if (Server.cpeCustomBlocks)
-            {
-                byte[] buffer = new byte[68];
-                StringFormat("CustomBlocks", 64).CopyTo(buffer, 0);
-                HTNO(Server.cpeCustomBlocksVersion).CopyTo(buffer, 64);
-                SendRaw(17, buffer);
-                Server.s.Log("ExtEntry Sent: CustomBlocks");
             }
         }
 
@@ -2150,6 +2164,7 @@ namespace MCSong
             clickDistance = distance;
             byte[] buffer = new byte[2];
             HTNO(distance).CopyTo(buffer, 0);
+            Server.s.Debug("Sending Packet(18): " + distance);
             SendRaw(18, buffer);
             Server.s.Log(name + "'s click distance was set to " + distance);
         }
@@ -2158,8 +2173,8 @@ namespace MCSong
         {
             byte[] buffer = new byte[1];
             buffer[0] = Server.CustomBlockSupportLevel;
+            Server.s.Debug("Sending Packet(19): " + Server.CustomBlockSupportLevel);
             SendRaw(19, buffer);
-            Server.s.Log("CustomBlockSupportLevel Sent");
         }
 
         public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty)
@@ -2172,6 +2187,7 @@ namespace MCSong
             HTNO(y).CopyTo(buffer, 67);
             HTNO(z).CopyTo(buffer, 69);
             buffer[71] = rotx; buffer[72] = roty;
+            Server.s.Debug("Sending Packet(7): " + id + " " + name + " " + x + " " + y + " " + z + " " + rotx + " " + roty);
             SendRaw(7, buffer);
         }
         public void SendPos(byte id, ushort x, ushort y, ushort z, byte rotx, byte roty)
@@ -2196,14 +2212,18 @@ namespace MCSong
             HTNO(y).CopyTo(buffer, 3);
             HTNO(z).CopyTo(buffer, 5);
             buffer[7] = rotx; buffer[8] = roty;
+            //Server.s.Debug("Sending Packet(8): " + id + " " + x + " " + y + " " + z + " " + rotx + " " + roty);
             SendRaw(8, buffer);
         }
         //TODO: Figure a way to SendPos without changing rotation
-        public void SendDie(byte id) { SendRaw(0x0C, new byte[1] { id }); }
+        public void SendDie(byte id) { Server.s.Debug("Sending Packet(0x0C): " + id); SendRaw(0x0C, new byte[1] { id }); }
         public void SendBlockchange(ushort x, ushort y, ushort z, byte type)
         {
-            if (!cpeCustomBlocks || (CustomBlockSupportLevel < Block.SupportLevel(type)))
+            if (!extensions.Contains(Extension.CustomBlocks) || (CustomBlockSupportLevel < Block.SupportLevel(type)))
+            {
+                Server.s.Debug("Sending fallback block:" + type + " > " + Block.Fallback(type));
                 type = Block.Fallback(type);
+            }
             if (x < 0 || y < 0 || z < 0) return;
             if (x >= level.width || y >= level.depth || z >= level.height) return;
 
@@ -2212,10 +2232,11 @@ namespace MCSong
             HTNO(y).CopyTo(buffer, 2);
             HTNO(z).CopyTo(buffer, 4);
             buffer[6] = Block.Convert(type);
+            Server.s.Debug("Sending Packet(6): " + x + " " + y + " " + z + " " + Block.Convert(type));
             SendRaw(6, buffer);
         }
-        void SendKick(string message) { SendRaw(14, StringFormat(message, 64)); }
-        void SendPing() { /*pingDelay = 0; pingDelayTimer.Start();*/ SendRaw(1); }
+        void SendKick(string message) { Server.s.Debug("Sending Packet(14): " + message); SendRaw(14, StringFormat(message, 64)); }
+        void SendPing() { /*pingDelay = 0; pingDelayTimer.Start(); Server.s.Debug("Sending Packet(1)");*/ SendRaw(1); }
         void UpdatePosition()
         {
 
@@ -2245,7 +2266,7 @@ namespace MCSong
             if ((oldpos[0] == pos[0] && oldpos[1] == pos[1] && oldpos[2] == pos[2]) && (basepos[0] != pos[0] || basepos[1] != pos[1] || basepos[2] != pos[2]))
                 changed |= 4;
 
-            byte[] buffer = new byte[0]; byte msg = 0;
+            byte[] buffer = new byte[0]; byte msg = 0; string content = "";
             if ((changed & 4) != 0)
             {
                 msg = 8; //Player teleport - used for spawning or moving too fast
@@ -2255,16 +2276,18 @@ namespace MCSong
                 HTNO(pos[2]).CopyTo(buffer, 5);
                 buffer[7] = rot[0];
 
+                content = id + " " + pos[0] + " " + pos[1] + " " + pos[2] + " " + rot[0] + " ";
+
                 if (Server.flipHead)
-                    if (rot[1] > 64 && rot[1] < 192)
-                        buffer[8] = rot[1];
-                    else
-                        buffer[8] = (byte)(rot[1] - (rot[1] - 128));
-                else
-                    buffer[8] = rot[1];
+                {
+                    if (rot[1] > 64 && rot[1] < 192) { buffer[8] = rot[1]; content += rot[1]; }
+                    else { buffer[8] = (byte)(rot[1] - (rot[1] - 128)); content += (rot[1] - (rot[1] - 128)); }
+                }
+                else { buffer[8] = rot[1]; content += rot[1]; }
 
                 //Realcode
                 //buffer[8] = rot[1];
+                
             }
             else if (changed == 1)
             {
@@ -2275,6 +2298,7 @@ namespace MCSong
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[0] - oldpos[0])), 0, buffer, 1, 1);
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[1] - oldpos[1])), 0, buffer, 2, 1);
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[2] - oldpos[2])), 0, buffer, 3, 1);
+                    content = id + " " + (pos[0] - oldpos[0]) + " " + (pos[1] - oldpos[1]) + " " + (pos[2] - oldpos[2]);
                 }
                 catch { }
             }
@@ -2284,13 +2308,14 @@ namespace MCSong
                 buffer = new byte[3]; buffer[0] = id;
                 buffer[1] = rot[0];
 
+                content = id + " " + rot[0] + " ";
+
                 if (Server.flipHead)
-                    if (rot[1] > 64 && rot[1] < 192)
-                        buffer[2] = rot[1];
-                    else
-                        buffer[2] = (byte)(rot[1] - (rot[1] - 128));
-                else
-                    buffer[2] = rot[1];
+                {
+                    if (rot[1] > 64 && rot[1] < 192) { buffer[2] = rot[1]; content += rot[1]; }
+                    else { buffer[2] = (byte)(rot[1] - (rot[1] - 128)); content += (rot[1] - (rot[1] - 128)); }
+                }
+                else { buffer[2] = rot[1]; content += rot[1]; }
 
                 //Realcode
                 //buffer[2] = rot[1];
@@ -2306,13 +2331,14 @@ namespace MCSong
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[2] - oldpos[2])), 0, buffer, 3, 1);
                     buffer[4] = rot[0];
 
+                    content = id + " " + (pos[0] - oldpos[0]) + " " + (pos[1] - oldpos[1]) + " " + (pos[2] - oldpos[2]) + " " + rot[0] + " ";
+
                     if (Server.flipHead)
-                        if (rot[1] > 64 && rot[1] < 192)
-                            buffer[5] = rot[1];
-                        else
-                            buffer[5] = (byte)(rot[1] - (rot[1] - 128));
-                    else
-                        buffer[5] = rot[1];
+                    {
+                        if (rot[1] > 64 && rot[1] < 192) { buffer[5] = rot[1]; content += rot[1]; }
+                        else { buffer[5] = (byte)(rot[1] - (rot[1] - 128)); content += (rot[1] - (rot[1] - 128)); }
+                    }
+                    else { buffer[5] = rot[1]; content += rot[1]; }
 
                     //Realcode
                     //buffer[5] = rot[1];
@@ -2328,6 +2354,7 @@ namespace MCSong
                     {
                         if (p != this && p.level == level)
                         {
+                            Server.s.Debug("Sending Packet(" + msg + "): " + content);
                             p.SendRaw(msg, buffer);
                         }
                     }
@@ -2756,8 +2783,8 @@ namespace MCSong
         }
         public static int NTHOint(byte[] x, int offset)
         {
-            byte[] y = new byte[2];
-            Buffer.BlockCopy(x, offset, y, 0, 2); Array.Reverse(y);
+            byte[] y = new byte[4];
+            Buffer.BlockCopy(x, offset, y, 0, 4); Array.Reverse(y);
             return BitConverter.ToInt32(y, 0);
         }
         public static byte[] HTNO(short x)

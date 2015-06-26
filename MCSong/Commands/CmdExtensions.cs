@@ -30,7 +30,7 @@ namespace MCSong
             }
             else if (message.ToLower() == "server")
             {
-                if (!Server.cpe) { Player.SendMessage(p, "CPE is disabled on the server."); return; }
+                if (Server.cpe.Count == 0) { Player.SendMessage(p, "CPE is disabled on the server."); return; }
                 Player.SendMessage(p, "Server-enabled extensions:");
                 // List all extensions enabled by the server
             }

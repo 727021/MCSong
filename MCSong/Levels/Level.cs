@@ -407,7 +407,9 @@ namespace MCSong
 
                 errorLocation = "Block sending";
                 if (Block.Convert(b) != Block.Convert(type) && !Instant)
+                {
                     Player.GlobalBlockchange(this, x, y, z, type);
+                }
 
                 if (b == Block.sponge && physics > 0 && type != Block.sponge) PhysSpongeRemoved(PosToInt(x, y, z));
 
@@ -467,8 +469,10 @@ namespace MCSong
                 if (!overRide)
                     if (Block.OPBlocks(b) || Block.OPBlocks(type)) return;
 
-                if (Block.Convert(b) != Block.Convert(type))    //Should save bandwidth sending identical looking blocks, like air/op_air changes.
+                if (Block.Convert(b) != Block.Convert(type))
+                {    //Should save bandwidth sending identical looking blocks, like air/op_air changes.
                     Player.GlobalBlockchange(this, x, y, z, type);
+                }
 
                 if (b == Block.sponge && physics > 0 && type != Block.sponge)
                     PhysSpongeRemoved(PosToInt(x, y, z));

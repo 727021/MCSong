@@ -145,6 +145,7 @@ namespace MCSong
             all.Add(new CmdBlocks());
             all.Add(new CmdClones());
             all.Add(new CmdDevs());
+            all.Add(new CmdExtensions());
             all.Add(new CmdGCRules());
             all.Add(new CmdHasirc());
             all.Add(new CmdHelp());

@@ -17,12 +17,12 @@ namespace MCSong
 
         public override void Use(Player p, string message)
         {
-            if (!Server.cpeClickDistance) { Player.SendMessage(p, "Click distance is disabled on the server. See &2/cpe " + Server.DefaultColor + "for more information."); return; }
+            if (!Extension.ClickDistance.enabled()) { Player.SendMessage(p, "Click distance is disabled on the server. See &2/cpe " + Server.DefaultColor + "for more information."); return; }
             string[] args = message.Split(' ');
             if (args.Length != 2) { Help(p); return; }
             Player who = Player.Find(args[0]);
-            if (who == null) { Player.SendMessage(p, "Could not find player &2" + args[1]); return; }
-            if (!who.cpeClickDistance) { Player.SendMessage(p, ((who == p) ? "Your" : who.color + who.name + Server.DefaultColor + "'s") + " client does not support click distance. See &2/cpe " + Server.DefaultColor + "for more information."); return; }
+            if (who == null) { who = p; args[1] = args[0]; }
+            if (!who.extensions.Contains(Extension.ClickDistance)) { Player.SendMessage(p, ((who == p) ? "Your" : who.color + who.name + Server.DefaultColor + "'s") + " client does not support click distance. See &2/cpe " + Server.DefaultColor + "for more information."); return; }
             double d;
             try { d = Double.Parse(args[1]); }
             catch { Player.SendMessage(p, "Click distance is invalid."); return; }
@@ -30,7 +30,7 @@ namespace MCSong
             who.SendClickDistance(c);
             if (who == p)
             {
-                Player.SendMessage(p, "Your click distance was set to " + d + "blocks.");
+                Player.SendMessage(p, "Your click distance was set to " + d + " blocks.");
                 return;
             }
             Player.SendMessage(p, who.color + who.name + Server.DefaultColor + "'s click distance was set to " + d + " blocks.");
@@ -39,8 +39,8 @@ namespace MCSong
 
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/clickdistance <player> <blocks> - Sets a player's click distance");
-            if (!Server.cpeClickDistance) { Player.SendMessage(p, "Click distance is disabled on the server. See &2/cpe " + Server.DefaultColor + "for more information."); }
+            Player.SendMessage(p, "/clickdistance [player] <blocks> - Sets a player's click distance");
+            if (!Extension.ClickDistance.enabled()) { Player.SendMessage(p, "Click distance is disabled on the server. See &2/cpe " + Server.DefaultColor + "for more information."); }
         }
     }
 }
