@@ -17,7 +17,7 @@ namespace MCSong
         public override LevelPermission defaultRank { get { return LevelPermission.Operator; } }
 
         public override void Use(Player p, string message)
-        {
+        {/*
             if (String.IsNullOrEmpty(message)) { Help(p); return; }
             string[] args = message.Split(' ');
             if (args.Length < 1) { Help(p); return; }
@@ -27,7 +27,7 @@ namespace MCSong
                 if (args.Length != 2) { Help(p); return; }
                 try
                 {
-                    PluginManager.Load(args[1]);
+                    zPluginManager.Load(args[1]);
                 }
                 catch (Exception e)
                 {
@@ -102,7 +102,7 @@ namespace MCSong
                 File.WriteAllText("extra/plugins/source/" + args[1] + "/" + args[1] + ".cs", PluginManager.Skeleton(args[1]));
                 Player.SendMessage(p, "New skeleton plugin saved to extra/plugins/source/" + args[1] + "/");
             }
-        }
+        */}
 
         public override void Help(Player p)
         {

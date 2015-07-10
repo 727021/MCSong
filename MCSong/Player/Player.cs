@@ -26,34 +26,8 @@ using System.Data;
 namespace MCSong
 {
 
-    public sealed class Player
+    public sealed partial class Player
     {
-        #region Events
-
-        public bool noKick = false, noSendMessage = false, noJoin = false, noBlockchange = false;
-
-        // Kick
-        public delegate void OnPlayerKickedEventHandler(Player p, string reason);
-        public static event OnPlayerKickedEventHandler OnPlayerKickedEvent = null;
-        public delegate void OnKickedEventHandler(string reason);
-        public event OnKickedEventHandler OnKickedEvent = null;
-        // SendMessage
-        public delegate void OnPlayerSendMessageEventHandler(Player p, string message);
-        public static event OnPlayerSendMessageEventHandler OnPlayerSendMessageEvent = null;
-        public delegate void OnSendMessageEventHandler(string message);
-        public event OnSendMessageEventHandler OnSendMessageEvent = null;
-        // Join
-        public delegate void OnPlayerJoinEventHandler(Player p);
-        public static event OnPlayerJoinEventHandler OnPlayerJoinEvent = null;
-        // Blockchange
-        public delegate void OnPlayerBlockchangeEventHandler(Player p, ushort x, ushort y, ushort z, byte type);
-        public static event OnPlayerBlockchangeEventHandler OnPlayerBlockchangeEvent = null;
-        public delegate void OnBlockchangeEventHandler(ushort x, ushort y, ushort z, byte type);
-        public event OnBlockchangeEventHandler OnBlockchangeEvent = null;
-
-        #endregion
-
-
         public static List<Player> players = new List<Player>();
         public static Dictionary<string, string> left = new Dictionary<string, string>();
         public static List<Player> connections = new List<Player>(Server.players);
@@ -165,15 +139,13 @@ namespace MCSong
         public int health = 100;
 
         // CPE
+        public string clientName = "Mojang Client";
         public bool cpe = false;
-        public string cpeName = "";
         public short cpeCount = 0;
         private int cpeExtSent = 0;
 
         public ExtensionList extensions = new ExtensionList();
         public byte CustomBlockSupportLevel = 0;
-        
-
 
         public short clickDistance = 160;
 
@@ -849,9 +821,9 @@ namespace MCSong
 
         public void HandleExtInfo(byte[] message)
         {
-            cpeName = enc.GetString(message, 0, 64).Trim();
+            clientName = enc.GetString(message, 0, 64).Trim();
             cpeCount = NTHOshort(message, 64);
-            Server.s.Debug("Packet Received(16): " + cpeName + " " + cpeCount);
+            Server.s.Debug("Packet Received(16): " + clientName + " " + cpeCount);
             if (cpeCount <= 0)
             {
                 FinishLogin();

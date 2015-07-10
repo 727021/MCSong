@@ -422,7 +422,7 @@ namespace MCSong.Gui
                     w.WriteLine("#   server-name\t=\tThe name which displays on minecraft.net");
                     w.WriteLine("#   motd\t=\tThe message which displays when a player connects");
                     w.WriteLine("#   port\t=\tThe port to operate from");
-                    w.WriteLine("#   console-only\t=\tRun without a GUI (useful for Linux servers with mono)");
+                    w.WriteLine("#   console-only\t=\tRun without a Gui (useful for Linux servers with mono)");
                     w.WriteLine("#   verify-names\t=\tVerify the validity of names");
                     w.WriteLine("#   public\t=\tSet to true to appear in the public server list");
                     w.WriteLine("#   max-players\t=\tThe maximum number of connections");

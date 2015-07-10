@@ -39,7 +39,7 @@ namespace MCSong
         Null = 150
     }
 
-    public class Level
+    public partial class Level
     {
         public int id;
         public string name;
@@ -114,6 +114,43 @@ namespace MCSong
 
         public bool changed = false;
         public bool backedup = false;
+
+        public ushort[,] shadows;
+        public void CalculateShadows()
+        {
+            try
+            {
+                if (shadows != null) return;
+                shadows = new ushort[width, height];
+                for (ushort x = 0; x < width; x++)
+                {
+                    for (ushort y = 0; y < height; y++)
+                    {
+                        for (ushort z = (ushort)(depth - 1); z >= 0; z--)
+                        {
+                            switch (GetTile(x, y, z))
+                            {
+                                case Block.air:
+                                case Block.mushroom:
+                                case Block.glass:
+                                case Block.leaf:
+                                case Block.redflower:
+                                case Block.redmushroom:
+                                case Block.yellowflower:
+                                case Block.rope:
+                                    continue;
+                                default:
+                                    shadows[x, y] = z;
+                                    break;
+                            }
+                            break;
+                        }
+                    }
+                }
+            }
+            catch (Exception e) { Server.ErrorLog(e); shadows = new ushort[width, height]; }
+        }
+
         public Level(string n, ushort x, ushort y, ushort z, string type)
         {
             width = x; depth = y; height = z;
@@ -220,6 +257,10 @@ namespace MCSong
 
             Player.GlobalMessageOps("&3" + name + Server.DefaultColor + " was unloaded.");
             Server.s.Log(name + " was unloaded.");
+
+            if (OnLevelUnloadEvent != null) OnLevelUnloadEvent(this.name);
+            if (OnUnloadEvent != null) OnUnloadEvent();
+
             return true;
         }
 
@@ -661,6 +702,7 @@ namespace MCSong
         public static Level Load(string givenName) { return Load(givenName, 0); }
         public static Level Load(string givenName, byte phys)
         {
+
             MySQL.executeQuery("CREATE TABLE if not exists `Block" + givenName + "` (Username CHAR(20), TimePerformed DATETIME, X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Type TINYINT UNSIGNED, Deleted BOOL)");
             MySQL.executeQuery("CREATE TABLE if not exists `Portals" + givenName + "` (EntryX SMALLINT UNSIGNED, EntryY SMALLINT UNSIGNED, EntryZ SMALLINT UNSIGNED, ExitMap CHAR(20), ExitX SMALLINT UNSIGNED, ExitY SMALLINT UNSIGNED, ExitZ SMALLINT UNSIGNED)");
             MySQL.executeQuery("CREATE TABLE if not exists `Messages" + givenName + "` (X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Message CHAR(255));");
@@ -810,10 +852,11 @@ namespace MCSong
                         }
                     } catch { }
 
-
+                    level.CalculateShadows();
 
                     Server.s.Log("Level \"" + level.name + "\" loaded.");
                     level.ctfgame.mapOn = level;
+                    if (OnLevelLoadEvent != null) OnLevelLoadEvent(level.name);
                     return level;
                 }
                 catch (Exception ex) { Server.ErrorLog(ex); return null; }
@@ -832,6 +875,9 @@ namespace MCSong
 
         public void setPhysics(int newValue)
         {
+
+            int oldValue = physics;
+
             if (physics == 0 && newValue != 0)
             {
                 for (int i = 0; i < blocks.Length; i++)
@@ -839,6 +885,9 @@ namespace MCSong
                         AddCheck(i);
             }
             physics = newValue;
+
+            if (OnPhysChangeEvent != null) OnPhysChangeEvent(newValue);
+            if (OnLevelPhysChangeEvent != null) OnLevelPhysChangeEvent();
             
         }
 

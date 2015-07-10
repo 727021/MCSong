@@ -44,7 +44,7 @@ namespace MCSong
                 Player.SendMessage(p, "> > &cdied &a" + who.overallDeath + Server.DefaultColor + " times");
                 Player.SendMessage(p, "> > &bmodified &a" + who.overallBlocks + Server.DefaultColor + " blocks, &a" + who.loginBlocks + Server.DefaultColor + " since logging in.");
                 string storedTime = Convert.ToDateTime(DateTime.Now.Subtract(who.timeLogged).ToString()).ToString("HH:mm:ss");
-                Player.SendMessage(p, "> > been logged in for &a" + storedTime);
+                Player.SendMessage(p, "> > been logged in for &a" + storedTime + Server.DefaultColor + " using " + ((who.clientName.ToLower().Trim().EndsWith("client")) ? "the " : "") + "&a" + who.clientName);
                 Player.SendMessage(p, "> > first logged into the server on &a" + who.firstLogin.ToString("yyyy-MM-dd") + " at " + who.firstLogin.ToString("HH:mm:ss"));
                 Player.SendMessage(p, "> > logged in &a" + who.totalLogins + Server.DefaultColor + " times, &c" + who.totalKicked + Server.DefaultColor + " of which ended in a kick.");
                 Player.SendMessage(p, "> > " + Awards.awardAmount(who.name) + " awards");
@@ -52,23 +52,23 @@ namespace MCSong
                 bool skip = false;
                 if (p != null) if (p.group.Permission <= LevelPermission.AdvBuilder) skip = true;
                 if (!skip)
+                {
+                    string givenIP;
+                    if (Server.bannedIP.Contains(who.ip)) givenIP = "&8" + who.ip + ", which is banned";
+                    else givenIP = who.ip;
+                    Player.SendMessage(p, "> > the IP of " + givenIP);
+                    if (Server.useWhitelist)
                     {
-                        string givenIP;
-                        if (Server.bannedIP.Contains(who.ip)) givenIP = "&8" + who.ip + ", which is banned"; 
-                        else givenIP = who.ip;
-                        Player.SendMessage(p, "> > the IP of " + givenIP);
-                        if (Server.useWhitelist)
+                        if (Server.whiteList.Contains(who.name))
                         {
-                            if (Server.whiteList.Contains(who.name))
-                            {
-                                Player.SendMessage(p, "> > Player is &fWhitelisted");
-                            }
-                        }
-                        if (Server.devs.Contains(who.name.ToLower()))
-                        {
-                            Player.SendMessage(p, Server.DefaultColor + "> > Player is a &9Developer");
+                            Player.SendMessage(p, "> > Player is &fWhitelisted");
                         }
                     }
+                    if (Server.devs.Contains(who.name.ToLower()))
+                    {
+                        Player.SendMessage(p, Server.DefaultColor + "> > Player is a &9Developer");
+                    }
+                }
             }
             else { Player.SendMessage(p, "\"" + message + "\" is offline! Using /whowas instead."); Command.all.Find("whowas").Use(p, message); }
         }

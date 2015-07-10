@@ -23,8 +23,8 @@ namespace MCSong
                 {
                     if (!String.IsNullOrEmpty(line) && !line.StartsWith("#") && line.IndexOf(':') != -1)
                     {
-                        string key = line.Split(':')[0].Trim();
-                        string val = line.Split(':')[1].Trim();
+                        string key = line.Split('=')[0].Trim();
+                        string val = line.Split('=')[1].Trim();
                         try
                         {
                             switch (key.ToLower())

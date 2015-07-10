@@ -60,7 +60,7 @@ namespace MCSong
 
         public static int speedPhysics = 250;
 
-        public static string Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
+        public static string Version { get { return /*System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();*/ "1.0.0.0-pre1"; } }
 
         public static Socket listen;
         public static System.Diagnostics.Process process = System.Diagnostics.Process.GetCurrentProcess();
@@ -638,7 +638,7 @@ namespace MCSong
                 Log("Finished setting up server");
             });
 
-            PluginManager.AutoLoad();
+            //PluginManager.AutoLoad();
         }
         
         public static bool Setup()
@@ -685,14 +685,14 @@ namespace MCSong
 
         public static void Exit()
         {
-            PluginManager.loaded.ForEach(delegate(Plugin p)
+            /*PluginManager.loaded.ForEach(delegate(Plugin p)
             {
                 try
                 {
                     PluginManager.Unload(p);
                 }
                 catch { }
-            });
+            });*/
             List<string> players = new List<string>();
             foreach (Player p in Player.players) { p.save(); players.Add(p.name); }
             foreach (string p in players)

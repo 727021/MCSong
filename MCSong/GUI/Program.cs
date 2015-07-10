@@ -81,7 +81,7 @@ namespace MCSong_.Gui
                     StreamWriter SW = new StreamWriter(File.Create("Viewmode.cfg"));
                     SW.WriteLine("#This file controls how the console window is shown to the server host");
                     SW.WriteLine("#cli:             True or False (Determines whether a CLI interface is used) (Set True if on Mono)");
-                    SW.WriteLine("#high-quality:    True or false (Determines whether the GUI interface uses higher quality objects)");
+                    SW.WriteLine("#high-quality:    True or false (Determines whether the Gui interface uses higher quality objects)");
                     SW.WriteLine();
                     SW.WriteLine("cli = false");
                     SW.WriteLine("high-quality = true");

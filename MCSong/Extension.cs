@@ -57,5 +57,9 @@ namespace MCSong
             }
             return temp.Remove(0, 1);
         }
+        public override int GetHashCode()
+        {
+            return base.GetHashCode();
+        }
     }
 }
