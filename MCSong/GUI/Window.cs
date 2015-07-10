@@ -124,10 +124,15 @@ namespace MCSong.Gui
             this.notifyIcon1.Visible = true;
             this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
 
-            System.Timers.Timer MapTimer = new System.Timers.Timer(10000);
+            /*System.Timers.Timer MapTimer = new System.Timers.Timer(10000);
             MapTimer.Elapsed += delegate {
                 UpdateMapList("'");
-            }; MapTimer.Start();
+            }; MapTimer.Start();*/
+
+            // Update the list on load, unload, and physchange
+            Level.OnLevelLoadEvent += UpdateMapList;
+            Level.OnLevelUnloadEvent += UpdateMapList;
+            Level.OnLevelPhysChangeEvent += UpdateMapsTab;
 
             //if (File.Exists(Logger.ErrorLogPath))
                 //txtErrors.Lines = File.ReadAllLines(Logger.ErrorLogPath);
@@ -318,7 +323,14 @@ namespace MCSong.Gui
                     liMaps.Items.Add(level.name + " - " + level.physics);
                 }
                 liUnloaded.Items.Clear();
-                
+                foreach (string f in Directory.GetFiles("levels/", "*.lvl", SearchOption.TopDirectoryOnly))
+                {
+                    FileInfo fi = new FileInfo(f);
+                    string n = fi.Name.Replace(fi.Extension, "");
+                    if (Level.Find(n) == null)
+                        liUnloaded.Items.Add(n);
+                }
+                UpdateMapsTab();
             }
         }
 
@@ -594,165 +606,6 @@ namespace MCSong.Gui
             MCSong_.Gui.Program.ExitProgram(false); 
         }
 
-        private void voiceToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liClients.SelectedIndex != -1)
-            {
-                Command.all.Find("voice").Use(null, this.liClients.SelectedItem.ToString());
-            }
-        }
-
-        private void whoisToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liClients.SelectedIndex != -1)
-            {
-                Command.all.Find("whois").Use(null, this.liClients.SelectedItem.ToString());
-            }
-        }
-
-        private void kickToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liClients.SelectedIndex != -1)
-            {
-                Command.all.Find("kick").Use(null, this.liClients.SelectedItem.ToString() + " You have been kicked by the console.");
-            }
-        }
-
-
-        private void banToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liClients.SelectedIndex != -1)
-            {
-                Command.all.Find("ban").Use(null, this.liClients.SelectedItem.ToString());
-            }
-        }
-
-        private void liClients_MouseDown(object sender, MouseEventArgs e)
-        {
-            int i;
-            i = liClients.IndexFromPoint(e.X, e.Y);
-            liClients.SelectedIndex = i;
-        }
-
-        private void toolStripMenuItem2_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("physics").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " 0");
-            }
-        }
-
-        private void toolStripMenuItem3_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("physics").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " 1");
-            }
-        }
-
-        private void toolStripMenuItem4_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("physics").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " 2");
-            }
-        }
-
-        private void toolStripMenuItem5_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("physics").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " 3");
-            }
-        }
-
-        private void toolStripMenuItem6_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("physics").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " 4");
-            }
-        }
-
-        private void unloadToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("unload").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)));
-            }
-        }
-
-        private void finiteModeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("map").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " finite");
-            }
-        }
-
-        private void animalAIToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("map").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " ai");
-            }
-        }
-
-        private void edgeWaterToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("map").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " edge");
-            }
-        }
-
-        private void growingGrassToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("map").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " grass");
-            }
-        }
-
-        private void survivalDeathToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("map").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " death");
-            }
-        }
-
-        private void killerBlocksToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("map").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " killer");
-            }
-        }
-
-        private void rPChatToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("map").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)) + " chat");
-            }
-        }
-
-        private void saveToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            if (this.liMaps.SelectedIndex != -1)
-            {
-                Command.all.Find("save").Use(null, this.liMaps.SelectedItem.ToString().Remove((this.liMaps.SelectedItem.ToString().Length - 4)));
-            }
-        }
-
-        private void liMaps_MouseDown(object sender, MouseEventArgs e)
-        {
-            int i;
-            i = liMaps.IndexFromPoint(e.X, e.Y);
-            liMaps.SelectedIndex = i;
-        }
-
         private void tabControl1_Click(object sender, EventArgs e)
         {
             foreach (TabPage tP in tabControl1.TabPages)
@@ -772,6 +625,7 @@ namespace MCSong.Gui
             txtAdminOut.ScrollToCaret();
             txtOpOut.ScrollToCaret();
             txtGlobalOut.ScrollToCaret();
+            UpdateMapList("'");
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -909,7 +763,7 @@ namespace MCSong.Gui
                 Server.maintenanceMode = true;
                 chkMaintenance.ForeColor = Color.Red;
                 chkMaintenance.Font = new Font(chkMaintenance.Font, FontStyle.Bold);
-                thisWindow.Text += " [MAINTENANCE MODE]";
+                thisWindow.Text += " [MAINTENANCE]";
                 Player.GlobalMessage(c.purple + "MAINTENANCE MODE " + Server.DefaultColor + "has been turned " + c.green + "ON");
                 Server.s.Log("MAINTENANCE MODE has been turned ON");
                 if (Server.maintKick)
@@ -930,74 +784,10 @@ namespace MCSong.Gui
                 Server.maintenanceMode = false;
                 chkMaintenance.ForeColor = Color.Black;
                 chkMaintenance.Font = new Font(chkMaintenance.Font, FontStyle.Regular);
-                thisWindow.Text = thisWindow.Text.Replace(" [MAINTENANCE MODE]", "");
+                thisWindow.Text = thisWindow.Text.Replace(" [MAINTENANCE]", "");
                 Player.GlobalMessage(c.purple + "MAINTENANCE MODE " + Server.DefaultColor + "has been turned " + c.red + "OFF");
                 Server.s.Log("MAINTENANCE MODE has been turned OFF");
             }
-        }
-
-        private void liMaps_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if ((liMaps.SelectedIndex < 0) || (liMaps.SelectedIndex.ToString().Trim() == ""))
-            {
-                foreach (Control c in panel2.Controls)
-                {
-                    if (c is TextBox)
-                    {
-                        TextBox txt = (TextBox)c;
-                        txt.Clear();
-                        txt.Update();
-                    }
-                }
-
-                return;
-            }
-
-            if (liUnloaded.SelectedIndex > -1) { liUnloaded.SetSelected(liUnloaded.SelectedIndex, false); }
-
-            foreach (Control c in panel2.Controls)
-            {
-                if (c is TextBox)
-                {
-                    TextBox txt = (TextBox)c;
-                    txt.Clear();
-                    txt.Update();
-                }
-            }
-
-            //txtLevelPath.Text = new FileInfo("levels/" + Level.Find(liMaps.SelectedItem.ToString()).name + ".lvl").FullName;
-        }
-
-        private void liUnloaded_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            if ((liUnloaded.SelectedIndex < 0) || (liUnloaded.SelectedIndex.ToString().Trim() == ""))
-            {
-                foreach (Control c in panel2.Controls)
-                {
-                    if (c is TextBox)
-                    {
-                        TextBox txt = (TextBox)c;
-                        txt.Clear();
-                        txt.Update();
-                    }
-                }
-
-                return;
-            }
-
-            if (liMaps.SelectedIndex > -1) { liMaps.SetSelected(liMaps.SelectedIndex, false); }
-
-            foreach (Control c in panel2.Controls)
-            {
-                if (c is TextBox)
-                {
-                    TextBox txt = (TextBox)c;
-                    txt.Clear();
-                    txt.Update();
-                }
-            }
-
-            txtLevelPath.Text = new FileInfo("levels/" + Level.Find(liUnloaded.SelectedItem.ToString()).name + ".lvl").FullName;
         }
 
         public static void updateMaintenance()
@@ -1009,13 +799,13 @@ namespace MCSong.Gui
                 {
                     thisWindow.chkMaintenance.Font = new Font(thisWindow.chkMaintenance.Font, FontStyle.Bold);
                     thisWindow.chkMaintenance.ForeColor = Color.Red;
-                    thisWindow.Text += " [MAINTENANCE MODE]";
+                    thisWindow.Text += " [MAINTENANCE]";
                 }
                 else
                 {
                     thisWindow.chkMaintenance.Font = new Font(thisWindow.chkMaintenance.Font, FontStyle.Regular);
                     thisWindow.chkMaintenance.ForeColor = Color.Black;
-                    thisWindow.Text = thisWindow.Text.Replace("[MAINTENANCE MODE]", "");
+                    thisWindow.Text = thisWindow.Text.Replace("[MAINTENANCE]", "");
                 }
             }
             else
@@ -1029,6 +819,9 @@ namespace MCSong.Gui
             if (!thisWindow.InvokeRequired)
             {
                 thisWindow.cbInput.clear();
+                thisWindow.cbAdminChat.clear();
+                thisWindow.cbOpChat.clear();
+                thisWindow.cbGlobalChat.clear();
             }
             else
             {
@@ -1248,6 +1041,278 @@ namespace MCSong.Gui
         public void CheckGlobal()
         {
             txtGlobalOut.Enabled = txtGlobalIn.Enabled = btnGlobalChat.Enabled = Server.gc;
+        }
+
+        private void panel2_Paint(object sender, PaintEventArgs e)
+        {
+
+        }
+
+        private void UpdateMapsTab()
+        {
+            if (!String .IsNullOrWhiteSpace(liMaps.Text))
+            {
+                Level l = Level.Find(liMaps.Text.Remove(liMaps.Text.Length - 4));
+                if (l == null) goto clearMapPath;
+
+                btnUpdateLevel.Enabled = btnRenameLevel.Enabled = btnDeleteLevel.Enabled = true;
+
+                btnUnloadLevel.Enabled = true;
+                btnLoadLevel.Enabled = false;
+                cmbLevelPhys.Enabled = true;
+
+                txtLevelPath.Text = new FileInfo("levels/" + l.name + ".lvl").FullName;
+                txtLevelMotd.Text = l.motd;
+                cmbLevelPhys.SelectedIndex = l.physics;
+                txtLevelX.Text = l.width.ToString();
+                txtLevelY.Text = l.height.ToString();
+                txtLevelZ.Text = l.depth.ToString();
+
+
+                DrawLevel(l);
+                return;
+            }
+            else if (!String.IsNullOrWhiteSpace(liUnloaded.Text))
+            {
+                btnUpdateLevel.Enabled = btnRenameLevel.Enabled = btnDeleteLevel.Enabled = false;
+
+                btnUnloadLevel.Enabled = false;
+                btnLoadLevel.Enabled = true;
+                cmbLevelPhys.Enabled = false;
+
+                txtLevelPath.Text = new FileInfo("levels/" + liUnloaded.Text + ".lvl").FullName;
+                goto clearMaps;
+            }
+            else
+            {
+                btnLoadLevel.Enabled = btnUnloadLevel.Enabled = cmbLevelPhys.Enabled = false;
+                btnUpdateLevel.Enabled = btnRenameLevel.Enabled = btnDeleteLevel.Enabled = false;
+            }
+
+        clearMapPath:
+            txtLevelPath.Clear();
+        clearMaps:
+            txtLevelMotd.Clear();
+            cmbLevelPhys.SelectedIndex = 0;
+            txtLevelX.Clear();
+            txtLevelY.Clear();
+            txtLevelZ.Clear();
+            pbMapViewer.Image = new Bitmap(pbMapViewer.Width, pbMapViewer.Height);
+        }
+
+        private void DrawLevel(Level l)
+        {
+            try
+            {
+                if (l == null) return;
+                Rectangle r = new Rectangle(0, 0, pbMapViewer.Width, pbMapViewer.Height);
+                pbMapViewer.Image = new IsoCat(l, IsoCatMode.Normal, 0).Draw(out r, new BackgroundWorker() { WorkerReportsProgress = true });
+            }
+            catch (Exception e) { Server.ErrorLog(e); pbMapViewer.Image = new Bitmap(pbMapViewer.Width, pbMapViewer.Height); gbMapViewer.Text = "MapViewer - ERROR"; }
+        }
+
+        private void btnUnloadLevel_Click(object sender, EventArgs e)
+        {
+            if (liMaps.SelectedIndex < 0) return;
+            Level l = Level.Find(liMaps.SelectedItem.ToString().Remove((liMaps.SelectedItem.ToString().Length - 4)));
+            liMaps.SetSelected(0, false);
+            if (l == Server.mainLevel) { MessageBox.Show("You cannot unload the main level."); return; }
+            l.Unload();
+            UpdateMapList("'");
+            if (Level.Find(l.name) == null)
+                liUnloaded.SetSelected(liUnloaded.Items.IndexOf(l.name), true);
+        }
+
+        private void btnLoadLevel_Click(object sender, EventArgs e)
+        {
+            if (liUnloaded.SelectedIndex < 0) return;
+            string l = liUnloaded.Text;
+            liUnloaded.SetSelected(0, false);
+            Command.all.Find("load").Use(null, l);
+            UpdateMapList("'");
+            liMaps.SetSelected(liMaps.Items.IndexOf(Level.Find(l).name + " - " + Level.Find(l).physics.ToString()), true);
+        }
+
+        private void liMaps_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (liMaps.SelectedIndex > -1)
+                if (liUnloaded.SelectedIndex > -1) liUnloaded.SetSelected(0, false);
+                UpdateMapsTab();
+        }
+
+        private void liUnloaded_SelectedIndexChanged(object sender, EventArgs e)
+        {
+                if (liUnloaded.SelectedIndex > -1)
+                    if (liMaps.SelectedIndex > -1) liMaps.SetSelected(0, false);
+                    UpdateMapsTab();
+        }
+
+        private void btnUpdateLevel_Click(object sender, EventArgs e)
+        {
+            if (!String.IsNullOrWhiteSpace(liMaps.Text))
+            {
+                Level l = Level.Find(liMaps.Text.Remove(liMaps.Text.Length - 4));
+                if (l == null) MessageBox.Show("Could not find level with name \"" + liMaps.Text.Remove(liMaps.Text.Length - 4) + "\"", "Level not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
+
+                txtLevelPath.Text = new FileInfo("levels/" + l.name + ".lvl").FullName;
+                // Only change things if the aren't blank
+                l.motd = (String.IsNullOrEmpty(txtLevelMotd.Text)) ? l.motd : txtLevelMotd.Text;
+                l.setPhysics(cmbLevelPhys.SelectedIndex);
+
+                l.Save(true);
+                return;
+            }
+            else
+                MessageBox.Show("You have to select a loaded level before you can change it.", "Select a level", MessageBoxButtons.OK, MessageBoxIcon.Exclamation);
+        }
+
+        private void btnDeleteLevel_Click(object sender, EventArgs e)
+        {
+            if (Level.Find(liMaps.Text.Remove(liMaps.Text.Length - 4)) == Server.mainLevel) { MessageBox.Show("Cannot delete the main level."); return; }
+            DialogResult dr = MessageBox.Show("Keep backups of " + liMaps.Text.Remove(liMaps.Text.Length - 4) + "?", "Keep backups?", MessageBoxButtons.YesNoCancel);
+            if (dr == DialogResult.Yes)
+            {
+                if (MessageBox.Show("Are you sure you want to delete the level " + liMaps.Text.Remove(liMaps.Text.Length - 4) + "?", "Are you sure?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    // Delete only the level
+                    string message = liMaps.Text.Remove(liMaps.Text.Length - 4);
+                    Level l = Level.Find(message);
+                    if (l != null) l.Unload();
+
+                    try
+                    {
+                        if (!Directory.Exists("levels/deleted")) Directory.CreateDirectory("levels/deleted");
+
+                        if (File.Exists("levels/" + message + ".lvl"))
+                        {
+                            if (File.Exists("levels/deleted/" + message + ".lvl"))
+                            {
+                                int currentNum = 0;
+                                while (File.Exists("levels/deleted/" + message + currentNum + ".lvl")) currentNum++;
+
+                                File.Move("levels/" + message + ".lvl", "levels/deleted/" + message + currentNum + ".lvl");
+                            }
+                            else
+                            {
+                                File.Move("levels/" + message + ".lvl", "levels/deleted/" + message + ".lvl");
+                            }
+
+                            try { File.Delete("levels/level properties/" + message + ".properties"); }
+                            catch { }
+                            try { File.Delete("levels/level properties/" + message); }
+                            catch { }
+
+                            MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Messages" + message + "`, `Zone" + message + "`");
+
+                            Player.GlobalMessage("Level " + message + " was deleted.");
+                            MessageBox.Show("Level " + message + " was deleted.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Could not find level file: " + message + ".lvl");
+                        }
+                    }
+                    catch (Exception ex) { MessageBox.Show("Error while deleting"); Server.ErrorLog(ex); }
+                }
+            }
+            else if (dr == DialogResult.No)
+            {
+                if (MessageBox.Show("Are you sure you want to delete the level " + liMaps.Text.Remove(liMaps.Text.Length - 4) + " AND all its backups?", "Are you sure?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                {
+                    // Delete the level and all backups
+                    string message = liMaps.Text.Remove(liMaps.Text.Length - 4);
+                    Level l = Level.Find(message);
+                    if (l != null) l.Unload();
+
+                    try
+                    {
+                        if (!Directory.Exists("levels/deleted")) Directory.CreateDirectory("levels/deleted");
+
+                        if (File.Exists("levels/" + message + ".lvl"))
+                        {
+                            if (File.Exists("levels/deleted/" + message + ".lvl"))
+                            {
+                                int currentNum = 0;
+                                while (File.Exists("levels/deleted/" + message + currentNum + ".lvl")) currentNum++;
+
+                                File.Move("levels/" + message + ".lvl", "levels/deleted/" + message + currentNum + ".lvl");
+                            }
+                            else
+                            {
+                                File.Move("levels/" + message + ".lvl", "levels/deleted/" + message + ".lvl");
+                            }
+
+                            try { File.Delete("levels/level properties/" + message + ".properties"); }
+                            catch { }
+                            try { File.Delete("levels/level properties/" + message); }
+                            catch { }
+                            try { Directory.Delete(Server.backupLocation + "/" + message); }
+                            catch { }
+
+                            MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Messages" + message + "`, `Zone" + message + "`");
+
+                            Player.GlobalMessage("Level " + message + " was deleted.");
+                            MessageBox.Show("Level " + message + " AND all its backups were deleted.");
+                        }
+                        else
+                        {
+                            MessageBox.Show("Could not find level file: " + message + ".lvl");
+                        }
+                    }
+                    catch (Exception ex) { MessageBox.Show("Error while deleting"); Server.ErrorLog(ex); }
+                }
+            }
+            UpdateMapList("'");
+        }
+
+        private void btnBackupManager_Click(object sender, EventArgs e)
+        {
+            BackupManager bm = new BackupManager();
+            bm.ShowDialog();
+        }
+
+        public string newName = "";
+        private void btnRenameLevel_Click(object sender, EventArgs e)
+        {
+            if (String.IsNullOrWhiteSpace(liMaps.Text)) return;
+            Level l = Level.Find(liMaps.Text.Remove(liMaps.Text.Length - 4));
+            if (l == Server.mainLevel) { MessageBox.Show("Cannot rename the main level."); return; }
+            try
+            {
+                if (new RenameLevelDialog(l).ShowDialog() == DialogResult.OK)
+                {
+                    if (File.Exists("levels/" + newName)) { MessageBox.Show("Level already exists."); return; }
+                    string oldName = l.name;
+                    l.Unload();
+
+                    try
+                    {
+                        File.Move("levels/" + oldName + ".lvl", "levels/" + newName + ".lvl");
+
+                        try
+                        {
+                            File.Move("levels/level properties/" + oldName + ".properties", "levels/level properties/" + newName + ".properties");
+                        }
+                        catch { }
+                        try
+                        {
+                            File.Move("levels/level properties/" + oldName, "levels/level properties/" + newName + ".properties");
+                        }
+                        catch { }
+
+                        MySQL.executeQuery("RENAME TABLE `Block" + oldName.ToLower() + "` TO `Block" + newName.ToLower() +
+                            "`, `Portals" + oldName.ToLower() + "` TO `Portals" + newName.ToLower() +
+                            "`, `Messages" + oldName.ToLower() + "` TO Messages" + newName.ToLower() +
+                            ", `Zone" + oldName.ToLower() + "` TO `Zone" + newName.ToLower() + "`");
+
+                        Player.GlobalMessage("Renamed " + oldName + " to " + newName);
+                    }
+                    catch { }
+                }
+            }
+            catch (Exception ex) { Server.ErrorLog(ex); }
+            UpdateMapList("'");
+            newName = "";
         }
     }
 }

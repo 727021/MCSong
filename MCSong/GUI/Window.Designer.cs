@@ -108,37 +108,30 @@ namespace MCSong.Gui
             this.groupBox4 = new System.Windows.Forms.GroupBox();
             this.groupBox5 = new System.Windows.Forms.GroupBox();
             this.liClients = new System.Windows.Forms.ListBox();
-            this.playerStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.whoisToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.kickToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.banToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.voiceToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.tpLevels = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
+            this.gbMapViewer = new System.Windows.Forms.GroupBox();
+            this.pbMapViewer = new System.Windows.Forms.PictureBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.btnBackupManager = new System.Windows.Forms.Button();
+            this.btnDeleteLevel = new System.Windows.Forms.Button();
+            this.cmbLevelPhys = new System.Windows.Forms.ComboBox();
+            this.label13 = new System.Windows.Forms.Label();
+            this.txtLevelY = new System.Windows.Forms.TextBox();
+            this.label12 = new System.Windows.Forms.Label();
+            this.txtLevelZ = new System.Windows.Forms.TextBox();
+            this.label11 = new System.Windows.Forms.Label();
+            this.txtLevelX = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.txtLevelMotd = new System.Windows.Forms.TextBox();
+            this.label9 = new System.Windows.Forms.Label();
+            this.btnUpdateLevel = new System.Windows.Forms.Button();
             this.groupBox7 = new System.Windows.Forms.GroupBox();
             this.liUnloaded = new System.Windows.Forms.ListBox();
-            this.mapsStrip = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.physicsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem2 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem3 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem4 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem5 = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripMenuItem6 = new System.Windows.Forms.ToolStripMenuItem();
-            this.unloadToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.settingsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.finiteModeToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.animalAIToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.edgeWaterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.growingGrassToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.survivalDeathToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.killerBlocksToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.rPChatToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.saveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.liMaps = new System.Windows.Forms.ListBox();
             this.txtLevelPath = new System.Windows.Forms.TextBox();
-            this.button3 = new System.Windows.Forms.Button();
+            this.btnUnloadLevel = new System.Windows.Forms.Button();
             this.btnLoadLevel = new System.Windows.Forms.Button();
             this.tpChangelog = new System.Windows.Forms.TabPage();
             this.txtLatestVersion = new System.Windows.Forms.TextBox();
@@ -178,6 +171,7 @@ namespace MCSong.Gui
             this.iconContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
             this.shutdownServer = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnRenameLevel = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -193,11 +187,12 @@ namespace MCSong.Gui
             this.tpPlayers.SuspendLayout();
             this.panel1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.playerStrip.SuspendLayout();
             this.tpLevels.SuspendLayout();
             this.panel2.SuspendLayout();
+            this.gbMapViewer.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.pbMapViewer)).BeginInit();
+            this.groupBox8.SuspendLayout();
             this.groupBox7.SuspendLayout();
-            this.mapsStrip.SuspendLayout();
             this.groupBox6.SuspendLayout();
             this.tpChangelog.SuspendLayout();
             this.tpLogs.SuspendLayout();
@@ -768,7 +763,6 @@ namespace MCSong.Gui
             // 
             // liClients
             // 
-            this.liClients.ContextMenuStrip = this.playerStrip;
             this.liClients.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.liClients.FormattingEnabled = true;
             this.liClients.Location = new System.Drawing.Point(4, 29);
@@ -777,44 +771,6 @@ namespace MCSong.Gui
             this.liClients.Size = new System.Drawing.Size(120, 446);
             this.liClients.TabIndex = 34;
             this.liClients.SelectedIndexChanged += new System.EventHandler(this.liClients_SelectedIndexChanged);
-            // 
-            // playerStrip
-            // 
-            this.playerStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.whoisToolStripMenuItem,
-            this.kickToolStripMenuItem,
-            this.banToolStripMenuItem,
-            this.voiceToolStripMenuItem});
-            this.playerStrip.Name = "playerStrip";
-            this.playerStrip.Size = new System.Drawing.Size(106, 92);
-            // 
-            // whoisToolStripMenuItem
-            // 
-            this.whoisToolStripMenuItem.Name = "whoisToolStripMenuItem";
-            this.whoisToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.whoisToolStripMenuItem.Text = "whois";
-            this.whoisToolStripMenuItem.Click += new System.EventHandler(this.whoisToolStripMenuItem_Click);
-            // 
-            // kickToolStripMenuItem
-            // 
-            this.kickToolStripMenuItem.Name = "kickToolStripMenuItem";
-            this.kickToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.kickToolStripMenuItem.Text = "kick";
-            this.kickToolStripMenuItem.Click += new System.EventHandler(this.kickToolStripMenuItem_Click);
-            // 
-            // banToolStripMenuItem
-            // 
-            this.banToolStripMenuItem.Name = "banToolStripMenuItem";
-            this.banToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.banToolStripMenuItem.Text = "ban";
-            this.banToolStripMenuItem.Click += new System.EventHandler(this.banToolStripMenuItem_Click);
-            // 
-            // voiceToolStripMenuItem
-            // 
-            this.voiceToolStripMenuItem.Name = "voiceToolStripMenuItem";
-            this.voiceToolStripMenuItem.Size = new System.Drawing.Size(105, 22);
-            this.voiceToolStripMenuItem.Text = "voice";
-            this.voiceToolStripMenuItem.Click += new System.EventHandler(this.voiceToolStripMenuItem_Click);
             // 
             // tpLevels
             // 
@@ -829,232 +785,261 @@ namespace MCSong.Gui
             // 
             // panel2
             // 
+            this.panel2.Controls.Add(this.gbMapViewer);
             this.panel2.Controls.Add(this.groupBox8);
             this.panel2.Controls.Add(this.groupBox7);
             this.panel2.Controls.Add(this.groupBox6);
             this.panel2.Controls.Add(this.txtLevelPath);
-            this.panel2.Controls.Add(this.button3);
+            this.panel2.Controls.Add(this.btnUnloadLevel);
             this.panel2.Controls.Add(this.btnLoadLevel);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
             this.panel2.Location = new System.Drawing.Point(3, 3);
             this.panel2.Name = "panel2";
             this.panel2.Size = new System.Drawing.Size(567, 482);
             this.panel2.TabIndex = 37;
+            this.panel2.Paint += new System.Windows.Forms.PaintEventHandler(this.panel2_Paint);
+            // 
+            // gbMapViewer
+            // 
+            this.gbMapViewer.Controls.Add(this.pbMapViewer);
+            this.gbMapViewer.Location = new System.Drawing.Point(147, 297);
+            this.gbMapViewer.Name = "gbMapViewer";
+            this.gbMapViewer.Size = new System.Drawing.Size(274, 182);
+            this.gbMapViewer.TabIndex = 44;
+            this.gbMapViewer.TabStop = false;
+            this.gbMapViewer.Text = "Map Viewer";
+            // 
+            // pbMapViewer
+            // 
+            this.pbMapViewer.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.pbMapViewer.Location = new System.Drawing.Point(3, 17);
+            this.pbMapViewer.Name = "pbMapViewer";
+            this.pbMapViewer.Size = new System.Drawing.Size(268, 162);
+            this.pbMapViewer.SizeMode = System.Windows.Forms.PictureBoxSizeMode.Zoom;
+            this.pbMapViewer.TabIndex = 0;
+            this.pbMapViewer.TabStop = false;
             // 
             // groupBox8
             // 
-            this.groupBox8.Location = new System.Drawing.Point(11, 289);
+            this.groupBox8.Controls.Add(this.btnRenameLevel);
+            this.groupBox8.Controls.Add(this.btnBackupManager);
+            this.groupBox8.Controls.Add(this.btnDeleteLevel);
+            this.groupBox8.Controls.Add(this.cmbLevelPhys);
+            this.groupBox8.Controls.Add(this.label13);
+            this.groupBox8.Controls.Add(this.txtLevelY);
+            this.groupBox8.Controls.Add(this.label12);
+            this.groupBox8.Controls.Add(this.txtLevelZ);
+            this.groupBox8.Controls.Add(this.label11);
+            this.groupBox8.Controls.Add(this.txtLevelX);
+            this.groupBox8.Controls.Add(this.label10);
+            this.groupBox8.Controls.Add(this.txtLevelMotd);
+            this.groupBox8.Controls.Add(this.label9);
+            this.groupBox8.Controls.Add(this.btnUpdateLevel);
+            this.groupBox8.Location = new System.Drawing.Point(146, 32);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(547, 185);
+            this.groupBox8.Size = new System.Drawing.Size(275, 259);
             this.groupBox8.TabIndex = 43;
             this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Level Settings";
+            // 
+            // btnBackupManager
+            // 
+            this.btnBackupManager.Location = new System.Drawing.Point(6, 205);
+            this.btnBackupManager.Name = "btnBackupManager";
+            this.btnBackupManager.Size = new System.Drawing.Size(128, 23);
+            this.btnBackupManager.TabIndex = 13;
+            this.btnBackupManager.Text = "Backup Manager";
+            this.btnBackupManager.UseVisualStyleBackColor = true;
+            this.btnBackupManager.Click += new System.EventHandler(this.btnBackupManager_Click);
+            // 
+            // btnDeleteLevel
+            // 
+            this.btnDeleteLevel.Location = new System.Drawing.Point(144, 230);
+            this.btnDeleteLevel.Name = "btnDeleteLevel";
+            this.btnDeleteLevel.Size = new System.Drawing.Size(125, 23);
+            this.btnDeleteLevel.TabIndex = 12;
+            this.btnDeleteLevel.Text = "Delete Level";
+            this.btnDeleteLevel.UseVisualStyleBackColor = true;
+            this.btnDeleteLevel.Click += new System.EventHandler(this.btnDeleteLevel_Click);
+            // 
+            // cmbLevelPhys
+            // 
+            this.cmbLevelPhys.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbLevelPhys.FormattingEnabled = true;
+            this.cmbLevelPhys.Items.AddRange(new object[] {
+            "0 - OFF",
+            "1 - Normal",
+            "2 - Advanced",
+            "3 - Hardcore",
+            "4 - Instant",
+            "5 - Doors-Only"});
+            this.cmbLevelPhys.Location = new System.Drawing.Point(178, 41);
+            this.cmbLevelPhys.Name = "cmbLevelPhys";
+            this.cmbLevelPhys.Size = new System.Drawing.Size(91, 21);
+            this.cmbLevelPhys.TabIndex = 11;
+            // 
+            // label13
+            // 
+            this.label13.AutoSize = true;
+            this.label13.Location = new System.Drawing.Point(134, 44);
+            this.label13.Name = "label13";
+            this.label13.Size = new System.Drawing.Size(45, 13);
+            this.label13.TabIndex = 10;
+            this.label13.Text = "Physics:";
+            // 
+            // txtLevelY
+            // 
+            this.txtLevelY.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.txtLevelY.Location = new System.Drawing.Point(61, 41);
+            this.txtLevelY.Name = "txtLevelY";
+            this.txtLevelY.ReadOnly = true;
+            this.txtLevelY.Size = new System.Drawing.Size(28, 21);
+            this.txtLevelY.TabIndex = 9;
+            this.txtLevelY.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label12
+            // 
+            this.label12.AutoSize = true;
+            this.label12.Location = new System.Drawing.Point(50, 44);
+            this.label12.Name = "label12";
+            this.label12.Size = new System.Drawing.Size(14, 13);
+            this.label12.TabIndex = 8;
+            this.label12.Text = "Y:";
+            // 
+            // txtLevelZ
+            // 
+            this.txtLevelZ.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.txtLevelZ.Location = new System.Drawing.Point(107, 41);
+            this.txtLevelZ.Name = "txtLevelZ";
+            this.txtLevelZ.ReadOnly = true;
+            this.txtLevelZ.Size = new System.Drawing.Size(28, 21);
+            this.txtLevelZ.TabIndex = 7;
+            this.txtLevelZ.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label11
+            // 
+            this.label11.AutoSize = true;
+            this.label11.Location = new System.Drawing.Point(96, 44);
+            this.label11.Name = "label11";
+            this.label11.Size = new System.Drawing.Size(15, 13);
+            this.label11.TabIndex = 6;
+            this.label11.Text = "Z:";
+            // 
+            // txtLevelX
+            // 
+            this.txtLevelX.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.txtLevelX.Location = new System.Drawing.Point(16, 41);
+            this.txtLevelX.Name = "txtLevelX";
+            this.txtLevelX.ReadOnly = true;
+            this.txtLevelX.Size = new System.Drawing.Size(28, 21);
+            this.txtLevelX.TabIndex = 5;
+            this.txtLevelX.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(5, 44);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(16, 13);
+            this.label10.TabIndex = 4;
+            this.label10.Text = "X:";
+            // 
+            // txtLevelMotd
+            // 
+            this.txtLevelMotd.Location = new System.Drawing.Point(50, 14);
+            this.txtLevelMotd.Name = "txtLevelMotd";
+            this.txtLevelMotd.Size = new System.Drawing.Size(219, 21);
+            this.txtLevelMotd.TabIndex = 3;
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(6, 17);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(38, 13);
+            this.label9.TabIndex = 2;
+            this.label9.Text = "MOTD:";
+            // 
+            // btnUpdateLevel
+            // 
+            this.btnUpdateLevel.Location = new System.Drawing.Point(144, 205);
+            this.btnUpdateLevel.Name = "btnUpdateLevel";
+            this.btnUpdateLevel.Size = new System.Drawing.Size(125, 23);
+            this.btnUpdateLevel.TabIndex = 0;
+            this.btnUpdateLevel.Text = "Update Settings";
+            this.btnUpdateLevel.UseVisualStyleBackColor = true;
+            this.btnUpdateLevel.Click += new System.EventHandler(this.btnUpdateLevel_Click);
             // 
             // groupBox7
             // 
             this.groupBox7.Controls.Add(this.liUnloaded);
-            this.groupBox7.Enabled = false;
-            this.groupBox7.Location = new System.Drawing.Point(5, 3);
+            this.groupBox7.Location = new System.Drawing.Point(3, 32);
             this.groupBox7.Name = "groupBox7";
-            this.groupBox7.Size = new System.Drawing.Size(98, 251);
+            this.groupBox7.Size = new System.Drawing.Size(137, 447);
             this.groupBox7.TabIndex = 42;
             this.groupBox7.TabStop = false;
             this.groupBox7.Text = "Unloaded";
             // 
             // liUnloaded
             // 
-            this.liUnloaded.ContextMenuStrip = this.mapsStrip;
             this.liUnloaded.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.liUnloaded.FormattingEnabled = true;
             this.liUnloaded.Location = new System.Drawing.Point(6, 20);
             this.liUnloaded.Name = "liUnloaded";
             this.liUnloaded.ScrollAlwaysVisible = true;
-            this.liUnloaded.Size = new System.Drawing.Size(86, 225);
+            this.liUnloaded.Size = new System.Drawing.Size(125, 420);
             this.liUnloaded.TabIndex = 37;
             this.liUnloaded.SelectedIndexChanged += new System.EventHandler(this.liUnloaded_SelectedIndexChanged);
-            // 
-            // mapsStrip
-            // 
-            this.mapsStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.physicsToolStripMenuItem,
-            this.unloadToolStripMenuItem,
-            this.settingsToolStripMenuItem,
-            this.saveToolStripMenuItem});
-            this.mapsStrip.Name = "mapsStrip";
-            this.mapsStrip.Size = new System.Drawing.Size(117, 92);
-            // 
-            // physicsToolStripMenuItem
-            // 
-            this.physicsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripMenuItem2,
-            this.toolStripMenuItem3,
-            this.toolStripMenuItem4,
-            this.toolStripMenuItem5,
-            this.toolStripMenuItem6});
-            this.physicsToolStripMenuItem.Name = "physicsToolStripMenuItem";
-            this.physicsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.physicsToolStripMenuItem.Text = "Physics";
-            // 
-            // toolStripMenuItem2
-            // 
-            this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(80, 22);
-            this.toolStripMenuItem2.Text = "0";
-            this.toolStripMenuItem2.Click += new System.EventHandler(this.toolStripMenuItem2_Click);
-            // 
-            // toolStripMenuItem3
-            // 
-            this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(80, 22);
-            this.toolStripMenuItem3.Text = "1";
-            this.toolStripMenuItem3.Click += new System.EventHandler(this.toolStripMenuItem3_Click);
-            // 
-            // toolStripMenuItem4
-            // 
-            this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(80, 22);
-            this.toolStripMenuItem4.Text = "2";
-            this.toolStripMenuItem4.Click += new System.EventHandler(this.toolStripMenuItem4_Click);
-            // 
-            // toolStripMenuItem5
-            // 
-            this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(80, 22);
-            this.toolStripMenuItem5.Text = "3";
-            this.toolStripMenuItem5.Click += new System.EventHandler(this.toolStripMenuItem5_Click);
-            // 
-            // toolStripMenuItem6
-            // 
-            this.toolStripMenuItem6.Name = "toolStripMenuItem6";
-            this.toolStripMenuItem6.Size = new System.Drawing.Size(80, 22);
-            this.toolStripMenuItem6.Text = "4";
-            this.toolStripMenuItem6.Click += new System.EventHandler(this.toolStripMenuItem6_Click);
-            // 
-            // unloadToolStripMenuItem
-            // 
-            this.unloadToolStripMenuItem.Name = "unloadToolStripMenuItem";
-            this.unloadToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.unloadToolStripMenuItem.Text = "Unload";
-            this.unloadToolStripMenuItem.Click += new System.EventHandler(this.unloadToolStripMenuItem_Click);
-            // 
-            // settingsToolStripMenuItem
-            // 
-            this.settingsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.finiteModeToolStripMenuItem,
-            this.animalAIToolStripMenuItem,
-            this.edgeWaterToolStripMenuItem,
-            this.growingGrassToolStripMenuItem,
-            this.survivalDeathToolStripMenuItem,
-            this.killerBlocksToolStripMenuItem,
-            this.rPChatToolStripMenuItem});
-            this.settingsToolStripMenuItem.Name = "settingsToolStripMenuItem";
-            this.settingsToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.settingsToolStripMenuItem.Text = "Settings";
-            // 
-            // finiteModeToolStripMenuItem
-            // 
-            this.finiteModeToolStripMenuItem.Name = "finiteModeToolStripMenuItem";
-            this.finiteModeToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.finiteModeToolStripMenuItem.Text = "Finite Mode";
-            this.finiteModeToolStripMenuItem.Click += new System.EventHandler(this.finiteModeToolStripMenuItem_Click);
-            // 
-            // animalAIToolStripMenuItem
-            // 
-            this.animalAIToolStripMenuItem.Name = "animalAIToolStripMenuItem";
-            this.animalAIToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.animalAIToolStripMenuItem.Text = "Animal AI";
-            this.animalAIToolStripMenuItem.Click += new System.EventHandler(this.animalAIToolStripMenuItem_Click);
-            // 
-            // edgeWaterToolStripMenuItem
-            // 
-            this.edgeWaterToolStripMenuItem.Name = "edgeWaterToolStripMenuItem";
-            this.edgeWaterToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.edgeWaterToolStripMenuItem.Text = "Edge Water";
-            this.edgeWaterToolStripMenuItem.Click += new System.EventHandler(this.edgeWaterToolStripMenuItem_Click);
-            // 
-            // growingGrassToolStripMenuItem
-            // 
-            this.growingGrassToolStripMenuItem.Name = "growingGrassToolStripMenuItem";
-            this.growingGrassToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.growingGrassToolStripMenuItem.Text = "Grass Growing";
-            this.growingGrassToolStripMenuItem.Click += new System.EventHandler(this.growingGrassToolStripMenuItem_Click);
-            // 
-            // survivalDeathToolStripMenuItem
-            // 
-            this.survivalDeathToolStripMenuItem.Name = "survivalDeathToolStripMenuItem";
-            this.survivalDeathToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.survivalDeathToolStripMenuItem.Text = "Survival Death";
-            this.survivalDeathToolStripMenuItem.Click += new System.EventHandler(this.survivalDeathToolStripMenuItem_Click);
-            // 
-            // killerBlocksToolStripMenuItem
-            // 
-            this.killerBlocksToolStripMenuItem.Name = "killerBlocksToolStripMenuItem";
-            this.killerBlocksToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.killerBlocksToolStripMenuItem.Text = "Killer Blocks";
-            this.killerBlocksToolStripMenuItem.Click += new System.EventHandler(this.killerBlocksToolStripMenuItem_Click);
-            // 
-            // rPChatToolStripMenuItem
-            // 
-            this.rPChatToolStripMenuItem.Name = "rPChatToolStripMenuItem";
-            this.rPChatToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
-            this.rPChatToolStripMenuItem.Text = "RP Chat";
-            this.rPChatToolStripMenuItem.Click += new System.EventHandler(this.rPChatToolStripMenuItem_Click);
-            // 
-            // saveToolStripMenuItem
-            // 
-            this.saveToolStripMenuItem.Name = "saveToolStripMenuItem";
-            this.saveToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
-            this.saveToolStripMenuItem.Text = "Save";
-            this.saveToolStripMenuItem.Click += new System.EventHandler(this.saveToolStripMenuItem_Click);
             // 
             // groupBox6
             // 
             this.groupBox6.Controls.Add(this.liMaps);
-            this.groupBox6.Location = new System.Drawing.Point(109, 3);
+            this.groupBox6.Location = new System.Drawing.Point(427, 32);
             this.groupBox6.Name = "groupBox6";
-            this.groupBox6.Size = new System.Drawing.Size(455, 251);
+            this.groupBox6.Size = new System.Drawing.Size(137, 447);
             this.groupBox6.TabIndex = 41;
             this.groupBox6.TabStop = false;
             this.groupBox6.Text = "Loaded";
             // 
             // liMaps
             // 
-            this.liMaps.ContextMenuStrip = this.mapsStrip;
             this.liMaps.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.liMaps.FormattingEnabled = true;
             this.liMaps.Location = new System.Drawing.Point(6, 20);
             this.liMaps.Name = "liMaps";
             this.liMaps.ScrollAlwaysVisible = true;
-            this.liMaps.Size = new System.Drawing.Size(443, 225);
+            this.liMaps.Size = new System.Drawing.Size(125, 420);
             this.liMaps.TabIndex = 36;
             this.liMaps.SelectedIndexChanged += new System.EventHandler(this.liMaps_SelectedIndexChanged);
             // 
             // txtLevelPath
             // 
-            this.txtLevelPath.Location = new System.Drawing.Point(206, 262);
+            this.txtLevelPath.Location = new System.Drawing.Point(146, 5);
             this.txtLevelPath.Name = "txtLevelPath";
             this.txtLevelPath.ReadOnly = true;
-            this.txtLevelPath.Size = new System.Drawing.Size(352, 21);
+            this.txtLevelPath.Size = new System.Drawing.Size(275, 21);
             this.txtLevelPath.TabIndex = 40;
             this.txtLevelPath.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
-            // button3
+            // btnUnloadLevel
             // 
-            this.button3.Location = new System.Drawing.Point(115, 260);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(85, 23);
-            this.button3.TabIndex = 39;
-            this.button3.Text = "← Unload";
-            this.button3.UseVisualStyleBackColor = true;
+            this.btnUnloadLevel.Location = new System.Drawing.Point(433, 3);
+            this.btnUnloadLevel.Name = "btnUnloadLevel";
+            this.btnUnloadLevel.Size = new System.Drawing.Size(125, 23);
+            this.btnUnloadLevel.TabIndex = 39;
+            this.btnUnloadLevel.Text = "← Unload";
+            this.btnUnloadLevel.UseVisualStyleBackColor = true;
+            this.btnUnloadLevel.Click += new System.EventHandler(this.btnUnloadLevel_Click);
             // 
             // btnLoadLevel
             // 
-            this.btnLoadLevel.Enabled = false;
-            this.btnLoadLevel.Location = new System.Drawing.Point(11, 260);
+            this.btnLoadLevel.Location = new System.Drawing.Point(9, 3);
             this.btnLoadLevel.Name = "btnLoadLevel";
-            this.btnLoadLevel.Size = new System.Drawing.Size(86, 23);
+            this.btnLoadLevel.Size = new System.Drawing.Size(125, 23);
             this.btnLoadLevel.TabIndex = 38;
             this.btnLoadLevel.Text = "Load →";
             this.btnLoadLevel.UseVisualStyleBackColor = true;
+            this.btnLoadLevel.Click += new System.EventHandler(this.btnLoadLevel_Click);
             // 
             // tpChangelog
             // 
@@ -1463,6 +1448,16 @@ namespace MCSong.Gui
             this.shutdownServer.Text = "Shutdown Server";
             this.shutdownServer.Click += new System.EventHandler(this.shutdownServer_Click);
             // 
+            // btnRenameLevel
+            // 
+            this.btnRenameLevel.Location = new System.Drawing.Point(6, 230);
+            this.btnRenameLevel.Name = "btnRenameLevel";
+            this.btnRenameLevel.Size = new System.Drawing.Size(128, 23);
+            this.btnRenameLevel.TabIndex = 15;
+            this.btnRenameLevel.Text = "Rename Level";
+            this.btnRenameLevel.UseVisualStyleBackColor = true;
+            this.btnRenameLevel.Click += new System.EventHandler(this.btnRenameLevel_Click);
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1498,12 +1493,14 @@ namespace MCSong.Gui
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
             this.tableLayoutPanel1.ResumeLayout(false);
-            this.playerStrip.ResumeLayout(false);
             this.tpLevels.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
             this.panel2.PerformLayout();
+            this.gbMapViewer.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.pbMapViewer)).EndInit();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
             this.groupBox7.ResumeLayout(false);
-            this.mapsStrip.ResumeLayout(false);
             this.groupBox6.ResumeLayout(false);
             this.tpChangelog.ResumeLayout(false);
             this.tpChangelog.PerformLayout();
@@ -1547,28 +1544,6 @@ namespace MCSong.Gui
         private ToolStripMenuItem shutdownServer;
         private TabPage tpLogs;
         private TextBox txtHost;
-        private ContextMenuStrip playerStrip;
-        private ToolStripMenuItem whoisToolStripMenuItem;
-        private ToolStripMenuItem kickToolStripMenuItem;
-        private ToolStripMenuItem banToolStripMenuItem;
-        private ToolStripMenuItem voiceToolStripMenuItem;
-        private ContextMenuStrip mapsStrip;
-        private ToolStripMenuItem physicsToolStripMenuItem;
-        private ToolStripMenuItem toolStripMenuItem2;
-        private ToolStripMenuItem toolStripMenuItem3;
-        private ToolStripMenuItem toolStripMenuItem4;
-        private ToolStripMenuItem toolStripMenuItem5;
-        private ToolStripMenuItem toolStripMenuItem6;
-        private ToolStripMenuItem unloadToolStripMenuItem;
-        private ToolStripMenuItem settingsToolStripMenuItem;
-        private ToolStripMenuItem finiteModeToolStripMenuItem;
-        private ToolStripMenuItem animalAIToolStripMenuItem;
-        private ToolStripMenuItem edgeWaterToolStripMenuItem;
-        private ToolStripMenuItem growingGrassToolStripMenuItem;
-        private ToolStripMenuItem survivalDeathToolStripMenuItem;
-        private ToolStripMenuItem killerBlocksToolStripMenuItem;
-        private ToolStripMenuItem rPChatToolStripMenuItem;
-        private ToolStripMenuItem saveToolStripMenuItem;
         private TableLayoutPanel tableLayoutPanel2;
         private GroupBox groupBox1;
         private TextBox txtSystem;
@@ -1597,7 +1572,7 @@ namespace MCSong.Gui
         private Button btnLoadLevel;
         private ListBox liUnloaded;
         private TextBox txtLevelPath;
-        private Button button3;
+        private Button btnUnloadLevel;
         private GroupBox groupBox8;
         private GroupBox groupBox7;
         private GroupBox groupBox6;
@@ -1646,5 +1621,21 @@ namespace MCSong.Gui
         private TextBox txtGlobalIn;
         private TextBox txtLatestVersion;
         private Label label2;
+        private Button btnUpdateLevel;
+        private TextBox txtLevelMotd;
+        private Label label9;
+        private ComboBox cmbLevelPhys;
+        private Label label13;
+        private TextBox txtLevelY;
+        private Label label12;
+        private TextBox txtLevelZ;
+        private Label label11;
+        private TextBox txtLevelX;
+        private Label label10;
+        private GroupBox gbMapViewer;
+        private PictureBox pbMapViewer;
+        private Button btnBackupManager;
+        private Button btnDeleteLevel;
+        private Button btnRenameLevel;
     }
 }

@@ -40,6 +40,7 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -141,6 +142,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="CTFGame.cs" />
+    <Compile Include="Events.cs" />
     <Compile Include="Extension.cs" />
     <Compile Include="Flatfile\PlayerDB.cs" />
     <Compile Include="FindReference.cs" />
@@ -279,14 +281,33 @@
     <Compile Include="Commands\CmdView.cs" />
     <Compile Include="GlobalBot.cs" />
     <Compile Include="GlobalSuppressions.cs" />
+    <Compile Include="GUI\BackupManager.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\BackupManager.Designer.cs">
+      <DependentUpon>BackupManager.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\CreateBackupDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\CreateBackupDialog.Designer.cs">
+      <DependentUpon>CreateBackupDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FolderBrowserDialogEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\IsoCat.cs" />
     <Compile Include="GUI\PropertyWindow.cs">
       <SubType>Form</SubType>
     </Compile>
     <Compile Include="GUI\PropertyWindow.Designer.cs">
       <DependentUpon>PropertyWindow.cs</DependentUpon>
+    </Compile>
+    <Compile Include="GUI\RenameLevelDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\RenameLevelDialog.Designer.cs">
+      <DependentUpon>RenameLevelDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\UpdateWindow.cs">
       <SubType>Form</SubType>
@@ -311,7 +332,6 @@
     <Compile Include="Player\PlayerList.cs" />
     <Compile Include="Plugins\Plugin.cs" />
     <Compile Include="Plugins\PluginList.cs" />
-    <Compile Include="Plugins\PluginManager.cs" />
     <Compile Include="Properties.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="GUI\Window.cs">
@@ -332,9 +352,18 @@
     <Compile Include="Server.cs" />
     <Compile Include="SongBeat.cs" />
     <Compile Include="Updater.cs" />
+    <EmbeddedResource Include="GUI\BackupManager.resx">
+      <DependentUpon>BackupManager.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\CreateBackupDialog.resx">
+      <DependentUpon>CreateBackupDialog.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="GUI\PropertyWindow.resx">
       <DependentUpon>PropertyWindow.cs</DependentUpon>
       <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\RenameLevelDialog.resx">
+      <DependentUpon>RenameLevelDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\UpdateWindow.resx">
       <DependentUpon>UpdateWindow.cs</DependentUpon>
