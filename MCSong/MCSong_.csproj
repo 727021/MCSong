@@ -296,6 +296,12 @@
     <Compile Include="GUI\FolderBrowserDialogEx.cs">
       <SubType>Component</SubType>
     </Compile>
+    <Compile Include="GUI\HackControlDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\HackControlDialog.Designer.cs">
+      <DependentUpon>HackControlDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\IsoCat.cs" />
     <Compile Include="GUI\PropertyWindow.cs">
       <SubType>Form</SubType>
@@ -357,6 +363,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CreateBackupDialog.resx">
       <DependentUpon>CreateBackupDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\HackControlDialog.resx">
+      <DependentUpon>HackControlDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\PropertyWindow.resx">
       <DependentUpon>PropertyWindow.cs</DependentUpon>

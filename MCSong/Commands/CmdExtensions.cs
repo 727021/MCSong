@@ -32,7 +32,7 @@ namespace MCSong
             {
                 if (Server.cpe.Count == 0) { Player.SendMessage(p, "CPE is disabled on the server."); return; }
                 Player.SendMessage(p, "Server-enabled extensions:");
-                // List all extensions enabled by the server
+                // List support extensions enabled by the server
             }
             else if (exts.Contains(message.ToLower().Trim()))
             {
@@ -54,10 +54,10 @@ namespace MCSong
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/extensions - Displays basic information about Classic Protocol Extension");
-            Player.SendMessage(p, "/extensions list - Lists the names of all existing extensions");
-            Player.SendMessage(p, "/extensions server - Lists all extensions enabled on the server");
+            Player.SendMessage(p, "/extensions list - Lists the names of support existing extensions");
+            Player.SendMessage(p, "/extensions server - Lists support extensions enabled on the server");
             Player.SendMessage(p, "/extensions [extension] - Displays information about a specific extension");
-            Player.SendMessage(p, "/extensions [player] - Lists all extensions enabled for a player");
+            Player.SendMessage(p, "/extensions [player] - Lists support extensions enabled for a player");
         }
     }
 }

@@ -58,7 +58,7 @@ namespace MCSong
                             p.level.setPhysics(0);
                             p.level.ClearPhysics();
 
-                            Command.all.Find("reveal").Use(p, "all");
+                            Command.all.Find("reveal").Use(p, "support");
                         }
                         else
                         {

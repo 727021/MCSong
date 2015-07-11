@@ -33,7 +33,7 @@ namespace MCSong
             if (message == "") { Help(p); return; }
             try
             {
-                if (message.ToLower() == "all")
+                if (message.ToLower() == "support")
                 {
                     for (int i = 0; i < PlayerBot.playerbots.Count; i++)
                     {
@@ -60,7 +60,7 @@ namespace MCSong
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/botremove <name> - Remove a bot on the same level as you");
-            //   Player.SendMessage(p, "If All is used, all bots on the current level are removed");
+            //   Player.SendMessage(p, "If All is used, support bots on the current level are removed");
         }
     }
 }

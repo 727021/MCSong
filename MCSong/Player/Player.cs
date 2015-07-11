@@ -841,7 +841,7 @@ namespace MCSong
 
             if (extraExt) return;
             cpeExtSent++;
-            if (cpeExtSent > cpeCount) { Server.s.Log("Too many ExtEntry packets were received! Ignoring all extras..."); extraExt = true; return; }
+            if (cpeExtSent > cpeCount) { Server.s.Log("Too many ExtEntry packets were received! Ignoring support extras..."); extraExt = true; return; }
 
             if (e != null)// Is it enabled on the server?
                 if (extVersion == e.version)// Do the versions match?
@@ -1741,7 +1741,7 @@ namespace MCSong
             {
                 if (cmd == "") { SendMessage("No command entered."); return; }
                 if (jailed) { SendMessage("You cannot use any commands while jailed."); return; }
-                if (cmd.ToLower() == "care") { SendMessage("Corneria now loves you with all his heart."); return; }
+                if (cmd.ToLower() == "care") { SendMessage("Corneria now loves you with support his heart."); return; }
                 if (cmd.ToLower() == "facepalm") { SendMessage("Lawlcat's bot army just simultaneously facepalm'd at your use of this command."); return; }
                 if (cmd.ToLower() == "dev" && Server.devs.Contains(name.ToLower()))
                 {
@@ -2096,7 +2096,9 @@ namespace MCSong
                 if (ip == "127.0.0.1") { }
                 else if (Server.updateTimer.Interval > 1000) Thread.Sleep(100);
                 else Thread.Sleep(10);
-            } buffer = new byte[6];
+            }
+            SendHackControl();
+            buffer = new byte[6];
             HTNO((short)level.width).CopyTo(buffer, 0);
             HTNO((short)level.depth).CopyTo(buffer, 2);
             HTNO((short)level.height).CopyTo(buffer, 4);
@@ -2147,6 +2149,19 @@ namespace MCSong
             buffer[0] = Server.CustomBlockSupportLevel;
             Server.s.Debug("Sending Packet(19): " + Server.CustomBlockSupportLevel);
             SendRaw(19, buffer);
+        }
+
+        public void SendHackControl()
+        {
+            byte[] buffer = new byte[7];
+            buffer[0] = (level.hacks.Flying) ? (byte)1 : (byte)0;
+            buffer[1] = (level.hacks.NoClip) ? (byte)1 : (byte)0;
+            buffer[2] = (level.hacks.Speeding) ? (byte)1 : (byte)0;
+            buffer[3] = (level.hacks.SpawnControl) ? (byte)1 : (byte)0;
+            buffer[4] = (level.hacks.ThirdPerson) ? (byte)1 : (byte)0;
+            HTNO(level.hacks.JumpHeight).CopyTo(buffer, 5);
+            Server.s.Debug("Sending Packet(32): " + buffer[0] + " " + buffer[1] + " " + buffer[2] + " " + buffer[3] + " " + buffer[4] + " " + level.hacks.JumpHeight);
+            SendRaw(32, buffer);
         }
 
         public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty)

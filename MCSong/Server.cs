@@ -60,7 +60,7 @@ namespace MCSong
 
         public static int speedPhysics = 250;
 
-        public static string Version { get { return /*System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();*/ "1.0.0.0-pre1"; } }
+        public static string Version { get { return "1.0.0.0-pre1"; /*System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();*/ } }
 
         public static Socket listen;
         public static System.Diagnostics.Process process = System.Diagnostics.Process.GetCurrentProcess();
@@ -221,7 +221,7 @@ namespace MCSong
         public static bool maintKick = true;
 
         // CPE
-        public static ExtensionList cpe = new ExtensionList { Extension.ClickDistance, Extension.CustomBlocks };
+        public static ExtensionList cpe = new ExtensionList { Extension.ClickDistance, Extension.CustomBlocks, Extension.HackControl };
         public static readonly byte CustomBlockSupportLevel = (byte)1;
 
         public static bool mono = false;
@@ -278,6 +278,7 @@ namespace MCSong
             GrpCommands.fillRanks();
             Block.SetBlocks();
             Awards.Load();
+            Extension.InitAll();
 
             if (File.Exists("text/emotelist.txt"))
             {
@@ -510,11 +511,12 @@ namespace MCSong
 
             // END Heartbeat code
 
-            /*
-            Thread processThread = new Thread(new ThreadStart(delegate
+            
+            /*Thread processThread = new Thread(new ThreadStart(delegate
             {
                 try
                 {
+                    Server.s.Log("Starting performance counters...");
                     PCCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
                     ProcessCounter = new PerformanceCounter("Process", "% Processor Time", Process.GetCurrentProcess().ProcessName);
                     PCCounter.BeginInit();
@@ -524,8 +526,8 @@ namespace MCSong
                 }
                 catch { }
             }));
-            processThread.Start();
-            */
+            processThread.Start();*/
+            
 
             ml.Queue(delegate
             {

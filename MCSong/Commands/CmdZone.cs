@@ -46,11 +46,11 @@ namespace MCSong
             }
 
 
-            if (message.ToLower() == "del all")
+            if (message.ToLower() == "del support")
             {
                 if (p.group.Permission < LevelPermission.Admin)
                 {
-                    Player.SendMessage(p, "Only a SuperOP may delete all zones at once");
+                    Player.SendMessage(p, "Only a SuperOP may delete support zones at once");
                     return;
                 }
                 else
@@ -62,7 +62,7 @@ namespace MCSong
 
                         Player.SendMessage(p, "Zone deleted for &b" + Zn.Owner);
                         p.level.ZoneList.Remove(p.level.ZoneList[i]);
-                        if (i == p.level.ZoneList.Count) { Player.SendMessage(p, "Finished removing all zones"); return; }
+                        if (i == p.level.ZoneList.Count) { Player.SendMessage(p, "Finished removing support zones"); return; }
                         i--;
                     }
                 }

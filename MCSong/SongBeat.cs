@@ -179,22 +179,22 @@ namespace MCSong
                             Server.s.UpdateUrl(serverURL);
                             Server.externalURL = serverURL;
                             File.WriteAllText("heartbeat/externalurl.txt", serverURL);
-                            Server.s.Log("URL saved to heartbeat/externalurl.txt...");
+                            if (Server.logbeat) Server.s.Log("URL saved to heartbeat/externalurl.txt...");
                             responseReader.Close();
                             break;
                         case BeatType.ClassiCube:
                             responseReader = new StreamReader(response.GetResponseStream());
                             File.WriteAllText("heartbeat/ClassiCube.txt", responseReader.ReadToEnd());
-                            Server.s.Log("ClassiCube response saved to heartbeat/ClassiCube.txt");
+                            if (Server.logbeat) Server.s.Log("ClassiCube response saved to heartbeat/ClassiCube.txt");
                             responseReader.Close();
                             break;
                         case BeatType.MCSong:
                             new WebClient().DownloadFile(url + "?" + postVars, "heartbeat/MCSong1.txt");
-                            Server.s.Log("MCSong response saved to heartbeat/MCSong.txt");
+                            if (Server.logbeat) Server.s.Log("MCSong response saved to heartbeat/MCSong.txt");
                             break;
                     }
 
-                    
+
                 }
             }
             catch (WebException e)
@@ -214,7 +214,8 @@ namespace MCSong
             finally
             {
                 request.Abort();
-                beatLogger.Close();
+                if (beatLogger != null)
+                    beatLogger.Close();
             }
 
             return true;

@@ -99,7 +99,7 @@ namespace MCSong
             Player.SendMessage(p, "/team leave - Leaves the team you are on.");
             Player.SendMessage(p, "/team set [name] [color] - Op+ - Sets a player to a specified team.");
             Player.SendMessage(p, "/team set [name] none - Op+ - Removes a player from a team.");
-            Player.SendMessage(p, "/team scores - Shows the current scores for all teams.");
+            Player.SendMessage(p, "/team scores - Shows the current scores for support teams.");
         }
     }
 }

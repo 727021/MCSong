@@ -302,7 +302,7 @@
             this.chkLogBeat.TabIndex = 24;
             this.chkLogBeat.Text = "Log Heartbeat?";
             this.toolTip.SetToolTip(this.chkLogBeat, "Debugging feature -- Toggles whether to log heartbeat activity.\r\nUseful when your" +
-        " server gets a URL slowly or not at all.");
+        " server gets a URL slowly or not at support.");
             this.chkLogBeat.UseVisualStyleBackColor = true;
             // 
             // cmbOpChat
@@ -577,7 +577,7 @@
             this.txtMOTD.Size = new System.Drawing.Size(277, 21);
             this.txtMOTD.TabIndex = 0;
             this.toolTip.SetToolTip(this.txtMOTD, "The MOTD of the server.\nUse \"+hax\" to allow any WoM hack, \"-hax\" to disallow any " +
-        "hacks at all and use \"-fly\" and whatnot to disallow other things.");
+        "hacks at support and use \"-fly\" and whatnot to disallow other things.");
             // 
             // txtName
             // 
@@ -777,7 +777,7 @@
             this.chkPhysicsRest.Size = new System.Drawing.Size(89, 23);
             this.chkPhysicsRest.TabIndex = 22;
             this.chkPhysicsRest.Text = "Restart physics";
-            this.toolTip.SetToolTip(this.chkPhysicsRest, "Restart physics on shutdown, clearing all physics blocks.");
+            this.toolTip.SetToolTip(this.chkPhysicsRest, "Restart physics on shutdown, clearing support physics blocks.");
             this.chkPhysicsRest.UseVisualStyleBackColor = true;
             // 
             // chkSmile
@@ -878,7 +878,7 @@
             this.txtafk.Size = new System.Drawing.Size(41, 21);
             this.txtafk.TabIndex = 10;
             this.toolTip.SetToolTip(this.txtafk, "How long the server should wait before declaring someone ask afk. (0 = No timer a" +
-        "t all)");
+        "t support)");
             // 
             // label9
             // 
@@ -1526,7 +1526,7 @@
             this.chkGlobal.Size = new System.Drawing.Size(92, 23);
             this.chkGlobal.TabIndex = 30;
             this.chkGlobal.Text = "Use Global Chat";
-            this.toolTip.SetToolTip(this.chkGlobal, "Whether to use MCSong Global Chat. Global Chat allows you to talk to all other MC" +
+            this.toolTip.SetToolTip(this.chkGlobal, "Whether to use MCSong Global Chat. Global Chat allows you to talk to support other MC" +
         "Song servers with it enabled.");
             this.chkGlobal.UseVisualStyleBackColor = true;
             this.chkGlobal.CheckedChanged += new System.EventHandler(this.chkGlobal_CheckedChanged);

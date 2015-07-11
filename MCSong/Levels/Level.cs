@@ -39,6 +39,25 @@ namespace MCSong
         Null = 150
     }
 
+    public class HackControl
+    {
+        public bool Flying = true;
+        public bool NoClip = true;
+        public bool Speeding = true;
+        public bool SpawnControl = true;
+        public bool ThirdPerson = true;
+        public short JumpHeight = -1;
+        public HackControl() { }
+
+        public override string ToString()
+        {
+            return ((Flying) ? "1:" : "0:") + ((NoClip) ? "1:" : "0:") + ((Speeding) ? "1:" : "0:") +
+                ((SpawnControl) ? "1:" : "0:") + ((ThirdPerson) ? "1:" : "0:") + JumpHeight.ToString();
+        }
+
+        public static HackControl Default = new HackControl();
+    }
+
     public partial class Level
     {
         public int id;
@@ -114,6 +133,9 @@ namespace MCSong
 
         public bool changed = false;
         public bool backedup = false;
+
+        // CPE
+        public HackControl hacks = new HackControl();
 
         public ushort[,] shadows;
         public void CalculateShadows()
@@ -563,7 +585,7 @@ namespace MCSong
             SetTile(x, y, z, type);
         }
 
-        public void Save(Boolean Override = false)
+        public void Save(Boolean Override = false, bool quiet = false)
         {
             string path = "levels/" + name + ".lvl";
 
@@ -629,12 +651,14 @@ namespace MCSong
                     SW.WriteLine("Unload = " + unload);
                     SW.WriteLine("PerBuild = " + PermissionToName(permissionbuild));
                     SW.WriteLine("PerVisit = " + PermissionToName(permissionvisit));
+                    SW.WriteLine("HackControlDialog = " + hacks.ToString());
                     SW.Flush();
                     SW.Close();
 
-                    Server.s.Log("SAVED: Level \"" + name + "\". (" + players.Count + "/" + Player.players.Count  + "/" + Server.players + ")");
+                    if (!quiet)
+                        Server.s.Log("SAVED: Level \"" + name + "\". (" + players.Count + "/" + Player.players.Count + "/" + Server.players + ")");
                     changed = false;
-                    
+
                     fs.Dispose();
                     gs.Dispose();
                     SW.Dispose();
@@ -844,6 +868,22 @@ namespace MCSong
                                             break;
                                         case "pervisit":
                                             if (PermissionFromName(value) != LevelPermission.Null) level.permissionvisit = PermissionFromName(value);
+                                            break;
+                                        case "hackcontrol":
+                                            try
+                                            {
+                                                string[] h = value.Split(':');
+                                                level.hacks = new HackControl()
+                                                {
+                                                    Flying = (h[0] == "1"),
+                                                    NoClip = (h[1] == "1"),
+                                                    Speeding = (h[2] == "1"),
+                                                    SpawnControl = (h[3] == "1"),
+                                                    ThirdPerson = (h[4] == "1"),
+                                                    JumpHeight = Convert.ToInt16(h[5])
+                                                };
+                                            }
+                                            catch { Server.s.Log("Invalid hack control for " + level.name + ". Using default."); level.hacks = new HackControl(); }
                                             break;
                                     }
                                 }
@@ -1122,7 +1162,7 @@ namespace MCSong
 
                     });
 
-                    ListCheck.RemoveAll(Check => Check.time == 255);  //Remove all that are finished with 255 time
+                    ListCheck.RemoveAll(Check => Check.time == 255);  //Remove support that are finished with 255 time
 
                     lastUpdate = ListUpdate.Count;
                     ListUpdate.ForEach(delegate(Update C)
@@ -2962,7 +3002,7 @@ namespace MCSong
 
                     });
 
-                    ListCheck.RemoveAll(Check => Check.time == 255);  //Remove all that are finished with 255 time
+                    ListCheck.RemoveAll(Check => Check.time == 255);  //Remove support that are finished with 255 time
 
                     lastUpdate = ListUpdate.Count;
                     ListUpdate.ForEach(delegate(Update C)

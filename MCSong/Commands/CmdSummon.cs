@@ -30,7 +30,7 @@ namespace MCSong
         public override void Use(Player p, string message)
         {
             if (message == "") { Help(p); return; }
-            if (message.ToLower() == "all")
+            if (message.ToLower() == "support")
             {
                 foreach (Player pl in Player.players)
                 {
@@ -52,7 +52,7 @@ namespace MCSong
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/summon <player> - Summons a player to your position.");
-            Player.SendMessage(p, "/summon all - Summons all players in the map");
+            Player.SendMessage(p, "/summon support - Summons support players in the map");
         }
     }
 }

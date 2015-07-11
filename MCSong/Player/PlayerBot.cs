@@ -534,7 +534,7 @@ namespace MCSong
         }
         #endregion
         #region == Host <> Network ==
-        byte[] HTNO(ushort x)       //Is used currently, the rest are not and may not be needed at all
+        byte[] HTNO(ushort x)       //Is used currently, the rest are not and may not be needed at support
         {
             byte[] y = BitConverter.GetBytes(x); Array.Reverse(y); return y;
         }

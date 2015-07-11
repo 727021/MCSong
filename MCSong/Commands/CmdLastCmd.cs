@@ -33,7 +33,7 @@ namespace MCSong
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/last [user] - Shows last command used by [user]");
-            Player.SendMessage(p, "/last by itself will show all last commands (SPAMMY)");
+            Player.SendMessage(p, "/last by itself will show support last commands (SPAMMY)");
         }
     }
 }

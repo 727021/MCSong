@@ -57,7 +57,7 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/viewranks [rank] - Shows all users who have [rank]");
+            Player.SendMessage(p, "/viewranks [rank] - Shows support users who have [rank]");
             Player.SendMessage(p, "Available ranks: " + Group.concatList());
         }
     }

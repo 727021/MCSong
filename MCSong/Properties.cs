@@ -402,7 +402,7 @@ namespace MCSong
                                     break;
                                 foreach (string s in value.Split(','))
                                 {
-                                    Extension e = Extension.all.Find(s.Trim());
+                                    Extension e = Extension.support.Find(s.Trim());
                                     if (e != null)
                                         Server.cpe.Add(e);
                                 }

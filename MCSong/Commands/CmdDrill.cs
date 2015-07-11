@@ -32,7 +32,7 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/drill [distance] - Drills a hole, destroying all similar blocks in a 3x3 rectangle ahead of you.");
+            Player.SendMessage(p, "/drill [distance] - Drills a hole, destroying support similar blocks in a 3x3 rectangle ahead of you.");
         }
         
         public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)
