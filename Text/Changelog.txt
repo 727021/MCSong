@@ -1,0 +1,25 @@
+1.0.0.0:
+
+ + First official release
+ 
+1.0.0.0-pre1:
+
+ + CPE Support
+   - ClickDistance Extension
+     * Expand or limit the reach of players
+   - CustomBlocks Extension
+     * Adds new blocks to the game, including fire, snow, sandstone, stone bricks, rope, ane more
+   - HackControl Extension
+     * Control which maps allow the use of flying, noclip, speeding, jumping, and even vanilla respawn controls
+ + Completely new GUI design
+   - Level backup manager and map viewer
+   - Chat channels tab
+   - CPU/Memory usage information
+   - Player/Level settings management
+   - New and improved updater
+   - Reorganized, easy to use properties window
+   - ChatBuffers: Use the up and down arrows to scroll through chat messages, just like in the Minecraft client
+ + Admin chat
+ + MCSong Global Chat
+   - Connect with other MCSong servers through IRC
+ 
