@@ -59,6 +59,7 @@ namespace MCSong.Gui
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(Window));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.btnPlay = new System.Windows.Forms.Button();
@@ -111,8 +112,14 @@ namespace MCSong.Gui
             this.tpLevels = new System.Windows.Forms.TabPage();
             this.panel2 = new System.Windows.Forms.Panel();
             this.gbMapViewer = new System.Windows.Forms.GroupBox();
+            this.btnSaveImage = new System.Windows.Forms.Button();
             this.pbMapViewer = new System.Windows.Forms.PictureBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.label15 = new System.Windows.Forms.Label();
+            this.label14 = new System.Windows.Forms.Label();
+            this.cmbPerVisit = new System.Windows.Forms.ComboBox();
+            this.cmbPerBuild = new System.Windows.Forms.ComboBox();
+            this.btnRenameLevel = new System.Windows.Forms.Button();
             this.btnBackupManager = new System.Windows.Forms.Button();
             this.btnDeleteLevel = new System.Windows.Forms.Button();
             this.cmbLevelPhys = new System.Windows.Forms.ComboBox();
@@ -147,31 +154,40 @@ namespace MCSong.Gui
             this.gbErrors = new System.Windows.Forms.GroupBox();
             this.txtErrors = new System.Windows.Forms.TextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
+            this.lblUrl = new System.Windows.Forms.Label();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
             this.label8 = new System.Windows.Forms.Label();
-            this.linkLabel3 = new System.Windows.Forms.LinkLabel();
             this.label7 = new System.Windows.Forms.Label();
-            this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label6 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label5 = new System.Windows.Forms.Label();
-            this.lblInfoVersion = new System.Windows.Forms.Label();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.linkLabel10 = new System.Windows.Forms.LinkLabel();
             this.linkLabel9 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel8 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel7 = new System.Windows.Forms.LinkLabel();
             this.linkLabel6 = new System.Windows.Forms.LinkLabel();
             this.linkLabel5 = new System.Windows.Forms.LinkLabel();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.txtDevList = new System.Windows.Forms.TextBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.groupBox17 = new System.Windows.Forms.GroupBox();
+            this.txtThreads = new System.Windows.Forms.TextBox();
+            this.txtMemory = new System.Windows.Forms.TextBox();
+            this.txtCpu = new System.Windows.Forms.TextBox();
+            this.txtUptime = new System.Windows.Forms.TextBox();
+            this.label19 = new System.Windows.Forms.Label();
+            this.label18 = new System.Windows.Forms.Label();
+            this.label17 = new System.Windows.Forms.Label();
+            this.label16 = new System.Windows.Forms.Label();
             this.tmrRestart = new System.Windows.Forms.Timer(this.components);
             this.iconContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
             this.shutdownServer = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnRenameLevel = new System.Windows.Forms.Button();
+            this.btnLevelHacks = new System.Windows.Forms.Button();
+            this.button3 = new System.Windows.Forms.Button();
+            this.lblStartingCounters = new System.Windows.Forms.Label();
+            this.label20 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -203,6 +219,7 @@ namespace MCSong.Gui
             this.groupBox13.SuspendLayout();
             this.groupBox12.SuspendLayout();
             this.groupBox11.SuspendLayout();
+            this.groupBox10.SuspendLayout();
             this.iconContext.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -801,6 +818,7 @@ namespace MCSong.Gui
             // 
             // gbMapViewer
             // 
+            this.gbMapViewer.Controls.Add(this.btnSaveImage);
             this.gbMapViewer.Controls.Add(this.pbMapViewer);
             this.gbMapViewer.Location = new System.Drawing.Point(147, 297);
             this.gbMapViewer.Name = "gbMapViewer";
@@ -808,6 +826,16 @@ namespace MCSong.Gui
             this.gbMapViewer.TabIndex = 44;
             this.gbMapViewer.TabStop = false;
             this.gbMapViewer.Text = "Map Viewer";
+            // 
+            // btnSaveImage
+            // 
+            this.btnSaveImage.Location = new System.Drawing.Point(229, 20);
+            this.btnSaveImage.Name = "btnSaveImage";
+            this.btnSaveImage.Size = new System.Drawing.Size(39, 23);
+            this.btnSaveImage.TabIndex = 1;
+            this.btnSaveImage.Text = "Save";
+            this.btnSaveImage.UseVisualStyleBackColor = true;
+            this.btnSaveImage.Click += new System.EventHandler(this.btnSaveImage_Click);
             // 
             // pbMapViewer
             // 
@@ -821,6 +849,11 @@ namespace MCSong.Gui
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.btnLevelHacks);
+            this.groupBox8.Controls.Add(this.label15);
+            this.groupBox8.Controls.Add(this.label14);
+            this.groupBox8.Controls.Add(this.cmbPerVisit);
+            this.groupBox8.Controls.Add(this.cmbPerBuild);
             this.groupBox8.Controls.Add(this.btnRenameLevel);
             this.groupBox8.Controls.Add(this.btnBackupManager);
             this.groupBox8.Controls.Add(this.btnDeleteLevel);
@@ -842,11 +875,57 @@ namespace MCSong.Gui
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Level Settings";
             // 
+            // label15
+            // 
+            this.label15.AutoSize = true;
+            this.label15.Location = new System.Drawing.Point(6, 71);
+            this.label15.Name = "label15";
+            this.label15.Size = new System.Drawing.Size(31, 13);
+            this.label15.TabIndex = 19;
+            this.label15.Text = "Visit:";
+            // 
+            // label14
+            // 
+            this.label14.AutoSize = true;
+            this.label14.Location = new System.Drawing.Point(140, 71);
+            this.label14.Name = "label14";
+            this.label14.Size = new System.Drawing.Size(34, 13);
+            this.label14.TabIndex = 18;
+            this.label14.Text = "Build:";
+            // 
+            // cmbPerVisit
+            // 
+            this.cmbPerVisit.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPerVisit.FormattingEnabled = true;
+            this.cmbPerVisit.Location = new System.Drawing.Point(43, 68);
+            this.cmbPerVisit.Name = "cmbPerVisit";
+            this.cmbPerVisit.Size = new System.Drawing.Size(91, 21);
+            this.cmbPerVisit.TabIndex = 17;
+            // 
+            // cmbPerBuild
+            // 
+            this.cmbPerBuild.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbPerBuild.FormattingEnabled = true;
+            this.cmbPerBuild.Location = new System.Drawing.Point(178, 68);
+            this.cmbPerBuild.Name = "cmbPerBuild";
+            this.cmbPerBuild.Size = new System.Drawing.Size(91, 21);
+            this.cmbPerBuild.TabIndex = 16;
+            // 
+            // btnRenameLevel
+            // 
+            this.btnRenameLevel.Location = new System.Drawing.Point(7, 230);
+            this.btnRenameLevel.Name = "btnRenameLevel";
+            this.btnRenameLevel.Size = new System.Drawing.Size(128, 23);
+            this.btnRenameLevel.TabIndex = 15;
+            this.btnRenameLevel.Text = "Rename Level";
+            this.btnRenameLevel.UseVisualStyleBackColor = true;
+            this.btnRenameLevel.Click += new System.EventHandler(this.btnRenameLevel_Click);
+            // 
             // btnBackupManager
             // 
-            this.btnBackupManager.Location = new System.Drawing.Point(6, 205);
+            this.btnBackupManager.Location = new System.Drawing.Point(7, 201);
             this.btnBackupManager.Name = "btnBackupManager";
-            this.btnBackupManager.Size = new System.Drawing.Size(128, 23);
+            this.btnBackupManager.Size = new System.Drawing.Size(93, 23);
             this.btnBackupManager.TabIndex = 13;
             this.btnBackupManager.Text = "Backup Manager";
             this.btnBackupManager.UseVisualStyleBackColor = true;
@@ -962,9 +1041,9 @@ namespace MCSong.Gui
             // 
             // btnUpdateLevel
             // 
-            this.btnUpdateLevel.Location = new System.Drawing.Point(144, 205);
+            this.btnUpdateLevel.Location = new System.Drawing.Point(181, 201);
             this.btnUpdateLevel.Name = "btnUpdateLevel";
-            this.btnUpdateLevel.Size = new System.Drawing.Size(125, 23);
+            this.btnUpdateLevel.Size = new System.Drawing.Size(88, 23);
             this.btnUpdateLevel.TabIndex = 0;
             this.btnUpdateLevel.Text = "Update Settings";
             this.btnUpdateLevel.UseVisualStyleBackColor = true;
@@ -1060,11 +1139,13 @@ namespace MCSong.Gui
             // txtLatestVersion
             // 
             this.txtLatestVersion.BackColor = System.Drawing.SystemColors.Window;
+            this.txtLatestVersion.ForeColor = System.Drawing.Color.Green;
             this.txtLatestVersion.Location = new System.Drawing.Point(287, 8);
             this.txtLatestVersion.Name = "txtLatestVersion";
             this.txtLatestVersion.ReadOnly = true;
             this.txtLatestVersion.Size = new System.Drawing.Size(94, 21);
             this.txtLatestVersion.TabIndex = 6;
+            this.txtLatestVersion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label2
             // 
@@ -1083,6 +1164,7 @@ namespace MCSong.Gui
             this.txtCurrentVersion.ReadOnly = true;
             this.txtCurrentVersion.Size = new System.Drawing.Size(94, 21);
             this.txtCurrentVersion.TabIndex = 4;
+            this.txtCurrentVersion.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             // 
             // label3
             // 
@@ -1192,6 +1274,7 @@ namespace MCSong.Gui
             // tabPage3
             // 
             this.tabPage3.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage3.Controls.Add(this.lblUrl);
             this.tabPage3.Controls.Add(this.groupBox13);
             this.tabPage3.Controls.Add(this.groupBox12);
             this.tabPage3.Controls.Add(this.groupBox11);
@@ -1202,17 +1285,30 @@ namespace MCSong.Gui
             this.tabPage3.TabIndex = 7;
             this.tabPage3.Text = "Info";
             // 
+            // lblUrl
+            // 
+            this.lblUrl.AutoSize = true;
+            this.lblUrl.ForeColor = System.Drawing.SystemColors.ControlDark;
+            this.lblUrl.Location = new System.Drawing.Point(7, 445);
+            this.lblUrl.Name = "lblUrl";
+            this.lblUrl.Size = new System.Drawing.Size(31, 13);
+            this.lblUrl.TabIndex = 0;
+            this.lblUrl.Text = "(URL)";
+            this.lblUrl.TextAlign = System.Drawing.ContentAlignment.MiddleLeft;
+            // 
             // groupBox13
             // 
+            this.groupBox13.Controls.Add(this.label20);
+            this.groupBox13.Controls.Add(this.linkLabel9);
+            this.groupBox13.Controls.Add(this.linkLabel5);
             this.groupBox13.Controls.Add(this.linkLabel4);
+            this.groupBox13.Controls.Add(this.linkLabel10);
             this.groupBox13.Controls.Add(this.label8);
-            this.groupBox13.Controls.Add(this.linkLabel3);
+            this.groupBox13.Controls.Add(this.linkLabel6);
             this.groupBox13.Controls.Add(this.label7);
-            this.groupBox13.Controls.Add(this.linkLabel2);
             this.groupBox13.Controls.Add(this.label6);
             this.groupBox13.Controls.Add(this.linkLabel1);
             this.groupBox13.Controls.Add(this.label5);
-            this.groupBox13.Controls.Add(this.lblInfoVersion);
             this.groupBox13.Location = new System.Drawing.Point(7, 452);
             this.groupBox13.Name = "groupBox13";
             this.groupBox13.Size = new System.Drawing.Size(556, 33);
@@ -1221,59 +1317,40 @@ namespace MCSong.Gui
             // 
             // linkLabel4
             // 
+            this.linkLabel4.AccessibleDescription = "http://www.classicube.net/";
             this.linkLabel4.AutoSize = true;
-            this.linkLabel4.Location = new System.Drawing.Point(485, 14);
+            this.linkLabel4.Location = new System.Drawing.Point(419, 14);
             this.linkLabel4.Name = "linkLabel4";
             this.linkLabel4.Size = new System.Drawing.Size(59, 13);
             this.linkLabel4.TabIndex = 0;
             this.linkLabel4.TabStop = true;
             this.linkLabel4.Text = "ClassiCube";
-            this.linkLabel4.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel4_LinkClicked);
+            this.linkLabel4.Click += new System.EventHandler(this.linkLabels_Click);
+            this.linkLabel4.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
+            this.linkLabel4.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
             // 
             // label8
             // 
             this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(467, 14);
+            this.label8.Location = new System.Drawing.Point(401, 14);
             this.label8.Name = "label8";
             this.label8.Size = new System.Drawing.Size(12, 13);
             this.label8.TabIndex = 7;
             this.label8.Text = "|";
             // 
-            // linkLabel3
-            // 
-            this.linkLabel3.AutoSize = true;
-            this.linkLabel3.Location = new System.Drawing.Point(366, 14);
-            this.linkLabel3.Name = "linkLabel3";
-            this.linkLabel3.Size = new System.Drawing.Size(95, 13);
-            this.linkLabel3.TabIndex = 6;
-            this.linkLabel3.TabStop = true;
-            this.linkLabel3.Text = "MCSong Server List";
-            this.linkLabel3.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel3_LinkClicked);
-            // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(347, 14);
+            this.label7.Location = new System.Drawing.Point(295, 14);
             this.label7.Name = "label7";
             this.label7.Size = new System.Drawing.Size(12, 13);
             this.label7.TabIndex = 5;
             this.label7.Text = "|";
             // 
-            // linkLabel2
-            // 
-            this.linkLabel2.AutoSize = true;
-            this.linkLabel2.Location = new System.Drawing.Point(260, 14);
-            this.linkLabel2.Name = "linkLabel2";
-            this.linkLabel2.Size = new System.Drawing.Size(81, 13);
-            this.linkLabel2.TabIndex = 4;
-            this.linkLabel2.TabStop = true;
-            this.linkLabel2.Text = "MCSong Forums";
-            this.linkLabel2.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel2_LinkClicked);
-            // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(241, 14);
+            this.label6.Location = new System.Drawing.Point(206, 14);
             this.label6.Name = "label6";
             this.label6.Size = new System.Drawing.Size(12, 13);
             this.label6.TabIndex = 3;
@@ -1281,120 +1358,99 @@ namespace MCSong.Gui
             // 
             // linkLabel1
             // 
+            this.linkLabel1.AccessibleDescription = "http://mcsong.x10.mx";
             this.linkLabel1.AutoSize = true;
-            this.linkLabel1.Location = new System.Drawing.Point(149, 14);
+            this.linkLabel1.Location = new System.Drawing.Point(6, 14);
             this.linkLabel1.Name = "linkLabel1";
             this.linkLabel1.Size = new System.Drawing.Size(86, 13);
             this.linkLabel1.TabIndex = 2;
             this.linkLabel1.TabStop = true;
             this.linkLabel1.Text = "MCSong Website";
-            this.linkLabel1.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel1_LinkClicked);
+            this.linkLabel1.Click += new System.EventHandler(this.linkLabels_Click);
+            this.linkLabel1.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
+            this.linkLabel1.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(130, 14);
+            this.label5.Location = new System.Drawing.Point(98, 14);
             this.label5.Name = "label5";
             this.label5.Size = new System.Drawing.Size(12, 13);
             this.label5.TabIndex = 1;
             this.label5.Text = "|";
             // 
-            // lblInfoVersion
-            // 
-            this.lblInfoVersion.AutoSize = true;
-            this.lblInfoVersion.Location = new System.Drawing.Point(7, 14);
-            this.lblInfoVersion.Name = "lblInfoVersion";
-            this.lblInfoVersion.Size = new System.Drawing.Size(116, 13);
-            this.lblInfoVersion.TabIndex = 0;
-            this.lblInfoVersion.Text = "MCSong Version 1.0.0.0";
-            // 
             // groupBox12
             // 
-            this.groupBox12.Controls.Add(this.linkLabel10);
-            this.groupBox12.Controls.Add(this.linkLabel9);
-            this.groupBox12.Controls.Add(this.linkLabel8);
-            this.groupBox12.Controls.Add(this.linkLabel7);
-            this.groupBox12.Controls.Add(this.linkLabel6);
-            this.groupBox12.Controls.Add(this.linkLabel5);
-            this.groupBox12.Location = new System.Drawing.Point(368, 227);
+            this.groupBox12.Controls.Add(this.textBox1);
+            this.groupBox12.Location = new System.Drawing.Point(368, 197);
             this.groupBox12.Name = "groupBox12";
-            this.groupBox12.Size = new System.Drawing.Size(195, 219);
+            this.groupBox12.Size = new System.Drawing.Size(195, 249);
             this.groupBox12.TabIndex = 2;
             this.groupBox12.TabStop = false;
-            this.groupBox12.Text = "MCSong Server Owner Resources";
+            this.groupBox12.Text = "About MCSong";
             // 
             // linkLabel10
             // 
+            this.linkLabel10.AccessibleDescription = "http://mcsong.x10.mx/remote/";
             this.linkLabel10.AutoSize = true;
-            this.linkLabel10.Location = new System.Drawing.Point(8, 171);
+            this.linkLabel10.Location = new System.Drawing.Point(116, 14);
             this.linkLabel10.Name = "linkLabel10";
-            this.linkLabel10.Size = new System.Drawing.Size(123, 13);
+            this.linkLabel10.Size = new System.Drawing.Size(84, 13);
             this.linkLabel10.TabIndex = 5;
             this.linkLabel10.TabStop = true;
-            this.linkLabel10.Text = "MCSong Remote Console";
-            this.linkLabel10.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel10_LinkClicked);
+            this.linkLabel10.Text = "Remote Console";
+            this.linkLabel10.Click += new System.EventHandler(this.linkLabels_Click);
+            this.linkLabel10.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
+            this.linkLabel10.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
             // 
             // linkLabel9
             // 
+            this.linkLabel9.AccessibleDescription = "https://github.com/727021/MCSong";
             this.linkLabel9.AutoSize = true;
-            this.linkLabel9.Location = new System.Drawing.Point(8, 141);
+            this.linkLabel9.Location = new System.Drawing.Point(224, 14);
             this.linkLabel9.Name = "linkLabel9";
-            this.linkLabel9.Size = new System.Drawing.Size(132, 13);
+            this.linkLabel9.Size = new System.Drawing.Size(65, 13);
             this.linkLabel9.TabIndex = 4;
             this.linkLabel9.TabStop = true;
-            this.linkLabel9.Text = "MCSong GitHub Repository";
-            this.linkLabel9.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel9_LinkClicked);
-            // 
-            // linkLabel8
-            // 
-            this.linkLabel8.AutoSize = true;
-            this.linkLabel8.Location = new System.Drawing.Point(8, 111);
-            this.linkLabel8.Name = "linkLabel8";
-            this.linkLabel8.Size = new System.Drawing.Size(139, 13);
-            this.linkLabel8.TabIndex = 3;
-            this.linkLabel8.TabStop = true;
-            this.linkLabel8.Text = "ClassiCube Client Download";
-            this.linkLabel8.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel8_LinkClicked);
-            // 
-            // linkLabel7
-            // 
-            this.linkLabel7.AutoSize = true;
-            this.linkLabel7.Location = new System.Drawing.Point(8, 81);
-            this.linkLabel7.Name = "linkLabel7";
-            this.linkLabel7.Size = new System.Drawing.Size(140, 13);
-            this.linkLabel7.TabIndex = 2;
-            this.linkLabel7.TabStop = true;
-            this.linkLabel7.Text = "Custom Commands / Plugins";
-            this.linkLabel7.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel7_LinkClicked);
+            this.linkLabel9.Text = "Source Code";
+            this.linkLabel9.Click += new System.EventHandler(this.linkLabels_Click);
+            this.linkLabel9.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
+            this.linkLabel9.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
             // 
             // linkLabel6
             // 
+            this.linkLabel6.AccessibleDescription = "http://portforward.com/english/routers/port_forwarding/routerindex.htm";
             this.linkLabel6.AutoSize = true;
-            this.linkLabel6.Location = new System.Drawing.Point(8, 51);
+            this.linkLabel6.Location = new System.Drawing.Point(313, 14);
             this.linkLabel6.Name = "linkLabel6";
-            this.linkLabel6.Size = new System.Drawing.Size(140, 13);
+            this.linkLabel6.Size = new System.Drawing.Size(82, 13);
             this.linkLabel6.TabIndex = 1;
             this.linkLabel6.TabStop = true;
-            this.linkLabel6.Text = "Port Forwarding Instructions";
-            this.linkLabel6.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel6_LinkClicked);
+            this.linkLabel6.Text = "Port Forwarding";
+            this.linkLabel6.Click += new System.EventHandler(this.linkLabels_Click);
+            this.linkLabel6.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
+            this.linkLabel6.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
             // 
             // linkLabel5
             // 
+            this.linkLabel5.AccessibleDescription = "http://dev.mysql.com/downloads/windows/installer/";
             this.linkLabel5.AutoSize = true;
-            this.linkLabel5.Location = new System.Drawing.Point(8, 21);
+            this.linkLabel5.Location = new System.Drawing.Point(502, 14);
             this.linkLabel5.Name = "linkLabel5";
-            this.linkLabel5.Size = new System.Drawing.Size(88, 13);
+            this.linkLabel5.Size = new System.Drawing.Size(38, 13);
             this.linkLabel5.TabIndex = 0;
             this.linkLabel5.TabStop = true;
-            this.linkLabel5.Text = "MySQL Download";
-            this.linkLabel5.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.linkLabel5_LinkClicked);
+            this.linkLabel5.Text = "MySQL";
+            this.linkLabel5.Click += new System.EventHandler(this.linkLabels_Click);
+            this.linkLabel5.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
+            this.linkLabel5.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
             // 
             // groupBox11
             // 
             this.groupBox11.Controls.Add(this.txtDevList);
             this.groupBox11.Location = new System.Drawing.Point(368, 3);
             this.groupBox11.Name = "groupBox11";
-            this.groupBox11.Size = new System.Drawing.Size(195, 219);
+            this.groupBox11.Size = new System.Drawing.Size(195, 191);
             this.groupBox11.TabIndex = 1;
             this.groupBox11.TabStop = false;
             this.groupBox11.Text = "MCSong Development Team";
@@ -1403,23 +1459,119 @@ namespace MCSong.Gui
             // 
             this.txtDevList.BackColor = System.Drawing.SystemColors.Window;
             this.txtDevList.Cursor = System.Windows.Forms.Cursors.Default;
-            this.txtDevList.Location = new System.Drawing.Point(6, 20);
+            this.txtDevList.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.txtDevList.Location = new System.Drawing.Point(3, 17);
             this.txtDevList.Multiline = true;
             this.txtDevList.Name = "txtDevList";
             this.txtDevList.ReadOnly = true;
-            this.txtDevList.Size = new System.Drawing.Size(183, 193);
+            this.txtDevList.Size = new System.Drawing.Size(189, 171);
             this.txtDevList.TabIndex = 0;
             this.txtDevList.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
             this.txtDevList.GotFocus += new System.EventHandler(this.txtDevList_Focus);
             // 
             // groupBox10
             // 
+            this.groupBox10.Controls.Add(this.lblStartingCounters);
+            this.groupBox10.Controls.Add(this.button3);
+            this.groupBox10.Controls.Add(this.groupBox17);
+            this.groupBox10.Controls.Add(this.txtThreads);
+            this.groupBox10.Controls.Add(this.txtMemory);
+            this.groupBox10.Controls.Add(this.txtCpu);
+            this.groupBox10.Controls.Add(this.txtUptime);
+            this.groupBox10.Controls.Add(this.label19);
+            this.groupBox10.Controls.Add(this.label18);
+            this.groupBox10.Controls.Add(this.label17);
+            this.groupBox10.Controls.Add(this.label16);
             this.groupBox10.Location = new System.Drawing.Point(7, 3);
             this.groupBox10.Name = "groupBox10";
             this.groupBox10.Size = new System.Drawing.Size(355, 443);
             this.groupBox10.TabIndex = 0;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Server Statistics";
+            // 
+            // groupBox17
+            // 
+            this.groupBox17.Location = new System.Drawing.Point(6, 160);
+            this.groupBox17.Name = "groupBox17";
+            this.groupBox17.Size = new System.Drawing.Size(346, 10);
+            this.groupBox17.TabIndex = 8;
+            this.groupBox17.TabStop = false;
+            // 
+            // txtThreads
+            // 
+            this.txtThreads.Font = new System.Drawing.Font("Calibri", 12F);
+            this.txtThreads.Location = new System.Drawing.Point(285, 127);
+            this.txtThreads.Name = "txtThreads";
+            this.txtThreads.ReadOnly = true;
+            this.txtThreads.Size = new System.Drawing.Size(56, 27);
+            this.txtThreads.TabIndex = 7;
+            // 
+            // txtMemory
+            // 
+            this.txtMemory.Font = new System.Drawing.Font("Calibri", 12F);
+            this.txtMemory.Location = new System.Drawing.Point(123, 127);
+            this.txtMemory.Name = "txtMemory";
+            this.txtMemory.ReadOnly = true;
+            this.txtMemory.Size = new System.Drawing.Size(85, 27);
+            this.txtMemory.TabIndex = 6;
+            // 
+            // txtCpu
+            // 
+            this.txtCpu.Font = new System.Drawing.Font("Calibri", 12F);
+            this.txtCpu.Location = new System.Drawing.Point(10, 94);
+            this.txtCpu.Name = "txtCpu";
+            this.txtCpu.ReadOnly = true;
+            this.txtCpu.Size = new System.Drawing.Size(331, 27);
+            this.txtCpu.TabIndex = 5;
+            // 
+            // txtUptime
+            // 
+            this.txtUptime.Font = new System.Drawing.Font("Calibri", 12F);
+            this.txtUptime.Location = new System.Drawing.Point(10, 42);
+            this.txtUptime.Name = "txtUptime";
+            this.txtUptime.ReadOnly = true;
+            this.txtUptime.Size = new System.Drawing.Size(331, 27);
+            this.txtUptime.TabIndex = 4;
+            // 
+            // label19
+            // 
+            this.label19.AutoSize = true;
+            this.label19.Font = new System.Drawing.Font("Calibri", 12F);
+            this.label19.Location = new System.Drawing.Point(214, 130);
+            this.label19.Name = "label19";
+            this.label19.Size = new System.Drawing.Size(65, 19);
+            this.label19.TabIndex = 3;
+            this.label19.Text = "Threads:";
+            // 
+            // label18
+            // 
+            this.label18.AutoSize = true;
+            this.label18.Font = new System.Drawing.Font("Calibri", 12F);
+            this.label18.Location = new System.Drawing.Point(6, 72);
+            this.label18.Name = "label18";
+            this.label18.Size = new System.Drawing.Size(191, 19);
+            this.label18.TabIndex = 2;
+            this.label18.Text = "CPU Usage (MCSong/Total):";
+            // 
+            // label17
+            // 
+            this.label17.AutoSize = true;
+            this.label17.Font = new System.Drawing.Font("Calibri", 12F);
+            this.label17.Location = new System.Drawing.Point(6, 130);
+            this.label17.Name = "label17";
+            this.label17.Size = new System.Drawing.Size(111, 19);
+            this.label17.TabIndex = 1;
+            this.label17.Text = "Memory Usage:";
+            // 
+            // label16
+            // 
+            this.label16.AutoSize = true;
+            this.label16.Font = new System.Drawing.Font("Calibri", 12F);
+            this.label16.Location = new System.Drawing.Point(6, 20);
+            this.label16.Name = "label16";
+            this.label16.Size = new System.Drawing.Size(60, 19);
+            this.label16.TabIndex = 0;
+            this.label16.Text = "Uptime:";
             // 
             // tmrRestart
             // 
@@ -1448,15 +1600,56 @@ namespace MCSong.Gui
             this.shutdownServer.Text = "Shutdown Server";
             this.shutdownServer.Click += new System.EventHandler(this.shutdownServer_Click);
             // 
-            // btnRenameLevel
+            // btnLevelHacks
             // 
-            this.btnRenameLevel.Location = new System.Drawing.Point(6, 230);
-            this.btnRenameLevel.Name = "btnRenameLevel";
-            this.btnRenameLevel.Size = new System.Drawing.Size(128, 23);
-            this.btnRenameLevel.TabIndex = 15;
-            this.btnRenameLevel.Text = "Rename Level";
-            this.btnRenameLevel.UseVisualStyleBackColor = true;
-            this.btnRenameLevel.Click += new System.EventHandler(this.btnRenameLevel_Click);
+            this.btnLevelHacks.Location = new System.Drawing.Point(104, 201);
+            this.btnLevelHacks.Name = "btnLevelHacks";
+            this.btnLevelHacks.Size = new System.Drawing.Size(75, 23);
+            this.btnLevelHacks.TabIndex = 20;
+            this.btnLevelHacks.Text = "Hack Control";
+            this.btnLevelHacks.UseVisualStyleBackColor = true;
+            this.btnLevelHacks.Click += new System.EventHandler(this.btnLevelHacks_Click);
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(204, 13);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(137, 23);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "START PROCESS COUNTERS";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
+            // 
+            // lblStartingCounters
+            // 
+            this.lblStartingCounters.AutoSize = true;
+            this.lblStartingCounters.Location = new System.Drawing.Point(190, 18);
+            this.lblStartingCounters.Name = "lblStartingCounters";
+            this.lblStartingCounters.Size = new System.Drawing.Size(151, 13);
+            this.lblStartingCounters.TabIndex = 10;
+            this.lblStartingCounters.Text = "STARTING PROCESS COUNTERS...";
+            this.lblStartingCounters.Visible = false;
+            // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(484, 14);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(12, 13);
+            this.label20.TabIndex = 8;
+            this.label20.Text = "|";
+            // 
+            // textBox1
+            // 
+            this.textBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Location = new System.Drawing.Point(3, 17);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(189, 229);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
             // Window
             // 
@@ -1511,12 +1704,15 @@ namespace MCSong.Gui
             this.gbErrors.ResumeLayout(false);
             this.gbErrors.PerformLayout();
             this.tabPage3.ResumeLayout(false);
+            this.tabPage3.PerformLayout();
             this.groupBox13.ResumeLayout(false);
             this.groupBox13.PerformLayout();
             this.groupBox12.ResumeLayout(false);
             this.groupBox12.PerformLayout();
             this.groupBox11.ResumeLayout(false);
             this.groupBox11.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
             this.iconContext.ResumeLayout(false);
             this.ResumeLayout(false);
 
@@ -1589,17 +1785,12 @@ namespace MCSong.Gui
         private GroupBox groupBox13;
         private LinkLabel linkLabel4;
         private Label label8;
-        private LinkLabel linkLabel3;
         private Label label7;
-        private LinkLabel linkLabel2;
         private Label label6;
         private LinkLabel linkLabel1;
         private Label label5;
-        private Label lblInfoVersion;
         private GroupBox groupBox12;
         private LinkLabel linkLabel9;
-        private LinkLabel linkLabel8;
-        private LinkLabel linkLabel7;
         private LinkLabel linkLabel6;
         private LinkLabel linkLabel5;
         private GroupBox groupBox11;
@@ -1637,5 +1828,25 @@ namespace MCSong.Gui
         private Button btnBackupManager;
         private Button btnDeleteLevel;
         private Button btnRenameLevel;
+        private Label lblUrl;
+        private Label label14;
+        private ComboBox cmbPerVisit;
+        private ComboBox cmbPerBuild;
+        private Label label15;
+        private Button btnSaveImage;
+        private GroupBox groupBox17;
+        private TextBox txtThreads;
+        private TextBox txtMemory;
+        private TextBox txtCpu;
+        private TextBox txtUptime;
+        private Label label19;
+        private Label label18;
+        private Label label17;
+        private Label label16;
+        private Button btnLevelHacks;
+        private Button button3;
+        private Label lblStartingCounters;
+        private Label label20;
+        private TextBox textBox1;
     }
 }

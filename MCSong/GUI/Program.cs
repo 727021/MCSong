@@ -231,7 +231,7 @@ namespace MCSong_.Gui
 
             try
             {
-                Command cmd = Command.all.Find(sentCmd);
+                Command cmd = Command.support.Find(sentCmd);
                 if (cmd != null)
                 {
                     if (cmd.consoleUsable)

@@ -292,7 +292,7 @@ namespace MCSong
             Player.SendMessage(p, "/ctf points [num] - Sets max round points.  Default is 3.");
             Player.SendMessage(p, "/ctf team add [color] - Initializes team of specified color.");
             Player.SendMessage(p, "/ctf team remove [color] - Removes team of specified color.");
-            Player.SendMessage(p, "/ctf clear - Removes all CTF data from map.  Use sparingly.");
+            Player.SendMessage(p, "/ctf clear - Removes support CTF data from map.  Use sparingly.");
         }
 
         public struct CatchPos { public ushort x, y, z; public string color;}

@@ -32,6 +32,7 @@ namespace MCSong.Gui
                 liMaps.Items.Add(f.Name.Replace(".lvl", ""));
             }
             UpdateBackupList();
+            UpdateInfo();
         }
         private void UpdateBackupList()
         {
@@ -42,7 +43,7 @@ namespace MCSong.Gui
             }
             string l = liMaps.Text;
             liBackups.Items.Clear();
-            foreach (DirectoryInfo di in new DirectoryInfo(Server.backupLocation + "/" + l).GetDirectories("*", SearchOption.TopDirectoryOnly))
+            foreach (DirectoryInfo di in new DirectoryInfo(@Server.backupLocation + "/" + l).GetDirectories("*", SearchOption.TopDirectoryOnly))
             {
                 liBackups.Items.Add(di.Name);
             }
@@ -56,12 +57,13 @@ namespace MCSong.Gui
                 {
                     btnRestore.Enabled = btnDelete.Enabled = true;
                     lblTime.Text = "Backup Time:";
-                    txtTime.Text = new FileInfo(Server.backupLocation + "/" + liMaps.Text + "/" + liBackups.Text + "/" + liMaps.Text + ".lvl").LastWriteTime.ToString();
+                    txtTime.Text = new FileInfo(@Server.backupLocation + "/" + liMaps.Text + "/" + liBackups.Text + "/" + liMaps.Text + ".lvl").LastWriteTime.ToString();
                     return;
                 }
                 btnRestore.Enabled = btnDelete.Enabled = false;
                 lblTime.Text = "Last Backup:";
-                txtTime.Text = new DirectoryInfo(Server.backupLocation + "/" + liMaps.Text + "/").GetDirectories().OrderByDescending(d => d.LastWriteTime).First().LastWriteTime.ToString();
+                DirectoryInfo di = new DirectoryInfo(@Server.backupLocation + "/" + liMaps.Text + "/");
+                txtTime.Text = (di.GetDirectories().Length == 0) ? "Never" : di.GetDirectories().OrderByDescending(d => d.LastWriteTime).First().LastWriteTime.ToString();
                 return;
             }
             btnCreate.Enabled = btnRestore.Enabled = btnDelete.Enabled = false;
@@ -82,8 +84,11 @@ namespace MCSong.Gui
 
         private void btnCreate_Click(object sender, EventArgs e)
         {
-            DialogResult dr = new CreateBackupDialog(liMaps.Text).ShowDialog();
-            MessageBox.Show(dr.ToString());
+            string pre = liMaps.Text;
+            new CreateBackupDialog(liMaps.Text).ShowDialog();
+            UpdateMapList();
+            try { liMaps.SetSelected(liMaps.Items.IndexOf(pre), true); }
+            catch { }
         }
 
         private void btnRestore_Click(object sender, EventArgs e)
@@ -120,11 +125,28 @@ namespace MCSong.Gui
                 }
                 catch { MessageBox.Show("Restore fail"); Server.s.Log("Restore fail"); }
             }
+            string pre = liMaps.Text;
+            string prev = liBackups.Text;
+            UpdateMapList();
+            try { liMaps.SetSelected(liMaps.Items.IndexOf(pre), true); }
+            catch { }
+            try { liBackups.SetSelected(liBackups.Items.IndexOf(prev), true); }
+            catch { }
         }
 
         private void btnDelete_Click(object sender, EventArgs e)
         {
-
+            if (MessageBox.Show("Are you sure you want to delete this backup? This cannot be undone!", "Are you sure?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+            {
+                try
+                {
+                    DirectoryInfo di = new DirectoryInfo(@Server.backupLocation + "/" + liMaps.Text + "/" + liBackups.Text);
+                    di.Delete(true);
+                    MessageBox.Show("Backup deleted.");
+                }
+                catch (Exception ex) { MessageBox.Show("Error while deleting backup."); Server.ErrorLog(ex); }
+            }
+            UpdateBackupList();
         }
 
         private void BackupManager_Resize(object sender, EventArgs e)

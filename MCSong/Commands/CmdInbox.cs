@@ -37,7 +37,7 @@ namespace MCSong
                 {
                     int FoundRecord = -1;
 
-                    if (message.Split(' ')[1].ToLower() != "all")
+                    if (message.Split(' ')[1].ToLower() != "support")
                     {
                         try
                         {
@@ -64,7 +64,7 @@ namespace MCSong
                     MySQL.executeQuery(queryString);
 
                     if (FoundRecord == -1)
-                        Player.SendMessage(p, "Deleted all messages.");
+                        Player.SendMessage(p, "Deleted support messages.");
                     else
                         Player.SendMessage(p, "Deleted message.");
 
@@ -101,9 +101,9 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/inbox - Displays all your messages.");
+            Player.SendMessage(p, "/inbox - Displays support your messages.");
             Player.SendMessage(p, "/inbox [num] - Displays the message at [num]");
-            Player.SendMessage(p, "/inbox <del> [\"all\"/num] - Deletes the message at Num or All if \"all\" is given.");
+            Player.SendMessage(p, "/inbox <del> [\"support\"/num] - Deletes the message at Num or All if \"support\" is given.");
         }
     }
 }

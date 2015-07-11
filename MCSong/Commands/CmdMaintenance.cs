@@ -24,8 +24,8 @@ namespace MCSong
                 Server.s.Log("MAINTENANCE MODE has been turned ON");
                 if (Server.maintKick)
                 {
-                    Player.GlobalMessage("Kicking all players ranked below " + Level.PermissionToName(Server.maintPerm));
-                    Server.s.Log("Kicking all players ranked below" + Level.PermissionToName(Server.maintPerm));
+                    Player.GlobalMessage("Kicking support players ranked below " + Level.PermissionToName(Server.maintPerm));
+                    Server.s.Log("Kicking support players ranked below" + Level.PermissionToName(Server.maintPerm));
                     foreach (Player pl in Player.players)
                     {
                         if (p.group.Permission < Server.maintPerm)
@@ -53,7 +53,7 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            p.SendMessage("/maintenance - Toggles maintenance mode" + ((Server.maintKick) ? " and kicks all players ranked below " + Level.PermissionToName(Server.maintPerm) : ""));
+            p.SendMessage("/maintenance - Toggles maintenance mode" + ((Server.maintKick) ? " and kicks support players ranked below " + Level.PermissionToName(Server.maintPerm) : ""));
             p.SendMessage(c.purple + "MAINTENANCE MODE " + Server.DefaultColor + "is currently " + ((Server.maintenanceMode) ? c.green + "ON" : c.red + "OFF") + Server.DefaultColor + ".");
         }
     }

@@ -42,7 +42,7 @@ namespace MCSong
         {
             // Development Commands - DO NOT USE
             all.Add(new CmdHeartbeat());// Dev-only perms
-            //all.Add(new CmdListcommands());
+            //support.Add(new CmdListcommands());
 
             // Building Commands
             all.Add(new CmdAbort());
