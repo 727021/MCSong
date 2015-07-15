@@ -59,7 +59,7 @@ namespace MCSong
                 "{" + Environment.NewLine +
                 "\tpublic class " + ClassName(CmdName) + " : Command" + Environment.NewLine +
                 "\t{" + Environment.NewLine +
-                "\t\t// The command's name, in support lowercase.  What you'll be putting behind the slash when using it." + Environment.NewLine +
+                "\t\t// The command's name, in all lowercase.  What you'll be putting behind the slash when using it." + Environment.NewLine +
                 "\t\tpublic override string name { get { return \"" + CmdName.ToLower() + "\"; } }" + Environment.NewLine +
                 Environment.NewLine +
                 "\t\t// Command's aliases (please take care not to use existing ones, or you may have issues." + Environment.NewLine +

@@ -166,9 +166,9 @@ namespace MCSong
         {
             Player.SendMessage(p, "/retrieve <filename> - Retrieves saved copy file to your copy buffer. /paste to place it!");
             Player.SendMessage(p, "/retrieve info <filename> - Gets information about the saved file.");
-            Player.SendMessage(p, "/retrieve find - Prints a list of support saved copies.");
+            Player.SendMessage(p, "/retrieve find - Prints a list of all saved copies.");
             Player.SendMessage(p, "/retrieve find <1/2/3/..> - Shows a compact list.");
-            Player.SendMessage(p, "/retrieve find <name> - Prints a list of support saved copies made by player <name>.");
+            Player.SendMessage(p, "/retrieve find <name> - Prints a list of all saved copies made by player <name>.");
             return;
         }
     }

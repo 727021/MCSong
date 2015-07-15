@@ -38,7 +38,7 @@ namespace MCSong
         public delegate void LogHandler(string message);
         public delegate void HeartBeatHandler();
         public delegate void MessageEventHandler(string message);
-        public delegate void PlayerListHandler(List<Player> playerList);
+        public delegate void PlayerListHandler();
         public delegate void VoidHandler();
 
         public event LogHandler OnLog;
@@ -95,7 +95,7 @@ namespace MCSong
         public static PerformanceCounter ProcessCounter = null;
 
         public static Level mainLevel;
-        public static List<Level> levels;
+        public static List<Level> levels = new List<Level>();
         //public static List<levelID> allLevels = new List<levelID>();
         public struct levelID { public int ID; public string name; }
 
@@ -231,6 +231,9 @@ namespace MCSong
         public static bool shuttingDown = false;
 
         public static bool debugMode = true;
+
+        public static bool upnp = false;
+        public static bool upnpRunning = false;
         #endregion
 
         public static MainLoop ml;
@@ -278,7 +281,6 @@ namespace MCSong
             GrpCommands.fillRanks();
             Block.SetBlocks();
             Awards.Load();
-            Extension.InitAll();
 
             if (File.Exists("text/emotelist.txt"))
             {
@@ -365,22 +367,24 @@ namespace MCSong
                             else
                             {
                                 Log("mainlevel not found");
-                                mainLevel = new Level(Server.level, 128, 64, 128, "flat");
+                                Level temp = new Level(Server.level, 128, 64, 128, "flat");
 
-                                mainLevel.permissionvisit = LevelPermission.Guest;
-                                mainLevel.permissionbuild = LevelPermission.Guest;
-                                mainLevel.Save();
+                                temp.permissionvisit = LevelPermission.Guest;
+                                temp.permissionbuild = LevelPermission.Guest;
+                                temp.Save(true, true);
+                                mainLevel = Level.Load(temp.name);
                             }
                         }
                     }
                     else
                     {
                         Log("mainlevel not found");
-                        mainLevel = new Level(Server.level, 128, 64, 128, "flat");
+                        Level temp = new Level(Server.level, 128, 64, 128, "flat");
 
-                        mainLevel.permissionvisit = LevelPermission.Guest;
-                        mainLevel.permissionbuild = LevelPermission.Guest;
-                        mainLevel.Save();
+                        temp.permissionvisit = LevelPermission.Guest;
+                        temp.permissionbuild = LevelPermission.Guest;
+                        temp.Save(true, true);
+                        mainLevel = Level.Load(temp.name);
                     }
                     addLevel(mainLevel);
                     mainLevel.physThread.Start();
@@ -474,7 +478,19 @@ namespace MCSong
                 Log("Creating listening socket on port " + Server.port + "... ");
                 if (Setup())
                 {
-                    s.Log("Done.");
+                    if (upnp)
+                    {
+                        if (UpnpSetup())
+                        {
+                            s.Log("Ports have been forwarded with upnp."); upnpRunning = true;
+                        }
+                        else
+                        {
+                            s.Log("Could not auto forward ports. Make sure upnp is enabled on your router."); upnpRunning = false;
+                        }
+                    }
+                    if (!upnp || upnp && upnpRunning)
+                        s.Log("Done.");
                 }
                 else
                 {
@@ -659,6 +675,23 @@ namespace MCSong
             catch (Exception e) { ErrorLog(e); return false; }
         }
 
+        public static bool UpnpSetup()
+        {
+            try
+            {
+                UpnpHelper Helper = new UpnpHelper();
+                if (Helper.AddMapping(Convert.ToUInt16(port), "TCP", "MCSong"))
+                    return true;
+                return false;
+            }
+            catch (Exception e)
+            {
+                ErrorLog(e);
+                s.Log("Failed. Make sure your router supports upnp.");
+                return false;
+            }
+        }
+
         static void Accept(IAsyncResult result)
         {
             if (shuttingDown == false)
@@ -737,7 +770,7 @@ namespace MCSong
 
         public void PlayerListUpdate()
         {
-            if (Server.s.OnPlayerListChange != null) Server.s.OnPlayerListChange(Player.players);
+            if (Server.s.OnPlayerListChange != null) Server.s.OnPlayerListChange();
         }
 
         public void FailBeat()

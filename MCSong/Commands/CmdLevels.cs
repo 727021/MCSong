@@ -76,7 +76,7 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/levels - Lists support loaded levels and their physics levels.");
+            Player.SendMessage(p, "/levels - Lists all loaded levels and their physics levels.");
         }
     }
 }

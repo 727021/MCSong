@@ -87,7 +87,7 @@ namespace MCSong
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/tpzone <id> - Teleports to the zone with ID equal to <id>");
-            Player.SendMessage(p, "/tpzone list - Lists support zones");
+            Player.SendMessage(p, "/tpzone list - Lists all zones");
         }
     }
 }

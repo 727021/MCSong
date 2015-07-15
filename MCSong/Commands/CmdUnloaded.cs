@@ -75,7 +75,7 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/unloaded - Lists support unloaded levels.");
+            Player.SendMessage(p, "/unloaded - Lists all unloaded levels.");
             Player.SendMessage(p, "/unloaded <1/2/3/..> - Shows a compact list.");
         }
     }

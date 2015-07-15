@@ -61,7 +61,7 @@ namespace MCSong
             Player.SendMessage(p, "/copy cut - Copies the blocks in an area, then removes them.");
             Player.SendMessage(p, "/copy air - Copies the blocks in an area, including air.");
             Player.SendMessage(p, "/copy ignore <block1> <block2>.. - Ignores <blocks> when copying");
-            Player.SendMessage(p, "/copy @ - @ toggle for support the above, gives you a third click after copying that determines where to paste from");
+            Player.SendMessage(p, "/copy @ - @ toggle for all the above, gives you a third click after copying that determines where to paste from");
         }
 
         public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)

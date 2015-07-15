@@ -63,8 +63,8 @@ namespace MCSong
         public int id;
         public string name;
         public ushort width; // x
-        public ushort depth; // y       THIS IS STUPID, SHOULD HAVE BEEN Z
-        public ushort height; // z      THIS IS STUPID, SHOULD HAVE BEEN Y
+        public ushort depth; // y (ACTUALLY HEIGHT)      THIS IS STUPID, SHOULD HAVE BEEN Z
+        public ushort height; // z (ACTUALLY DEPTH)      THIS IS STUPID, SHOULD HAVE BEEN Y
 
         public int currentUndo = 0;
         public List<UndoPos> UndoBuffer = new List<UndoPos>();
@@ -184,10 +184,14 @@ namespace MCSong
             blocks = new byte[width * depth * height];
             ZoneList = new List<Zone>();
 
+            Random r = new Random();
+
             switch (type)
             {
                 case "flat":
                 case "pixel":
+                case "space":
+                case "random":
                     ushort half = (ushort)(depth / 2);
                     for (x = 0; x < width; ++x)
                     {
@@ -214,7 +218,24 @@ namespace MCSong
                                             SetTile(x, y, z, Block.blackrock);
                                         else
                                             if (x == 0 || x == width - 1 || z == 0 || z == height - 1)
+                                            SetTile(x, y, z, Block.white);
+                                        break;
+                                    case "space":
+                                        if (y == 0 || y == depth - 1 || x == 0 || x == width - 1 || z == 0 || z == height - 1)
+                                        {
+                                            if (r.Next(0, blocks.Length) < Math.Round((double)blocks.Length / 10))
                                                 SetTile(x, y, z, Block.white);
+                                            else if (r.Next(0, blocks.Length) > blocks.Length - Math.Round((double)blocks.Length / 10))
+                                                SetTile(x, y, z, Block.red);
+                                            else
+                                                SetTile(x, y, z, Block.obsidian);
+                                        }
+                                        break;
+                                    case "random":
+                                        if (y < half)
+                                            SetTile(x, y, z, (byte)r.Next(1, 66));
+                                        else
+                                            SetTile(x, y, z, Block.air);
                                         break;
                                 }
                                 //blocks[x + width * z + width * height * y] = b;
@@ -272,7 +293,7 @@ namespace MCSong
                 saveChanges();
             }
             physThread.Abort();
-            physThread.Join();
+            //physThread.Join();
             Server.levels.Remove(this);
             GC.Collect();
             GC.WaitForPendingFinalizers();
@@ -507,8 +528,8 @@ namespace MCSong
                 Server.ErrorLog(e);
                 Player.GlobalMessageOps(p.name + " triggered a non-fatal error on " + name);
                 Player.GlobalMessageOps("Error location: " + errorLocation);
-                Server.s.Log(p.name + " triggered a non-fatal error on " + name);
-                Server.s.Log("Error location: " + errorLocation);
+                Server.s.LogOp(p.name + " triggered a non-fatal error on " + name);
+                Server.s.LogOp("Error location: " + errorLocation);
             }
 
             //if (addaction)
@@ -651,7 +672,7 @@ namespace MCSong
                     SW.WriteLine("Unload = " + unload);
                     SW.WriteLine("PerBuild = " + PermissionToName(permissionbuild));
                     SW.WriteLine("PerVisit = " + PermissionToName(permissionvisit));
-                    SW.WriteLine("HackControlDialog = " + hacks.ToString());
+                    SW.WriteLine("HackControl = " + hacks.ToString());
                     SW.Flush();
                     SW.Close();
 
@@ -1162,7 +1183,7 @@ namespace MCSong
 
                     });
 
-                    ListCheck.RemoveAll(Check => Check.time == 255);  //Remove support that are finished with 255 time
+                    ListCheck.RemoveAll(Check => Check.time == 255);  //Remove all that are finished with 255 time
 
                     lastUpdate = ListUpdate.Count;
                     ListUpdate.ForEach(delegate(Update C)
@@ -3002,7 +3023,7 @@ namespace MCSong
 
                     });
 
-                    ListCheck.RemoveAll(Check => Check.time == 255);  //Remove support that are finished with 255 time
+                    ListCheck.RemoveAll(Check => Check.time == 255);  //Remove all that are finished with 255 time
 
                     lastUpdate = ListUpdate.Count;
                     ListUpdate.ForEach(delegate(Update C)

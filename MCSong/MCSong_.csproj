@@ -52,6 +52,7 @@
     <WarningLevel>4</WarningLevel>
     <CodeAnalysisRuleSet>MinimumRecommendedRules.ruleset</CodeAnalysisRuleSet>
     <Prefer32Bit>false</Prefer32Bit>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <PropertyGroup>
     <ApplicationIcon>Lawl.ico</ApplicationIcon>
@@ -64,6 +65,10 @@
     </StartupObject>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Interop.NATUPNPLib">
+      <HintPath>..\Interop.NATUPNPLib.dll</HintPath>
+      <EmbedInteropTypes>True</EmbedInteropTypes>
+    </Reference>
     <Reference Include="Meebey.SmartIrc4net">
       <HintPath>.\Meebey.SmartIrc4net.dll</HintPath>
     </Reference>
@@ -141,6 +146,7 @@
     <Compile Include="Commands\CmdVoice.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\CmdWhere.cs" />
     <Compile Include="CTFGame.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Extension.cs" />
@@ -303,6 +309,12 @@
       <DependentUpon>HackControlDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="GUI\IsoCat.cs" />
+    <Compile Include="GUI\NewLevelDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\NewLevelDialog.Designer.cs">
+      <DependentUpon>NewLevelDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\PropertyWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -358,6 +370,7 @@
     <Compile Include="Server.cs" />
     <Compile Include="SongBeat.cs" />
     <Compile Include="Updater.cs" />
+    <Compile Include="UpnpHelper.cs" />
     <EmbeddedResource Include="GUI\BackupManager.resx">
       <DependentUpon>BackupManager.cs</DependentUpon>
     </EmbeddedResource>
@@ -366,6 +379,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\HackControlDialog.resx">
       <DependentUpon>HackControlDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\NewLevelDialog.resx">
+      <DependentUpon>NewLevelDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\PropertyWindow.resx">
       <DependentUpon>PropertyWindow.cs</DependentUpon>
@@ -385,6 +401,7 @@
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

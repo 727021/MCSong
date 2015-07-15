@@ -29,7 +29,7 @@ namespace MCSong
                     {
                         if (c.type == CommandType.Building)
                         {
-                            Commands.Add("support.Add(new " + c.GetType().Name + "());");
+                            Commands.Add("all.Add(new " + c.GetType().Name + "());");
                         }
                     }
 
@@ -42,7 +42,7 @@ namespace MCSong
                     {
                         if (c.type == CommandType.Moderation)
                         {
-                            Commands.Add("support.Add(new " + c.GetType().Name + "());");
+                            Commands.Add("all.Add(new " + c.GetType().Name + "());");
                         }
                     }
                 
@@ -55,7 +55,7 @@ namespace MCSong
                     {
                         if (c.type == CommandType.Information)
                         {
-                            Commands.Add("support.Add(new " + c.GetType().Name + "());");
+                            Commands.Add("all.Add(new " + c.GetType().Name + "());");
                         }
                     }
                 
@@ -68,7 +68,7 @@ namespace MCSong
                     {
                         if (c.type == CommandType.Other)
                         {
-                            Commands.Add("support.Add(new " + c.GetType().Name + "());");
+                            Commands.Add("all.Add(new " + c.GetType().Name + "());");
                         }
                     }
                 

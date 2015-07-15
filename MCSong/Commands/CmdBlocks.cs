@@ -38,9 +38,9 @@ namespace MCSong
                         message += ", " + Block.Name(i);
                     }
                     Player.SendMessage(p, message.Remove(0, 2));
-                    Player.SendMessage(p, "&d/blocks support <0/1/2/3/4> " + Server.DefaultColor + "will show the rest.");
+                    Player.SendMessage(p, "&d/blocks all <0/1/2/3/4> " + Server.DefaultColor + "will show the rest.");
                 }
-                else if (message.ToLower() == "support")
+                else if (message.ToLower() == "all")
                 {
                     Player.SendMessage(p, "Complex blocks: ");
                     for (byte i = 50; i < 255; i++)
@@ -48,9 +48,9 @@ namespace MCSong
                         if (Block.Name(i).ToLower() != "unknown") message += ", " + Block.Name(i);
                     }
                     Player.SendMessage(p, message.Remove(0, 2));
-                    Player.SendMessage(p, "Use &d/blocks support <0/1/2/3/4> " + Server.DefaultColor + "for a readable list.");
+                    Player.SendMessage(p, "Use &d/blocks all <0/1/2/3/4> " + Server.DefaultColor + "for a readable list.");
                 }
-                else if (message.ToLower().IndexOf(' ') != -1 && message.Split(' ')[0] == "support")
+                else if (message.ToLower().IndexOf(' ') != -1 && message.Split(' ')[0] == "all")
                 {
                     int foundRange = 0;
                     try { foundRange = int.Parse(message.Split(' ')[1]); }
@@ -155,11 +155,11 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/blocks - Lists support basic blocks");
-            Player.SendMessage(p, "/blocks support - Lists support complex blocks");
-            Player.SendMessage(p, "/blocks [basic block] - Lists support blocks which look the same");
+            Player.SendMessage(p, "/blocks - Lists all basic blocks");
+            Player.SendMessage(p, "/blocks all - Lists all complex blocks");
+            Player.SendMessage(p, "/blocks [basic block] - Lists all blocks which look the same");
             Player.SendMessage(p, "/blocks [complex block] - Lists specific information on block");
-            Player.SendMessage(p, "/blocks <rank> - Lists support blocks <rank> can use");
+            Player.SendMessage(p, "/blocks <rank> - Lists all blocks <rank> can use");
             Player.SendMessage(p, ">> " + Group.concatList());
             Player.SendMessage(p, "/blocks count <block> - Finds total count for <block> in map");
         }

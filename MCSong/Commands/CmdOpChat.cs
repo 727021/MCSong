@@ -20,7 +20,7 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/opchat - Makes support messages sent go to OPs by default");
+            Player.SendMessage(p, "/opchat - Makes all messages sent go to OPs by default");
         }
     }
 }

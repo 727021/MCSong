@@ -43,7 +43,7 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/measure [ignore] - Measures support the blocks between two points");
+            Player.SendMessage(p, "/measure [ignore] - Measures all the blocks between two points");
             Player.SendMessage(p, "/measure [ignore] - Enter a block to ignore them");
         }
         public void Blockchange1(Player p, ushort x, ushort y, ushort z, byte type)

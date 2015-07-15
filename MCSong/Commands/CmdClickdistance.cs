@@ -17,7 +17,6 @@ namespace MCSong
 
         public override void Use(Player p, string message)
         {
-            if (!Extension.ClickDistance.enabled()) { Player.SendMessage(p, "Click distance is disabled on the server. See &2/cpe " + Server.DefaultColor + "for more information."); return; }
             string[] args = message.Split(' ');
             if (args.Length != 2) { Help(p); return; }
             Player who = Player.Find(args[0]);
@@ -40,7 +39,6 @@ namespace MCSong
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/clickdistance [player] <blocks> - Sets a player's click distance");
-            if (!Extension.ClickDistance.enabled()) { Player.SendMessage(p, "Click distance is disabled on the server. See &2/cpe " + Server.DefaultColor + "for more information."); }
         }
     }
 }
