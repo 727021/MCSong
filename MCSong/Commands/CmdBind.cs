@@ -69,7 +69,7 @@ namespace MCSong
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/bind <block> [type] - Replaces block with type.");
-            Player.SendMessage(p, "/bind clear - Clears support binds.");
+            Player.SendMessage(p, "/bind clear - Clears all binds.");
         }
     }
 }

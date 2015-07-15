@@ -19,7 +19,7 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/adminchat - Makes support messages sent go to Admins by default");
+            Player.SendMessage(p, "/adminchat - Makes all messages sent go to Admins by default");
         }
     }
 }

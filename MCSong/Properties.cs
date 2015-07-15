@@ -62,6 +62,9 @@ namespace MCSong
                                 try { Server.port = Convert.ToInt32(value); }
                                 catch { Server.s.Log("port invalid! setting to default."); }
                                 break;
+                            case "upnp":
+                                Server.upnp = (value.ToLower() == "true") ? true : false;
+                                break;
                             case "verify-names":
                                 Server.verify = (value.ToLower() == "true") ? true : false;
                                 break;
@@ -396,17 +399,6 @@ namespace MCSong
                                 if (value != "")
                                     Server.ZallState = value;
                                 break;
-                            case "cpe":
-                                Server.cpe = new ExtensionList();
-                                if (value.ToLower() == "none")
-                                    break;
-                                foreach (string s in value.Split(','))
-                                {
-                                    Extension e = Extension.support.Find(s.Trim());
-                                    if (e != null)
-                                        Server.cpe.Add(e);
-                                }
-                                break;
                         }
                     }
                 }
@@ -478,6 +470,7 @@ namespace MCSong
                     w.WriteLine("server-name = " + Server.name);
                     w.WriteLine("motd = " + Server.motd);
                     w.WriteLine("port = " + Server.port.ToString());
+                    w.WriteLine("upnp = " + Server.upnp.ToString());
                     w.WriteLine("verify-names = " + Server.verify.ToString().ToLower());
                     w.WriteLine("public = " + Server.pub.ToString().ToLower());
                     w.WriteLine("max-players = " + Server.players.ToString());
@@ -565,8 +558,6 @@ namespace MCSong
                     try { w.WriteLine("default-rank = " + Server.defaultRank); }
                     catch { w.WriteLine("default-rank = guest"); }
                     w.WriteLine();
-                    w.WriteLine("#Extensions");
-                    w.WriteLine("cpe = " + Server.cpe.ToString());
                 }
                 w.Flush();
                 w.Close();

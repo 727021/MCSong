@@ -157,7 +157,7 @@ namespace MCSong
             }
         }
 
-        //Only call from within synchronised code or support hell will break loose
+        //Only call from within synchronised code or all hell will break loose
         static void FlushCache(string path, Queue<string> cache)
         {
             FileStream fs = null;

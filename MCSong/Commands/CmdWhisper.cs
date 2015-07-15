@@ -34,7 +34,7 @@ namespace MCSong
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/whisper <name> - Makes support messages act like whispers");
+            Player.SendMessage(p, "/whisper <name> - Makes all messages act like whispers");
         }
     }
 }

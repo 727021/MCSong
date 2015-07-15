@@ -23,7 +23,7 @@ namespace MCSong
 
             if (message.Split(' ').Length == 2)
             {
-                if (message.Split(' ')[1].ToLower() == "support" && p.group.Permission > LevelPermission.Operator)
+                if (message.Split(' ')[1].ToLower() == "all" && p.group.Permission > LevelPermission.Operator)
                 {
                     seconds = 500000;
                 }
@@ -266,7 +266,7 @@ namespace MCSong
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/undo [player] [seconds] - Undoes the blockchanges made by [player] in the previous [seconds].");
-            Player.SendMessage(p, "/undo [player] support - &cWill undo 138 hours for [player] <SuperOP+>");
+            Player.SendMessage(p, "/undo [player] all - &cWill undo 138 hours for [player] <SuperOP+>");
             Player.SendMessage(p, "/undo [player] 0 - &cWill undo 30 minutes <Operator+>");
             Player.SendMessage(p, "/undo physics [seconds] - Undoes the physics for the current map");
         }

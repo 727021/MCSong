@@ -33,10 +33,10 @@ namespace MCSong.Gui
         Regex regex = new Regex(@"^([1-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])(\." +
                                 "([0-9]|[1-9][0-9]|1[0-9][0-9]|2[0-4][0-9]|25[0-5])){3}$");
         // for cross thread use
-        delegate void StringCallback(string s);
-        delegate void PlayerListCallback(List<Player> players);
-        delegate void ReportCallback(Report r);
-        delegate void VoidDelegate();
+        //delegate void StringCallback(string s);
+        //delegate void PlayerListCallback(List<Player> players);
+        //delegate void ReportCallback(Report r);
+        //delegate void VoidDelegate();
 
         public static event EventHandler Minimize;
         public NotifyIcon notifyIcon1 = new NotifyIcon();
@@ -126,7 +126,7 @@ namespace MCSong.Gui
             this.notifyIcon1.ContextMenuStrip = this.iconContext;
             this.notifyIcon1.Icon = this.Icon;
             this.notifyIcon1.Visible = true;
-            this.notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
+            notifyIcon1.MouseClick += new System.Windows.Forms.MouseEventHandler(this.notifyIcon1_MouseClick);
 
             /*System.Timers.Timer MapTimer = new System.Timers.Timer(10000);
             MapTimer.Elapsed += delegate {
@@ -197,13 +197,10 @@ namespace MCSong.Gui
         void SettingsUpdate()
         {
             if (shuttingDown) return;
-            if (txtLog.InvokeRequired)
+            Invoke(new Action(delegate
             {
-                VoidDelegate d = new VoidDelegate(SettingsUpdate);
-                this.Invoke(d);
-            }  else {
                 this.Text = Server.name + " - MCSong Version: " + Server.Version;
-            }
+            }));
         }
 
         void HeartBeatFail() {
@@ -214,50 +211,38 @@ namespace MCSong.Gui
         {
             try
             {
-                if (txtErrors.InvokeRequired)
-                {
-                    LogDelegate d = new LogDelegate(newError);
-                    this.Invoke(d, new object[] { message });
-                }
-                else
+                Invoke(new Action(delegate
                 {
                     txtErrors.AppendText(Environment.NewLine + message);
-                    txtErrors.Select(txtErrors.Text.Length, 0);
-                }
-            } catch { }
+                    txtErrors.Select(txtErrors.MaxLength, 0);
+                }));
+            }
+            catch { }
         }
         void newSystem(string message)
         {
             try
             {
-                if (txtSystem.InvokeRequired)
-                {
-                    LogDelegate d = new LogDelegate(newSystem);
-                    this.Invoke(d, new object[] { message });
-                }
-                else
+                Invoke(new Action(delegate
                 {
                     txtSystem.AppendText(Environment.NewLine + message);
                     txtSystem.Select(txtSystem.Text.Length, 0);
-                }
-            } catch { }
+                }));
+            }
+            catch { }
         }
-
-        delegate void LogDelegate(string message);
-
+        
         /// <summary>
         /// Does the same as Console.Write() only in the form
         /// </summary>
         /// <param name="s">The string to write</param>
         public void Write(string s) {
             if (shuttingDown) return;
-            if (txtLog.InvokeRequired) {
-                LogDelegate d = new LogDelegate(Write);
-                this.Invoke(d, new object[] { s });
-            } else {
+            Invoke(new Action(delegate
+            {
                 txtLog.AppendText(s);
                 txtLog.Select(txtLog.Text.Length, 0);
-            }
+            }));
         }
         /// <summary>
         /// Does the same as Console.WriteLine() only in the form
@@ -266,94 +251,75 @@ namespace MCSong.Gui
         public void WriteLine(string s)
         {
             if (shuttingDown) return;
-            if (this.InvokeRequired) {
-                LogDelegate d = new LogDelegate(WriteLine);
-                this.Invoke(d, new object[] { s });
-            } else {
+            Invoke(new Action(delegate
+            {
                 txtLog.AppendText(s + "\r\n");
                 txtLog.Select(txtLog.Text.Length, 0);
-            }
+            }));
         }
         public void WriteLineOp(string s)
         {
             if (shuttingDown) return;
-            if (this.InvokeRequired)
-            {
-                LogDelegate d = new LogDelegate(WriteLineOp);
-                this.Invoke(d, new object[] { s });
-            }
-            else
+            Invoke(new Action(delegate
             {
                 txtOpOut.AppendText(s + "\r\n");
                 txtOpOut.Select(txtOpOut.Text.Length, 0);
-            }
+            }));
         }
         public void WriteLineAdmin(string s)
         {
             if (shuttingDown) return;
-            if (this.InvokeRequired)
-            {
-                LogDelegate d = new LogDelegate(WriteLineAdmin);
-                this.Invoke(d, new object[] { s });
-            }
-            else
+            Invoke(new Action(delegate
             {
                 txtAdminOut.AppendText(s + "\r\n");
                 txtAdminOut.Select(txtAdminOut.Text.Length, 0);
-            }
+            }));
         }
         public void WriteLineGlobal(string s)
         {
             if (shuttingDown) return;
-            if (this.InvokeRequired)
-            {
-                LogDelegate d = new LogDelegate(WriteLineGlobal);
-                this.Invoke(d, new object[] { s });
-            }
-            else
+            Invoke(new Action(delegate
             {
                 txtGlobalOut.AppendText(s + "\r\n");
                 txtGlobalOut.Select(txtGlobalOut.Text.Length, 0);
-            }
+            }));
         }
         /// <summary>
         /// Updates the list of client names in the window
         /// </summary>
         /// <param name="players">The list of players to add</param>
-        public void UpdateClientList(List<Player> players) {
-            if (this.InvokeRequired) {
-                PlayerListCallback d = new PlayerListCallback(UpdateClientList);
-                this.Invoke(d, new object[] { players });
-            } else {
+        public void UpdateClientList() {
+            Invoke(new Action(delegate
+            {
                 liClients.Items.Clear();
-                Player.players.ForEach(delegate(Player p) { liClients.Items.Add(p.name); });
+                Player.players.ForEach(delegate (Player p) { liClients.Items.Add(p.name); });
                 txtPlayerCount.Clear();
                 txtPlayerCount.Text = Player.players.Count.ToString() + "/";
                 int guests = 0;
-                Player.players.ForEach(delegate(Player p) { if (p.group.Permission == LevelPermission.Guest) { guests++; } });
+                Player.players.ForEach(delegate (Player p) { if (p.group.Permission == LevelPermission.Guest) { guests++; } });
                 txtPlayerCount.AppendText(guests.ToString());
-            }
+            }));
         }
 
-        public void UpdateMapList(string blah) {            
-            if (this.InvokeRequired) {
-                LogDelegate d = new LogDelegate(UpdateMapList);
-                this.Invoke(d, new object[] { blah });
-            } else {
+        public void UpdateMapList(string mapname = "") {            
+            Invoke(new Action(delegate
+            {
                 liMaps.Items.Clear();
-                foreach (Level level in Server.levels) {
+                foreach (Level level in Server.levels)
+                {
                     liMaps.Items.Add(level.name + " - " + level.physics);
                 }
                 liUnloaded.Items.Clear();
-                foreach (string f in Directory.GetFiles("levels/", "*.lvl", SearchOption.TopDirectoryOnly))
-                {
-                    FileInfo fi = new FileInfo(f);
-                    string n = fi.Name.Replace(fi.Extension, "");
-                    if (Level.Find(n) == null)
-                        liUnloaded.Items.Add(n);
-                }
+                if (Directory.Exists("levels"))
+                    foreach (string f in Directory.GetFiles("levels/", "*.lvl", SearchOption.TopDirectoryOnly))
+                    {
+                        FileInfo fi = new FileInfo(f);
+                        string n = fi.Name.Replace(fi.Extension, "");
+                        if (Level.Find(n) == null)
+                            liUnloaded.Items.Add(n);
+                    }
                 UpdateMapsTab();
-            }
+            }));
         }
 
         /// <summary>
@@ -362,13 +328,10 @@ namespace MCSong.Gui
         /// <param name="s">The URL to display</param>
         public void UpdateUrl(string s)
         {
-            if (this.InvokeRequired)
+            Invoke(new Action(delegate
             {
-                StringCallback d = new StringCallback(UpdateUrl);
-                this.Invoke(d, new object[] { s });
-            }
-            else
                 txtUrl.Text = s;
+            }));
         }
 
         private void Window_FormClosing(object sender, FormClosingEventArgs e) {
@@ -517,17 +480,12 @@ namespace MCSong.Gui
             MCSong_.Gui.Program.ExitProgram(false); 
         }
 
-        public void newCommand(string p) { 
-            if (txtCommandsUsed.InvokeRequired)
-            {
-                LogDelegate d = new LogDelegate(newCommand);
-                this.Invoke(d, new object[] { p });
-            }
-            else
+        public void newCommand(string p) {
+            Invoke(new Action(delegate
             {
                 txtCommandsUsed.AppendText(p + "\r\n");
                 txtCommandsUsed.Select(txtCommandsUsed.Text.Length, 0);
-            }
+            }));
         }
 
         void ChangeCheck(string newCheck)
@@ -651,7 +609,7 @@ namespace MCSong.Gui
             txtOpOut.Select(txtOpOut.Text.Length, 0);
             txtGlobalOut.Select(txtGlobalOut.Text.Length, 0);
             txtLog.Select(txtLog.Text.Length, 0);
-            UpdateMapList("'");
+            UpdateMapList();
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -814,8 +772,8 @@ namespace MCSong.Gui
                 Server.s.Log("MAINTENANCE MODE has been turned ON");
                 if (Server.maintKick)
                 {
-                    Player.GlobalMessage("Kicking support players ranked below " + Level.PermissionToName(Server.maintPerm));
-                    Server.s.Log("Kicking support players ranked below" + Level.PermissionToName(Server.maintPerm));
+                    Player.GlobalMessage("Kicking all players ranked below " + Level.PermissionToName(Server.maintPerm));
+                    Server.s.Log("Kicking all players ranked below" + Level.PermissionToName(Server.maintPerm));
                     foreach (Player p in Player.players)
                     {
                         if (p.group.Permission < Server.maintPerm)
@@ -899,7 +857,7 @@ namespace MCSong.Gui
 
         private void txtDevList_Focus(object sender, EventArgs e)
         {
-            lblInfoVersion.Focus();
+            groupBox11.Focus();
         }
         
         private void liClients_SelectedIndexChanged(object sender, EventArgs e)
@@ -1056,23 +1014,39 @@ namespace MCSong.Gui
                     Level l = Level.Find(liMaps.Text.Remove(liMaps.Text.Length - 4));
                     if (l == null) goto clearMapPath;
 
-                    btnUpdateLevel.Enabled = btnLevelHacks.Enabled = true;
-
+                    btnLevelHacks.Enabled = true;
+                    
                     btnLoadLevel.Enabled = false;
                     cmbLevelPhys.Enabled = cmbPerVisit.Enabled = cmbPerBuild.Enabled = true;
 
-                    btnUnloadLevel.Enabled = btnRenameLevel.Enabled = btnDeleteLevel.Enabled = (l != Server.mainLevel);
+                    chkGrassGrowing.Enabled = chkKillerBlocks.Enabled = chkSurvivalDeath.Enabled = true;
+                    chkFiniteMode.Enabled = chkEdgeWater.Enabled = chkAnimalAi.Enabled = true;
+                    chkLevelChat.Enabled = chkAutoUnload.Enabled = chkAutoLoad.Enabled = true;
+
+                    btnUnloadLevel.Enabled = btnRenameLevel.Enabled = btnDeleteLevel.Enabled = chkAutoLoad.Enabled = chkAutoUnload.Enabled = (l != Server.mainLevel);
 
                     txtLevelPath.Text = new FileInfo("levels/" + l.name + ".lvl").FullName;
                     txtLevelMotd.Text = l.motd;
                     cmbLevelPhys.SelectedIndex = l.physics;
                     txtLevelX.Text = l.width.ToString();
-                    txtLevelY.Text = l.height.ToString();
-                    txtLevelZ.Text = l.depth.ToString();
+                    txtLevelY.Text = l.depth.ToString();
+                    txtLevelZ.Text = l.height.ToString();
                     try {cmbPerVisit.SelectedIndex = cmbPerVisit.Items.IndexOf(Level.PermissionToName(l.permissionvisit)); }
                     catch { cmbPerVisit.SelectedIndex = 0; }
                     try { cmbPerBuild.SelectedIndex = cmbPerBuild.Items.IndexOf(Level.PermissionToName(l.permissionbuild)); }
                     catch { cmbPerBuild.SelectedIndex = 0; }
+
+                    chkGrassGrowing.Checked = l.GrassGrow;
+                    chkKillerBlocks.Checked = l.Killer;
+                    chkSurvivalDeath.Checked = l.Death;
+                    chkFiniteMode.Checked = l.finite;
+                    chkEdgeWater.Checked = l.edgeWater;
+                    chkAnimalAi.Checked = l.ai;
+                    chkLevelChat.Checked = !l.worldChat;
+                    chkAutoUnload.Checked = (l == Server.mainLevel) ? false : l.unload;
+                    chkAutoLoad.Checked = (l == Server.mainLevel) ? ((File.Exists("extra/autoload.txt") ? (new List<string>(File.ReadAllLines("extra/autoload.txt")).Contains(l.name) || new List<string>(File.ReadAllLines("extra/autoload.txt")).Contains(l.name.ToLower())) : false)) : false;
+
+                    btnUpdateLevel.Enabled = false;
 
                     DrawLevel(l);
                     btnSaveImage.Enabled = true;
@@ -1084,7 +1058,6 @@ namespace MCSong.Gui
 
                     btnUnloadLevel.Enabled = false;
                     btnLoadLevel.Enabled = true;
-                    cmbLevelPhys.Enabled = cmbPerVisit.Enabled = cmbPerBuild.Enabled = false;
 
                     txtLevelPath.Text = new FileInfo("levels/" + liUnloaded.Text + ".lvl").FullName;
                     goto clearMaps;
@@ -1107,6 +1080,13 @@ namespace MCSong.Gui
                 txtLevelZ.Clear();
                 btnSaveImage.Enabled = false;
                 pbMapViewer.Image = new Bitmap(pbMapViewer.Width, pbMapViewer.Height);
+                cmbLevelPhys.Enabled = cmbPerVisit.Enabled = cmbPerBuild.Enabled = false;
+                chkGrassGrowing.Checked = chkKillerBlocks.Checked = chkSurvivalDeath.Checked = false;
+                chkFiniteMode.Checked = chkEdgeWater.Checked = chkAnimalAi.Checked = false;
+                chkLevelChat.Checked = chkAutoUnload.Checked = chkAutoLoad.Checked = false;
+                chkGrassGrowing.Enabled = chkKillerBlocks.Enabled = chkSurvivalDeath.Enabled = false;
+                chkFiniteMode.Enabled = chkEdgeWater.Enabled = chkAnimalAi.Enabled = false;
+                chkLevelChat.Enabled = chkAutoUnload.Enabled = chkAutoLoad.Enabled = false;
             }
             else
             {
@@ -1132,7 +1112,7 @@ namespace MCSong.Gui
             if (l == Server.mainLevel) { MessageBox.Show("You cannot unload the main level."); return; }
             liMaps.SetSelected(0, false);
             l.Unload();
-            UpdateMapList("'");
+            UpdateMapList();
             if (Level.Find(l.name) == null)
                 liUnloaded.SetSelected(liUnloaded.Items.IndexOf(l.name), true);
         }
@@ -1143,7 +1123,7 @@ namespace MCSong.Gui
             string l = liUnloaded.Text;
             liUnloaded.SetSelected(0, false);
             Command.all.Find("load").Use(null, l);
-            UpdateMapList("'");
+            UpdateMapList();
             liMaps.SetSelected(liMaps.Items.IndexOf(Level.Find(l).name + " - " + Level.Find(l).physics.ToString()), true);
         }
 
@@ -1174,8 +1154,47 @@ namespace MCSong.Gui
                 l.permissionbuild = Level.PermissionFromName(cmbPerBuild.Items[cmbPerBuild.SelectedIndex].ToString());
                 l.permissionvisit = Level.PermissionFromName(cmbPerVisit.Items[cmbPerVisit.SelectedIndex].ToString());
 
+                l.GrassGrow = chkGrassGrowing.Checked;
+                l.Killer = chkKillerBlocks.Checked;
+                l.Death = chkSurvivalDeath.Checked;
+                l.finite = chkFiniteMode.Checked;
+                l.edgeWater = chkEdgeWater.Checked;
+                l.ai = chkAnimalAi.Checked;
+                l.worldChat = !chkLevelChat.Checked;
+                l.unload = chkAutoUnload.Checked;
+                {
+                    List<string> oldlines = new List<string>();
+                    using (StreamReader r = new StreamReader("text/autoload.txt"))
+                    {
+                        bool done = false;
+                        string line;
+                        while ((line = r.ReadLine()) != null)
+                        {
+                            if (line.ToLower().Contains(l.name.ToLower()))
+                            {
+                                if (chkAutoLoad.Checked == false)
+                                {
+                                    line = "";
+                                }
+                                done = true;
+                            }
+                            oldlines.Add(line);
+                        }
+                        if (chkAutoLoad.Checked == true && done == false)
+                        {
+                            oldlines.Add(l.name + "=" + l.physics);
+                        }
+                    }
+                    File.Delete("text/autoload.txt");
+                    using (StreamWriter SW = new StreamWriter("text/autoload.txt"))
+                        foreach (string line in oldlines)
+                            if (line.Trim() != "")
+                                SW.WriteLine(line);
+                }
+
                 l.setPhysics(cmbLevelPhys.SelectedIndex);// Physics has to be set last because it causes a maps tab update
                 l.Save(true, true);
+                btnUpdateLevel.Enabled = false;
                 return;
             }
             else
@@ -1233,9 +1252,9 @@ namespace MCSong.Gui
             }
             else if (dr == DialogResult.No)
             {
-                if (MessageBox.Show("Are you sure you want to delete the level " + liMaps.Text.Remove(liMaps.Text.Length - 4) + " AND support its backups?", "Are you sure?", MessageBoxButtons.YesNo) == DialogResult.Yes)
+                if (MessageBox.Show("Are you sure you want to delete the level " + liMaps.Text.Remove(liMaps.Text.Length - 4) + " AND all its backups?", "Are you sure?", MessageBoxButtons.YesNo) == DialogResult.Yes)
                 {
-                    // Delete the level and support backups
+                    // Delete the level and all backups
                     string message = liMaps.Text.Remove(liMaps.Text.Length - 4);
                     Level l = Level.Find(message);
                     if (l != null) l.Unload();
@@ -1268,7 +1287,7 @@ namespace MCSong.Gui
                             MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Messages" + message + "`, `Zone" + message + "`");
 
                             Player.GlobalMessage("Level " + message + " was deleted.");
-                            MessageBox.Show("Level " + message + " AND support its backups were deleted.");
+                            MessageBox.Show("Level " + message + " AND all its backups were deleted.");
                         }
                         else
                         {
@@ -1278,7 +1297,7 @@ namespace MCSong.Gui
                     catch (Exception ex) { MessageBox.Show("Error while deleting"); Server.ErrorLog(ex); }
                 }
             }
-            UpdateMapList("'");
+            UpdateMapList();
         }
 
         private void btnBackupManager_Click(object sender, EventArgs e)
@@ -1327,7 +1346,7 @@ namespace MCSong.Gui
                 }
             }
             catch (Exception ex) { Server.ErrorLog(ex); }
-            UpdateMapList("'");
+            UpdateMapList();
             newName = "";
         }
 
@@ -1362,7 +1381,7 @@ namespace MCSong.Gui
 
         private void UpdateStats(object sender, System.Timers.ElapsedEventArgs e)
         {
-            if (!this.InvokeRequired)
+            Invoke(new Action(delegate
             {
                 if (Server.PCCounter == null || Server.ProcessCounter == null)
                     Server.s.Log("Starting performance counters...");
@@ -1388,46 +1407,14 @@ namespace MCSong.Gui
                 TimeSpan tp = Process.GetCurrentProcess().TotalProcessorTime;
                 TimeSpan up = (DateTime.Now - Process.GetCurrentProcess().StartTime);
 
-                string cpu = Server.ProcessCounter.NextValue().ToString();
-                string cputotal = Server.PCCounter.NextValue().ToString();
-                txtCpu.Text = ((cpu.Contains(".")) ? ((cpu.Split('.')[1].Length >= 2) ? cpu.Remove(cpu.IndexOf('.') + 3) : cpu.Remove(cpu.IndexOf('.') + 2)) : cpu) + "%   :   " + ((cputotal.Contains(".")) ? ((cputotal.Split('.')[1].Length >= 2) ? cputotal.Remove(cputotal.IndexOf('.') + 3) : cputotal.Remove(cputotal.IndexOf('.') + 2)) : cputotal) + "%";
+                string cpu = Math.Round(Server.ProcessCounter.NextValue()).ToString();
+                string cputotal = Math.Round(Server.PCCounter.NextValue()).ToString();
+                txtCpu.Text = cpu + "%  /  " + cputotal + "%";
                 txtMemory.Text = Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576).ToString() + " MB";
                 txtThreads.Text = Process.GetCurrentProcess().Threads.Count.ToString();
                 txtUptime.Text = up.Days + " Days, " + up.Hours + " Hours, " + up.Minutes + " Minutes, " + up.Seconds + " Seconds";
                 lblStartingCounters.Visible = false;
-            }
-            else
-            {
-                VoidDelegate d = new VoidDelegate(delegate
-                {
-                    if (Server.PCCounter == null || Server.ProcessCounter == null)
-                        Server.s.Log("Starting performance counters...");
-                    if (Server.PCCounter == null)
-                    {
-                        Server.PCCounter = new PerformanceCounter("Processor", "% Processor Time", "_Total");
-                        Server.PCCounter.BeginInit();
-                        Server.PCCounter.NextValue();
-                    }
-                    if (Server.ProcessCounter == null)
-                    {
-                        Server.ProcessCounter = new PerformanceCounter("Process", "% Processor Time", Process.GetCurrentProcess().ProcessName);
-                        Server.ProcessCounter.BeginInit();
-                        Server.ProcessCounter.NextValue();
-                    }
-
-                    TimeSpan tp = Process.GetCurrentProcess().TotalProcessorTime;
-                    TimeSpan up = (DateTime.Now - Process.GetCurrentProcess().StartTime);
-
-                    string cpu = Server.ProcessCounter.NextValue().ToString();
-                    string cputotal = Server.PCCounter.NextValue().ToString();
-                    txtCpu.Text = ((cpu.Contains(".")) ? ((cpu.Split('.')[1].Length >= 2) ? cpu.Remove(cpu.IndexOf('.') + 3) : cpu.Remove(cpu.IndexOf('.') + 2)) : cpu) + "%   :   " + ((cputotal.Contains(".")) ? ((cputotal.Split('.')[1].Length >= 2) ? cputotal.Remove(cputotal.IndexOf('.') + 3) : cputotal.Remove(cputotal.IndexOf('.') + 2)) : cputotal) + "%";
-                    txtMemory.Text = Math.Round((double)Process.GetCurrentProcess().PrivateMemorySize64 / 1048576).ToString() + " MB";
-                    txtThreads.Text = Process.GetCurrentProcess().Threads.Count.ToString();
-                    txtUptime.Text = up.Days + " Days, " + up.Hours + " Hours, " + up.Minutes + " Minutes, " + up.Seconds + " Seconds";
-                    lblStartingCounters.Visible = false;
-                });
-                this.Invoke(d);
-            }
+            }));
         }
 
         private void btnLevelHacks_Click(object sender, EventArgs e)
@@ -1444,6 +1431,17 @@ namespace MCSong.Gui
             System.Timers.Timer statsTimer = new System.Timers.Timer(1000);
             statsTimer.Elapsed += UpdateStats;
             statsTimer.Start();
+        }
+
+        private void btnNewLevel_Click(object sender, EventArgs e)
+        {
+            if (new NewLevelDialog().ShowDialog() == DialogResult.OK)
+                UpdateMapList();
+        }
+
+        private void LevelSettings_Changed(object sender, EventArgs e)
+        {
+            btnUpdateLevel.Enabled = true;
         }
     }
 }

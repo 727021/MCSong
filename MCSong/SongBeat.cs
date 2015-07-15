@@ -1,18 +1,14 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics;
 using System.Text;
-using System.Text.RegularExpressions;
-using System.Timers;
 using System.Net;
 using System.IO;
 using System.Threading;
 using System.ComponentModel;
-using System.Collections;
-
-using Microsoft.CSharp.RuntimeBinder;
+using System.Linq;
 
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
+using System.Collections.Generic;
 
 namespace MCSong
 {
@@ -29,6 +25,8 @@ namespace MCSong
         static string hash;
         public static string serverURL;
         static string staticVars;
+
+        static bool ccSuccess = false;
 
         static BackgroundWorker worker;
         static HttpWebRequest request;
@@ -81,8 +79,8 @@ namespace MCSong
 
         static void worker_DoWork(object sender, DoWorkEventArgs e)
         {
-            Pump(BeatType.Mojang);
             Pump(BeatType.ClassiCube);
+            Pump(BeatType.Mojang);
             //Pump(BeatType.MCSong);
             Thread.Sleep(timeout);
         }
@@ -116,6 +114,7 @@ namespace MCSong
                 switch (type)
                 {
                     case BeatType.ClassiCube:
+                        ccSuccess = false;
                         postVars += "&salt=" + Server.salt +
                             "&software=MCSong";
                         goto default;
@@ -170,26 +169,58 @@ namespace MCSong
                     StreamReader responseReader;
                     switch (type)
                     {
+                        case BeatType.ClassiCube:
+                            responseReader = new StreamReader(response.GetResponseStream());
+                            string resp = responseReader.ReadToEnd();
+                            File.WriteAllText("heartbeat/ClassiCube.txt", resp);
+                            if (Server.logbeat) Server.s.Log("ClassiCube response saved to heartbeat/ClassiCube.txt");
+
+                            if (resp.StartsWith("http"))
+                            {
+                                serverURL = resp;
+                                Server.s.UpdateUrl(serverURL);
+                                Server.externalURL = serverURL;
+                                File.WriteAllText("heartbeat/externalurl.txt", resp);
+                                if (Server.logbeat) Server.s.Log("URL saved to heartbeat/externalurl.txt...");
+                                ccSuccess = true;
+                            }
+                            else if (resp.StartsWith("{"))
+                            {
+                                JObject json = JObject.Parse(resp);
+                                Server.s.Log("ClassiCube returned an error: " + json["errors"][0][0].ToString().Replace("\"", ""));
+                                ccSuccess = false;
+                                /*                                
+                                {
+                                  "errors": [
+                                    [
+                                       "Server not reachable, port may not be open."
+                                    ]
+                                  ], 
+                                  "response": "", 
+                                  "status": "fail"
+                                }
+                                */
+                            }
+                            responseReader.Close();
+                            break;
                         case BeatType.Mojang:
                             responseReader = new StreamReader(response.GetResponseStream());
                             string line = responseReader.ReadLine();
-                            hash = line.Substring(line.LastIndexOf('=') + 1);
-                            serverURL = line;
-
-                            Server.s.UpdateUrl(serverURL);
-                            Server.externalURL = serverURL;
-                            File.WriteAllText("heartbeat/externalurl.txt", serverURL);
-                            if (Server.logbeat) Server.s.Log("URL saved to heartbeat/externalurl.txt...");
-                            responseReader.Close();
-                            break;
-                        case BeatType.ClassiCube:
-                            responseReader = new StreamReader(response.GetResponseStream());
-                            File.WriteAllText("heartbeat/ClassiCube.txt", responseReader.ReadToEnd());
-                            if (Server.logbeat) Server.s.Log("ClassiCube response saved to heartbeat/ClassiCube.txt");
+                            File.WriteAllText("heartbeat/Mojang.txt", line);
+                            if (Server.logbeat) Server.s.Log("Mojang response saved to heartbeat/Mojang.txt...");
+                            if (!ccSuccess)
+                            {
+                                hash = line.Substring(line.LastIndexOf('=') + 1);
+                                serverURL = line;
+                                Server.s.UpdateUrl(serverURL);
+                                Server.externalURL = serverURL;
+                                File.WriteAllText("heartbeat/externalurl.txt", line);
+                                if (Server.logbeat) Server.s.Log("URL saved to heartbeat/externalurl.txt...");
+                            }
                             responseReader.Close();
                             break;
                         case BeatType.MCSong:
-                            new WebClient().DownloadFile(url + "?" + postVars, "heartbeat/MCSong1.txt");
+                            new WebClient().DownloadFile(url + "?" + postVars, "heartbeat/MCSong.txt");
                             if (Server.logbeat) Server.s.Log("MCSong response saved to heartbeat/MCSong.txt");
                             break;
                     }

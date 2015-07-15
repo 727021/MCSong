@@ -115,6 +115,18 @@ namespace MCSong.Gui
             this.btnSaveImage = new System.Windows.Forms.Button();
             this.pbMapViewer = new System.Windows.Forms.PictureBox();
             this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.groupBox18 = new System.Windows.Forms.GroupBox();
+            this.chkAutoLoad = new System.Windows.Forms.CheckBox();
+            this.chkAutoUnload = new System.Windows.Forms.CheckBox();
+            this.chkEdgeWater = new System.Windows.Forms.CheckBox();
+            this.chkFiniteMode = new System.Windows.Forms.CheckBox();
+            this.chkLevelChat = new System.Windows.Forms.CheckBox();
+            this.chkSurvivalDeath = new System.Windows.Forms.CheckBox();
+            this.chkAnimalAi = new System.Windows.Forms.CheckBox();
+            this.chkKillerBlocks = new System.Windows.Forms.CheckBox();
+            this.chkGrassGrowing = new System.Windows.Forms.CheckBox();
+            this.btnNewLevel = new System.Windows.Forms.Button();
+            this.btnLevelHacks = new System.Windows.Forms.Button();
             this.label15 = new System.Windows.Forms.Label();
             this.label14 = new System.Windows.Forms.Label();
             this.cmbPerVisit = new System.Windows.Forms.ComboBox();
@@ -156,20 +168,24 @@ namespace MCSong.Gui
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.lblUrl = new System.Windows.Forms.Label();
             this.groupBox13 = new System.Windows.Forms.GroupBox();
+            this.label20 = new System.Windows.Forms.Label();
+            this.linkLabel9 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
             this.linkLabel4 = new System.Windows.Forms.LinkLabel();
+            this.linkLabel10 = new System.Windows.Forms.LinkLabel();
             this.label8 = new System.Windows.Forms.Label();
+            this.linkLabel6 = new System.Windows.Forms.LinkLabel();
             this.label7 = new System.Windows.Forms.Label();
             this.label6 = new System.Windows.Forms.Label();
             this.linkLabel1 = new System.Windows.Forms.LinkLabel();
             this.label5 = new System.Windows.Forms.Label();
             this.groupBox12 = new System.Windows.Forms.GroupBox();
-            this.linkLabel10 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel9 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel6 = new System.Windows.Forms.LinkLabel();
-            this.linkLabel5 = new System.Windows.Forms.LinkLabel();
+            this.textBox1 = new System.Windows.Forms.TextBox();
             this.groupBox11 = new System.Windows.Forms.GroupBox();
             this.txtDevList = new System.Windows.Forms.TextBox();
             this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.lblStartingCounters = new System.Windows.Forms.Label();
+            this.button3 = new System.Windows.Forms.Button();
             this.groupBox17 = new System.Windows.Forms.GroupBox();
             this.txtThreads = new System.Windows.Forms.TextBox();
             this.txtMemory = new System.Windows.Forms.TextBox();
@@ -183,11 +199,6 @@ namespace MCSong.Gui
             this.iconContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
             this.shutdownServer = new System.Windows.Forms.ToolStripMenuItem();
-            this.btnLevelHacks = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
-            this.lblStartingCounters = new System.Windows.Forms.Label();
-            this.label20 = new System.Windows.Forms.Label();
-            this.textBox1 = new System.Windows.Forms.TextBox();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -849,6 +860,17 @@ namespace MCSong.Gui
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.groupBox18);
+            this.groupBox8.Controls.Add(this.chkAutoLoad);
+            this.groupBox8.Controls.Add(this.chkAutoUnload);
+            this.groupBox8.Controls.Add(this.chkEdgeWater);
+            this.groupBox8.Controls.Add(this.chkFiniteMode);
+            this.groupBox8.Controls.Add(this.chkLevelChat);
+            this.groupBox8.Controls.Add(this.chkSurvivalDeath);
+            this.groupBox8.Controls.Add(this.chkAnimalAi);
+            this.groupBox8.Controls.Add(this.chkKillerBlocks);
+            this.groupBox8.Controls.Add(this.chkGrassGrowing);
+            this.groupBox8.Controls.Add(this.btnNewLevel);
             this.groupBox8.Controls.Add(this.btnLevelHacks);
             this.groupBox8.Controls.Add(this.label15);
             this.groupBox8.Controls.Add(this.label14);
@@ -874,6 +896,142 @@ namespace MCSong.Gui
             this.groupBox8.TabIndex = 43;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Level Settings";
+            // 
+            // groupBox18
+            // 
+            this.groupBox18.Location = new System.Drawing.Point(4, 182);
+            this.groupBox18.Name = "groupBox18";
+            this.groupBox18.Size = new System.Drawing.Size(268, 10);
+            this.groupBox18.TabIndex = 2;
+            this.groupBox18.TabStop = false;
+            // 
+            // chkAutoLoad
+            // 
+            this.chkAutoLoad.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAutoLoad.Location = new System.Drawing.Point(187, 153);
+            this.chkAutoLoad.Name = "chkAutoLoad";
+            this.chkAutoLoad.Size = new System.Drawing.Size(82, 23);
+            this.chkAutoLoad.TabIndex = 29;
+            this.chkAutoLoad.Text = "Auto Load";
+            this.chkAutoLoad.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkAutoLoad.UseVisualStyleBackColor = true;
+            this.chkAutoLoad.CheckedChanged += new System.EventHandler(this.LevelSettings_Changed);
+            // 
+            // chkAutoUnload
+            // 
+            this.chkAutoUnload.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAutoUnload.Location = new System.Drawing.Point(99, 153);
+            this.chkAutoUnload.Name = "chkAutoUnload";
+            this.chkAutoUnload.Size = new System.Drawing.Size(82, 23);
+            this.chkAutoUnload.TabIndex = 28;
+            this.chkAutoUnload.Text = "Auto Unload";
+            this.chkAutoUnload.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkAutoUnload.UseVisualStyleBackColor = true;
+            this.chkAutoUnload.CheckedChanged += new System.EventHandler(this.LevelSettings_Changed);
+            // 
+            // chkEdgeWater
+            // 
+            this.chkEdgeWater.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkEdgeWater.Location = new System.Drawing.Point(99, 124);
+            this.chkEdgeWater.Name = "chkEdgeWater";
+            this.chkEdgeWater.Size = new System.Drawing.Size(82, 23);
+            this.chkEdgeWater.TabIndex = 27;
+            this.chkEdgeWater.Text = "Edge Water";
+            this.chkEdgeWater.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkEdgeWater.UseVisualStyleBackColor = true;
+            this.chkEdgeWater.CheckedChanged += new System.EventHandler(this.LevelSettings_Changed);
+            // 
+            // chkFiniteMode
+            // 
+            this.chkFiniteMode.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkFiniteMode.Location = new System.Drawing.Point(9, 124);
+            this.chkFiniteMode.Name = "chkFiniteMode";
+            this.chkFiniteMode.Size = new System.Drawing.Size(84, 23);
+            this.chkFiniteMode.TabIndex = 26;
+            this.chkFiniteMode.Text = "Finite Liquids";
+            this.chkFiniteMode.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkFiniteMode.UseVisualStyleBackColor = true;
+            this.chkFiniteMode.CheckedChanged += new System.EventHandler(this.LevelSettings_Changed);
+            // 
+            // chkLevelChat
+            // 
+            this.chkLevelChat.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkLevelChat.Location = new System.Drawing.Point(9, 153);
+            this.chkLevelChat.Name = "chkLevelChat";
+            this.chkLevelChat.Size = new System.Drawing.Size(84, 23);
+            this.chkLevelChat.TabIndex = 30;
+            this.chkLevelChat.Text = "Level Chat";
+            this.chkLevelChat.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkLevelChat.UseVisualStyleBackColor = true;
+            this.chkLevelChat.CheckedChanged += new System.EventHandler(this.LevelSettings_Changed);
+            // 
+            // chkSurvivalDeath
+            // 
+            this.chkSurvivalDeath.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkSurvivalDeath.Location = new System.Drawing.Point(187, 95);
+            this.chkSurvivalDeath.Name = "chkSurvivalDeath";
+            this.chkSurvivalDeath.Size = new System.Drawing.Size(82, 23);
+            this.chkSurvivalDeath.TabIndex = 25;
+            this.chkSurvivalDeath.Text = "Survival Mode";
+            this.chkSurvivalDeath.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkSurvivalDeath.UseVisualStyleBackColor = true;
+            this.chkSurvivalDeath.CheckedChanged += new System.EventHandler(this.LevelSettings_Changed);
+            // 
+            // chkAnimalAi
+            // 
+            this.chkAnimalAi.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAnimalAi.Location = new System.Drawing.Point(187, 124);
+            this.chkAnimalAi.Name = "chkAnimalAi";
+            this.chkAnimalAi.Size = new System.Drawing.Size(82, 23);
+            this.chkAnimalAi.TabIndex = 24;
+            this.chkAnimalAi.Text = "Animal AI";
+            this.chkAnimalAi.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkAnimalAi.UseVisualStyleBackColor = true;
+            this.chkAnimalAi.CheckedChanged += new System.EventHandler(this.LevelSettings_Changed);
+            // 
+            // chkKillerBlocks
+            // 
+            this.chkKillerBlocks.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkKillerBlocks.Location = new System.Drawing.Point(99, 95);
+            this.chkKillerBlocks.Name = "chkKillerBlocks";
+            this.chkKillerBlocks.Size = new System.Drawing.Size(82, 23);
+            this.chkKillerBlocks.TabIndex = 23;
+            this.chkKillerBlocks.Text = "Killer Blocks";
+            this.chkKillerBlocks.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkKillerBlocks.UseVisualStyleBackColor = true;
+            this.chkKillerBlocks.CheckedChanged += new System.EventHandler(this.LevelSettings_Changed);
+            // 
+            // chkGrassGrowing
+            // 
+            this.chkGrassGrowing.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkGrassGrowing.Location = new System.Drawing.Point(8, 95);
+            this.chkGrassGrowing.Name = "chkGrassGrowing";
+            this.chkGrassGrowing.Size = new System.Drawing.Size(85, 23);
+            this.chkGrassGrowing.TabIndex = 22;
+            this.chkGrassGrowing.Text = "Grass Growing";
+            this.chkGrassGrowing.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            this.chkGrassGrowing.UseVisualStyleBackColor = true;
+            this.chkGrassGrowing.CheckedChanged += new System.EventHandler(this.LevelSettings_Changed);
+            // 
+            // btnNewLevel
+            // 
+            this.btnNewLevel.Location = new System.Drawing.Point(7, 230);
+            this.btnNewLevel.Name = "btnNewLevel";
+            this.btnNewLevel.Size = new System.Drawing.Size(93, 23);
+            this.btnNewLevel.TabIndex = 21;
+            this.btnNewLevel.Text = "Create New";
+            this.btnNewLevel.UseVisualStyleBackColor = true;
+            this.btnNewLevel.Click += new System.EventHandler(this.btnNewLevel_Click);
+            // 
+            // btnLevelHacks
+            // 
+            this.btnLevelHacks.Location = new System.Drawing.Point(104, 201);
+            this.btnLevelHacks.Name = "btnLevelHacks";
+            this.btnLevelHacks.Size = new System.Drawing.Size(75, 23);
+            this.btnLevelHacks.TabIndex = 20;
+            this.btnLevelHacks.Text = "Hack Control";
+            this.btnLevelHacks.UseVisualStyleBackColor = true;
+            this.btnLevelHacks.Click += new System.EventHandler(this.btnLevelHacks_Click);
             // 
             // label15
             // 
@@ -901,6 +1059,7 @@ namespace MCSong.Gui
             this.cmbPerVisit.Name = "cmbPerVisit";
             this.cmbPerVisit.Size = new System.Drawing.Size(91, 21);
             this.cmbPerVisit.TabIndex = 17;
+            this.cmbPerVisit.SelectedIndexChanged += new System.EventHandler(this.LevelSettings_Changed);
             // 
             // cmbPerBuild
             // 
@@ -910,14 +1069,15 @@ namespace MCSong.Gui
             this.cmbPerBuild.Name = "cmbPerBuild";
             this.cmbPerBuild.Size = new System.Drawing.Size(91, 21);
             this.cmbPerBuild.TabIndex = 16;
+            this.cmbPerBuild.SelectedIndexChanged += new System.EventHandler(this.LevelSettings_Changed);
             // 
             // btnRenameLevel
             // 
-            this.btnRenameLevel.Location = new System.Drawing.Point(7, 230);
+            this.btnRenameLevel.Location = new System.Drawing.Point(104, 230);
             this.btnRenameLevel.Name = "btnRenameLevel";
-            this.btnRenameLevel.Size = new System.Drawing.Size(128, 23);
+            this.btnRenameLevel.Size = new System.Drawing.Size(75, 23);
             this.btnRenameLevel.TabIndex = 15;
-            this.btnRenameLevel.Text = "Rename Level";
+            this.btnRenameLevel.Text = "Rename";
             this.btnRenameLevel.UseVisualStyleBackColor = true;
             this.btnRenameLevel.Click += new System.EventHandler(this.btnRenameLevel_Click);
             // 
@@ -933,11 +1093,11 @@ namespace MCSong.Gui
             // 
             // btnDeleteLevel
             // 
-            this.btnDeleteLevel.Location = new System.Drawing.Point(144, 230);
+            this.btnDeleteLevel.Location = new System.Drawing.Point(181, 230);
             this.btnDeleteLevel.Name = "btnDeleteLevel";
-            this.btnDeleteLevel.Size = new System.Drawing.Size(125, 23);
+            this.btnDeleteLevel.Size = new System.Drawing.Size(88, 23);
             this.btnDeleteLevel.TabIndex = 12;
-            this.btnDeleteLevel.Text = "Delete Level";
+            this.btnDeleteLevel.Text = "Delete";
             this.btnDeleteLevel.UseVisualStyleBackColor = true;
             this.btnDeleteLevel.Click += new System.EventHandler(this.btnDeleteLevel_Click);
             // 
@@ -956,6 +1116,7 @@ namespace MCSong.Gui
             this.cmbLevelPhys.Name = "cmbLevelPhys";
             this.cmbLevelPhys.Size = new System.Drawing.Size(91, 21);
             this.cmbLevelPhys.TabIndex = 11;
+            this.cmbLevelPhys.SelectedIndexChanged += new System.EventHandler(this.LevelSettings_Changed);
             // 
             // label13
             // 
@@ -1029,6 +1190,7 @@ namespace MCSong.Gui
             this.txtLevelMotd.Name = "txtLevelMotd";
             this.txtLevelMotd.Size = new System.Drawing.Size(219, 21);
             this.txtLevelMotd.TabIndex = 3;
+            this.txtLevelMotd.TextChanged += new System.EventHandler(this.LevelSettings_Changed);
             // 
             // label9
             // 
@@ -1315,6 +1477,43 @@ namespace MCSong.Gui
             this.groupBox13.TabIndex = 3;
             this.groupBox13.TabStop = false;
             // 
+            // label20
+            // 
+            this.label20.AutoSize = true;
+            this.label20.Location = new System.Drawing.Point(484, 14);
+            this.label20.Name = "label20";
+            this.label20.Size = new System.Drawing.Size(12, 13);
+            this.label20.TabIndex = 8;
+            this.label20.Text = "|";
+            // 
+            // linkLabel9
+            // 
+            this.linkLabel9.AccessibleDescription = "https://github.com/727021/MCSong";
+            this.linkLabel9.AutoSize = true;
+            this.linkLabel9.Location = new System.Drawing.Point(224, 14);
+            this.linkLabel9.Name = "linkLabel9";
+            this.linkLabel9.Size = new System.Drawing.Size(65, 13);
+            this.linkLabel9.TabIndex = 4;
+            this.linkLabel9.TabStop = true;
+            this.linkLabel9.Text = "Source Code";
+            this.linkLabel9.Click += new System.EventHandler(this.linkLabels_Click);
+            this.linkLabel9.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
+            this.linkLabel9.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
+            // 
+            // linkLabel5
+            // 
+            this.linkLabel5.AccessibleDescription = "http://dev.mysql.com/downloads/windows/installer/";
+            this.linkLabel5.AutoSize = true;
+            this.linkLabel5.Location = new System.Drawing.Point(502, 14);
+            this.linkLabel5.Name = "linkLabel5";
+            this.linkLabel5.Size = new System.Drawing.Size(38, 13);
+            this.linkLabel5.TabIndex = 0;
+            this.linkLabel5.TabStop = true;
+            this.linkLabel5.Text = "MySQL";
+            this.linkLabel5.Click += new System.EventHandler(this.linkLabels_Click);
+            this.linkLabel5.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
+            this.linkLabel5.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
+            // 
             // linkLabel4
             // 
             this.linkLabel4.AccessibleDescription = "http://www.classicube.net/";
@@ -1329,6 +1528,20 @@ namespace MCSong.Gui
             this.linkLabel4.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
             this.linkLabel4.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
             // 
+            // linkLabel10
+            // 
+            this.linkLabel10.AccessibleDescription = "http://mcsong.x10.mx/remote/";
+            this.linkLabel10.AutoSize = true;
+            this.linkLabel10.Location = new System.Drawing.Point(116, 14);
+            this.linkLabel10.Name = "linkLabel10";
+            this.linkLabel10.Size = new System.Drawing.Size(84, 13);
+            this.linkLabel10.TabIndex = 5;
+            this.linkLabel10.TabStop = true;
+            this.linkLabel10.Text = "Remote Console";
+            this.linkLabel10.Click += new System.EventHandler(this.linkLabels_Click);
+            this.linkLabel10.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
+            this.linkLabel10.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
+            // 
             // label8
             // 
             this.label8.AutoSize = true;
@@ -1337,6 +1550,20 @@ namespace MCSong.Gui
             this.label8.Size = new System.Drawing.Size(12, 13);
             this.label8.TabIndex = 7;
             this.label8.Text = "|";
+            // 
+            // linkLabel6
+            // 
+            this.linkLabel6.AccessibleDescription = "http://portforward.com/english/routers/port_forwarding/routerindex.htm";
+            this.linkLabel6.AutoSize = true;
+            this.linkLabel6.Location = new System.Drawing.Point(313, 14);
+            this.linkLabel6.Name = "linkLabel6";
+            this.linkLabel6.Size = new System.Drawing.Size(82, 13);
+            this.linkLabel6.TabIndex = 1;
+            this.linkLabel6.TabStop = true;
+            this.linkLabel6.Text = "Port Forwarding";
+            this.linkLabel6.Click += new System.EventHandler(this.linkLabels_Click);
+            this.linkLabel6.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
+            this.linkLabel6.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
             // 
             // label7
             // 
@@ -1389,61 +1616,17 @@ namespace MCSong.Gui
             this.groupBox12.TabStop = false;
             this.groupBox12.Text = "About MCSong";
             // 
-            // linkLabel10
+            // textBox1
             // 
-            this.linkLabel10.AccessibleDescription = "http://mcsong.x10.mx/remote/";
-            this.linkLabel10.AutoSize = true;
-            this.linkLabel10.Location = new System.Drawing.Point(116, 14);
-            this.linkLabel10.Name = "linkLabel10";
-            this.linkLabel10.Size = new System.Drawing.Size(84, 13);
-            this.linkLabel10.TabIndex = 5;
-            this.linkLabel10.TabStop = true;
-            this.linkLabel10.Text = "Remote Console";
-            this.linkLabel10.Click += new System.EventHandler(this.linkLabels_Click);
-            this.linkLabel10.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
-            this.linkLabel10.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
-            // 
-            // linkLabel9
-            // 
-            this.linkLabel9.AccessibleDescription = "https://github.com/727021/MCSong";
-            this.linkLabel9.AutoSize = true;
-            this.linkLabel9.Location = new System.Drawing.Point(224, 14);
-            this.linkLabel9.Name = "linkLabel9";
-            this.linkLabel9.Size = new System.Drawing.Size(65, 13);
-            this.linkLabel9.TabIndex = 4;
-            this.linkLabel9.TabStop = true;
-            this.linkLabel9.Text = "Source Code";
-            this.linkLabel9.Click += new System.EventHandler(this.linkLabels_Click);
-            this.linkLabel9.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
-            this.linkLabel9.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
-            // 
-            // linkLabel6
-            // 
-            this.linkLabel6.AccessibleDescription = "http://portforward.com/english/routers/port_forwarding/routerindex.htm";
-            this.linkLabel6.AutoSize = true;
-            this.linkLabel6.Location = new System.Drawing.Point(313, 14);
-            this.linkLabel6.Name = "linkLabel6";
-            this.linkLabel6.Size = new System.Drawing.Size(82, 13);
-            this.linkLabel6.TabIndex = 1;
-            this.linkLabel6.TabStop = true;
-            this.linkLabel6.Text = "Port Forwarding";
-            this.linkLabel6.Click += new System.EventHandler(this.linkLabels_Click);
-            this.linkLabel6.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
-            this.linkLabel6.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
-            // 
-            // linkLabel5
-            // 
-            this.linkLabel5.AccessibleDescription = "http://dev.mysql.com/downloads/windows/installer/";
-            this.linkLabel5.AutoSize = true;
-            this.linkLabel5.Location = new System.Drawing.Point(502, 14);
-            this.linkLabel5.Name = "linkLabel5";
-            this.linkLabel5.Size = new System.Drawing.Size(38, 13);
-            this.linkLabel5.TabIndex = 0;
-            this.linkLabel5.TabStop = true;
-            this.linkLabel5.Text = "MySQL";
-            this.linkLabel5.Click += new System.EventHandler(this.linkLabels_Click);
-            this.linkLabel5.MouseEnter += new System.EventHandler(this.linkLabels_MouseEnter);
-            this.linkLabel5.MouseLeave += new System.EventHandler(this.linkLabels_MouseLeave);
+            this.textBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
+            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.textBox1.Location = new System.Drawing.Point(3, 17);
+            this.textBox1.Multiline = true;
+            this.textBox1.Name = "textBox1";
+            this.textBox1.ReadOnly = true;
+            this.textBox1.Size = new System.Drawing.Size(189, 229);
+            this.textBox1.TabIndex = 0;
+            this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
             // groupBox11
             // 
@@ -1488,6 +1671,26 @@ namespace MCSong.Gui
             this.groupBox10.TabIndex = 0;
             this.groupBox10.TabStop = false;
             this.groupBox10.Text = "Server Statistics";
+            // 
+            // lblStartingCounters
+            // 
+            this.lblStartingCounters.AutoSize = true;
+            this.lblStartingCounters.Location = new System.Drawing.Point(190, 18);
+            this.lblStartingCounters.Name = "lblStartingCounters";
+            this.lblStartingCounters.Size = new System.Drawing.Size(151, 13);
+            this.lblStartingCounters.TabIndex = 10;
+            this.lblStartingCounters.Text = "STARTING PROCESS COUNTERS...";
+            this.lblStartingCounters.Visible = false;
+            // 
+            // button3
+            // 
+            this.button3.Location = new System.Drawing.Point(204, 13);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(137, 23);
+            this.button3.TabIndex = 9;
+            this.button3.Text = "START PROCESS COUNTERS";
+            this.button3.UseVisualStyleBackColor = true;
+            this.button3.Click += new System.EventHandler(this.button3_Click);
             // 
             // groupBox17
             // 
@@ -1599,57 +1802,6 @@ namespace MCSong.Gui
             this.shutdownServer.Size = new System.Drawing.Size(163, 22);
             this.shutdownServer.Text = "Shutdown Server";
             this.shutdownServer.Click += new System.EventHandler(this.shutdownServer_Click);
-            // 
-            // btnLevelHacks
-            // 
-            this.btnLevelHacks.Location = new System.Drawing.Point(104, 201);
-            this.btnLevelHacks.Name = "btnLevelHacks";
-            this.btnLevelHacks.Size = new System.Drawing.Size(75, 23);
-            this.btnLevelHacks.TabIndex = 20;
-            this.btnLevelHacks.Text = "Hack Control";
-            this.btnLevelHacks.UseVisualStyleBackColor = true;
-            this.btnLevelHacks.Click += new System.EventHandler(this.btnLevelHacks_Click);
-            // 
-            // button3
-            // 
-            this.button3.Location = new System.Drawing.Point(204, 13);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(137, 23);
-            this.button3.TabIndex = 9;
-            this.button3.Text = "START PROCESS COUNTERS";
-            this.button3.UseVisualStyleBackColor = true;
-            this.button3.Click += new System.EventHandler(this.button3_Click);
-            // 
-            // lblStartingCounters
-            // 
-            this.lblStartingCounters.AutoSize = true;
-            this.lblStartingCounters.Location = new System.Drawing.Point(190, 18);
-            this.lblStartingCounters.Name = "lblStartingCounters";
-            this.lblStartingCounters.Size = new System.Drawing.Size(151, 13);
-            this.lblStartingCounters.TabIndex = 10;
-            this.lblStartingCounters.Text = "STARTING PROCESS COUNTERS...";
-            this.lblStartingCounters.Visible = false;
-            // 
-            // label20
-            // 
-            this.label20.AutoSize = true;
-            this.label20.Location = new System.Drawing.Point(484, 14);
-            this.label20.Name = "label20";
-            this.label20.Size = new System.Drawing.Size(12, 13);
-            this.label20.TabIndex = 8;
-            this.label20.Text = "|";
-            // 
-            // textBox1
-            // 
-            this.textBox1.BackColor = System.Drawing.SystemColors.ControlLightLight;
-            this.textBox1.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.textBox1.Location = new System.Drawing.Point(3, 17);
-            this.textBox1.Multiline = true;
-            this.textBox1.Name = "textBox1";
-            this.textBox1.ReadOnly = true;
-            this.textBox1.Size = new System.Drawing.Size(189, 229);
-            this.textBox1.TabIndex = 0;
-            this.textBox1.Text = resources.GetString("textBox1.Text");
             // 
             // Window
             // 
@@ -1848,5 +2000,16 @@ namespace MCSong.Gui
         private Label lblStartingCounters;
         private Label label20;
         private TextBox textBox1;
+        private Button btnNewLevel;
+        private CheckBox chkGrassGrowing;
+        private GroupBox groupBox18;
+        private CheckBox chkAutoLoad;
+        private CheckBox chkAutoUnload;
+        private CheckBox chkEdgeWater;
+        private CheckBox chkFiniteMode;
+        private CheckBox chkLevelChat;
+        private CheckBox chkSurvivalDeath;
+        private CheckBox chkAnimalAi;
+        private CheckBox chkKillerBlocks;
     }
 }

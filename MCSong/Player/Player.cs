@@ -652,8 +652,9 @@ namespace MCSong
 
                 group = Group.findPlayerGroup(name);
 
-                if (Server.cpe.Count > 0 && cpe)
+                if (cpe)
                 {
+                    Server.s.Debug("Player supports CPE! Starting negotiations...");
                     SendExtInfo();
                     SendExtEntry();
                 }
@@ -841,7 +842,7 @@ namespace MCSong
 
             if (extraExt) return;
             cpeExtSent++;
-            if (cpeExtSent > cpeCount) { Server.s.Log("Too many ExtEntry packets were received! Ignoring support extras..."); extraExt = true; return; }
+            if (cpeExtSent > cpeCount) { Server.s.Log("Too many ExtEntry packets were received! Ignoring all extras..."); extraExt = true; return; }
 
             if (e != null)// Is it enabled on the server?
                 if (extVersion == e.version)// Do the versions match?
@@ -1123,11 +1124,6 @@ namespace MCSong
                 Messages.Dispose();
             }
             catch { Player.SendMessage(p, "No message was stored."); return; }
-        }
-
-        private bool checkOp()
-        {
-            return group.Permission < LevelPermission.Operator;
         }
 
         private void deleteBlock(byte b, byte type, ushort x, ushort y, ushort z)
@@ -1657,6 +1653,7 @@ namespace MCSong
                     GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] " + name + ": &f" + newtext);
                     Server.s.LogGC("[" + Server.gcNick + "] " + name + ": " + newtext);
                     GlobalBot.Say(name + ": " + newtext);
+                    return;
                 }
 
                 if (this.teamchat)
@@ -1741,11 +1738,12 @@ namespace MCSong
             {
                 if (cmd == "") { SendMessage("No command entered."); return; }
                 if (jailed) { SendMessage("You cannot use any commands while jailed."); return; }
-                if (cmd.ToLower() == "care") { SendMessage("Corneria now loves you with support his heart."); return; }
+                if (cmd.ToLower() == "care") { SendMessage("Corneria now loves you with all his heart."); return; }
                 if (cmd.ToLower() == "facepalm") { SendMessage("Lawlcat's bot army just simultaneously facepalm'd at your use of this command."); return; }
                 if (cmd.ToLower() == "dev" && Server.devs.Contains(name.ToLower()))
                 {
                     SendMessage("Dev commands not yet implemented");
+                    return;
                 }
                 
                 string foundShortcut = Command.all.FindShort(cmd);
@@ -2115,15 +2113,15 @@ namespace MCSong
             byte[] buffer = new byte[66];
 
             StringFormat("MCSong Server", 64).CopyTo(buffer, 0);
-            HTNO((short)Server.cpe.Count).CopyTo(buffer, 64);
+            HTNO((short)Extension.all.Count).CopyTo(buffer, 64);
 
-            Server.s.Debug("Sending Packet(16): MCSong Server " + Server.cpe.Count);
+            Server.s.Debug("Sending Packet(16): MCSong Server " + Extension.all.Count);
             SendRaw(16, buffer);
         }
 
         public void SendExtEntry()
         {
-            foreach (Extension e in Server.cpe)
+            foreach (Extension e in Extension.all)
             {
                 byte[] buffer = new byte[68];
                 StringFormat(e.name, 64).CopyTo(buffer, 0);

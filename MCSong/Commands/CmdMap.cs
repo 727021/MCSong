@@ -124,7 +124,7 @@ namespace MCSong
             Player.SendMessage(p, "Possible toggles: theme, finite, ai, edge, ps, overload, motd, death, fall, drown, unload, rp, instant, killer, chat");
             Player.SendMessage(p, "Edge will cause edge water to flow.");
             Player.SendMessage(p, "Grass will make grass not grow without physics");
-            Player.SendMessage(p, "Finite will cause support liquids to be finite.");
+            Player.SendMessage(p, "Finite will cause all liquids to be finite.");
             Player.SendMessage(p, "AI will make animals hunt or flee.");
             Player.SendMessage(p, "PS will set the map's physics speed.");
             Player.SendMessage(p, "Overload will change how easy/hard it is to kill physics.");

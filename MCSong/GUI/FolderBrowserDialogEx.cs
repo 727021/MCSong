@@ -3,7 +3,7 @@
 // A replacement for the builtin System.Windows.Forms.FolderBrowserDialog class.
 // This one includes an edit box, and also displays the full path in the edit box. 
 //
-// based on code from http://support MICROSOFT.com/default.aspx?scid=kb;[LN];306285 
+// based on code from http://support.microsoft.com/default.aspx?scid=kb;[LN];306285 
 // 
 // 20 Feb 2009
 //

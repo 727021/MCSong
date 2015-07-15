@@ -122,7 +122,7 @@ namespace MCSong
 
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/players - Shows name and general rank of support players");
+            Player.SendMessage(p, "/players - Shows name and general rank of all players");
         }
     }
 }

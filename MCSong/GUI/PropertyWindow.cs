@@ -457,6 +457,7 @@ namespace MCSong.Gui
                     w.WriteLine("server-name = " + txtName.Text);
                     w.WriteLine("motd = " + txtMOTD.Text);
                     w.WriteLine("port = " + txtPort.Text);
+                    w.WriteLine("upnp = " + Server.upnp.ToString());
                     w.WriteLine("verify-names = " + chkVerify.Checked.ToString().ToLower());
                     w.WriteLine("public = " + chkPublic.Checked.ToString().ToLower());
                     w.WriteLine("max-players = " + txtPlayers.Text);
@@ -543,8 +544,6 @@ namespace MCSong.Gui
                     w.WriteLine("rank-super = " + chkrankSuper.Checked.ToString().ToLower());
                     w.WriteLine("default-rank = " + cmbDefaultRank.Items[cmbDefaultRank.SelectedIndex].ToString());
                     w.WriteLine();
-                    w.WriteLine("#Extensions");
-                    w.WriteLine("cpe = " + Server.cpe.ToString());
                 }
                 w.Flush();
                 w.Close();
@@ -953,29 +952,6 @@ namespace MCSong.Gui
         private void chkGlobal_CheckedChanged(object sender, EventArgs e)
         {
             UpdateGC();
-        }
-        
-        //public static FolderBrowserDialogEx fbd;
-        private void btnBackupLocation_Click(object sender, EventArgs e)
-        {/*
-            Thread t = new Thread((ThreadStart)(() =>
-            {
-                PropertyWindow.fbd = new FolderBrowserDialogEx
-                {
-                    Description = "Slect a backup location:",
-                    ShowNewFolderButton = true,
-                    ShowEditBox = true,
-                    ShowFullPathInEditBox = true,
-                    RootFolder = Environment.SpecialFolder.MyComputer,
-                    NewStyle = true,
-                };
-                fbd.SelectedPath = txtBackupLocation.Text.Replace('/', '\\');
-                DialogResult dr = fbd.ShowDialog();
-                if (dr == DialogResult.OK)
-                    txtBackupLocation.Text = fbd.SelectedPath;
-            }));
-            t.SetApartmentState(ApartmentState.STA);
-            t.Start();*/
         }
     }
 }

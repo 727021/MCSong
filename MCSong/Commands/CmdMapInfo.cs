@@ -14,6 +14,7 @@
 */
 using System;
 using System.IO;
+using System.Linq;
 
 namespace MCSong
 {
@@ -59,8 +60,9 @@ namespace MCSong
 
             if (Directory.Exists(@Server.backupLocation + "/" + foundLevel.name))
             {
-                int latestBackup = Directory.GetDirectories(@Server.backupLocation + "/" + foundLevel.name).Length;
-                Player.SendMessage(p, "Latest backup: &a" + latestBackup + Server.DefaultColor + " at &a" + Directory.GetCreationTime(@Server.backupLocation + "/" + foundLevel.name + "/" + latestBackup).ToString("yyyy-MM-dd HH:mm:ss")); // + Directory.GetCreationTime(@Server.backupLocation + "/" + latestBackup + "/").ToString("yyyy-MM-dd HH:mm:ss"));
+                DirectoryInfo di = new DirectoryInfo(@Server.backupLocation + "/" + foundLevel.name);
+                DirectoryInfo latest = (di.GetDirectories().Length == 0) ? null : di.GetDirectories().OrderByDescending(d => d.LastWriteTime).First();
+                Player.SendMessage(p, "Latest backup: &a" + ((latest == null) ? "" : latest.Name + Server.DefaultColor + " at &a" + latest.CreationTime.ToString("yyyy-MM-dd HH:mm:ss"))); // + Directory.GetCreationTime(@Server.backupLocation + "/" + latestBackup + "/").ToString("yyyy-MM-dd HH:mm:ss"));
             }
             else
             {

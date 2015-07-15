@@ -67,7 +67,7 @@ namespace MCSong
 
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/replaceall [block1] [block2] - Replaces support of [block1] with [block2] in a map");
+            Player.SendMessage(p, "/replaceall [block1] [block2] - Replaces all of [block1] with [block2] in a map");
         }
     }
 }

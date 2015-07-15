@@ -17,7 +17,7 @@ namespace MCSong
         {
             if (message == "") message = p.name;
 
-            if (message.ToLower() == "support")
+            if (message.ToLower() == "all")
             {
                 if (p.group.Permission < LevelPermission.Operator) { Player.SendMessage(p, "Reserved for OP+"); return; }
 
@@ -144,7 +144,7 @@ namespace MCSong
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/reveal <name> - Reveals the map for <name>.");
-            Player.SendMessage(p, "/reveal support - Reveals for support in the map");
+            Player.SendMessage(p, "/reveal all - Reveals for all in the map");
             Player.SendMessage(p, "Will reload the map for anyone. (incl. banned)");
         }
     }

@@ -30,7 +30,7 @@ namespace MCSong
 
         public override void Use(Player p, string message)
         {
-            if (message.ToLower() == "support")
+            if (message.ToLower() == "all")
             {
                 foreach (Level l in Server.levels)
                 {
@@ -79,7 +79,7 @@ namespace MCSong
                 {
                     if (p == null)
                     {
-                        Use(p, "support");
+                        Use(p, "all");
                     }
                     else
                     {
@@ -96,7 +96,7 @@ namespace MCSong
         public override void Help(Player p)
         {
             Player.SendMessage(p, "/save - Saves the level you are currently in");
-            Player.SendMessage(p, "/save support - Saves support loaded levels.");
+            Player.SendMessage(p, "/save all - Saves support loaded levels.");
             Player.SendMessage(p, "/save <map> - Saves the specified map.");
             Player.SendMessage(p, "/save <map> <name> - Backups the map with a given restore name");
         }

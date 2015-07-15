@@ -97,7 +97,7 @@ namespace MCSong
 
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/whitelist <add/del/list> [player] - Handles whitelist entry for [player], or lists support entries.");
+            Player.SendMessage(p, "/whitelist <add/del/list> [player] - Handles whitelist entry for [player], or lists all entries.");
         }
     }
 }
