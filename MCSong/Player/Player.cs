@@ -323,6 +323,7 @@ namespace MCSong
 
                 connections.Add(this);
             }
+            catch (SocketException e) { if (e.Message.Trim() != "An existing connection was forcibly closed by the remote host") Server.ErrorLog(e); Kick("Login failed!"); }
             catch (Exception e) { Kick("Login failed!"); Server.ErrorLog(e); }
         }
 
@@ -610,6 +611,12 @@ namespace MCSong
                         return;
                     }
                 }
+
+                if (ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower()) && new WebClient().DownloadString("https://minecraft.net/haspaid.jsp?user=" + name).Trim().ToLower() == "false")
+                {
+                    Kick("Premium (paid) account required!");
+                }
+
                 if (Player.players.Count >= Server.players && ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower())) { Kick("Server full!"); return; }
                 if (version != Server.version) { Kick("Wrong version!"); return; }
                 if (name.Length > 16 || !ValidName(name)) { Kick("Illegal name!"); return; }

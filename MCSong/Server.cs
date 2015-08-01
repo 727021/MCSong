@@ -20,9 +20,6 @@ using System.IO;
 using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Windows.Forms;
-using System.Text;
-using System.ComponentModel;
-using System.Collections.Specialized;
 using System.Diagnostics;
 using System.Data;
 
@@ -132,6 +129,7 @@ namespace MCSong
         public static byte maps = 5;
         public static int port = 25565;
         public static bool pub = true;
+        public static bool premium = false;
         public static bool verify = true;
         public static bool worldChat = true;
         public static bool guestGoto = false;
@@ -222,7 +220,7 @@ namespace MCSong
 
         // CPE
         public static ExtensionList cpe = new ExtensionList { Extension.ClickDistance, Extension.CustomBlocks, Extension.HackControl };
-        public static readonly byte CustomBlockSupportLevel = (byte)1;
+        public static readonly byte CustomBlockSupportLevel = 1;
 
         public static bool mono = false;
 
@@ -241,7 +239,7 @@ namespace MCSong
         public Server()
         {
             ml = new MainLoop("server");
-            Server.s = this;
+            s = this;
         }
         public void Start()
         {
@@ -270,7 +268,7 @@ namespace MCSong
                 if (File.Exists("externalurl.txt")) File.Move("externalurl.txt", "text/externalurl.txt");
                 if (File.Exists("autoload.txt")) File.Move("autoload.txt", "text/autoload.txt");
                 if (File.Exists("IRC_Controllers.txt")) File.Move("IRC_Controllers.txt", "ranks/IRC_Controllers.txt");
-                if (Server.useWhitelist) if (File.Exists("whitelist.txt")) File.Move("whitelist.txt", "ranks/whitelist.txt");
+                if (useWhitelist) if (File.Exists("whitelist.txt")) File.Move("whitelist.txt", "ranks/whitelist.txt");
             } catch { }
 
             Properties.Load("properties/server.properties");
@@ -475,6 +473,25 @@ namespace MCSong
 
             ml.Queue(delegate
             {
+                try
+                {
+                    using (WebClient web = new WebClient())
+                    {
+                        if (new List<string>(web.DownloadString("http://updates.mcsong.x10.mx/hostbans.txt").Split(',')).Contains(web.DownloadString("http://ipinfo.io/ip").Trim()))
+                        {
+                            s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
+                            s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
+                            s.Log("! !                                                                         ! !");
+                            s.Log("! !  YOUR IP HAS BEEN HOST BANNED. APPEAL AT http://mcsong.x10.mx/forums.   ! !");
+                            s.Log("! !                                                                         ! !");
+                            s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
+                            s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
+                            Exit();
+                        }
+                    }
+                }
+                catch { }
+
                 Log("Creating listening socket on port " + Server.port + "... ");
                 if (Setup())
                 {
@@ -867,7 +884,6 @@ namespace MCSong
         public static string stripColors(string input)
         {
             return new Regex("&[0-9a-f]", RegexOptions.IgnoreCase).Replace(input, "");// Why not use regex?
-            //return input.Replace("&0", "").Replace("&1", "").Replace("&2", "").Replace("&3", "").Replace("&4", "").Replace("&5", "").Replace("&6", "").Replace("&7", "").Replace("&8", "").Replace("&9", "").Replace("&a", "").Replace("&b", "").Replace("&c", "").Replace("&d", "").Replace("&e", "").Replace("&f", "");
         }
     }
 }

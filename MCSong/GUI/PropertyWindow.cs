@@ -186,11 +186,17 @@ namespace MCSong.Gui
                                 try { txtPort.Text = Convert.ToInt32(value).ToString(); }
                                 catch { txtPort.Text = "25565"; }
                                 break;
+                            case "upnp":
+                                chkUPNP.Checked = (value.ToLower() == "true");// ? true : false; <- This is redundant
+                                break;
                             case "verify-names":
                                 chkVerify.Checked = (value.ToLower() == "true") ? true : false;
                                 break;
                             case "public":
                                 chkPublic.Checked = (value.ToLower() == "true") ? true : false;
+                                break;
+                            case "premium-only":
+                                chkPremium.Checked = (value.ToLower() == "true");
                                 break;
                             case "world-chat":
                                 chkWorld.Checked = (value.ToLower() == "true") ? true : false;
@@ -457,9 +463,10 @@ namespace MCSong.Gui
                     w.WriteLine("server-name = " + txtName.Text);
                     w.WriteLine("motd = " + txtMOTD.Text);
                     w.WriteLine("port = " + txtPort.Text);
-                    w.WriteLine("upnp = " + Server.upnp.ToString());
+                    w.WriteLine("upnp = " + chkUPNP.Checked.ToString().ToLower());
                     w.WriteLine("verify-names = " + chkVerify.Checked.ToString().ToLower());
                     w.WriteLine("public = " + chkPublic.Checked.ToString().ToLower());
+                    w.WriteLine("premium-only = " + chkPremium.Checked.ToString().ToLower());
                     w.WriteLine("max-players = " + txtPlayers.Text);
                     w.WriteLine("max-maps = " + txtMaps.Text);
                     w.WriteLine("world-chat = " + chkWorld.Checked.ToString().ToLower());
@@ -952,6 +959,16 @@ namespace MCSong.Gui
         private void chkGlobal_CheckedChanged(object sender, EventArgs e)
         {
             UpdateGC();
+        }
+
+        private void txtShutdown_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void txtafk_TextChanged(object sender, EventArgs e)
+        {
+            
         }
     }
 }
