@@ -31,37 +31,82 @@
             this.components = new System.ComponentModel.Container();
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
-            this.tabPage4 = new System.Windows.Forms.TabPage();
-            this.chkRepeatMessages = new System.Windows.Forms.CheckBox();
-            this.chkForceCuboid = new System.Windows.Forms.CheckBox();
-            this.txtShutdown = new System.Windows.Forms.TextBox();
-            this.txtBanMessage = new System.Windows.Forms.TextBox();
+            this.txtName = new System.Windows.Forms.TextBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.label1 = new System.Windows.Forms.Label();
+            this.txtMOTD = new System.Windows.Forms.TextBox();
+            this.chkLogBeat = new System.Windows.Forms.CheckBox();
+            this.chkMono = new System.Windows.Forms.CheckBox();
+            this.chkMaintKick = new System.Windows.Forms.CheckBox();
+            this.chkUpdates = new System.Windows.Forms.CheckBox();
+            this.cmbMaintenance = new System.Windows.Forms.ComboBox();
+            this.label33 = new System.Windows.Forms.Label();
+            this.chkRestart = new System.Windows.Forms.CheckBox();
+            this.chkPublic = new System.Windows.Forms.CheckBox();
+            this.chkVerify = new System.Windows.Forms.CheckBox();
+            this.label3 = new System.Windows.Forms.Label();
+            this.txtPort = new System.Windows.Forms.TextBox();
+            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.groupBox4 = new System.Windows.Forms.GroupBox();
+            this.groupBox3 = new System.Windows.Forms.GroupBox();
+            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.label36 = new System.Windows.Forms.Label();
+            this.cmbOpChat = new System.Windows.Forms.ComboBox();
+            this.lblOpChat = new System.Windows.Forms.Label();
+            this.cmbAdminChat = new System.Windows.Forms.ComboBox();
+            this.groupBox1 = new System.Windows.Forms.GroupBox();
+            this.txtRestartTime = new System.Windows.Forms.TextBox();
             this.chkShutdown = new System.Windows.Forms.CheckBox();
             this.chkBanMessage = new System.Windows.Forms.CheckBox();
-            this.chkrankSuper = new System.Windows.Forms.CheckBox();
+            this.txtBanMessage = new System.Windows.Forms.TextBox();
+            this.txtShutdown = new System.Windows.Forms.TextBox();
             this.chkCheap = new System.Windows.Forms.CheckBox();
-            this.chkDeath = new System.Windows.Forms.CheckBox();
+            this.txtCheap = new System.Windows.Forms.TextBox();
+            this.chkRestartTime = new System.Windows.Forms.CheckBox();
+            this.label34 = new System.Windows.Forms.Label();
+            this.chkRepeatMessages = new System.Windows.Forms.CheckBox();
+            this.txtMoneys = new System.Windows.Forms.TextBox();
+            this.chkWorld = new System.Windows.Forms.CheckBox();
             this.chk17Dollar = new System.Windows.Forms.CheckBox();
-            this.chkPhysicsRest = new System.Windows.Forms.CheckBox();
             this.chkSmile = new System.Windows.Forms.CheckBox();
+            this.chkDeath = new System.Windows.Forms.CheckBox();
             this.chkHelp = new System.Windows.Forms.CheckBox();
+            this.txtHost = new System.Windows.Forms.TextBox();
+            this.label10 = new System.Windows.Forms.Label();
+            this.label30 = new System.Windows.Forms.Label();
+            this.cmbDefaultColour = new System.Windows.Forms.ComboBox();
+            this.lblDefault = new System.Windows.Forms.Label();
+            this.tabPage4 = new System.Windows.Forms.TabPage();
+            this.groupBox5 = new System.Windows.Forms.GroupBox();
+            this.label39 = new System.Windows.Forms.Label();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.chkrankSuper = new System.Windows.Forms.CheckBox();
+            this.cmbDefaultRank = new System.Windows.Forms.ComboBox();
+            this.label29 = new System.Windows.Forms.Label();
+            this.label21 = new System.Windows.Forms.Label();
+            this.txtPlayers = new System.Windows.Forms.TextBox();
+            this.chkForceCuboid = new System.Windows.Forms.CheckBox();
+            this.chkPhysicsRest = new System.Windows.Forms.CheckBox();
+            this.txtDepth = new System.Windows.Forms.TextBox();
+            this.label27 = new System.Windows.Forms.Label();
+            this.ChkTunnels = new System.Windows.Forms.CheckBox();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label22 = new System.Windows.Forms.Label();
+            this.txtMain = new System.Windows.Forms.TextBox();
+            this.txtMaps = new System.Windows.Forms.TextBox();
+            this.label32 = new System.Windows.Forms.Label();
             this.label28 = new System.Windows.Forms.Label();
             this.label24 = new System.Windows.Forms.Label();
+            this.chkAutoload = new System.Windows.Forms.CheckBox();
             this.txtNormRp = new System.Windows.Forms.TextBox();
-            this.txtRP = new System.Windows.Forms.TextBox();
-            this.label34 = new System.Windows.Forms.Label();
-            this.label26 = new System.Windows.Forms.Label();
-            this.label25 = new System.Windows.Forms.Label();
-            this.txtAFKKick = new System.Windows.Forms.TextBox();
-            this.txtafk = new System.Windows.Forms.TextBox();
-            this.label9 = new System.Windows.Forms.Label();
-            this.txtBackup = new System.Windows.Forms.TextBox();
-            this.label32 = new System.Windows.Forms.Label();
             this.txtBackupLocation = new System.Windows.Forms.TextBox();
-            this.txtMoneys = new System.Windows.Forms.TextBox();
-            this.txtCheap = new System.Windows.Forms.TextBox();
-            this.txtRestartTime = new System.Windows.Forms.TextBox();
-            this.chkRestartTime = new System.Windows.Forms.CheckBox();
+            this.txtRP = new System.Windows.Forms.TextBox();
+            this.txtBackup = new System.Windows.Forms.TextBox();
+            this.label26 = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
+            this.label25 = new System.Windows.Forms.Label();
+            this.txtafk = new System.Windows.Forms.TextBox();
+            this.txtAFKKick = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.lblColor = new System.Windows.Forms.Label();
             this.cmbColor = new System.Windows.Forms.ComboBox();
@@ -126,50 +171,28 @@
             this.txtGlobalNick = new System.Windows.Forms.TextBox();
             this.lblGlobalColor = new System.Windows.Forms.Label();
             this.label38 = new System.Windows.Forms.Label();
-            this.cmbAdminChat = new System.Windows.Forms.ComboBox();
-            this.label36 = new System.Windows.Forms.Label();
-            this.chkMaintKick = new System.Windows.Forms.CheckBox();
-            this.cmbMaintenance = new System.Windows.Forms.ComboBox();
-            this.label33 = new System.Windows.Forms.Label();
-            this.chkLogBeat = new System.Windows.Forms.CheckBox();
-            this.cmbOpChat = new System.Windows.Forms.ComboBox();
-            this.lblOpChat = new System.Windows.Forms.Label();
-            this.cmbDefaultRank = new System.Windows.Forms.ComboBox();
-            this.label29 = new System.Windows.Forms.Label();
-            this.lblDefault = new System.Windows.Forms.Label();
-            this.cmbDefaultColour = new System.Windows.Forms.ComboBox();
-            this.chkMono = new System.Windows.Forms.CheckBox();
-            this.chkRestart = new System.Windows.Forms.CheckBox();
-            this.chkPublic = new System.Windows.Forms.CheckBox();
-            this.chkAutoload = new System.Windows.Forms.CheckBox();
-            this.chkWorld = new System.Windows.Forms.CheckBox();
-            this.chkUpdates = new System.Windows.Forms.CheckBox();
-            this.chkVerify = new System.Windows.Forms.CheckBox();
-            this.label10 = new System.Windows.Forms.Label();
-            this.label27 = new System.Windows.Forms.Label();
-            this.label22 = new System.Windows.Forms.Label();
-            this.label21 = new System.Windows.Forms.Label();
-            this.label30 = new System.Windows.Forms.Label();
-            this.label3 = new System.Windows.Forms.Label();
-            this.txtDepth = new System.Windows.Forms.TextBox();
-            this.txtMain = new System.Windows.Forms.TextBox();
-            this.txtMaps = new System.Windows.Forms.TextBox();
-            this.txtPlayers = new System.Windows.Forms.TextBox();
-            this.txtHost = new System.Windows.Forms.TextBox();
-            this.txtPort = new System.Windows.Forms.TextBox();
-            this.label2 = new System.Windows.Forms.Label();
-            this.label1 = new System.Windows.Forms.Label();
-            this.txtMOTD = new System.Windows.Forms.TextBox();
-            this.txtName = new System.Windows.Forms.TextBox();
-            this.ChkTunnels = new System.Windows.Forms.CheckBox();
-            this.label7 = new System.Windows.Forms.Label();
             this.btnSave = new System.Windows.Forms.Button();
             this.btnDiscard = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.tabPage7 = new System.Windows.Forms.TabPage();
+            this.groupBox6 = new System.Windows.Forms.GroupBox();
+            this.chkUPNP = new System.Windows.Forms.CheckBox();
+            this.button3 = new System.Windows.Forms.Button();
+            this.label41 = new System.Windows.Forms.Label();
+            this.groupBox7 = new System.Windows.Forms.GroupBox();
+            this.groupBox8 = new System.Windows.Forms.GroupBox();
+            this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.chkPremium = new System.Windows.Forms.CheckBox();
+            this.groupBox10 = new System.Windows.Forms.GroupBox();
+            this.groupBox11 = new System.Windows.Forms.GroupBox();
+            this.groupBox12 = new System.Windows.Forms.GroupBox();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
+            this.tabPage7.SuspendLayout();
+            this.groupBox2.SuspendLayout();
+            this.groupBox1.SuspendLayout();
+            this.tabPage4.SuspendLayout();
+            this.groupBox5.SuspendLayout();
             this.tabPage2.SuspendLayout();
             this.tabPage3.SuspendLayout();
             this.tabPage5.SuspendLayout();
@@ -177,6 +200,12 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.gbIRC.SuspendLayout();
             this.gbGlobal.SuspendLayout();
+            this.groupBox6.SuspendLayout();
+            this.groupBox7.SuspendLayout();
+            this.groupBox8.SuspendLayout();
+            this.groupBox9.SuspendLayout();
+            this.groupBox10.SuspendLayout();
+            this.groupBox11.SuspendLayout();
             this.SuspendLayout();
             // 
             // tabControl
@@ -198,10 +227,10 @@
             // tabPage1
             // 
             this.tabPage1.AutoScroll = true;
-            this.tabPage1.Controls.Add(this.txtName);
-            this.tabPage1.Controls.Add(this.label2);
-            this.tabPage1.Controls.Add(this.label1);
-            this.tabPage1.Controls.Add(this.txtMOTD);
+            this.tabPage1.Controls.Add(this.groupBox9);
+            this.tabPage1.Controls.Add(this.groupBox8);
+            this.tabPage1.Controls.Add(this.groupBox7);
+            this.tabPage1.Controls.Add(this.groupBox6);
             this.tabPage1.Location = new System.Drawing.Point(4, 22);
             this.tabPage1.Name = "tabPage1";
             this.tabPage1.Padding = new System.Windows.Forms.Padding(3);
@@ -209,60 +238,284 @@
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Server";
             // 
-            // tabPage4
+            // txtName
             // 
-            this.tabPage4.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage4.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.tabPage4.Location = new System.Drawing.Point(4, 22);
-            this.tabPage4.Name = "tabPage4";
-            this.tabPage4.Size = new System.Drawing.Size(354, 404);
-            this.tabPage4.TabIndex = 3;
-            this.tabPage4.Text = "Misc";
+            this.txtName.Location = new System.Drawing.Point(50, 14);
+            this.txtName.Name = "txtName";
+            this.txtName.Size = new System.Drawing.Size(348, 21);
+            this.txtName.TabIndex = 0;
+            this.toolTip.SetToolTip(this.txtName, "The name of the server.\nPick something good!");
             // 
-            // chkRepeatMessages
+            // label2
             // 
-            this.chkRepeatMessages.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkRepeatMessages.AutoSize = true;
-            this.chkRepeatMessages.Location = new System.Drawing.Point(776, 447);
-            this.chkRepeatMessages.Name = "chkRepeatMessages";
-            this.chkRepeatMessages.Size = new System.Drawing.Size(127, 23);
-            this.chkRepeatMessages.TabIndex = 29;
-            this.chkRepeatMessages.Text = "Repeat message blocks";
-            this.chkRepeatMessages.UseVisualStyleBackColor = true;
+            this.label2.AutoSize = true;
+            this.label2.Location = new System.Drawing.Point(6, 44);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(38, 13);
+            this.label2.TabIndex = 1;
+            this.label2.Text = "MOTD:";
             // 
-            // chkForceCuboid
+            // label1
             // 
-            this.chkForceCuboid.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkForceCuboid.AutoSize = true;
-            this.chkForceCuboid.Location = new System.Drawing.Point(511, 351);
-            this.chkForceCuboid.Name = "chkForceCuboid";
-            this.chkForceCuboid.Size = new System.Drawing.Size(78, 23);
-            this.chkForceCuboid.TabIndex = 29;
-            this.chkForceCuboid.Text = "Force Cuboid";
-            this.toolTip.SetToolTip(this.chkForceCuboid, "When true, runs an attempted cuboid despite cuboid limits, until it hits the grou" +
-        "p limit for that user.");
-            this.chkForceCuboid.UseVisualStyleBackColor = true;
+            this.label1.AutoSize = true;
+            this.label1.Location = new System.Drawing.Point(6, 17);
+            this.label1.Name = "label1";
+            this.label1.Size = new System.Drawing.Size(38, 13);
+            this.label1.TabIndex = 1;
+            this.label1.Text = "Name:";
             // 
-            // txtShutdown
+            // txtMOTD
             // 
-            this.txtShutdown.Location = new System.Drawing.Point(759, 82);
-            this.txtShutdown.MaxLength = 128;
-            this.txtShutdown.Name = "txtShutdown";
-            this.txtShutdown.Size = new System.Drawing.Size(145, 21);
-            this.txtShutdown.TabIndex = 28;
+            this.txtMOTD.Location = new System.Drawing.Point(50, 41);
+            this.txtMOTD.Name = "txtMOTD";
+            this.txtMOTD.Size = new System.Drawing.Size(348, 21);
+            this.txtMOTD.TabIndex = 0;
+            this.toolTip.SetToolTip(this.txtMOTD, "The MOTD of the server.\nUse \"+hax\" to allow any WoM hack, \"-hax\" to disallow any " +
+        "hacks at support and use \"-fly\" and whatnot to disallow other things.");
             // 
-            // txtBanMessage
+            // chkLogBeat
             // 
-            this.txtBanMessage.Location = new System.Drawing.Point(731, 55);
-            this.txtBanMessage.MaxLength = 128;
-            this.txtBanMessage.Name = "txtBanMessage";
-            this.txtBanMessage.Size = new System.Drawing.Size(173, 21);
-            this.txtBanMessage.TabIndex = 27;
+            this.chkLogBeat.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkLogBeat.AutoSize = true;
+            this.chkLogBeat.Location = new System.Drawing.Point(70, 78);
+            this.chkLogBeat.Name = "chkLogBeat";
+            this.chkLogBeat.Size = new System.Drawing.Size(89, 23);
+            this.chkLogBeat.TabIndex = 24;
+            this.chkLogBeat.Text = "Log Heartbeat?";
+            this.toolTip.SetToolTip(this.chkLogBeat, "Debugging feature -- Toggles whether to log heartbeat activity.\r\nUseful when your" +
+        " server gets a URL slowly or not at all.");
+            this.chkLogBeat.UseVisualStyleBackColor = true;
+            // 
+            // chkMono
+            // 
+            this.chkMono.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkMono.AutoSize = true;
+            this.chkMono.Location = new System.Drawing.Point(53, 49);
+            this.chkMono.Name = "chkMono";
+            this.chkMono.Size = new System.Drawing.Size(106, 23);
+            this.chkMono.TabIndex = 4;
+            this.chkMono.Text = "Using Mono/Linux?";
+            this.chkMono.UseVisualStyleBackColor = true;
+            // 
+            // chkMaintKick
+            // 
+            this.chkMaintKick.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkMaintKick.AutoSize = true;
+            this.chkMaintKick.Location = new System.Drawing.Point(6, 20);
+            this.chkMaintKick.Name = "chkMaintKick";
+            this.chkMaintKick.Size = new System.Drawing.Size(101, 23);
+            this.chkMaintKick.TabIndex = 2;
+            this.chkMaintKick.Text = "Maintenance Kick";
+            this.chkMaintKick.UseVisualStyleBackColor = true;
+            // 
+            // chkUpdates
+            // 
+            this.chkUpdates.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkUpdates.AutoSize = true;
+            this.chkUpdates.Location = new System.Drawing.Point(58, 107);
+            this.chkUpdates.Name = "chkUpdates";
+            this.chkUpdates.Size = new System.Drawing.Size(101, 23);
+            this.chkUpdates.TabIndex = 4;
+            this.chkUpdates.Text = "Check for updates";
+            this.chkUpdates.UseVisualStyleBackColor = true;
+            // 
+            // cmbMaintenance
+            // 
+            this.cmbMaintenance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbMaintenance.FormattingEnabled = true;
+            this.cmbMaintenance.Location = new System.Drawing.Point(6, 65);
+            this.cmbMaintenance.Name = "cmbMaintenance";
+            this.cmbMaintenance.Size = new System.Drawing.Size(101, 21);
+            this.cmbMaintenance.TabIndex = 26;
+            this.toolTip.SetToolTip(this.cmbMaintenance, "Rank required to join while in maintenance mode");
+            // 
+            // label33
+            // 
+            this.label33.AutoSize = true;
+            this.label33.Location = new System.Drawing.Point(9, 49);
+            this.label33.Name = "label33";
+            this.label33.Size = new System.Drawing.Size(98, 13);
+            this.label33.TabIndex = 25;
+            this.label33.Text = "Maintenance Rank:";
+            // 
+            // chkRestart
+            // 
+            this.chkRestart.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkRestart.AutoSize = true;
+            this.chkRestart.Location = new System.Drawing.Point(6, 20);
+            this.chkRestart.Name = "chkRestart";
+            this.chkRestart.Size = new System.Drawing.Size(153, 23);
+            this.chkRestart.TabIndex = 4;
+            this.chkRestart.Text = "Restart when an error occurs";
+            this.chkRestart.UseVisualStyleBackColor = true;
+            // 
+            // chkPublic
+            // 
+            this.chkPublic.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkPublic.AutoSize = true;
+            this.chkPublic.Location = new System.Drawing.Point(6, 49);
+            this.chkPublic.Name = "chkPublic";
+            this.chkPublic.Size = new System.Drawing.Size(46, 23);
+            this.chkPublic.TabIndex = 4;
+            this.chkPublic.Text = "Public";
+            this.toolTip.SetToolTip(this.chkPublic, "Whether or not the server will appear on the server list.");
+            this.chkPublic.UseVisualStyleBackColor = true;
+            // 
+            // chkVerify
+            // 
+            this.chkVerify.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkVerify.AutoSize = true;
+            this.chkVerify.Location = new System.Drawing.Point(6, 20);
+            this.chkVerify.Name = "chkVerify";
+            this.chkVerify.Size = new System.Drawing.Size(78, 23);
+            this.chkVerify.TabIndex = 4;
+            this.chkVerify.Text = "Verify Names";
+            this.toolTip.SetToolTip(this.chkVerify, "Make sure the user is who they claim to be.");
+            this.chkVerify.UseVisualStyleBackColor = true;
+            // 
+            // label3
+            // 
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(9, 71);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(30, 13);
+            this.label3.TabIndex = 3;
+            this.label3.Text = "Port:";
+            // 
+            // txtPort
+            // 
+            this.txtPort.Location = new System.Drawing.Point(50, 68);
+            this.txtPort.Name = "txtPort";
+            this.txtPort.Size = new System.Drawing.Size(60, 21);
+            this.txtPort.TabIndex = 2;
+            this.toolTip.SetToolTip(this.txtPort, "The port that the server will output on.\nDefault = 25565\n\nChanging will reset you" +
+        "r ExternalURL.");
+            this.txtPort.TextChanged += new System.EventHandler(this.txtPort_TextChanged);
+            // 
+            // tabPage7
+            // 
+            this.tabPage7.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage7.Controls.Add(this.groupBox4);
+            this.tabPage7.Controls.Add(this.groupBox3);
+            this.tabPage7.Controls.Add(this.groupBox2);
+            this.tabPage7.Controls.Add(this.groupBox1);
+            this.tabPage7.Controls.Add(this.label34);
+            this.tabPage7.Controls.Add(this.chkRepeatMessages);
+            this.tabPage7.Controls.Add(this.txtMoneys);
+            this.tabPage7.Controls.Add(this.chkWorld);
+            this.tabPage7.Controls.Add(this.chk17Dollar);
+            this.tabPage7.Controls.Add(this.chkSmile);
+            this.tabPage7.Controls.Add(this.chkDeath);
+            this.tabPage7.Controls.Add(this.chkHelp);
+            this.tabPage7.Controls.Add(this.txtHost);
+            this.tabPage7.Controls.Add(this.label10);
+            this.tabPage7.Controls.Add(this.label30);
+            this.tabPage7.Controls.Add(this.cmbDefaultColour);
+            this.tabPage7.Controls.Add(this.lblDefault);
+            this.tabPage7.Location = new System.Drawing.Point(4, 22);
+            this.tabPage7.Name = "tabPage7";
+            this.tabPage7.Size = new System.Drawing.Size(411, 404);
+            this.tabPage7.TabIndex = 7;
+            this.tabPage7.Text = "Chat";
+            // 
+            // groupBox4
+            // 
+            this.groupBox4.Location = new System.Drawing.Point(3, 296);
+            this.groupBox4.Name = "groupBox4";
+            this.groupBox4.Size = new System.Drawing.Size(193, 76);
+            this.groupBox4.TabIndex = 32;
+            this.groupBox4.TabStop = false;
+            this.groupBox4.Text = "Spam Filter";
+            // 
+            // groupBox3
+            // 
+            this.groupBox3.Location = new System.Drawing.Point(3, 219);
+            this.groupBox3.Name = "groupBox3";
+            this.groupBox3.Size = new System.Drawing.Size(193, 71);
+            this.groupBox3.TabIndex = 31;
+            this.groupBox3.TabStop = false;
+            this.groupBox3.Text = "Profanity Filter";
+            // 
+            // groupBox2
+            // 
+            this.groupBox2.Controls.Add(this.label36);
+            this.groupBox2.Controls.Add(this.cmbOpChat);
+            this.groupBox2.Controls.Add(this.lblOpChat);
+            this.groupBox2.Controls.Add(this.cmbAdminChat);
+            this.groupBox2.Location = new System.Drawing.Point(3, 141);
+            this.groupBox2.Name = "groupBox2";
+            this.groupBox2.Size = new System.Drawing.Size(193, 72);
+            this.groupBox2.TabIndex = 30;
+            this.groupBox2.TabStop = false;
+            this.groupBox2.Text = "Chat Channels";
+            // 
+            // label36
+            // 
+            this.label36.AutoSize = true;
+            this.label36.Location = new System.Drawing.Point(6, 17);
+            this.label36.Name = "label36";
+            this.label36.Size = new System.Drawing.Size(87, 13);
+            this.label36.TabIndex = 27;
+            this.label36.Text = "Admin Chat rank:";
+            // 
+            // cmbOpChat
+            // 
+            this.cmbOpChat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbOpChat.FormattingEnabled = true;
+            this.cmbOpChat.Location = new System.Drawing.Point(102, 41);
+            this.cmbOpChat.Name = "cmbOpChat";
+            this.cmbOpChat.Size = new System.Drawing.Size(81, 21);
+            this.cmbOpChat.TabIndex = 23;
+            this.toolTip.SetToolTip(this.cmbOpChat, "Default rank required to read op chat.");
+            // 
+            // lblOpChat
+            // 
+            this.lblOpChat.AutoSize = true;
+            this.lblOpChat.Location = new System.Drawing.Point(23, 44);
+            this.lblOpChat.Name = "lblOpChat";
+            this.lblOpChat.Size = new System.Drawing.Size(70, 13);
+            this.lblOpChat.TabIndex = 22;
+            this.lblOpChat.Text = "Op Chat rank:";
+            // 
+            // cmbAdminChat
+            // 
+            this.cmbAdminChat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbAdminChat.FormattingEnabled = true;
+            this.cmbAdminChat.Location = new System.Drawing.Point(103, 14);
+            this.cmbAdminChat.Name = "cmbAdminChat";
+            this.cmbAdminChat.Size = new System.Drawing.Size(81, 21);
+            this.cmbAdminChat.TabIndex = 28;
+            this.toolTip.SetToolTip(this.cmbAdminChat, "Default rank required to read admin chat.");
+            // 
+            // groupBox1
+            // 
+            this.groupBox1.Controls.Add(this.txtRestartTime);
+            this.groupBox1.Controls.Add(this.chkShutdown);
+            this.groupBox1.Controls.Add(this.chkBanMessage);
+            this.groupBox1.Controls.Add(this.txtBanMessage);
+            this.groupBox1.Controls.Add(this.txtShutdown);
+            this.groupBox1.Controls.Add(this.chkCheap);
+            this.groupBox1.Controls.Add(this.txtCheap);
+            this.groupBox1.Controls.Add(this.chkRestartTime);
+            this.groupBox1.Location = new System.Drawing.Point(3, 3);
+            this.groupBox1.Name = "groupBox1";
+            this.groupBox1.Size = new System.Drawing.Size(405, 132);
+            this.groupBox1.TabIndex = 0;
+            this.groupBox1.TabStop = false;
+            this.groupBox1.Text = "Custom Messages";
+            // 
+            // txtRestartTime
+            // 
+            this.txtRestartTime.Location = new System.Drawing.Point(143, 18);
+            this.txtRestartTime.Name = "txtRestartTime";
+            this.txtRestartTime.Size = new System.Drawing.Size(255, 21);
+            this.txtRestartTime.TabIndex = 1;
+            this.txtRestartTime.Text = "HH: mm: ss";
             // 
             // chkShutdown
             // 
             this.chkShutdown.AutoSize = true;
-            this.chkShutdown.Location = new System.Drawing.Point(595, 85);
+            this.chkShutdown.Location = new System.Drawing.Point(6, 104);
             this.chkShutdown.Name = "chkShutdown";
             this.chkShutdown.Size = new System.Drawing.Size(158, 17);
             this.chkShutdown.TabIndex = 26;
@@ -272,29 +525,34 @@
             // chkBanMessage
             // 
             this.chkBanMessage.AutoSize = true;
-            this.chkBanMessage.Location = new System.Drawing.Point(595, 58);
+            this.chkBanMessage.Location = new System.Drawing.Point(6, 77);
             this.chkBanMessage.Name = "chkBanMessage";
             this.chkBanMessage.Size = new System.Drawing.Size(129, 17);
             this.chkBanMessage.TabIndex = 25;
             this.chkBanMessage.Text = "Custom ban message:";
             this.chkBanMessage.UseVisualStyleBackColor = true;
             // 
-            // chkrankSuper
+            // txtBanMessage
             // 
-            this.chkrankSuper.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkrankSuper.AutoSize = true;
-            this.chkrankSuper.Location = new System.Drawing.Point(511, 323);
-            this.chkrankSuper.Name = "chkrankSuper";
-            this.chkrankSuper.Size = new System.Drawing.Size(195, 23);
-            this.chkrankSuper.TabIndex = 24;
-            this.chkrankSuper.Text = "SuperOPs can appoint other SuperOPs";
-            this.toolTip.SetToolTip(this.chkrankSuper, "Does what it says on the tin");
-            this.chkrankSuper.UseVisualStyleBackColor = true;
+            this.txtBanMessage.Location = new System.Drawing.Point(141, 73);
+            this.txtBanMessage.MaxLength = 128;
+            this.txtBanMessage.Name = "txtBanMessage";
+            this.txtBanMessage.Size = new System.Drawing.Size(257, 21);
+            this.txtBanMessage.TabIndex = 27;
+            // 
+            // txtShutdown
+            // 
+            this.txtShutdown.Location = new System.Drawing.Point(170, 102);
+            this.txtShutdown.MaxLength = 128;
+            this.txtShutdown.Name = "txtShutdown";
+            this.txtShutdown.Size = new System.Drawing.Size(229, 21);
+            this.txtShutdown.TabIndex = 28;
+            this.txtShutdown.TextChanged += new System.EventHandler(this.txtShutdown_TextChanged);
             // 
             // chkCheap
             // 
             this.chkCheap.AutoSize = true;
-            this.chkCheap.Location = new System.Drawing.Point(595, 30);
+            this.chkCheap.Location = new System.Drawing.Point(6, 49);
             this.chkCheap.Name = "chkCheap";
             this.chkCheap.Size = new System.Drawing.Size(103, 17);
             this.chkCheap.TabIndex = 23;
@@ -302,11 +560,90 @@
             this.toolTip.SetToolTip(this.chkCheap, "Is immortality cheap and unfair?");
             this.chkCheap.UseVisualStyleBackColor = true;
             // 
+            // txtCheap
+            // 
+            this.txtCheap.Location = new System.Drawing.Point(115, 45);
+            this.txtCheap.Name = "txtCheap";
+            this.txtCheap.Size = new System.Drawing.Size(283, 21);
+            this.txtCheap.TabIndex = 1;
+            // 
+            // chkRestartTime
+            // 
+            this.chkRestartTime.AutoSize = true;
+            this.chkRestartTime.Location = new System.Drawing.Point(6, 20);
+            this.chkRestartTime.Name = "chkRestartTime";
+            this.chkRestartTime.Size = new System.Drawing.Size(131, 17);
+            this.chkRestartTime.TabIndex = 0;
+            this.chkRestartTime.Text = "Restart server at time:";
+            this.chkRestartTime.UseVisualStyleBackColor = true;
+            // 
+            // label34
+            // 
+            this.label34.AutoSize = true;
+            this.label34.Location = new System.Drawing.Point(246, 171);
+            this.label34.Name = "label34";
+            this.label34.Size = new System.Drawing.Size(71, 13);
+            this.label34.TabIndex = 11;
+            this.label34.Text = "Money name:";
+            // 
+            // chkRepeatMessages
+            // 
+            this.chkRepeatMessages.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkRepeatMessages.AutoSize = true;
+            this.chkRepeatMessages.Location = new System.Drawing.Point(275, 349);
+            this.chkRepeatMessages.Name = "chkRepeatMessages";
+            this.chkRepeatMessages.Size = new System.Drawing.Size(127, 23);
+            this.chkRepeatMessages.TabIndex = 29;
+            this.chkRepeatMessages.Text = "Repeat message blocks";
+            this.chkRepeatMessages.UseVisualStyleBackColor = true;
+            // 
+            // txtMoneys
+            // 
+            this.txtMoneys.Location = new System.Drawing.Point(323, 168);
+            this.txtMoneys.Name = "txtMoneys";
+            this.txtMoneys.Size = new System.Drawing.Size(82, 21);
+            this.txtMoneys.TabIndex = 1;
+            // 
+            // chkWorld
+            // 
+            this.chkWorld.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkWorld.AutoSize = true;
+            this.chkWorld.Location = new System.Drawing.Point(6, 378);
+            this.chkWorld.Name = "chkWorld";
+            this.chkWorld.Size = new System.Drawing.Size(69, 23);
+            this.chkWorld.TabIndex = 4;
+            this.chkWorld.Text = "World chat";
+            this.toolTip.SetToolTip(this.chkWorld, "If disabled, every map has isolated chat.\nIf enabled, every map is able to commun" +
+        "icate without special letters.");
+            this.chkWorld.UseVisualStyleBackColor = true;
+            // 
+            // chk17Dollar
+            // 
+            this.chk17Dollar.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chk17Dollar.AutoSize = true;
+            this.chk17Dollar.Location = new System.Drawing.Point(224, 378);
+            this.chk17Dollar.Name = "chk17Dollar";
+            this.chk17Dollar.Size = new System.Drawing.Size(91, 23);
+            this.chk17Dollar.TabIndex = 22;
+            this.chk17Dollar.Text = "$ before $name";
+            this.chk17Dollar.UseVisualStyleBackColor = true;
+            // 
+            // chkSmile
+            // 
+            this.chkSmile.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkSmile.AutoSize = true;
+            this.chkSmile.Location = new System.Drawing.Point(321, 378);
+            this.chkSmile.Name = "chkSmile";
+            this.chkSmile.Size = new System.Drawing.Size(82, 23);
+            this.chkSmile.TabIndex = 19;
+            this.chkSmile.Text = "Parse emotes";
+            this.chkSmile.UseVisualStyleBackColor = true;
+            // 
             // chkDeath
             // 
             this.chkDeath.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkDeath.AutoSize = true;
-            this.chkDeath.Location = new System.Drawing.Point(511, 408);
+            this.chkDeath.Location = new System.Drawing.Point(143, 378);
             this.chkDeath.Name = "chkDeath";
             this.chkDeath.Size = new System.Drawing.Size(75, 23);
             this.chkDeath.TabIndex = 21;
@@ -314,45 +651,11 @@
             this.toolTip.SetToolTip(this.chkDeath, "\"Bob has died 10 times.\"");
             this.chkDeath.UseVisualStyleBackColor = true;
             // 
-            // chk17Dollar
-            // 
-            this.chk17Dollar.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chk17Dollar.AutoSize = true;
-            this.chk17Dollar.Location = new System.Drawing.Point(494, 291);
-            this.chk17Dollar.Name = "chk17Dollar";
-            this.chk17Dollar.Size = new System.Drawing.Size(91, 23);
-            this.chk17Dollar.TabIndex = 22;
-            this.chk17Dollar.Text = "$ before $name";
-            this.chk17Dollar.UseVisualStyleBackColor = true;
-            // 
-            // chkPhysicsRest
-            // 
-            this.chkPhysicsRest.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkPhysicsRest.AutoSize = true;
-            this.chkPhysicsRest.Location = new System.Drawing.Point(511, 379);
-            this.chkPhysicsRest.Name = "chkPhysicsRest";
-            this.chkPhysicsRest.Size = new System.Drawing.Size(89, 23);
-            this.chkPhysicsRest.TabIndex = 22;
-            this.chkPhysicsRest.Text = "Restart physics";
-            this.toolTip.SetToolTip(this.chkPhysicsRest, "Restart physics on shutdown, clearing all physics blocks.");
-            this.chkPhysicsRest.UseVisualStyleBackColor = true;
-            // 
-            // chkSmile
-            // 
-            this.chkSmile.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkSmile.AutoSize = true;
-            this.chkSmile.Location = new System.Drawing.Point(503, 262);
-            this.chkSmile.Name = "chkSmile";
-            this.chkSmile.Size = new System.Drawing.Size(82, 23);
-            this.chkSmile.TabIndex = 19;
-            this.chkSmile.Text = "Parse emotes";
-            this.chkSmile.UseVisualStyleBackColor = true;
-            // 
             // chkHelp
             // 
             this.chkHelp.Appearance = System.Windows.Forms.Appearance.Button;
             this.chkHelp.AutoSize = true;
-            this.chkHelp.Location = new System.Drawing.Point(511, 437);
+            this.chkHelp.Location = new System.Drawing.Point(81, 378);
             this.chkHelp.Name = "chkHelp";
             this.chkHelp.Size = new System.Drawing.Size(56, 23);
             this.chkHelp.TabIndex = 20;
@@ -360,10 +663,264 @@
             this.toolTip.SetToolTip(this.chkHelp, "Should the old, cluttered help menu be used?");
             this.chkHelp.UseVisualStyleBackColor = true;
             // 
+            // txtHost
+            // 
+            this.txtHost.Location = new System.Drawing.Point(323, 195);
+            this.txtHost.Name = "txtHost";
+            this.txtHost.Size = new System.Drawing.Size(82, 21);
+            this.txtHost.TabIndex = 2;
+            this.txtHost.TextChanged += new System.EventHandler(this.txtPort_TextChanged);
+            // 
+            // label10
+            // 
+            this.label10.AutoSize = true;
+            this.label10.Location = new System.Drawing.Point(248, 144);
+            this.label10.Name = "label10";
+            this.label10.Size = new System.Drawing.Size(71, 13);
+            this.label10.TabIndex = 3;
+            this.label10.Text = "Default color:";
+            // 
+            // label30
+            // 
+            this.label30.AutoSize = true;
+            this.label30.Location = new System.Drawing.Point(222, 198);
+            this.label30.Name = "label30";
+            this.label30.Size = new System.Drawing.Size(95, 13);
+            this.label30.TabIndex = 3;
+            this.label30.Text = "Default host state:";
+            // 
+            // cmbDefaultColour
+            // 
+            this.cmbDefaultColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDefaultColour.FormattingEnabled = true;
+            this.cmbDefaultColour.Location = new System.Drawing.Point(321, 141);
+            this.cmbDefaultColour.Name = "cmbDefaultColour";
+            this.cmbDefaultColour.Size = new System.Drawing.Size(57, 21);
+            this.cmbDefaultColour.TabIndex = 9;
+            this.toolTip.SetToolTip(this.cmbDefaultColour, "The colour of the default chat used in the server.\nFor example, when you are aske" +
+        "d to select two corners in a cuboid.");
+            this.cmbDefaultColour.SelectedIndexChanged += new System.EventHandler(this.cmbDefaultColour_SelectedIndexChanged);
+            // 
+            // lblDefault
+            // 
+            this.lblDefault.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.lblDefault.Location = new System.Drawing.Point(384, 141);
+            this.lblDefault.Name = "lblDefault";
+            this.lblDefault.Size = new System.Drawing.Size(21, 21);
+            this.lblDefault.TabIndex = 10;
+            // 
+            // tabPage4
+            // 
+            this.tabPage4.BackColor = System.Drawing.SystemColors.Control;
+            this.tabPage4.Controls.Add(this.groupBox12);
+            this.tabPage4.Controls.Add(this.groupBox11);
+            this.tabPage4.Controls.Add(this.label27);
+            this.tabPage4.Controls.Add(this.label32);
+            this.tabPage4.Controls.Add(this.label22);
+            this.tabPage4.Controls.Add(this.txtMain);
+            this.tabPage4.Controls.Add(this.chkAutoload);
+            this.tabPage4.Controls.Add(this.groupBox10);
+            this.tabPage4.Controls.Add(this.txtBackup);
+            this.tabPage4.Controls.Add(this.txtMaps);
+            this.tabPage4.Controls.Add(this.label9);
+            this.tabPage4.Controls.Add(this.groupBox5);
+            this.tabPage4.Controls.Add(this.txtBackupLocation);
+            this.tabPage4.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.tabPage4.Location = new System.Drawing.Point(4, 22);
+            this.tabPage4.Name = "tabPage4";
+            this.tabPage4.Size = new System.Drawing.Size(411, 404);
+            this.tabPage4.TabIndex = 3;
+            this.tabPage4.Text = "Maps/Players";
+            // 
+            // groupBox5
+            // 
+            this.groupBox5.Controls.Add(this.label39);
+            this.groupBox5.Controls.Add(this.textBox1);
+            this.groupBox5.Controls.Add(this.chkrankSuper);
+            this.groupBox5.Controls.Add(this.cmbDefaultRank);
+            this.groupBox5.Controls.Add(this.label29);
+            this.groupBox5.Controls.Add(this.label21);
+            this.groupBox5.Controls.Add(this.txtPlayers);
+            this.groupBox5.Controls.Add(this.label25);
+            this.groupBox5.Controls.Add(this.txtafk);
+            this.groupBox5.Controls.Add(this.label26);
+            this.groupBox5.Controls.Add(this.txtAFKKick);
+            this.groupBox5.Location = new System.Drawing.Point(3, 306);
+            this.groupBox5.Name = "groupBox5";
+            this.groupBox5.Size = new System.Drawing.Size(405, 95);
+            this.groupBox5.TabIndex = 30;
+            this.groupBox5.TabStop = false;
+            this.groupBox5.Text = "Players";
+            // 
+            // label39
+            // 
+            this.label39.AutoSize = true;
+            this.label39.Location = new System.Drawing.Point(144, 44);
+            this.label39.Name = "label39";
+            this.label39.Size = new System.Drawing.Size(67, 13);
+            this.label39.TabIndex = 23;
+            this.label39.Text = "Max Players:";
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(217, 41);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(60, 21);
+            this.textBox1.TabIndex = 22;
+            this.toolTip.SetToolTip(this.textBox1, "The total number of players which can login.\nDefault = 12");
+            // 
+            // chkrankSuper
+            // 
+            this.chkrankSuper.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkrankSuper.AutoSize = true;
+            this.chkrankSuper.Location = new System.Drawing.Point(166, 12);
+            this.chkrankSuper.Name = "chkrankSuper";
+            this.chkrankSuper.Size = new System.Drawing.Size(195, 23);
+            this.chkrankSuper.TabIndex = 24;
+            this.chkrankSuper.Text = "SuperOPs can appoint other SuperOPs";
+            this.toolTip.SetToolTip(this.chkrankSuper, "Does what it says on the tin");
+            this.chkrankSuper.UseVisualStyleBackColor = true;
+            // 
+            // cmbDefaultRank
+            // 
+            this.cmbDefaultRank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.cmbDefaultRank.FormattingEnabled = true;
+            this.cmbDefaultRank.Location = new System.Drawing.Point(79, 14);
+            this.cmbDefaultRank.Name = "cmbDefaultRank";
+            this.cmbDefaultRank.Size = new System.Drawing.Size(81, 21);
+            this.cmbDefaultRank.TabIndex = 21;
+            this.toolTip.SetToolTip(this.cmbDefaultRank, "Default rank assigned to new visitors to the server.");
+            // 
+            // label29
+            // 
+            this.label29.AutoSize = true;
+            this.label29.Location = new System.Drawing.Point(5, 17);
+            this.label29.Name = "label29";
+            this.label29.Size = new System.Drawing.Size(68, 13);
+            this.label29.TabIndex = 20;
+            this.label29.Text = "Default rank:";
+            // 
+            // label21
+            // 
+            this.label21.AutoSize = true;
+            this.label21.Location = new System.Drawing.Point(5, 44);
+            this.label21.Name = "label21";
+            this.label21.Size = new System.Drawing.Size(67, 13);
+            this.label21.TabIndex = 3;
+            this.label21.Text = "Max Players:";
+            // 
+            // txtPlayers
+            // 
+            this.txtPlayers.Location = new System.Drawing.Point(78, 41);
+            this.txtPlayers.Name = "txtPlayers";
+            this.txtPlayers.Size = new System.Drawing.Size(60, 21);
+            this.txtPlayers.TabIndex = 2;
+            this.toolTip.SetToolTip(this.txtPlayers, "The total number of players which can login.\nDefault = 12");
+            this.txtPlayers.TextChanged += new System.EventHandler(this.txtPlayers_TextChanged);
+            // 
+            // chkForceCuboid
+            // 
+            this.chkForceCuboid.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkForceCuboid.AutoSize = true;
+            this.chkForceCuboid.Location = new System.Drawing.Point(6, 20);
+            this.chkForceCuboid.Name = "chkForceCuboid";
+            this.chkForceCuboid.Size = new System.Drawing.Size(78, 23);
+            this.chkForceCuboid.TabIndex = 29;
+            this.chkForceCuboid.Text = "Force Cuboid";
+            this.toolTip.SetToolTip(this.chkForceCuboid, "When true, runs an attempted cuboid despite cuboid limits, until it hits the grou" +
+        "p limit for that user.");
+            this.chkForceCuboid.UseVisualStyleBackColor = true;
+            // 
+            // chkPhysicsRest
+            // 
+            this.chkPhysicsRest.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkPhysicsRest.AutoSize = true;
+            this.chkPhysicsRest.Location = new System.Drawing.Point(90, 20);
+            this.chkPhysicsRest.Name = "chkPhysicsRest";
+            this.chkPhysicsRest.Size = new System.Drawing.Size(89, 23);
+            this.chkPhysicsRest.TabIndex = 22;
+            this.chkPhysicsRest.Text = "Restart physics";
+            this.toolTip.SetToolTip(this.chkPhysicsRest, "Restart physics on shutdown, clearing all physics blocks.");
+            this.chkPhysicsRest.UseVisualStyleBackColor = true;
+            // 
+            // txtDepth
+            // 
+            this.txtDepth.Location = new System.Drawing.Point(47, 49);
+            this.txtDepth.Name = "txtDepth";
+            this.txtDepth.Size = new System.Drawing.Size(41, 21);
+            this.txtDepth.TabIndex = 2;
+            this.toolTip.SetToolTip(this.txtDepth, "Depth which guests can dig.\nDefault = 4");
+            this.txtDepth.TextChanged += new System.EventHandler(this.txtDepth_TextChanged);
+            // 
+            // label27
+            // 
+            this.label27.AutoSize = true;
+            this.label27.Location = new System.Drawing.Point(33, 96);
+            this.label27.Name = "label27";
+            this.label27.Size = new System.Drawing.Size(63, 13);
+            this.label27.TabIndex = 3;
+            this.label27.Text = "Main name:";
+            // 
+            // ChkTunnels
+            // 
+            this.ChkTunnels.Appearance = System.Windows.Forms.Appearance.Button;
+            this.ChkTunnels.AutoSize = true;
+            this.ChkTunnels.Location = new System.Drawing.Point(6, 20);
+            this.ChkTunnels.Name = "ChkTunnels";
+            this.ChkTunnels.Size = new System.Drawing.Size(102, 23);
+            this.ChkTunnels.TabIndex = 4;
+            this.ChkTunnels.Text = "Use Anti Tunneling";
+            this.toolTip.SetToolTip(this.ChkTunnels, "Should guests be limited to digging a certain depth?");
+            this.ChkTunnels.UseVisualStyleBackColor = true;
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(3, 52);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(39, 13);
+            this.label7.TabIndex = 3;
+            this.label7.Text = "Depth:";
+            // 
+            // label22
+            // 
+            this.label22.AutoSize = true;
+            this.label22.Location = new System.Drawing.Point(38, 69);
+            this.label22.Name = "label22";
+            this.label22.Size = new System.Drawing.Size(58, 13);
+            this.label22.TabIndex = 3;
+            this.label22.Text = "Max Maps:";
+            // 
+            // txtMain
+            // 
+            this.txtMain.Location = new System.Drawing.Point(102, 93);
+            this.txtMain.Name = "txtMain";
+            this.txtMain.Size = new System.Drawing.Size(60, 21);
+            this.txtMain.TabIndex = 2;
+            this.txtMain.TextChanged += new System.EventHandler(this.txtMaps_TextChanged);
+            // 
+            // txtMaps
+            // 
+            this.txtMaps.Location = new System.Drawing.Point(102, 66);
+            this.txtMaps.Name = "txtMaps";
+            this.txtMaps.Size = new System.Drawing.Size(60, 21);
+            this.txtMaps.TabIndex = 2;
+            this.toolTip.SetToolTip(this.txtMaps, "The total number of maps which can be loaded at once.\nDefault = 5");
+            this.txtMaps.TextChanged += new System.EventHandler(this.txtMaps_TextChanged);
+            // 
+            // label32
+            // 
+            this.label32.AutoSize = true;
+            this.label32.Location = new System.Drawing.Point(10, 15);
+            this.label32.Name = "label32";
+            this.label32.Size = new System.Drawing.Size(86, 13);
+            this.label32.TabIndex = 3;
+            this.label32.Text = "Backup Location:";
+            // 
             // label28
             // 
             this.label28.AutoSize = true;
-            this.label28.Location = new System.Drawing.Point(792, 426);
+            this.label28.Location = new System.Drawing.Point(289, 25);
             this.label28.Name = "label28";
             this.label28.Size = new System.Drawing.Size(61, 13);
             this.label28.TabIndex = 16;
@@ -372,135 +929,98 @@
             // label24
             // 
             this.label24.AutoSize = true;
-            this.label24.Location = new System.Drawing.Point(805, 400);
+            this.label24.Location = new System.Drawing.Point(185, 25);
             this.label24.Name = "label24";
             this.label24.Size = new System.Drawing.Size(48, 13);
             this.label24.TabIndex = 15;
             this.label24.Text = "/rp limit:";
             this.toolTip.SetToolTip(this.label24, "Limit for custom physics set by /rp");
             // 
+            // chkAutoload
+            // 
+            this.chkAutoload.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkAutoload.AutoSize = true;
+            this.chkAutoload.Location = new System.Drawing.Point(180, 39);
+            this.chkAutoload.Name = "chkAutoload";
+            this.chkAutoload.Size = new System.Drawing.Size(81, 23);
+            this.chkAutoload.TabIndex = 4;
+            this.chkAutoload.Text = "Load on /goto";
+            this.toolTip.SetToolTip(this.chkAutoload, "Load a map when a user wishes to go to it, and unload empty maps");
+            this.chkAutoload.UseVisualStyleBackColor = true;
+            // 
             // txtNormRp
             // 
-            this.txtNormRp.Location = new System.Drawing.Point(862, 423);
+            this.txtNormRp.Location = new System.Drawing.Point(356, 22);
             this.txtNormRp.Name = "txtNormRp";
             this.txtNormRp.Size = new System.Drawing.Size(41, 21);
             this.txtNormRp.TabIndex = 13;
             // 
+            // txtBackupLocation
+            // 
+            this.txtBackupLocation.Location = new System.Drawing.Point(102, 12);
+            this.txtBackupLocation.Name = "txtBackupLocation";
+            this.txtBackupLocation.Size = new System.Drawing.Size(300, 21);
+            this.txtBackupLocation.TabIndex = 2;
+            // 
             // txtRP
             // 
-            this.txtRP.Location = new System.Drawing.Point(862, 397);
+            this.txtRP.Location = new System.Drawing.Point(239, 22);
             this.txtRP.Name = "txtRP";
             this.txtRP.Size = new System.Drawing.Size(41, 21);
             this.txtRP.TabIndex = 14;
             // 
-            // label34
-            // 
-            this.label34.AutoSize = true;
-            this.label34.Location = new System.Drawing.Point(425, 238);
-            this.label34.Name = "label34";
-            this.label34.Size = new System.Drawing.Size(71, 13);
-            this.label34.TabIndex = 11;
-            this.label34.Text = "Money name:";
-            // 
-            // label26
-            // 
-            this.label26.AutoSize = true;
-            this.label26.Location = new System.Drawing.Point(678, 451);
-            this.label26.Name = "label26";
-            this.label26.Size = new System.Drawing.Size(48, 13);
-            this.label26.TabIndex = 11;
-            this.label26.Text = "AFK Kick:";
-            // 
-            // label25
-            // 
-            this.label25.AutoSize = true;
-            this.label25.Location = new System.Drawing.Point(672, 425);
-            this.label25.Name = "label25";
-            this.label25.Size = new System.Drawing.Size(54, 13);
-            this.label25.TabIndex = 12;
-            this.label25.Text = "AFK timer:";
-            // 
-            // txtAFKKick
-            // 
-            this.txtAFKKick.Location = new System.Drawing.Point(732, 449);
-            this.txtAFKKick.Name = "txtAFKKick";
-            this.txtAFKKick.Size = new System.Drawing.Size(41, 21);
-            this.txtAFKKick.TabIndex = 9;
-            this.toolTip.SetToolTip(this.txtAFKKick, "Kick the user after they have been afk for this many minutes (0 = No kick)");
-            // 
-            // txtafk
-            // 
-            this.txtafk.Location = new System.Drawing.Point(732, 422);
-            this.txtafk.Name = "txtafk";
-            this.txtafk.Size = new System.Drawing.Size(41, 21);
-            this.txtafk.TabIndex = 10;
-            this.toolTip.SetToolTip(this.txtafk, "How long the server should wait before declaring someone ask afk. (0 = No timer a" +
-        "t all)");
-            // 
-            // label9
-            // 
-            this.label9.AutoSize = true;
-            this.label9.Location = new System.Drawing.Point(659, 400);
-            this.label9.Name = "label9";
-            this.label9.Size = new System.Drawing.Size(67, 13);
-            this.label9.TabIndex = 7;
-            this.label9.Text = "Backup time:";
-            // 
             // txtBackup
             // 
-            this.txtBackup.Location = new System.Drawing.Point(732, 395);
+            this.txtBackup.Location = new System.Drawing.Point(102, 39);
             this.txtBackup.Name = "txtBackup";
             this.txtBackup.Size = new System.Drawing.Size(41, 21);
             this.txtBackup.TabIndex = 5;
             this.toolTip.SetToolTip(this.txtBackup, "How often should backups be taken, in seconds.\nDefault = 300");
             // 
-            // label32
+            // label26
             // 
-            this.label32.AutoSize = true;
-            this.label32.Location = new System.Drawing.Point(619, 375);
-            this.label32.Name = "label32";
-            this.label32.Size = new System.Drawing.Size(44, 13);
-            this.label32.TabIndex = 3;
-            this.label32.Text = "Backup:";
+            this.label26.AutoSize = true;
+            this.label26.Location = new System.Drawing.Point(163, 71);
+            this.label26.Name = "label26";
+            this.label26.Size = new System.Drawing.Size(48, 13);
+            this.label26.TabIndex = 11;
+            this.label26.Text = "AFK Kick:";
             // 
-            // txtBackupLocation
+            // label9
             // 
-            this.txtBackupLocation.Location = new System.Drawing.Point(669, 372);
-            this.txtBackupLocation.Name = "txtBackupLocation";
-            this.txtBackupLocation.Size = new System.Drawing.Size(234, 21);
-            this.txtBackupLocation.TabIndex = 2;
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(29, 44);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(67, 13);
+            this.label9.TabIndex = 7;
+            this.label9.Text = "Backup time:";
             // 
-            // txtMoneys
+            // label25
             // 
-            this.txtMoneys.Location = new System.Drawing.Point(502, 235);
-            this.txtMoneys.Name = "txtMoneys";
-            this.txtMoneys.Size = new System.Drawing.Size(82, 21);
-            this.txtMoneys.TabIndex = 1;
+            this.label25.AutoSize = true;
+            this.label25.Location = new System.Drawing.Point(18, 71);
+            this.label25.Name = "label25";
+            this.label25.Size = new System.Drawing.Size(54, 13);
+            this.label25.TabIndex = 12;
+            this.label25.Text = "AFK timer:";
             // 
-            // txtCheap
+            // txtafk
             // 
-            this.txtCheap.Location = new System.Drawing.Point(704, 28);
-            this.txtCheap.Name = "txtCheap";
-            this.txtCheap.Size = new System.Drawing.Size(200, 21);
-            this.txtCheap.TabIndex = 1;
+            this.txtafk.Location = new System.Drawing.Point(79, 68);
+            this.txtafk.Name = "txtafk";
+            this.txtafk.Size = new System.Drawing.Size(41, 21);
+            this.txtafk.TabIndex = 10;
+            this.toolTip.SetToolTip(this.txtafk, "How long the server should wait before declaring someone ask afk. (0 = No timer a" +
+        "t all)");
+            this.txtafk.TextChanged += new System.EventHandler(this.txtafk_TextChanged);
             // 
-            // txtRestartTime
+            // txtAFKKick
             // 
-            this.txtRestartTime.Location = new System.Drawing.Point(723, 0);
-            this.txtRestartTime.Name = "txtRestartTime";
-            this.txtRestartTime.Size = new System.Drawing.Size(172, 21);
-            this.txtRestartTime.TabIndex = 1;
-            this.txtRestartTime.Text = "HH: mm: ss";
-            // 
-            // chkRestartTime
-            // 
-            this.chkRestartTime.AutoSize = true;
-            this.chkRestartTime.Location = new System.Drawing.Point(595, 3);
-            this.chkRestartTime.Name = "chkRestartTime";
-            this.chkRestartTime.Size = new System.Drawing.Size(131, 17);
-            this.chkRestartTime.TabIndex = 0;
-            this.chkRestartTime.Text = "Restart server at time:";
-            this.chkRestartTime.UseVisualStyleBackColor = true;
+            this.txtAFKKick.Location = new System.Drawing.Point(217, 68);
+            this.txtAFKKick.Name = "txtAFKKick";
+            this.txtAFKKick.Size = new System.Drawing.Size(41, 21);
+            this.txtAFKKick.TabIndex = 9;
+            this.toolTip.SetToolTip(this.txtAFKKick, "Kick the user after they have been afk for this many minutes (0 = No kick)");
             // 
             // tabPage2
             // 
@@ -522,7 +1042,7 @@
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage2.Size = new System.Drawing.Size(354, 404);
+            this.tabPage2.Size = new System.Drawing.Size(411, 404);
             this.tabPage2.TabIndex = 4;
             this.tabPage2.Text = "Ranks";
             // 
@@ -667,7 +1187,7 @@
             this.tabPage3.Controls.Add(this.listCommands);
             this.tabPage3.Location = new System.Drawing.Point(4, 22);
             this.tabPage3.Name = "tabPage3";
-            this.tabPage3.Size = new System.Drawing.Size(354, 404);
+            this.tabPage3.Size = new System.Drawing.Size(411, 404);
             this.tabPage3.TabIndex = 2;
             this.tabPage3.Text = "Commands";
             this.toolTip.SetToolTip(this.tabPage3, "Which ranks can use which commands.");
@@ -766,7 +1286,7 @@
             this.tabPage5.Location = new System.Drawing.Point(4, 22);
             this.tabPage5.Name = "tabPage5";
             this.tabPage5.Padding = new System.Windows.Forms.Padding(3);
-            this.tabPage5.Size = new System.Drawing.Size(354, 404);
+            this.tabPage5.Size = new System.Drawing.Size(411, 404);
             this.tabPage5.TabIndex = 5;
             this.tabPage5.Text = "Blocks";
             // 
@@ -855,7 +1375,7 @@
             this.tabPage6.Controls.Add(this.tableLayoutPanel1);
             this.tabPage6.Location = new System.Drawing.Point(4, 22);
             this.tabPage6.Name = "tabPage6";
-            this.tabPage6.Size = new System.Drawing.Size(354, 404);
+            this.tabPage6.Size = new System.Drawing.Size(411, 404);
             this.tabPage6.TabIndex = 6;
             this.tabPage6.Text = "IRC/Global";
             // 
@@ -871,7 +1391,7 @@
             this.tableLayoutPanel1.RowCount = 2;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 50F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(354, 404);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(411, 404);
             this.tableLayoutPanel1.TabIndex = 0;
             // 
             // gbIRC
@@ -894,7 +1414,7 @@
             this.gbIRC.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbIRC.Location = new System.Drawing.Point(3, 3);
             this.gbIRC.Name = "gbIRC";
-            this.gbIRC.Size = new System.Drawing.Size(348, 196);
+            this.gbIRC.Size = new System.Drawing.Size(405, 196);
             this.gbIRC.TabIndex = 0;
             this.gbIRC.TabStop = false;
             this.gbIRC.Text = "IRC";
@@ -1052,7 +1572,7 @@
             this.gbGlobal.Dock = System.Windows.Forms.DockStyle.Fill;
             this.gbGlobal.Location = new System.Drawing.Point(3, 205);
             this.gbGlobal.Name = "gbGlobal";
-            this.gbGlobal.Size = new System.Drawing.Size(348, 196);
+            this.gbGlobal.Size = new System.Drawing.Size(405, 196);
             this.gbGlobal.TabIndex = 1;
             this.gbGlobal.TabStop = false;
             this.gbGlobal.Text = "Global Chat";
@@ -1083,8 +1603,8 @@
             this.chkGlobal.Size = new System.Drawing.Size(92, 23);
             this.chkGlobal.TabIndex = 30;
             this.chkGlobal.Text = "Use Global Chat";
-            this.toolTip.SetToolTip(this.chkGlobal, "Whether to use MCSong Global Chat. Global Chat allows you to talk to all othe" +
-        "r MCSong servers with it enabled.");
+            this.toolTip.SetToolTip(this.chkGlobal, "Whether to use MCSong Global Chat. Global Chat allows you to talk to all other MC" +
+        "Song servers with it enabled.");
             this.chkGlobal.UseVisualStyleBackColor = true;
             this.chkGlobal.CheckedChanged += new System.EventHandler(this.chkGlobal_CheckedChanged);
             // 
@@ -1153,371 +1673,6 @@
             this.label38.TabIndex = 31;
             this.label38.Text = "Nick:";
             // 
-            // cmbAdminChat
-            // 
-            this.cmbAdminChat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbAdminChat.FormattingEnabled = true;
-            this.cmbAdminChat.Location = new System.Drawing.Point(817, 262);
-            this.cmbAdminChat.Name = "cmbAdminChat";
-            this.cmbAdminChat.Size = new System.Drawing.Size(81, 21);
-            this.cmbAdminChat.TabIndex = 28;
-            this.toolTip.SetToolTip(this.cmbAdminChat, "Default rank required to read admin chat.");
-            // 
-            // label36
-            // 
-            this.label36.AutoSize = true;
-            this.label36.Location = new System.Drawing.Point(720, 265);
-            this.label36.Name = "label36";
-            this.label36.Size = new System.Drawing.Size(87, 13);
-            this.label36.TabIndex = 27;
-            this.label36.Text = "Admin Chat rank:";
-            // 
-            // chkMaintKick
-            // 
-            this.chkMaintKick.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkMaintKick.AutoSize = true;
-            this.chkMaintKick.Location = new System.Drawing.Point(797, 200);
-            this.chkMaintKick.Name = "chkMaintKick";
-            this.chkMaintKick.Size = new System.Drawing.Size(101, 23);
-            this.chkMaintKick.TabIndex = 2;
-            this.chkMaintKick.Text = "Maintenance Kick";
-            this.chkMaintKick.UseVisualStyleBackColor = true;
-            // 
-            // cmbMaintenance
-            // 
-            this.cmbMaintenance.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbMaintenance.FormattingEnabled = true;
-            this.cmbMaintenance.Location = new System.Drawing.Point(817, 229);
-            this.cmbMaintenance.Name = "cmbMaintenance";
-            this.cmbMaintenance.Size = new System.Drawing.Size(81, 21);
-            this.cmbMaintenance.TabIndex = 26;
-            this.toolTip.SetToolTip(this.cmbMaintenance, "Rank required to join while in maintenance mode");
-            // 
-            // label33
-            // 
-            this.label33.AutoSize = true;
-            this.label33.Location = new System.Drawing.Point(710, 232);
-            this.label33.Name = "label33";
-            this.label33.Size = new System.Drawing.Size(98, 13);
-            this.label33.TabIndex = 25;
-            this.label33.Text = "Maintenance Rank:";
-            // 
-            // chkLogBeat
-            // 
-            this.chkLogBeat.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkLogBeat.AutoSize = true;
-            this.chkLogBeat.Location = new System.Drawing.Point(713, 343);
-            this.chkLogBeat.Name = "chkLogBeat";
-            this.chkLogBeat.Size = new System.Drawing.Size(89, 23);
-            this.chkLogBeat.TabIndex = 24;
-            this.chkLogBeat.Text = "Log Heartbeat?";
-            this.toolTip.SetToolTip(this.chkLogBeat, "Debugging feature -- Toggles whether to log heartbeat activity.\r\nUseful when your" +
-        " server gets a URL slowly or not at all.");
-            this.chkLogBeat.UseVisualStyleBackColor = true;
-            // 
-            // cmbOpChat
-            // 
-            this.cmbOpChat.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbOpChat.FormattingEnabled = true;
-            this.cmbOpChat.Location = new System.Drawing.Point(816, 289);
-            this.cmbOpChat.Name = "cmbOpChat";
-            this.cmbOpChat.Size = new System.Drawing.Size(81, 21);
-            this.cmbOpChat.TabIndex = 23;
-            this.toolTip.SetToolTip(this.cmbOpChat, "Default rank required to read op chat.");
-            // 
-            // lblOpChat
-            // 
-            this.lblOpChat.AutoSize = true;
-            this.lblOpChat.Location = new System.Drawing.Point(737, 292);
-            this.lblOpChat.Name = "lblOpChat";
-            this.lblOpChat.Size = new System.Drawing.Size(70, 13);
-            this.lblOpChat.TabIndex = 22;
-            this.lblOpChat.Text = "Op Chat rank:";
-            // 
-            // cmbDefaultRank
-            // 
-            this.cmbDefaultRank.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbDefaultRank.FormattingEnabled = true;
-            this.cmbDefaultRank.Location = new System.Drawing.Point(816, 316);
-            this.cmbDefaultRank.Name = "cmbDefaultRank";
-            this.cmbDefaultRank.Size = new System.Drawing.Size(81, 21);
-            this.cmbDefaultRank.TabIndex = 21;
-            this.toolTip.SetToolTip(this.cmbDefaultRank, "Default rank assigned to new visitors to the server.");
-            // 
-            // label29
-            // 
-            this.label29.AutoSize = true;
-            this.label29.Location = new System.Drawing.Point(742, 319);
-            this.label29.Name = "label29";
-            this.label29.Size = new System.Drawing.Size(68, 13);
-            this.label29.TabIndex = 20;
-            this.label29.Text = "Default rank:";
-            // 
-            // lblDefault
-            // 
-            this.lblDefault.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.lblDefault.Location = new System.Drawing.Point(732, 175);
-            this.lblDefault.Name = "lblDefault";
-            this.lblDefault.Size = new System.Drawing.Size(21, 21);
-            this.lblDefault.TabIndex = 10;
-            // 
-            // cmbDefaultColour
-            // 
-            this.cmbDefaultColour.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
-            this.cmbDefaultColour.FormattingEnabled = true;
-            this.cmbDefaultColour.Location = new System.Drawing.Point(669, 175);
-            this.cmbDefaultColour.Name = "cmbDefaultColour";
-            this.cmbDefaultColour.Size = new System.Drawing.Size(57, 21);
-            this.cmbDefaultColour.TabIndex = 9;
-            this.toolTip.SetToolTip(this.cmbDefaultColour, "The colour of the default chat used in the server.\nFor example, when you are aske" +
-        "d to select two corners in a cuboid.");
-            this.cmbDefaultColour.SelectedIndexChanged += new System.EventHandler(this.cmbDefaultColour_SelectedIndexChanged);
-            // 
-            // chkMono
-            // 
-            this.chkMono.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkMono.AutoSize = true;
-            this.chkMono.Location = new System.Drawing.Point(600, 265);
-            this.chkMono.Name = "chkMono";
-            this.chkMono.Size = new System.Drawing.Size(106, 23);
-            this.chkMono.TabIndex = 4;
-            this.chkMono.Text = "Using Mono/Linux?";
-            this.chkMono.UseVisualStyleBackColor = true;
-            // 
-            // chkRestart
-            // 
-            this.chkRestart.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkRestart.AutoSize = true;
-            this.chkRestart.Location = new System.Drawing.Point(610, 119);
-            this.chkRestart.Name = "chkRestart";
-            this.chkRestart.Size = new System.Drawing.Size(153, 23);
-            this.chkRestart.TabIndex = 4;
-            this.chkRestart.Text = "Restart when an error occurs";
-            this.chkRestart.UseVisualStyleBackColor = true;
-            // 
-            // chkPublic
-            // 
-            this.chkPublic.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkPublic.AutoSize = true;
-            this.chkPublic.Location = new System.Drawing.Point(853, 90);
-            this.chkPublic.Name = "chkPublic";
-            this.chkPublic.Size = new System.Drawing.Size(46, 23);
-            this.chkPublic.TabIndex = 4;
-            this.chkPublic.Text = "Public";
-            this.toolTip.SetToolTip(this.chkPublic, "Whether or not the server will appear on the server list.");
-            this.chkPublic.UseVisualStyleBackColor = true;
-            // 
-            // chkAutoload
-            // 
-            this.chkAutoload.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkAutoload.AutoSize = true;
-            this.chkAutoload.Location = new System.Drawing.Point(816, 343);
-            this.chkAutoload.Name = "chkAutoload";
-            this.chkAutoload.Size = new System.Drawing.Size(81, 23);
-            this.chkAutoload.TabIndex = 4;
-            this.chkAutoload.Text = "Load on /goto";
-            this.toolTip.SetToolTip(this.chkAutoload, "Load a map when a user wishes to go to it, and unload empty maps");
-            this.chkAutoload.UseVisualStyleBackColor = true;
-            // 
-            // chkWorld
-            // 
-            this.chkWorld.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkWorld.AutoSize = true;
-            this.chkWorld.Location = new System.Drawing.Point(694, 90);
-            this.chkWorld.Name = "chkWorld";
-            this.chkWorld.Size = new System.Drawing.Size(69, 23);
-            this.chkWorld.TabIndex = 4;
-            this.chkWorld.Text = "World chat";
-            this.toolTip.SetToolTip(this.chkWorld, "If disabled, every map has isolated chat.\nIf enabled, every map is able to commun" +
-        "icate without special letters.");
-            this.chkWorld.UseVisualStyleBackColor = true;
-            // 
-            // chkUpdates
-            // 
-            this.chkUpdates.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkUpdates.AutoSize = true;
-            this.chkUpdates.Location = new System.Drawing.Point(600, 294);
-            this.chkUpdates.Name = "chkUpdates";
-            this.chkUpdates.Size = new System.Drawing.Size(101, 23);
-            this.chkUpdates.TabIndex = 4;
-            this.chkUpdates.Text = "Check for updates";
-            this.chkUpdates.UseVisualStyleBackColor = true;
-            // 
-            // chkVerify
-            // 
-            this.chkVerify.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkVerify.AutoSize = true;
-            this.chkVerify.Location = new System.Drawing.Point(769, 90);
-            this.chkVerify.Name = "chkVerify";
-            this.chkVerify.Size = new System.Drawing.Size(78, 23);
-            this.chkVerify.TabIndex = 4;
-            this.chkVerify.Text = "Verify Names";
-            this.toolTip.SetToolTip(this.chkVerify, "Make sure the user is who they claim to be.");
-            this.chkVerify.UseVisualStyleBackColor = true;
-            // 
-            // label10
-            // 
-            this.label10.AutoSize = true;
-            this.label10.Location = new System.Drawing.Point(596, 178);
-            this.label10.Name = "label10";
-            this.label10.Size = new System.Drawing.Size(71, 13);
-            this.label10.TabIndex = 3;
-            this.label10.Text = "Default color:";
-            // 
-            // label27
-            // 
-            this.label27.AutoSize = true;
-            this.label27.Location = new System.Drawing.Point(770, 178);
-            this.label27.Name = "label27";
-            this.label27.Size = new System.Drawing.Size(63, 13);
-            this.label27.TabIndex = 3;
-            this.label27.Text = "Main name:";
-            // 
-            // label22
-            // 
-            this.label22.AutoSize = true;
-            this.label22.Location = new System.Drawing.Point(775, 151);
-            this.label22.Name = "label22";
-            this.label22.Size = new System.Drawing.Size(58, 13);
-            this.label22.TabIndex = 3;
-            this.label22.Text = "Max Maps:";
-            // 
-            // label21
-            // 
-            this.label21.AutoSize = true;
-            this.label21.Location = new System.Drawing.Point(766, 122);
-            this.label21.Name = "label21";
-            this.label21.Size = new System.Drawing.Size(67, 13);
-            this.label21.TabIndex = 3;
-            this.label21.Text = "Max Players:";
-            // 
-            // label30
-            // 
-            this.label30.AutoSize = true;
-            this.label30.Location = new System.Drawing.Point(587, 151);
-            this.label30.Name = "label30";
-            this.label30.Size = new System.Drawing.Size(95, 13);
-            this.label30.TabIndex = 3;
-            this.label30.Text = "Default host state:";
-            // 
-            // label3
-            // 
-            this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(586, 97);
-            this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(30, 13);
-            this.label3.TabIndex = 3;
-            this.label3.Text = "Port:";
-            // 
-            // txtDepth
-            // 
-            this.txtDepth.Location = new System.Drawing.Point(641, 236);
-            this.txtDepth.Name = "txtDepth";
-            this.txtDepth.Size = new System.Drawing.Size(41, 21);
-            this.txtDepth.TabIndex = 2;
-            this.toolTip.SetToolTip(this.txtDepth, "Depth which guests can dig.\nDefault = 4");
-            this.txtDepth.TextChanged += new System.EventHandler(this.txtDepth_TextChanged);
-            // 
-            // txtMain
-            // 
-            this.txtMain.Location = new System.Drawing.Point(839, 175);
-            this.txtMain.Name = "txtMain";
-            this.txtMain.Size = new System.Drawing.Size(60, 21);
-            this.txtMain.TabIndex = 2;
-            this.txtMain.TextChanged += new System.EventHandler(this.txtMaps_TextChanged);
-            // 
-            // txtMaps
-            // 
-            this.txtMaps.Location = new System.Drawing.Point(839, 148);
-            this.txtMaps.Name = "txtMaps";
-            this.txtMaps.Size = new System.Drawing.Size(60, 21);
-            this.txtMaps.TabIndex = 2;
-            this.toolTip.SetToolTip(this.txtMaps, "The total number of maps which can be loaded at once.\nDefault = 5");
-            this.txtMaps.TextChanged += new System.EventHandler(this.txtMaps_TextChanged);
-            // 
-            // txtPlayers
-            // 
-            this.txtPlayers.Location = new System.Drawing.Point(839, 119);
-            this.txtPlayers.Name = "txtPlayers";
-            this.txtPlayers.Size = new System.Drawing.Size(60, 21);
-            this.txtPlayers.TabIndex = 2;
-            this.toolTip.SetToolTip(this.txtPlayers, "The total number of players which can login.\nDefault = 12");
-            this.txtPlayers.TextChanged += new System.EventHandler(this.txtPlayers_TextChanged);
-            // 
-            // txtHost
-            // 
-            this.txtHost.Location = new System.Drawing.Point(688, 148);
-            this.txtHost.Name = "txtHost";
-            this.txtHost.Size = new System.Drawing.Size(75, 21);
-            this.txtHost.TabIndex = 2;
-            this.txtHost.TextChanged += new System.EventHandler(this.txtPort_TextChanged);
-            // 
-            // txtPort
-            // 
-            this.txtPort.Location = new System.Drawing.Point(622, 92);
-            this.txtPort.Name = "txtPort";
-            this.txtPort.Size = new System.Drawing.Size(60, 21);
-            this.txtPort.TabIndex = 2;
-            this.toolTip.SetToolTip(this.txtPort, "The port that the server will output on.\nDefault = 25565\n\nChanging will reset you" +
-        "r ExternalURL.");
-            this.txtPort.TextChanged += new System.EventHandler(this.txtPort_TextChanged);
-            // 
-            // label2
-            // 
-            this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(13, 36);
-            this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(38, 13);
-            this.label2.TabIndex = 1;
-            this.label2.Text = "MOTD:";
-            // 
-            // label1
-            // 
-            this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(13, 9);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(38, 13);
-            this.label1.TabIndex = 1;
-            this.label1.Text = "Name:";
-            // 
-            // txtMOTD
-            // 
-            this.txtMOTD.Location = new System.Drawing.Point(57, 33);
-            this.txtMOTD.Name = "txtMOTD";
-            this.txtMOTD.Size = new System.Drawing.Size(348, 21);
-            this.txtMOTD.TabIndex = 0;
-            this.toolTip.SetToolTip(this.txtMOTD, "The MOTD of the server.\nUse \"+hax\" to allow any WoM hack, \"-hax\" to disallow any " +
-        "hacks at support and use \"-fly\" and whatnot to disallow other things.");
-            // 
-            // txtName
-            // 
-            this.txtName.Location = new System.Drawing.Point(57, 6);
-            this.txtName.Name = "txtName";
-            this.txtName.Size = new System.Drawing.Size(348, 21);
-            this.txtName.TabIndex = 0;
-            this.toolTip.SetToolTip(this.txtName, "The name of the server.\nPick something good!");
-            // 
-            // ChkTunnels
-            // 
-            this.ChkTunnels.Appearance = System.Windows.Forms.Appearance.Button;
-            this.ChkTunnels.AutoSize = true;
-            this.ChkTunnels.Location = new System.Drawing.Point(600, 207);
-            this.ChkTunnels.Name = "ChkTunnels";
-            this.ChkTunnels.Size = new System.Drawing.Size(82, 23);
-            this.ChkTunnels.TabIndex = 4;
-            this.ChkTunnels.Text = "Anti tunneling";
-            this.toolTip.SetToolTip(this.ChkTunnels, "Should guests be limited to digging a certain depth?");
-            this.ChkTunnels.UseVisualStyleBackColor = true;
-            // 
-            // label7
-            // 
-            this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(597, 239);
-            this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(39, 13);
-            this.label7.TabIndex = 3;
-            this.label7.Text = "Depth:";
-            // 
             // btnSave
             // 
             this.btnSave.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
@@ -1543,7 +1698,7 @@
             // btnApply
             // 
             this.btnApply.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.btnApply.Location = new System.Drawing.Point(280, 447);
+            this.btnApply.Location = new System.Drawing.Point(340, 447);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
             this.btnApply.TabIndex = 1;
@@ -1561,87 +1716,149 @@
             this.toolTip.ToolTipTitle = "Information";
             this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip_Popup);
             // 
-            // tabPage7
+            // groupBox6
             // 
-            this.tabPage7.BackColor = System.Drawing.SystemColors.Control;
-            this.tabPage7.Location = new System.Drawing.Point(4, 22);
-            this.tabPage7.Name = "tabPage7";
-            this.tabPage7.Size = new System.Drawing.Size(411, 404);
-            this.tabPage7.TabIndex = 7;
-            this.tabPage7.Text = "Chat/Messages";
+            this.groupBox6.Controls.Add(this.label41);
+            this.groupBox6.Controls.Add(this.button3);
+            this.groupBox6.Controls.Add(this.chkUPNP);
+            this.groupBox6.Controls.Add(this.txtName);
+            this.groupBox6.Controls.Add(this.label2);
+            this.groupBox6.Controls.Add(this.txtMOTD);
+            this.groupBox6.Controls.Add(this.label3);
+            this.groupBox6.Controls.Add(this.label1);
+            this.groupBox6.Controls.Add(this.txtPort);
+            this.groupBox6.Location = new System.Drawing.Point(3, 3);
+            this.groupBox6.Name = "groupBox6";
+            this.groupBox6.Size = new System.Drawing.Size(403, 98);
+            this.groupBox6.TabIndex = 27;
+            this.groupBox6.TabStop = false;
+            this.groupBox6.Text = "General Information";
+            // 
+            // chkUPNP
+            // 
+            this.chkUPNP.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkUPNP.AutoSize = true;
+            this.chkUPNP.Location = new System.Drawing.Point(116, 66);
+            this.chkUPNP.Name = "chkUPNP";
+            this.chkUPNP.Size = new System.Drawing.Size(107, 23);
+            this.chkUPNP.TabIndex = 4;
+            this.chkUPNP.Text = "Forward with UPNP";
+            this.chkUPNP.UseVisualStyleBackColor = true;
+            // 
+            // button3
+            // 
+            this.button3.Enabled = false;
+            this.button3.Location = new System.Drawing.Point(239, 66);
+            this.button3.Name = "button3";
+            this.button3.Size = new System.Drawing.Size(75, 23);
+            this.button3.TabIndex = 5;
+            this.button3.Text = "Check Port";
+            this.button3.UseVisualStyleBackColor = true;
+            // 
+            // label41
+            // 
+            this.label41.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.label41.Enabled = false;
+            this.label41.Location = new System.Drawing.Point(320, 66);
+            this.label41.Name = "label41";
+            this.label41.Size = new System.Drawing.Size(77, 23);
+            this.label41.TabIndex = 6;
+            this.label41.Text = "Not Started";
+            this.label41.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
+            // 
+            // groupBox7
+            // 
+            this.groupBox7.Controls.Add(this.chkMaintKick);
+            this.groupBox7.Controls.Add(this.label33);
+            this.groupBox7.Controls.Add(this.cmbMaintenance);
+            this.groupBox7.Location = new System.Drawing.Point(3, 107);
+            this.groupBox7.Name = "groupBox7";
+            this.groupBox7.Size = new System.Drawing.Size(115, 92);
+            this.groupBox7.TabIndex = 28;
+            this.groupBox7.TabStop = false;
+            this.groupBox7.Text = "Maintenance Mode";
+            // 
+            // groupBox8
+            // 
+            this.groupBox8.Controls.Add(this.chkPremium);
+            this.groupBox8.Controls.Add(this.chkVerify);
+            this.groupBox8.Controls.Add(this.chkPublic);
+            this.groupBox8.Location = new System.Drawing.Point(124, 107);
+            this.groupBox8.Name = "groupBox8";
+            this.groupBox8.Size = new System.Drawing.Size(110, 110);
+            this.groupBox8.TabIndex = 29;
+            this.groupBox8.TabStop = false;
+            this.groupBox8.Text = "Security";
+            // 
+            // groupBox9
+            // 
+            this.groupBox9.Controls.Add(this.chkRestart);
+            this.groupBox9.Controls.Add(this.chkMono);
+            this.groupBox9.Controls.Add(this.chkLogBeat);
+            this.groupBox9.Controls.Add(this.chkUpdates);
+            this.groupBox9.Location = new System.Drawing.Point(240, 107);
+            this.groupBox9.Name = "groupBox9";
+            this.groupBox9.Size = new System.Drawing.Size(166, 139);
+            this.groupBox9.TabIndex = 25;
+            this.groupBox9.TabStop = false;
+            this.groupBox9.Text = "Misc.";
+            // 
+            // chkPremium
+            // 
+            this.chkPremium.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkPremium.AutoSize = true;
+            this.chkPremium.Location = new System.Drawing.Point(6, 78);
+            this.chkPremium.Name = "chkPremium";
+            this.chkPremium.Size = new System.Drawing.Size(83, 23);
+            this.chkPremium.TabIndex = 5;
+            this.chkPremium.Text = "Premium Only";
+            this.chkPremium.UseVisualStyleBackColor = true;
+            // 
+            // groupBox10
+            // 
+            this.groupBox10.Controls.Add(this.chkForceCuboid);
+            this.groupBox10.Controls.Add(this.chkPhysicsRest);
+            this.groupBox10.Controls.Add(this.txtRP);
+            this.groupBox10.Controls.Add(this.label24);
+            this.groupBox10.Controls.Add(this.label28);
+            this.groupBox10.Controls.Add(this.txtNormRp);
+            this.groupBox10.Location = new System.Drawing.Point(3, 238);
+            this.groupBox10.Name = "groupBox10";
+            this.groupBox10.Size = new System.Drawing.Size(405, 62);
+            this.groupBox10.TabIndex = 31;
+            this.groupBox10.TabStop = false;
+            this.groupBox10.Text = "Physics";
+            // 
+            // groupBox11
+            // 
+            this.groupBox11.Controls.Add(this.ChkTunnels);
+            this.groupBox11.Controls.Add(this.label7);
+            this.groupBox11.Controls.Add(this.txtDepth);
+            this.groupBox11.Location = new System.Drawing.Point(294, 39);
+            this.groupBox11.Name = "groupBox11";
+            this.groupBox11.Size = new System.Drawing.Size(114, 78);
+            this.groupBox11.TabIndex = 32;
+            this.groupBox11.TabStop = false;
+            this.groupBox11.Text = "Anti Tunneling";
+            // 
+            // groupBox12
+            // 
+            this.groupBox12.Location = new System.Drawing.Point(294, 123);
+            this.groupBox12.Name = "groupBox12";
+            this.groupBox12.Size = new System.Drawing.Size(114, 109);
+            this.groupBox12.TabIndex = 33;
+            this.groupBox12.TabStop = false;
+            this.groupBox12.Text = "Block Spam";
             // 
             // PropertyWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(910, 475);
-            this.Controls.Add(this.chkForceCuboid);
-            this.Controls.Add(this.chkRepeatMessages);
-            this.Controls.Add(this.chkDeath);
-            this.Controls.Add(this.chkPhysicsRest);
-            this.Controls.Add(this.txtShutdown);
-            this.Controls.Add(this.chkrankSuper);
-            this.Controls.Add(this.chkRestartTime);
-            this.Controls.Add(this.txtCheap);
-            this.Controls.Add(this.chkHelp);
-            this.Controls.Add(this.chkCheap);
-            this.Controls.Add(this.chk17Dollar);
-            this.Controls.Add(this.txtRestartTime);
-            this.Controls.Add(this.cmbAdminChat);
-            this.Controls.Add(this.txtBanMessage);
-            this.Controls.Add(this.chkSmile);
-            this.Controls.Add(this.chkBanMessage);
+            this.ClientSize = new System.Drawing.Size(420, 475);
             this.Controls.Add(this.btnApply);
-            this.Controls.Add(this.chkShutdown);
-            this.Controls.Add(this.label34);
-            this.Controls.Add(this.txtMoneys);
-            this.Controls.Add(this.label36);
             this.Controls.Add(this.btnDiscard);
-            this.Controls.Add(this.chkMaintKick);
             this.Controls.Add(this.btnSave);
-            this.Controls.Add(this.cmbMaintenance);
             this.Controls.Add(this.tabControl);
-            this.Controls.Add(this.label33);
-            this.Controls.Add(this.chkLogBeat);
-            this.Controls.Add(this.label32);
-            this.Controls.Add(this.cmbOpChat);
-            this.Controls.Add(this.label28);
-            this.Controls.Add(this.label24);
-            this.Controls.Add(this.lblOpChat);
-            this.Controls.Add(this.txtNormRp);
-            this.Controls.Add(this.txtRP);
-            this.Controls.Add(this.cmbDefaultRank);
-            this.Controls.Add(this.txtPort);
-            this.Controls.Add(this.label26);
-            this.Controls.Add(this.label29);
-            this.Controls.Add(this.label25);
-            this.Controls.Add(this.txtHost);
-            this.Controls.Add(this.txtAFKKick);
-            this.Controls.Add(this.chkMono);
-            this.Controls.Add(this.txtafk);
-            this.Controls.Add(this.lblDefault);
-            this.Controls.Add(this.label9);
-            this.Controls.Add(this.chkAutoload);
-            this.Controls.Add(this.txtBackup);
-            this.Controls.Add(this.txtPlayers);
-            this.Controls.Add(this.chkUpdates);
-            this.Controls.Add(this.txtBackupLocation);
-            this.Controls.Add(this.cmbDefaultColour);
-            this.Controls.Add(this.txtDepth);
-            this.Controls.Add(this.txtMaps);
-            this.Controls.Add(this.ChkTunnels);
-            this.Controls.Add(this.label7);
-            this.Controls.Add(this.txtMain);
-            this.Controls.Add(this.chkRestart);
-            this.Controls.Add(this.label3);
-            this.Controls.Add(this.chkPublic);
-            this.Controls.Add(this.label30);
-            this.Controls.Add(this.label21);
-            this.Controls.Add(this.chkWorld);
-            this.Controls.Add(this.label22);
-            this.Controls.Add(this.label27);
-            this.Controls.Add(this.chkVerify);
-            this.Controls.Add(this.label10);
             this.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.MaximizeBox = false;
@@ -1652,7 +1869,16 @@
             this.Disposed += new System.EventHandler(this.PropertyWindow_Unload);
             this.tabControl.ResumeLayout(false);
             this.tabPage1.ResumeLayout(false);
-            this.tabPage1.PerformLayout();
+            this.tabPage7.ResumeLayout(false);
+            this.tabPage7.PerformLayout();
+            this.groupBox2.ResumeLayout(false);
+            this.groupBox2.PerformLayout();
+            this.groupBox1.ResumeLayout(false);
+            this.groupBox1.PerformLayout();
+            this.tabPage4.ResumeLayout(false);
+            this.tabPage4.PerformLayout();
+            this.groupBox5.ResumeLayout(false);
+            this.groupBox5.PerformLayout();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             this.tabPage3.ResumeLayout(false);
@@ -1665,8 +1891,19 @@
             this.gbIRC.PerformLayout();
             this.gbGlobal.ResumeLayout(false);
             this.gbGlobal.PerformLayout();
+            this.groupBox6.ResumeLayout(false);
+            this.groupBox6.PerformLayout();
+            this.groupBox7.ResumeLayout(false);
+            this.groupBox7.PerformLayout();
+            this.groupBox8.ResumeLayout(false);
+            this.groupBox8.PerformLayout();
+            this.groupBox9.ResumeLayout(false);
+            this.groupBox9.PerformLayout();
+            this.groupBox10.ResumeLayout(false);
+            this.groupBox10.PerformLayout();
+            this.groupBox11.ResumeLayout(false);
+            this.groupBox11.PerformLayout();
             this.ResumeLayout(false);
-            this.PerformLayout();
 
         }
 
@@ -1811,5 +2048,23 @@
         private System.Windows.Forms.Label lblGlobalColor;
         private System.Windows.Forms.Label label38;
         private System.Windows.Forms.TabPage tabPage7;
+        private System.Windows.Forms.GroupBox groupBox1;
+        private System.Windows.Forms.GroupBox groupBox4;
+        private System.Windows.Forms.GroupBox groupBox3;
+        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox groupBox5;
+        private System.Windows.Forms.Label label39;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.GroupBox groupBox9;
+        private System.Windows.Forms.GroupBox groupBox8;
+        private System.Windows.Forms.CheckBox chkPremium;
+        private System.Windows.Forms.GroupBox groupBox7;
+        private System.Windows.Forms.GroupBox groupBox6;
+        private System.Windows.Forms.Label label41;
+        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.CheckBox chkUPNP;
+        private System.Windows.Forms.GroupBox groupBox12;
+        private System.Windows.Forms.GroupBox groupBox11;
+        private System.Windows.Forms.GroupBox groupBox10;
     }
 }

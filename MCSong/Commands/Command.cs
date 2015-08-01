@@ -27,17 +27,48 @@ namespace MCSong
 
     public abstract class Command
     {
+        /// <summary>
+        /// The name of the command (what comes after the '/')
+        /// </summary>
         public abstract string name { get; }
+        /// <summary>
+        /// The command's aliases or shortcuts
+        /// </summary>
         public abstract string[] aliases { get; }
+        /// <summary>
+        /// The command's type; Determines which /help submenu to display it under
+        /// </summary>
         public abstract CommandType type { get; }
+        /// <summary>
+        /// Whether the command can be used in museums
+        /// Block-altering commands should be set to false
+        /// </summary>
         public abstract bool museumUsable { get; }
+        /// <summary>
+        /// Whether this command can safely be used by the console
+        /// </summary>
         public abstract bool consoleUsable { get; }
+        /// <summary>
+        /// The default permission required to use the command
+        /// </summary>
         public abstract LevelPermission defaultRank { get; }
+        /// <summary>
+        /// What happens when the command is used
+        /// </summary>
+        /// <param name="p">The player using the command (null = console)</param>
+        /// <param name="message">The command message (everything after "/command ")</param>
         public abstract void Use(Player p, string message);
+        /// <summary>
+        /// What to display under /help for this command
+        /// </summary>
+        /// <param name="p">The player who used /help</param>
         public abstract void Help(Player p);
 
         public static CommandList all = new CommandList();
         public static CommandList core = new CommandList();
+        /// <summary>
+        /// Adds core (built-in) commands to the command list
+        /// </summary>
         public static void InitAll()
         {
             // Development Commands - DO NOT USE

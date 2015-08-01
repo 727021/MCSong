@@ -71,6 +71,9 @@ namespace MCSong
                             case "public":
                                 Server.pub = (value.ToLower() == "true") ? true : false;
                                 break;
+                            case "premium-only":
+                                Server.premium = (value.ToLower() == "true");
+                                break;
                             case "world-chat":
                                 Server.worldChat = (value.ToLower() == "true") ? true : false;
                                 break;
@@ -473,6 +476,7 @@ namespace MCSong
                     w.WriteLine("upnp = " + Server.upnp.ToString());
                     w.WriteLine("verify-names = " + Server.verify.ToString().ToLower());
                     w.WriteLine("public = " + Server.pub.ToString().ToLower());
+                    w.WriteLine("premium-only = " + Server.premium.ToString().ToLower());
                     w.WriteLine("max-players = " + Server.players.ToString());
                     w.WriteLine("max-maps = " + Server.maps.ToString());
                     w.WriteLine("world-chat = " + Server.worldChat.ToString().ToLower());

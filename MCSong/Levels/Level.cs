@@ -138,6 +138,9 @@ namespace MCSong
         public HackControl hacks = new HackControl();
 
         public ushort[,] shadows;
+        /// <summary>
+        /// Used for the GUI map viewer
+        /// </summary>
         public void CalculateShadows()
         {
             try
@@ -326,6 +329,13 @@ namespace MCSong
             tempCache.Clear();
         }
 
+        /// <summary>
+        /// Finds a block in a level
+        /// </summary>
+        /// <param name="x">The x coordinate to look at</param>
+        /// <param name="y">The y coordinate to look at</param>
+        /// <param name="z">The z coordinate to look at</param>
+        /// <returns>(byte) The ID of the found block</returns>
         public byte GetTile(ushort x, ushort y, ushort z)
         {
             //if (PosToInt(x, y, z) >= blocks.Length) { return null; }
