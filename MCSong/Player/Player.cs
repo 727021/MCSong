@@ -612,7 +612,7 @@ namespace MCSong
                     }
                 }
 
-                if (ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower()) && new WebClient().DownloadString("https://minecraft.net/haspaid.jsp?user=" + name).Trim().ToLower() == "false")
+                if (Server.premium && ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower()) && new WebClient().DownloadString("https://minecraft.net/haspaid.jsp?user=" + name).Trim().ToLower() == "false")
                 {
                     Kick("Premium (paid) account required!");
                 }
