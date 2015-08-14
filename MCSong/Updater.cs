@@ -41,6 +41,22 @@ namespace MCSong
                     }
                 }
             }
+            Save(givenPath);
+        }
+
+        public static void Save(string givenPath)
+        {
+            try
+            {
+                StreamWriter w = new StreamWriter(File.Create(givenPath));
+                w.WriteLine("autoupdate = " + Server.autoupdate.ToString());
+                w.WriteLine("notify = " + Server.autonotify.ToString());
+                w.WriteLine("restartcountdown = " + Server.restartcountdown.ToString());
+                w.Flush();
+                w.Close();
+                w.Dispose();
+            }
+            catch { Server.s.Log("SAVE FAILED! " + givenPath); }
         }
     }
 }

@@ -21,8 +21,11 @@ namespace MCSong.Gui
         }
         private void UpdateWindow_Load(object sender, EventArgs e)
         {
-            this.Icon = new Icon(System.Reflection.Assembly.GetExecutingAssembly().GetManifestResourceStream("MCSong.Lawl.ico"));
-            UpdLoadProp("properties/update.properties");
+            Updater.Load("properties/updater.properties");
+            chkAutoUpdateRO.Checked = Server.autoupdate;
+            chkNotifyRO.Checked = Server.autonotify;
+            txtCountdownRO.Text = Server.restartcountdown;
+
             try
             {
                 WebClient client = new WebClient();
@@ -46,6 +49,14 @@ namespace MCSong.Gui
             {
                 MessageBox.Show("Could not load versions", "Error", MessageBoxButtons.AbortRetryIgnore, MessageBoxIcon.Error);
             }
+            try
+            {
+                txtCurrentVersion.Text = Server.Version;
+                txtLatestVersion.Text = new WebClient().DownloadString("http://updates.mcsong.x10.mx/curversion.txt");
+                txtCurrentVersion.BackColor = (txtCurrentVersion.Text == txtLatestVersion.Text) ? Color.Green : Color.Red;
+                txtCurrentVersion.Update();
+            }
+            catch { }
         }
 
         private void UpdateWindow_Unload(object sender, EventArgs e)
@@ -53,82 +64,9 @@ namespace MCSong.Gui
             Window.updLoaded = false;
         }
 
-
-        public void UpdSave(string givenPath)
-        {
-            StreamWriter SW = new StreamWriter(File.Create(givenPath));
-            SW.WriteLine("#This file manages the update process");
-            SW.WriteLine("#Toggle AutoUpdate to true for the server to automatically update");
-            SW.WriteLine("#Notify notifies players in-game of impending restart");
-            SW.WriteLine("#Restart Countdown is how long in seconds the server will count before restarting and updating");
-            SW.WriteLine();
-            SW.WriteLine("autoupdate= " + chkAutoUpdate.Checked.ToString());
-            SW.WriteLine("notify = " + chkNotify.Checked.ToString());
-            SW.WriteLine("restartcountdown = " + txtCountdown.Text);
-            SW.Flush();
-            SW.Close();
-            SW.Dispose();
-            this.Close();
-        }
-
-
-        public void UpdLoadProp(string givenPath)
-        {
-            if (File.Exists(givenPath))
-            {
-                string[] lines = File.ReadAllLines(givenPath);
-
-                foreach (string line in lines)
-                {
-                    if (line != "" && line[0] != '#')
-                    {
-                        //int index = line.IndexOf('=') + 1; // not needed if we use Split('=')
-                        string key = line.Split('=')[0].Trim();
-                        string value = line.Split('=')[1].Trim();
-
-                        switch (key.ToLower())
-                        {
-                            case "autoupdate":
-                                chkAutoUpdate.Checked = (value.ToLower() == "true") ? true : false;
-                                break;
-                            case "notify":
-                                chkNotify.Checked = (value.ToLower() == "true") ? true : false;
-                                break;
-                            case "restartcountdown":
-                                txtCountdown.Text = value;
-                                break;
-                        }
-                    }
-                }
-                //Save(givenPath);
-            }
-            //else Save(givenPath);
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            string chkNum = txtCountdown.Text.Trim();
-            double Num;
-            bool isNum = double.TryParse(chkNum, out Num);
-            if (!isNum || txtCountdown.Text == "")
-            {
-                MessageBox.Show("You must enter a number for the countdown");
-            }
-            else
-            {
-                UpdSave("properties/update.properties");
-                Server.autoupdate = chkAutoUpdate.Checked;
-            }
-        }
-
-        private void cmdDiscard_Click(object sender, EventArgs e)
-        {
-            UpdLoadProp("properties/update.properties");
-            this.Close();
-        }
-
         private void cmdUpdate_Click(object sender, EventArgs e)
         {
+            btnEdit.Enabled = false;
             if (Server.selectedrevision != "")
             {
                 MCSong_.Gui.Program.PerformUpdate(true);
@@ -150,8 +88,14 @@ namespace MCSong.Gui
         private void listRevisions_SelectedValueChanged(object sender, EventArgs e)
         {
             Server.selectedrevision = listRevisions.SelectedItem.ToString();
-            
         }
 
+        private void btnEdit_Click(object sender, EventArgs e)
+        {
+            new UpdatePropertiesDialog().ShowDialog();
+            chkAutoUpdateRO.Checked = Server.autoupdate;
+            chkNotifyRO.Checked = Server.autonotify;
+            txtCountdownRO.Text = Server.restartcountdown;
+        }
     }
 }

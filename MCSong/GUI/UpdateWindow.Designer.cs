@@ -28,108 +28,76 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.groupBox1 = new System.Windows.Forms.GroupBox();
-            this.txtCountdown = new System.Windows.Forms.TextBox();
-            this.cmdDiscard = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.label1 = new System.Windows.Forms.Label();
-            this.chkNotify = new System.Windows.Forms.CheckBox();
-            this.chkAutoUpdate = new System.Windows.Forms.CheckBox();
-            this.groupBox2 = new System.Windows.Forms.GroupBox();
+            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(UpdateWindow));
+            this.grpVersions = new System.Windows.Forms.GroupBox();
+            this.txtCurrentVersion = new System.Windows.Forms.TextBox();
+            this.label4 = new System.Windows.Forms.Label();
+            this.txtLatestVersion = new System.Windows.Forms.TextBox();
+            this.label3 = new System.Windows.Forms.Label();
             this.cmdUpdate = new System.Windows.Forms.Button();
             this.listRevisions = new System.Windows.Forms.ListBox();
-            this.groupBox1.SuspendLayout();
-            this.groupBox2.SuspendLayout();
+            this.grpReadOnly = new System.Windows.Forms.GroupBox();
+            this.txtCountdownRO = new System.Windows.Forms.TextBox();
+            this.chkAutoUpdateRO = new System.Windows.Forms.CheckBox();
+            this.btnEdit = new System.Windows.Forms.Button();
+            this.chkNotifyRO = new System.Windows.Forms.CheckBox();
+            this.label2 = new System.Windows.Forms.Label();
+            this.grpVersions.SuspendLayout();
+            this.grpReadOnly.SuspendLayout();
             this.SuspendLayout();
             // 
-            // groupBox1
+            // grpVersions
             // 
-            this.groupBox1.Controls.Add(this.txtCountdown);
-            this.groupBox1.Controls.Add(this.chkAutoUpdate);
-            this.groupBox1.Controls.Add(this.cmdDiscard);
-            this.groupBox1.Controls.Add(this.chkNotify);
-            this.groupBox1.Controls.Add(this.button1);
-            this.groupBox1.Controls.Add(this.label1);
-            this.groupBox1.Location = new System.Drawing.Point(8, 186);
-            this.groupBox1.Name = "groupBox1";
-            this.groupBox1.Size = new System.Drawing.Size(209, 120);
-            this.groupBox1.TabIndex = 1;
-            this.groupBox1.TabStop = false;
-            this.groupBox1.Text = "Updater Properties";
+            this.grpVersions.Controls.Add(this.txtCurrentVersion);
+            this.grpVersions.Controls.Add(this.label4);
+            this.grpVersions.Controls.Add(this.txtLatestVersion);
+            this.grpVersions.Controls.Add(this.label3);
+            this.grpVersions.Controls.Add(this.cmdUpdate);
+            this.grpVersions.Controls.Add(this.listRevisions);
+            this.grpVersions.Location = new System.Drawing.Point(3, 3);
+            this.grpVersions.Name = "grpVersions";
+            this.grpVersions.Size = new System.Drawing.Size(209, 177);
+            this.grpVersions.TabIndex = 2;
+            this.grpVersions.TabStop = false;
             // 
-            // txtCountdown
+            // txtCurrentVersion
             // 
-            this.txtCountdown.Location = new System.Drawing.Point(164, 60);
-            this.txtCountdown.Name = "txtCountdown";
-            this.txtCountdown.Size = new System.Drawing.Size(42, 20);
-            this.txtCountdown.TabIndex = 4;
+            this.txtCurrentVersion.Location = new System.Drawing.Point(111, 97);
+            this.txtCurrentVersion.Name = "txtCurrentVersion";
+            this.txtCurrentVersion.ReadOnly = true;
+            this.txtCurrentVersion.Size = new System.Drawing.Size(74, 20);
+            this.txtCurrentVersion.TabIndex = 6;
             // 
-            // cmdDiscard
+            // label4
             // 
-            this.cmdDiscard.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmdDiscard.Location = new System.Drawing.Point(111, 90);
-            this.cmdDiscard.Name = "cmdDiscard";
-            this.cmdDiscard.Size = new System.Drawing.Size(59, 23);
-            this.cmdDiscard.TabIndex = 2;
-            this.cmdDiscard.Text = "Discard";
-            this.cmdDiscard.UseVisualStyleBackColor = true;
+            this.label4.AutoSize = true;
+            this.label4.Location = new System.Drawing.Point(108, 81);
+            this.label4.Name = "label4";
+            this.label4.Size = new System.Drawing.Size(82, 13);
+            this.label4.TabIndex = 7;
+            this.label4.Text = "Current Version:";
             // 
-            // button1
+            // txtLatestVersion
             // 
-            this.button1.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.button1.Location = new System.Drawing.Point(31, 90);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(59, 23);
-            this.button1.TabIndex = 3;
-            this.button1.Text = "Save";
-            this.button1.UseVisualStyleBackColor = true;
+            this.txtLatestVersion.Location = new System.Drawing.Point(111, 47);
+            this.txtLatestVersion.Name = "txtLatestVersion";
+            this.txtLatestVersion.ReadOnly = true;
+            this.txtLatestVersion.Size = new System.Drawing.Size(74, 20);
+            this.txtLatestVersion.TabIndex = 5;
             // 
-            // label1
+            // label3
             // 
-            this.label1.AutoSize = true;
-            this.label1.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.label1.Location = new System.Drawing.Point(5, 64);
-            this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(158, 13);
-            this.label1.TabIndex = 3;
-            this.label1.Text = "Time (in seconds) to countdown:";
-            // 
-            // chkNotify
-            // 
-            this.chkNotify.AutoSize = true;
-            this.chkNotify.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkNotify.Location = new System.Drawing.Point(31, 38);
-            this.chkNotify.Name = "chkNotify";
-            this.chkNotify.Size = new System.Drawing.Size(139, 17);
-            this.chkNotify.TabIndex = 2;
-            this.chkNotify.Text = "Notify in-game of restart";
-            this.chkNotify.UseVisualStyleBackColor = true;
-            // 
-            // chkAutoUpdate
-            // 
-            this.chkAutoUpdate.AutoSize = true;
-            this.chkAutoUpdate.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.chkAutoUpdate.Location = new System.Drawing.Point(31, 19);
-            this.chkAutoUpdate.Name = "chkAutoUpdate";
-            this.chkAutoUpdate.Size = new System.Drawing.Size(133, 17);
-            this.chkAutoUpdate.TabIndex = 1;
-            this.chkAutoUpdate.Text = "Auto update to newest";
-            this.chkAutoUpdate.UseVisualStyleBackColor = true;
-            // 
-            // groupBox2
-            // 
-            this.groupBox2.Controls.Add(this.cmdUpdate);
-            this.groupBox2.Controls.Add(this.listRevisions);
-            this.groupBox2.Location = new System.Drawing.Point(8, 3);
-            this.groupBox2.Name = "groupBox2";
-            this.groupBox2.Size = new System.Drawing.Size(209, 177);
-            this.groupBox2.TabIndex = 2;
-            this.groupBox2.TabStop = false;
+            this.label3.AutoSize = true;
+            this.label3.Location = new System.Drawing.Point(108, 31);
+            this.label3.Name = "label3";
+            this.label3.Size = new System.Drawing.Size(77, 13);
+            this.label3.TabIndex = 5;
+            this.label3.Text = "Latest Version:";
             // 
             // cmdUpdate
             // 
             this.cmdUpdate.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
-            this.cmdUpdate.Location = new System.Drawing.Point(64, 148);
+            this.cmdUpdate.Location = new System.Drawing.Point(9, 148);
             this.cmdUpdate.Name = "cmdUpdate";
             this.cmdUpdate.Size = new System.Drawing.Size(82, 23);
             this.cmdUpdate.TabIndex = 4;
@@ -140,43 +108,114 @@
             // 
             this.listRevisions.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
             this.listRevisions.FormattingEnabled = true;
-            this.listRevisions.Location = new System.Drawing.Point(64, 19);
+            this.listRevisions.Location = new System.Drawing.Point(9, 19);
             this.listRevisions.Name = "listRevisions";
             this.listRevisions.Size = new System.Drawing.Size(82, 121);
             this.listRevisions.TabIndex = 3;
+            // 
+            // grpReadOnly
+            // 
+            this.grpReadOnly.Controls.Add(this.txtCountdownRO);
+            this.grpReadOnly.Controls.Add(this.chkAutoUpdateRO);
+            this.grpReadOnly.Controls.Add(this.btnEdit);
+            this.grpReadOnly.Controls.Add(this.chkNotifyRO);
+            this.grpReadOnly.Controls.Add(this.label2);
+            this.grpReadOnly.Location = new System.Drawing.Point(3, 186);
+            this.grpReadOnly.Name = "grpReadOnly";
+            this.grpReadOnly.Size = new System.Drawing.Size(209, 120);
+            this.grpReadOnly.TabIndex = 5;
+            this.grpReadOnly.TabStop = false;
+            this.grpReadOnly.Text = "Updater Properties";
+            // 
+            // txtCountdownRO
+            // 
+            this.txtCountdownRO.Location = new System.Drawing.Point(164, 60);
+            this.txtCountdownRO.Name = "txtCountdownRO";
+            this.txtCountdownRO.ReadOnly = true;
+            this.txtCountdownRO.Size = new System.Drawing.Size(42, 20);
+            this.txtCountdownRO.TabIndex = 4;
+            // 
+            // chkAutoUpdateRO
+            // 
+            this.chkAutoUpdateRO.AutoCheck = false;
+            this.chkAutoUpdateRO.AutoSize = true;
+            this.chkAutoUpdateRO.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkAutoUpdateRO.Location = new System.Drawing.Point(31, 19);
+            this.chkAutoUpdateRO.Name = "chkAutoUpdateRO";
+            this.chkAutoUpdateRO.Size = new System.Drawing.Size(133, 17);
+            this.chkAutoUpdateRO.TabIndex = 1;
+            this.chkAutoUpdateRO.Text = "Auto update to newest";
+            this.chkAutoUpdateRO.UseVisualStyleBackColor = true;
+            // 
+            // btnEdit
+            // 
+            this.btnEdit.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.btnEdit.Location = new System.Drawing.Point(72, 89);
+            this.btnEdit.Name = "btnEdit";
+            this.btnEdit.Size = new System.Drawing.Size(59, 23);
+            this.btnEdit.TabIndex = 2;
+            this.btnEdit.Text = "Edit";
+            this.btnEdit.UseVisualStyleBackColor = true;
+            this.btnEdit.Click += new System.EventHandler(this.btnEdit_Click);
+            // 
+            // chkNotifyRO
+            // 
+            this.chkNotifyRO.AutoCheck = false;
+            this.chkNotifyRO.AutoSize = true;
+            this.chkNotifyRO.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.chkNotifyRO.Location = new System.Drawing.Point(31, 38);
+            this.chkNotifyRO.Name = "chkNotifyRO";
+            this.chkNotifyRO.Size = new System.Drawing.Size(139, 17);
+            this.chkNotifyRO.TabIndex = 2;
+            this.chkNotifyRO.Text = "Notify in-game of restart";
+            this.chkNotifyRO.UseVisualStyleBackColor = true;
+            // 
+            // label2
+            // 
+            this.label2.AutoSize = true;
+            this.label2.Font = new System.Drawing.Font("Calibri", 8.25F, System.Drawing.FontStyle.Regular, System.Drawing.GraphicsUnit.Point, ((byte)(0)));
+            this.label2.Location = new System.Drawing.Point(5, 64);
+            this.label2.Name = "label2";
+            this.label2.Size = new System.Drawing.Size(158, 13);
+            this.label2.TabIndex = 3;
+            this.label2.Text = "Time (in seconds) to countdown:";
             // 
             // UpdateWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(223, 318);
-            this.Controls.Add(this.groupBox2);
-            this.Controls.Add(this.groupBox1);
+            this.ClientSize = new System.Drawing.Size(214, 309);
+            this.Controls.Add(this.grpReadOnly);
+            this.Controls.Add(this.grpVersions);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "UpdateWindow";
             this.Text = "MCSong Updater";
             this.Load += new System.EventHandler(this.UpdateWindow_Load);
             this.Disposed += new System.EventHandler(this.UpdateWindow_Unload);
-            this.groupBox1.ResumeLayout(false);
-            this.groupBox1.PerformLayout();
-            this.groupBox2.ResumeLayout(false);
+            this.grpVersions.ResumeLayout(false);
+            this.grpVersions.PerformLayout();
+            this.grpReadOnly.ResumeLayout(false);
+            this.grpReadOnly.PerformLayout();
             this.ResumeLayout(false);
 
         }
 
         #endregion
-
-        private System.Windows.Forms.GroupBox groupBox1;
-        private System.Windows.Forms.TextBox txtCountdown;
-        private System.Windows.Forms.CheckBox chkAutoUpdate;
-        private System.Windows.Forms.Button cmdDiscard;
-        private System.Windows.Forms.CheckBox chkNotify;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Label label1;
-        private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.GroupBox grpVersions;
         private System.Windows.Forms.Button cmdUpdate;
         private System.Windows.Forms.ListBox listRevisions;
-
+        private System.Windows.Forms.GroupBox grpReadOnly;
+        private System.Windows.Forms.TextBox txtCountdownRO;
+        private System.Windows.Forms.CheckBox chkAutoUpdateRO;
+        private System.Windows.Forms.Button btnEdit;
+        private System.Windows.Forms.CheckBox chkNotifyRO;
+        private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.TextBox txtCurrentVersion;
+        private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.TextBox txtLatestVersion;
+        private System.Windows.Forms.Label label3;
     }
 }

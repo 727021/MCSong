@@ -327,6 +327,12 @@
     <Compile Include="GUI\RenameLevelDialog.Designer.cs">
       <DependentUpon>RenameLevelDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\UpdatePropertiesDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\UpdatePropertiesDialog.Designer.cs">
+      <DependentUpon>UpdatePropertiesDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\UpdateWindow.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -389,6 +395,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\RenameLevelDialog.resx">
       <DependentUpon>RenameLevelDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\UpdatePropertiesDialog.resx">
+      <DependentUpon>UpdatePropertiesDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\UpdateWindow.resx">
       <DependentUpon>UpdateWindow.cs</DependentUpon>
