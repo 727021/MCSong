@@ -103,9 +103,9 @@ namespace MCSong
         public static DateTime timeOnline;
 
         //auto updater stuff
-        public static bool autoupdate;
-        public static bool autonotify;
-        public static string restartcountdown = "";
+        public static bool autoupdate = false;
+        public static bool autonotify = true;
+        public static string restartcountdown = "30";
         public static string selectedrevision = "";
         public static bool autorestart;
         public static DateTime restarttime;
@@ -545,7 +545,7 @@ namespace MCSong
             // END Heartbeat code
 
             
-            /*Thread processThread = new Thread(new ThreadStart(delegate
+            Thread processThread = new Thread(new ThreadStart(delegate
             {
                 try
                 {
@@ -559,7 +559,7 @@ namespace MCSong
                 }
                 catch { }
             }));
-            processThread.Start();*/
+            processThread.Start();
             
 
             ml.Queue(delegate
