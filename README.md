@@ -1,7 +1,15 @@
-MCSong
+![MCSong](http://mcsong.x10.mx/forums/images/songlogo.png)
 =============
 
-MCSong is a server software for Minecraft Classic written in C# and semi-actively developed by [727021](https://github.com/727021). It is based on [MCLawl](http://minecraft.gamepedia.net/Custom_Servers/MCLawl) by Zallist, Lawlcat, and Valek.
+  MCSong is a server software for the once-popular "classic" version of Minecraft. It is one of many softwares based on [MCLawl](https://github.com/727021/MCLawl), which was originally made by Lawlcat, Zallist, and Valek.
+
+  MCSong was started in June 2012, then scrapped and restarted, after a long period of inactivity, in November 2014. MCSong now features support for [Classic Protocol Extension](http://wiki.vg/CPE), which adds exciting new features to the game, and development is still going.
+
+---
+
+Website: http://mcsong.x10.mx
+
+Forums: http://mcsong.x10.mx/forums/
 
 ---
 
