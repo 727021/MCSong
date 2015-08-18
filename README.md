@@ -13,4 +13,4 @@ Forums: http://mcsong.x10.mx/forums/
 
 ---
 
-MCSong is licensed under the ECL-2.0 License, which can be found in the [LICENSE.md](https://github.com/727021/MCSong/edit/master/LICENSE.md) file, or at [http://opensource.org/licenses/ECL-2.0](http://opensource.org/licenses/ECL-2.0 "ECL-2.0 License").
+MCSong is licensed under the ECL-2.0 License, which can be found in the [LICENSE.md](https://github.com/727021/MCSong/blob/master/LICENSE.md) file, or at [http://opensource.org/licenses/ECL-2.0](http://opensource.org/licenses/ECL-2.0 "ECL-2.0 License").
