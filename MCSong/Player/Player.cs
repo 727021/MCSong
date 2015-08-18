@@ -25,6 +25,17 @@ using System.Data;
 
 namespace MCSong
 {
+    public enum MessageType
+    {
+        CHAT = 0,
+        STATUS_TOP = 1,
+        STATUS_MIDDLE = 2,
+        STATUS_BOTTOM = 3,
+        BOTTOM_BOTTOM = 11,
+        BOTTOM_MIDDLE = 12,
+        BOTTOM_TOP = 13,
+        ANNOUNCEMENT = 100
+    }
 
     public sealed partial class Player
     {
@@ -148,6 +159,42 @@ namespace MCSong
         public byte CustomBlockSupportLevel = 0;
 
         public short clickDistance = 160;
+
+        public string status1 = "clear";
+        public string status1c = "";
+        public string status2 = "clear";
+        public string status2c = "";
+        public string status3 = "clear";
+        public string status3c = "";
+        public void UpdateStatusMessages()
+        {
+            string message = "";
+            switch (status1.ToLower())
+            {
+                case "clear":
+                    message = "";
+                    break;
+                case "custom":
+                    message = status1c;
+                    break;
+                case "compass":
+                    message = "[" + Compass(rot[0] / (int)(255 / (compass.Length - 1))) + "]";
+                    break;
+            }
+            SendMessage(this, message, MessageType.STATUS_TOP);
+        }
+        private string compass = " -NW- | -N- | -NE- | -E- | -SE- | -S- | -SW- | -W- |";
+        public string Compass(int start)
+        {
+            int l = 19; //Length of substring
+            if (start + l > compass.Length)
+            {
+                string sub = compass.Substring(start, compass.Length - start);
+                sub += compass.Substring(0, l - (compass.Length - start));
+                return sub;
+            }
+            return compass.Substring(start, l);
+        }
 
         //Copy
         public List<CopyPos> CopyBuffer = new List<CopyPos>();
@@ -564,7 +611,7 @@ namespace MCSong
                     {
                         // [TODO] KILL THIS SQL (convert to flatfile)
                         // Verify Names is off.  Gotta check the hard way.
-                        DataTable ipQuery = MySQL.fillData("SELECT Name FROM Players WHERE IP = '" + ip + "'");
+                        /*DataTable ipQuery = MySQL.fillData("SELECT Name FROM Players WHERE IP = '" + ip + "'");
 
                         if (ipQuery.Rows.Count > 0)
                         {
@@ -573,7 +620,7 @@ namespace MCSong
                                 onWhitelist = true;
                             }
                         }
-                        ipQuery.Dispose();
+                        ipQuery.Dispose();*/
                     }
                 }
 
@@ -620,7 +667,11 @@ namespace MCSong
                 if (Player.players.Count >= Server.players && ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower())) { Kick("Server full!"); return; }
                 if (version != Server.version) { Kick("Wrong version!"); return; }
                 if (name.Length > 16 || !ValidName(name)) { Kick("Illegal name!"); return; }
-
+                int guests = 0;
+                foreach (Player p in players)
+                    if (p.group.Permission == LevelPermission.Guest)
+                        guests++;
+                if (Server.guests > 0 && group.Permission == LevelPermission.Guest && guests >= Server.guests && ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower())) { Kick("Too mmany guests!"); return; }
                 if (Server.verify)
                 {
                     if (verify == "--" || verify != 
@@ -843,7 +894,7 @@ namespace MCSong
         {
             string extName = enc.GetString(message, 0, 64).Trim();
             int extVersion = NTHOint(message, 64);//CHECK
-            Extension e = Server.cpe.Find(extName);
+            Extension e = Extension.all.Find(extName);
 
             Server.s.Debug("Packet Received(17): " + extName + " " + extVersion);
 
@@ -1111,7 +1162,7 @@ namespace MCSong
         {
             try
             {
-                DataTable Messages = MySQL.fillData("SELECT * FROM `Messages" + level.name + "` WHERE X=" + (int)x + " AND Y=" + (int)y + " AND Z=" + (int)z);
+                /*DataTable Messages = MySQL.fillData("SELECT * FROM `Messages" + level.name + "` WHERE X=" + (int)x + " AND Y=" + (int)y + " AND Z=" + (int)z);
 
                 int LastMsg = Messages.Rows.Count - 1;
                 if (LastMsg > -1)
@@ -1128,7 +1179,15 @@ namespace MCSong
                 {
                     Blockchange(this, x, y, z, (byte)0);
                 }
-                Messages.Dispose();
+                Messages.Dispose();*/
+                Level.MessageBlock mb = level.getMB(x, y, z);
+                string msg = mb.message;
+                MessageType t = (MessageType)mb.type;
+                if (!p.extensions.Contains(Extension.MessageTypes))
+                    t = MessageType.CHAT;
+                Player.SendMessage(p, msg, t);
+                if (Server.repeatMessage) SendBlockchange(x, y, z, b);
+                else Blockchange(this, x, y, z, 0);
             }
             catch { Player.SendMessage(p, "No message was stored."); return; }
         }
@@ -1892,7 +1951,9 @@ namespace MCSong
             }
         }
 
-        public static void SendMessage(Player p, string message)
+        
+
+        public static void SendMessage(Player p, string message, MessageType type = MessageType.CHAT)
         {
             if (p == null) {
 
@@ -1909,25 +1970,25 @@ namespace MCSong
                 }
                 return; 
             }
-            p.SendMessage(p.id, Server.DefaultColor + message);
+            p.SendMessage((byte)type, Server.DefaultColor + message);
         }
-        public void SendMessage(string message)
+        public void SendMessage(string message, MessageType type = MessageType.CHAT)
         {
             if (this == null) { Server.s.Log(message); return; }
-            unchecked { SendMessage(this.id, Server.DefaultColor + message); }
+            unchecked { SendMessage((byte)type, Server.DefaultColor + message); }
         }
         public void SendChat(Player p, string message)
         {
             if (this == null) { Server.s.Log(message); return; }
             Player.SendMessage(p, message);
         }
-        public void SendMessage(byte id, string message)
+        public void SendMessage(byte type, string message)
         {
             if (this == null) { Server.s.Log(message); return; }
             if (ZoneSpam.AddSeconds(2) > DateTime.Now && message.Contains("This zone belongs to ")) return;
 
             byte[] buffer = new byte[65];
-            unchecked { buffer[0] = id; }
+            unchecked { buffer[0] = (extensions.Contains(Extension.MessageTypes)) ? type : (byte)0; }
 
             for (int i = 0; i < 10; i++)
             {

@@ -121,6 +121,20 @@ namespace MCSong
         public struct Zone { public ushort smallX, smallY, smallZ, bigX, bigY, bigZ; public string Owner; }
         public List<Zone> ZoneList;
 
+        public struct MessageBlock { public ushort X, Y, Z; public int type; public string message; }
+        public List<MessageBlock> MBList;
+        public MessageBlock getMB(ushort x, ushort y, ushort z)
+        {
+            foreach (MessageBlock m in MBList)
+            {
+                if (m.X == x && m.Y == y && m.Z == z)
+                {
+                    return m;
+                }
+            }
+            return new MessageBlock() { type = -1 };
+        }
+
         List<Check> ListCheck = new List<Check>();  //A list of blocks that need to be updated
         List<Update> ListUpdate = new List<Update>();  //A list of block to change after calculation
 
@@ -760,7 +774,8 @@ namespace MCSong
 
             MySQL.executeQuery("CREATE TABLE if not exists `Block" + givenName + "` (Username CHAR(20), TimePerformed DATETIME, X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Type TINYINT UNSIGNED, Deleted BOOL)");
             MySQL.executeQuery("CREATE TABLE if not exists `Portals" + givenName + "` (EntryX SMALLINT UNSIGNED, EntryY SMALLINT UNSIGNED, EntryZ SMALLINT UNSIGNED, ExitMap CHAR(20), ExitX SMALLINT UNSIGNED, ExitY SMALLINT UNSIGNED, ExitZ SMALLINT UNSIGNED)");
-            MySQL.executeQuery("CREATE TABLE if not exists `Messages" + givenName + "` (X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Message CHAR(255));");
+            //MySQL.executeQuery("CREATE TABLE if not exists `Messages" + givenName + "` (X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Message CHAR(255));");
+
             MySQL.executeQuery("CREATE TABLE if not exists `Zone" + givenName + "` (SmallX SMALLINT UNSIGNED, SmallY SMALLINT UNSIGNED, SmallZ SMALLINT UNSIGNED, BigX SMALLINT UNSIGNED, BigY SMALLINT UNSIGNED, BigZ SMALLINT UNSIGNED, Owner VARCHAR(20));");
             
             string path = "levels/" + givenName + ".lvl";
@@ -812,7 +827,7 @@ namespace MCSong
 
                     level.backedup = true;
 
-                    DataTable ZoneDB = MySQL.fillData("SELECT * FROM `Zone" + givenName + "`");
+                    /*DataTable ZoneDB = MySQL.fillData("SELECT * FROM `Zone" + givenName + "`");
 
                     Zone Zn;
                     for (int i = 0; i < ZoneDB.Rows.Count; ++i)
@@ -827,7 +842,8 @@ namespace MCSong
                         level.ZoneList.Add(Zn);
                     }
 
-                    ZoneDB.Dispose();
+                    ZoneDB.Dispose();*/
+                    MessagesDB.Load(level);
 
                     level.jailx = (ushort)(level.spawnx * 32); level.jaily = (ushort)(level.spawny * 32); level.jailz = (ushort)(level.spawnz * 32);
                     level.jailrotx = level.rotx; level.jailroty = level.roty;
@@ -846,7 +862,7 @@ namespace MCSong
                             }
                         }
 
-                        foundDB = MySQL.fillData("SELECT * FROM `Messages" + givenName + "`");
+                        /*foundDB = MySQL.fillData("SELECT * FROM `Messages" + givenName + "`");
 
                         for (int i = 0; i < foundDB.Rows.Count; ++i)
                         {
@@ -854,7 +870,7 @@ namespace MCSong
                             {
                                 MySQL.executeQuery("DELETE FROM `Messages" + givenName + "` WHERE X=" + foundDB.Rows[i]["X"] + " AND Y=" + foundDB.Rows[i]["Y"] + " AND Z=" + foundDB.Rows[i]["Z"]);
                             }
-                        }
+                        }*/
                         foundDB.Dispose();
                     }
                     catch (Exception e) { Server.ErrorLog(e); }

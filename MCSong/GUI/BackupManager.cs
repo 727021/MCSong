@@ -43,10 +43,14 @@ namespace MCSong.Gui
             }
             string l = liMaps.Text;
             liBackups.Items.Clear();
-            foreach (DirectoryInfo di in new DirectoryInfo(@Server.backupLocation + "/" + l).GetDirectories("*", SearchOption.TopDirectoryOnly))
+            try
             {
-                liBackups.Items.Add(di.Name);
+                foreach (DirectoryInfo di in new DirectoryInfo(@Server.backupLocation + "/" + l).GetDirectories("*", SearchOption.TopDirectoryOnly))
+                {
+                    liBackups.Items.Add(di.Name);
+                }
             }
+            catch (DirectoryNotFoundException) {  }
         }
         private void UpdateInfo()
         {
@@ -62,8 +66,12 @@ namespace MCSong.Gui
                 }
                 btnRestore.Enabled = btnDelete.Enabled = false;
                 lblTime.Text = "Last Backup:";
-                DirectoryInfo di = new DirectoryInfo(@Server.backupLocation + "/" + liMaps.Text + "/");
-                txtTime.Text = (di.GetDirectories().Length == 0) ? "Never" : di.GetDirectories().OrderByDescending(d => d.LastWriteTime).First().LastWriteTime.ToString();
+                try
+                {
+                    DirectoryInfo di = new DirectoryInfo(@Server.backupLocation + "/" + liMaps.Text + "/");
+                    txtTime.Text = (di.GetDirectories().Length == 0) ? "Never" : di.GetDirectories().OrderByDescending(d => d.LastWriteTime).First().LastWriteTime.ToString();
+                }
+                catch (DirectoryNotFoundException) { txtTime.Text = "Never"; }
                 return;
             }
             btnCreate.Enabled = btnRestore.Enabled = btnDelete.Enabled = false;

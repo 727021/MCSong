@@ -19,6 +19,7 @@ namespace MCSong
         public static readonly Extension ClickDistance = new Extension("ClickDistance", 1);
         public static readonly Extension CustomBlocks = new Extension("CustomBlocks", 1);
         public static readonly Extension HackControl = new Extension("HackControl", 1);
+        public static readonly Extension MessageTypes = new Extension("MessageTypes", 1);
 
         // Unsupported
         /*
@@ -32,7 +33,6 @@ namespace MCSong
         public static readonly Extension ChangeModel = new Extension("ChangeModel", 1);
         public static readonly Extension EnvMapAppearance = new Extension("EnvMapAppearance", 1);
         public static readonly Extension EnvWeatherType = new Extension("EnvWeatherType", 1);
-        public static readonly Extension MessageTypes = new Extension("MessageTypes", 1);
         public static readonly Extension PlayerClick = new Extension("PlayerClick", 1);
         */
 
