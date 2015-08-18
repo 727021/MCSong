@@ -174,6 +174,9 @@ namespace MCSong.Gui
 
                         switch (key.ToLower())
                         {
+                            case "debug":
+                                chkDebug.Checked = (value.ToLower() == "true");
+                                break;
                             case "server-name":
                                 if (ValidString(value, "![]:.,{}~-+()?_/\\ ")) txtName.Text = value;
                                 else txtName.Text = "[MCSong] Minecraft server";
@@ -212,6 +215,25 @@ namespace MCSong.Gui
                                 } catch { 
                                     Server.s.Log("max-players invalid! setting to default.");
                                     txtPlayers.Text = "12";
+                                }
+                                break;
+                            case "max-guests":
+                                try
+                                {
+                                    if (Convert.ToByte(value) > 128)
+                                    {
+                                        value = "128";
+                                    }
+                                    else if (Convert.ToByte(value) < 1)
+                                    {
+                                        value = "1";
+                                    }
+                                    txtMaxGuests.Text = value;
+                                }
+                                catch
+                                {
+                                    Server.s.Log("max-players invalid! setting to default.");
+                                    txtMaxGuests.Text = "12";
                                 }
                                 break;
                             case "max-maps":
@@ -460,6 +482,7 @@ namespace MCSong.Gui
                     w.WriteLine();
                     w.WriteLine();
                     w.WriteLine("# Server options");
+                    w.WriteLine("debug = " + chkDebug.Checked.ToString());
                     w.WriteLine("server-name = " + txtName.Text);
                     w.WriteLine("motd = " + txtMOTD.Text);
                     w.WriteLine("port = " + txtPort.Text);
@@ -468,6 +491,7 @@ namespace MCSong.Gui
                     w.WriteLine("public = " + chkPublic.Checked.ToString().ToLower());
                     w.WriteLine("premium-only = " + chkPremium.Checked.ToString().ToLower());
                     w.WriteLine("max-players = " + txtPlayers.Text);
+                    w.WriteLine("max-guests = " + txtMaxGuests.Text);
                     w.WriteLine("max-maps = " + txtMaps.Text);
                     w.WriteLine("world-chat = " + chkWorld.Checked.ToString().ToLower());
                     w.WriteLine("check-updates = " + chkUpdates.Checked.ToString().ToLower());
@@ -969,6 +993,11 @@ namespace MCSong.Gui
         private void txtafk_TextChanged(object sender, EventArgs e)
         {
             
+        }
+
+        private void txtMaxGuests_TextChanged(object sender, EventArgs e)
+        {
+            removeDigit(txtMaxGuests);
         }
     }
 }

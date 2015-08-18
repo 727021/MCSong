@@ -115,6 +115,7 @@
     <Compile Include="Commands\CmdPlugin.cs" />
     <Compile Include="Commands\CmdPossess.cs" />
     <Compile Include="Commands\CmdShutdown.cs" />
+    <Compile Include="Commands\CmdStatus.cs" />
     <Compile Include="Commands\CmdTColor.cs" />
     <Compile Include="Commands\CmdCmdUnload.cs" />
     <Compile Include="Commands\CmdCmdLoad.cs" />
@@ -150,6 +151,7 @@
     <Compile Include="CTFGame.cs" />
     <Compile Include="Events.cs" />
     <Compile Include="Extension.cs" />
+    <Compile Include="Flatfile\MessagesDB.cs" />
     <Compile Include="Flatfile\PlayerDB.cs" />
     <Compile Include="FindReference.cs" />
     <Compile Include="Color.cs" />

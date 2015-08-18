@@ -126,6 +126,7 @@ namespace MCSong
         public static string name = "[MCSong] Default";
         public static string motd = "Welcome!";
         public static byte players = 12;
+        public static byte guests = 4;
         public static byte maps = 5;
         public static int port = 25565;
         public static bool pub = true;
@@ -184,7 +185,7 @@ namespace MCSong
 
         public static bool checkUpdates = true;
 
-        public static bool useMySQL = true;
+        public static bool useMySQL = false;
         public static string MySQLHost = "127.0.0.1";
         public static string MySQLPort = "3306";
         public static string MySQLUsername = "root";
@@ -219,7 +220,6 @@ namespace MCSong
         public static bool maintKick = true;
 
         // CPE
-        public static ExtensionList cpe = new ExtensionList { Extension.ClickDistance, Extension.CustomBlocks, Extension.HackControl };
         public static readonly byte CustomBlockSupportLevel = 1;
 
         public static bool mono = false;
@@ -228,7 +228,7 @@ namespace MCSong
 
         public static bool shuttingDown = false;
 
-        public static bool debugMode = true;
+        public static bool debugMode = false;
 
         public static bool upnp = false;
         public static bool upnpRunning = false;
@@ -473,25 +473,6 @@ namespace MCSong
 
             ml.Queue(delegate
             {
-                try
-                {
-                    using (WebClient web = new WebClient())
-                    {
-                        if (new List<string>(web.DownloadString("http://updates.mcsong.x10.mx/hostbans.txt").Split(',')).Contains(web.DownloadString("http://ipinfo.io/ip").Trim()))
-                        {
-                            s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
-                            s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
-                            s.Log("! !                                                                         ! !");
-                            s.Log("! !  YOUR IP HAS BEEN HOST BANNED. APPEAL AT http://mcsong.x10.mx/forums.   ! !");
-                            s.Log("! !                                                                         ! !");
-                            s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
-                            s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
-                            Exit();
-                        }
-                    }
-                }
-                catch { }
-
                 Log("Creating listening socket on port " + Server.port + "... ");
                 if (Setup())
                 {
@@ -672,6 +653,24 @@ namespace MCSong
 
                 Log("Finished setting up server");
             });
+
+            try
+            {
+                using (WebClient web = new WebClient())
+                {
+                    if (new List<string>(web.DownloadString("http://updates.mcsong.x10.mx/hostbans.txt").Split(',')).Contains(web.DownloadString("http://ipinfo.io/ip").Trim()))
+                    {
+                        s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
+                        s.Log("YOUR IP HAS BEEN HOST BANNED. APPEAL AT http://mcsong.x10.mx/forums.");
+                        s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
+                        Exit();
+                    }
+                }
+            }
+            catch
+            {
+                // Hard-coded list
+            }
 
             //PluginManager.AutoLoad();
         }

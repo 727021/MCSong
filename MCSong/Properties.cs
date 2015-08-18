@@ -44,6 +44,9 @@ namespace MCSong
 
                         switch (key.ToLower())
                         {
+                            case "debug":
+                                Server.debugMode = (value.ToLower() == "true");
+                                break;
                             case "server-name":
                                 if (ValidString(value, "![]:.,{}~-+()?_/\\ "))
                                 {
@@ -92,6 +95,21 @@ namespace MCSong
                                         value = "1"; Server.s.Log("Max players has been increased to 1.");
                                     }
                                     Server.players = Convert.ToByte(value);
+                                }
+                                catch { Server.s.Log("max-players invalid! setting to default."); }
+                                break;
+                            case "max-guests":
+                                try
+                                {
+                                    if (Convert.ToByte(value) > 128)
+                                    {
+                                        value = "128"; Server.s.Log("Max players has been lowered to 128.");
+                                    }
+                                    else if (Convert.ToByte(value) < 1)
+                                    {
+                                        value = "1"; Server.s.Log("Max players has been increased to 1.");
+                                    }
+                                    Server.guests = Convert.ToByte(value);
                                 }
                                 catch { Server.s.Log("max-players invalid! setting to default."); }
                                 break;
@@ -470,6 +488,7 @@ namespace MCSong
                     w.WriteLine();
                     w.WriteLine();
                     w.WriteLine("# Server options");
+                    w.WriteLine("debug = " + Server.debugMode.ToString());
                     w.WriteLine("server-name = " + Server.name);
                     w.WriteLine("motd = " + Server.motd);
                     w.WriteLine("port = " + Server.port.ToString());
@@ -478,6 +497,7 @@ namespace MCSong
                     w.WriteLine("public = " + Server.pub.ToString().ToLower());
                     w.WriteLine("premium-only = " + Server.premium.ToString().ToLower());
                     w.WriteLine("max-players = " + Server.players.ToString());
+                    w.WriteLine("max-guests = " + Server.guests.ToString());
                     w.WriteLine("max-maps = " + Server.maps.ToString());
                     w.WriteLine("world-chat = " + Server.worldChat.ToString().ToLower());
                     w.WriteLine("check-updates = " + Server.checkUpdates.ToString().ToLower());
