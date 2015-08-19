@@ -59,7 +59,7 @@ namespace MCSong
                                     p.titlecolor = val;
                                     break;
                                 case "color":
-                                    p.color = val;
+                                    p.color = (val.ToLower() == "group") ? p.group.color : val;
                                     break;
                                 case "money":
                                     p.money = Int32.Parse(val);

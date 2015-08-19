@@ -1236,8 +1236,10 @@ namespace MCSong.Gui
                             catch { }
                             try { File.Delete("levels/level properties/" + message); }
                             catch { }
+                            try { File.Delete("db/mb/" + message + ".txt"); }
+                            catch { }
 
-                            MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Messages" + message + "`, `Zone" + message + "`");
+                            MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Zone" + message + "`");
 
                             Player.GlobalMessage("Level " + message + " was deleted.");
                             MessageBox.Show("Level " + message + " was deleted.");
@@ -1283,8 +1285,10 @@ namespace MCSong.Gui
                             catch { }
                             try { Directory.Delete(Server.backupLocation + "/" + message); }
                             catch { }
+                            try { File.Delete("db/mb/" + message + ".txt"); }
+                            catch { }
 
-                            MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Messages" + message + "`, `Zone" + message + "`");
+                            MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Zone" + message + "`");
 
                             Player.GlobalMessage("Level " + message + " was deleted.");
                             MessageBox.Show("Level " + message + " AND all its backups were deleted.");
@@ -1332,6 +1336,11 @@ namespace MCSong.Gui
                         try
                         {
                             File.Move("levels/level properties/" + oldName, "levels/level properties/" + newName + ".properties");
+                        }
+                        catch { }
+                        try
+                        {
+                            File.Move("db/mb/" + oldName + ".txt", "db/mb/" + newName + ".txt");
                         }
                         catch { }
 

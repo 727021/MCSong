@@ -192,6 +192,7 @@ namespace MCSong
             all.Add(new CmdPlayers());
             all.Add(new CmdRules());
             all.Add(new CmdServerReport());
+            all.Add(new CmdStatus());
             all.Add(new CmdTime());
             all.Add(new CmdUnloaded());
             all.Add(new CmdUpdate());

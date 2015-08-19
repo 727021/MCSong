@@ -39,7 +39,7 @@ namespace MCSong
                 Player who = Player.Find(message);
                 if (who == null)
                 {
-                    DataTable ip;
+                    /*DataTable ip;
                     int tryCounter = 0;
             rerun:  try
                     {
@@ -63,7 +63,15 @@ namespace MCSong
                         Player.SendMessage(p, "Unable to find an IP address for that user.");
                         return;
                     }
-                    ip.Dispose();
+                    ip.Dispose();*/
+                    if (OfflinePlayer.Find(message) != null)
+                        message = OfflinePlayer.Find(message).ip;
+                    else
+                    {
+                        Player.SendMessage(p, "Unable to find an IP address for that user.");
+                        return;
+                    }
+
                 }
                 else
                 {

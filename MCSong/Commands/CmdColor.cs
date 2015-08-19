@@ -38,10 +38,10 @@ namespace MCSong
                 if (who == null) { Player.SendMessage(p, "There is no player \"" + message.Substring(0, pos) + "\"!"); return; }
                 if (message.Substring(pos + 1) == "del")
                 {
-                    MySQL.executeQuery("UPDATE Players SET color = '' WHERE name = '" + who.name + "'");
                     Player.GlobalChat(who, who.color + "*" + Name(who.name) + " color reverted to " + who.group.color + "their group's default" + Server.DefaultColor + ".", false);
+                    who.color = "group";
+                    PlayerDB.Save(who);
                     who.color = who.group.color;
-
                     Player.GlobalDie(who, false);
                     Player.GlobalSpawn(who, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], false);
                     who.SetPrefix();
@@ -55,11 +55,9 @@ namespace MCSong
                     //Player.GlobalChat(who, p.color + "*" + p.name + "&e changed " + who.color + Name(who.name) +
                     //                  " color to " + color +
                     //                  c.Name(color) + "&e.", false);
-                    MySQL.executeQuery("UPDATE Players SET color = '" + c.Name(color) + "' WHERE name = '" + who.name + "'");
-
                     Player.GlobalChat(who, who.color + "*" + Name(who.name) + " color changed to " + color + c.Name(color) + Server.DefaultColor + ".", false);
                     who.color = color;
-
+                    PlayerDB.Save(who);
                     Player.GlobalDie(who, false);
                     Player.GlobalSpawn(who, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], false);
                     who.SetPrefix();
@@ -70,11 +68,10 @@ namespace MCSong
                 if (p == null) { Help(p); return; }
                 if (message == "del")
                 {
-                    MySQL.executeQuery("UPDATE Players SET color = '' WHERE name = '" + p.name + "'");
-
                     Player.GlobalChat(p, p.color + "*" + Name(p.name) + " color reverted to " + p.group.color + "their group's default" + Server.DefaultColor + ".", false);
+                    p.color = "group";
+                    PlayerDB.Save(p);
                     p.color = p.group.color;
-
                     Player.GlobalDie(p, false);
                     Player.GlobalSpawn(p, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1], false);
                     p.SetPrefix();
@@ -85,11 +82,9 @@ namespace MCSong
                 else if (color == p.color) { Player.SendMessage(p, "You already have that color."); }
                 else
                 {
-                    MySQL.executeQuery("UPDATE Players SET color = '" + c.Name(color) + "' WHERE name = '" + p.name + "'");
-
                     Player.GlobalChat(p, p.color + "*" + Name(p.name) + " color changed to " + color + c.Name(color) + Server.DefaultColor + ".", false);
                     p.color = color;
-
+                    PlayerDB.Save(p);
                     Player.GlobalDie(p, false);
                     Player.GlobalSpawn(p, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1], false);
                     p.SetPrefix();

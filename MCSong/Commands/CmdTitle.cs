@@ -28,8 +28,9 @@ namespace MCSong
                 who.title = "";
                 who.SetPrefix();
                 Player.GlobalChat(null, who.color + who.name + Server.DefaultColor + " had their title removed.", false);
-                query = "UPDATE Players SET Title = '' WHERE Name = '" + who.name + "'";
-                MySQL.executeQuery(query);
+                /*query = "UPDATE Players SET Title = '' WHERE Name = '" + who.name + "'";
+                MySQL.executeQuery(query);*/
+                PlayerDB.Save(who);
                 return;
             }
 
@@ -52,7 +53,7 @@ namespace MCSong
                 Player.GlobalChat(null, who.color + who.name + Server.DefaultColor + " was given the title of &b[" + newTitle + "]", false);
             else Player.GlobalChat(null, who.color + who.prefix + who.name + Server.DefaultColor + " had their title removed.", false);
 
-            if (newTitle == "")
+            /*if (newTitle == "")
             {
                 query = "UPDATE Players SET Title = '' WHERE Name = '" + who.name + "'";
             }
@@ -60,8 +61,9 @@ namespace MCSong
             {
                 query = "UPDATE Players SET Title = '" + newTitle.Replace("'", "\'") + "' WHERE Name = '" + who.name + "'";
             }
-            MySQL.executeQuery(query);
+            MySQL.executeQuery(query);*/
             who.title = newTitle;
+            PlayerDB.Save(who);
             who.SetPrefix();
         }
         public override void Help(Player p)

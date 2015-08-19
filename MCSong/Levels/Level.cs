@@ -122,16 +122,20 @@ namespace MCSong
         public List<Zone> ZoneList;
 
         public struct MessageBlock { public ushort X, Y, Z; public int type; public string message; }
-        public List<MessageBlock> MBList;
+        public List<MessageBlock> MBList = new List<MessageBlock>();
         public MessageBlock getMB(ushort x, ushort y, ushort z)
         {
-            foreach (MessageBlock m in MBList)
+            try
             {
-                if (m.X == x && m.Y == y && m.Z == z)
+                foreach (MessageBlock m in MBList)
                 {
-                    return m;
+                    if (m.X == x && m.Y == y && m.Z == z)
+                    {
+                        return m;
+                    }
                 }
             }
+            catch { }
             return new MessageBlock() { type = -1 };
         }
 

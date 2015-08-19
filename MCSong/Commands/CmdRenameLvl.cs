@@ -41,6 +41,11 @@ namespace MCSong
                     File.Move("levels/level properties/" + foundLevel.name, "levels/level properties/" + newName + ".properties");
                 }
                 catch { }
+                try
+                {
+                    File.Move("db/mb/" + foundLevel.name + ".txt", "db/mb/" + newName + ".txt");
+                }
+                catch { }
 
                 MySQL.executeQuery("RENAME TABLE `Block" + foundLevel.name.ToLower() + "` TO `Block" + newName.ToLower() +
                     "`, `Portals" + foundLevel.name.ToLower() + "` TO `Portals" + newName.ToLower() +
