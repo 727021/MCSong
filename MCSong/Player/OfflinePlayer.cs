@@ -5,6 +5,16 @@ namespace MCSong
 {
     public class OfflinePlayer
     {
+        public static OfflinePlayer Find(string name)
+        {
+            foreach (OfflinePlayer p in PlayerDB.allOffline)
+            {
+                if (p.name.ToLower() == name.ToLower())
+                    return p;
+            }
+            return null;
+        }
+
         public string ip, name, title, tcolor, color;
         public int money, logins, kicks, deaths;
         public long blocks;

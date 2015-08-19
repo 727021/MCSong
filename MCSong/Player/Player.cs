@@ -172,7 +172,7 @@ namespace MCSong
             switch (status1.ToLower())
             {
                 case "clear":
-                    message = "";
+                    message = "&f";
                     break;
                 case "custom":
                     message = status1c;
@@ -180,8 +180,73 @@ namespace MCSong
                 case "compass":
                     message = "[" + Compass(rot[0] / (int)(255 / (compass.Length - 1))) + "]";
                     break;
+                case "game":
+                    if (level.ctfmode) { if (team != null) { message = "&fCTF: " + team.color + team.teamstring + " &fPoints: " + team.color + team.points; break; } }
+                    message = "&fNo Team";
+                    break;
+                case "block":
+                    message = BlockInfo();
+                    break;
+                case "motd":
+                    message = (level.motd == "ignore") ? Server.motd : level.motd;
+                    break;
+                case "default":
+                    message = "&f" + Server.moneys + ": &a" + money + " &fLevel: " + Group.findPerm(level.permissionvisit).color + level.name + " (" + level.physics + ")";
+                    break;
             }
             SendMessage(this, message, MessageType.STATUS_TOP);
+            switch (status2.ToLower())
+            {
+                case "clear":
+                    message = "";
+                    break;
+                case "custom":
+                    message = status2c;
+                    break;
+                case "compass":
+                    message = "[" + Compass(rot[0] / (int)(255 / (compass.Length - 1))) + "]";
+                    break;
+                case "game":
+                    if (level.ctfmode) { if (team != null) message = "&fCTF: " + team.color + team.teamstring + " &fPoints: " + team.color + team.points; }
+                    else { message = "&fNo Team"; }
+                    break;
+                case "block":
+                    message = BlockInfo();
+                    break;
+                case "motd":
+                    message = (level.motd == "ignore") ? Server.motd : level.motd;
+                    break;
+                case "default":
+                    message = "&f" + Server.moneys + ": &a" + money + " &fLevel: " + Group.findPerm(level.permissionvisit).color + level.name + " (" + level.physics + ")";
+                    break;
+            }
+            SendMessage(this, message, MessageType.STATUS_MIDDLE);
+            switch (status3.ToLower())
+            {
+                case "clear":
+                    message = "";
+                    break;
+                case "custom":
+                    message = status3c;
+                    break;
+                case "compass":
+                    message = "[" + Compass(rot[0] / (int)(255 / (compass.Length - 1))) + "]";
+                    break;
+                case "game":
+                    if (level.ctfmode) { if (team != null) message = "&fCTF: " + team.color + team.teamstring + " &fPoints: " + team.color + team.points; }
+                    else { message = "&fNo Team"; }
+                    break;
+                case "block":
+                    message = BlockInfo();
+                    break;
+                case "motd":
+                    message = (level.motd == "ignore") ? Server.motd : level.motd;
+                    break;
+                case "default":
+                    message = "&f" + Server.moneys + ": &a" + money + " &fLevel: " + Group.findPerm(level.permissionvisit).color + level.name + " (" + level.physics + ")";
+                    break;
+            }
+            SendMessage(this, message, MessageType.STATUS_BOTTOM);
         }
         private string compass = " -NW- | -N- | -NE- | -E- | -SE- | -S- | -SW- | -W- |";
         public string Compass(int start)
@@ -194,6 +259,29 @@ namespace MCSong
                 return sub;
             }
             return compass.Substring(start, l);
+        }
+        public string BlockInfo()
+        {
+            try
+            {
+                double x = 0, y = 0, z = 0;
+                byte block = 0;
+                double a = Math.Sin(((double)(128 - rot[0]) / 256) * 2 * Math.PI);
+                double b = Math.Cos(((double)(128 - rot[0]) / 256) * 2 * Math.PI);
+                double c = Math.Cos(((double)(rot[1] + 64) / 256) * 2 * Math.PI);
+                double d = Math.Cos(((double)(rot[1]) / 256) * 2 * Math.PI);
+                for (byte i = 0; i < ((extensions.Contains(Extension.ClickDistance)) ? Math.Round((decimal)clickDistance / 32) : 5); i++)
+                {
+                    x = Math.Round((pos[0] / 32) + (double)(a * i * d));
+                    y = Math.Round((pos[1] / 32) + (double)(c * i));
+                    z = Math.Round((pos[2] / 32) + (double)(b * i * d));
+                    block = level.GetTile((ushort)x, (ushort)y, (ushort)z);
+                    if (block != Block.air && i < ((extensions.Contains(Extension.ClickDistance)) ? Math.Floor((decimal)clickDistance / 32) : 5))
+                        break;
+                }
+                return "&fBlock: &c" + Block.Name((extensions.Contains(Extension.CustomBlocks) ? block : Block.Fallback(block))) + " &fX/Y/Z: &c" + x + "/" + y + "/" + z;
+            }
+            catch { return ""; }
         }
 
         //Copy
@@ -671,7 +759,6 @@ namespace MCSong
                 foreach (Player p in players)
                     if (p.group.Permission == LevelPermission.Guest)
                         guests++;
-                if (Server.guests > 0 && group.Permission == LevelPermission.Guest && guests >= Server.guests && ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower())) { Kick("Too mmany guests!"); return; }
                 if (Server.verify)
                 {
                     if (verify == "--" || verify != 
@@ -685,6 +772,7 @@ namespace MCSong
                     }
                 }
 
+                if (Server.guests > 0 && /*group.Permission == LevelPermission.Guest /*&&*/ guests >= Server.guests && ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower())) { Kick("Too mmany guests!"); return; }
                 if (Server.maintenanceMode && (this.group.Permission < Server.maintPerm))
                 {
                     if (ip != "127.0.0.1" && !ip.StartsWith("192.168.") && !Server.devs.Contains(name.ToLower()))
@@ -1360,6 +1448,8 @@ namespace MCSong
             byte roty = message[8];
             pos = new ushort[3] { x, y, z };
             rot = new byte[2] { rotx, roty };
+
+            UpdateStatusMessages();
 
             //Server.s.Debug("Packet Received(8): " + thisid + " " + x + " " + y + " " + z + " " + rotx + " " + roty);
         }
@@ -2595,7 +2685,7 @@ namespace MCSong
                     players.Remove(this);
                     Server.s.PlayerListUpdate();
                     left.Add(this.name.ToLower(), this.ip);
-
+                    PlayerDB.allOffline.Add(new OfflinePlayer(name));
                     if (Server.AutoLoad && level.unload)
                     {
                         foreach (Player pl in Player.players)

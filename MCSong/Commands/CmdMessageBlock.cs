@@ -19,6 +19,7 @@ namespace MCSong
             CatchPos cpos = new CatchPos();
             cpos.message = "";
             bool typeSet = false;
+            bool blockset = true;
             try
             {
                 switch (message.Split(' ')[0].ToLower())
@@ -31,19 +32,27 @@ namespace MCSong
                     case "show": showMBs(p); return;
                     case "chat": typeSet = true; cpos.block = Block.MsgWhite; cpos.type = MessageType.CHAT; cpos.message = message.Replace(message.Split(' ')[0] + " ", ""); break;
                     case "announce": typeSet = true; cpos.block = Block.MsgWhite; cpos.type = MessageType.ANNOUNCEMENT; cpos.message = message.Replace(message.Split(' ')[0] + " ", ""); break;
-                    default: cpos.block = Block.MsgWhite; cpos.type = MessageType.CHAT; cpos.message = message; break;
+                    default: blockset = false; cpos.block = Block.MsgWhite; cpos.type = MessageType.CHAT; cpos.message = message; break;
                 }
             }
             catch { cpos.block = Block.MsgWhite; cpos.type = MessageType.CHAT; cpos.message = message; }
 
             if (!typeSet)
             {
-                switch(message.Split(' ')[1])
-                {
-                    case "chat": cpos.type = MessageType.CHAT; break;
-                    case "announce": cpos.type = MessageType.ANNOUNCEMENT; break;
-                    default: cpos.type = MessageType.CHAT; cpos.message = message; break;
-                }
+                if (blockset)
+                    switch (message.Split(' ')[1])
+                    {
+                        case "chat": cpos.type = MessageType.CHAT; message.Replace(message.Split(' ')[1], ""); break;
+                        case "announce": cpos.type = MessageType.ANNOUNCEMENT; message.Replace(message.Split(' ')[1], ""); break;
+                        default: cpos.type = MessageType.CHAT; cpos.message = message; break;
+                    }
+                if (!blockset)
+                    switch (message.Split(' ')[0])
+                    {
+                        case "chat": cpos.type = MessageType.CHAT; message.Replace(message.Split(' ')[0], ""); break;
+                        case "announce": cpos.type = MessageType.ANNOUNCEMENT; message.Replace(message.Split(' ')[0], ""); break;
+                        default: cpos.type = MessageType.CHAT; cpos.message = message; break;
+                    }
             }
 
             if (cpos.message == "") cpos.message = message.Substring(message.IndexOf(' ') + 1);
@@ -79,12 +88,12 @@ namespace MCSong
             }
             */
 
-            if (p.level.getMB(x, y, z).type <= -1)
+            if (p.level.getMB(x, y, z).type > -1)
             {
                 p.level.MBList.Remove(p.level.getMB(x, y, z));
             }
-            Level.MessageBlock m = new Level.MessageBlock() { X = x, Y = y, Z = z, type = (int)cpos.type, message = cpos.message.Replace('|', ':') };
-            p.level.MBList.Add(m);
+
+            p.level.MBList.Add(new Level.MessageBlock() { X = x, Y = y, Z = z, type = (int)cpos.type, message = cpos.message.Replace('|', ':') });
 
             Player.SendMessage(p, "Message block placed.");
             p.level.Blockchange(p, x, y, z, cpos.block);
