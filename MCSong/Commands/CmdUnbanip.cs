@@ -41,7 +41,16 @@ namespace MCSong
                 Player who = Player.Find(message);
                 if (who == null)
                 {
-                    OfflinePlayer op = OfflinePlayer.Find(message);
+                    try
+                    {
+                        message = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { message })), "IP");
+                    }
+                    catch
+                    {
+                        Player.SendMessage(p, "Unable to find an IP address for that user.");
+                        return;
+                    }
+                    /*OfflinePlayer op = OfflinePlayer.Find(message);
                     if (op != null)
                         message = op.ip;
                     else

@@ -22,12 +22,10 @@ namespace MCSong
             if (message == "") { Help(p); return; }
 
             string players = "Players with this IP: ";
-            foreach (string f in Directory.GetFiles("db/players/"))
+            jDatabase.Table plrs = Server.s.database.GetTable("Players");
+            foreach (int i in plrs.GetRowNumbers("IP", message))
             {
-                if (File.ReadAllText(f).Contains(message))
-                {
-                    players += f.Replace(".txt", "").Replace("db/players/", "") + ", ";
-                }
+                players += plrs.GetValue(i, "Name") + ", ";
             }
             if (players == "Players with this IP: ") { Player.SendMessage(p, "Could not find anyone with this IP"); return; }
             players = players.Remove(players.Length - 2);

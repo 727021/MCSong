@@ -49,7 +49,12 @@ namespace MCSong
                     try { File.Delete("levels/level properties/" + message); }
                     catch { }
 
-                    MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Messages" + message + "`, `Zone" + message + "`");
+                    //MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Messages" + message + "`, `Zone" + message + "`");
+
+                    Server.s.database.GetTable("Blocks" + message).Delete();
+                    Server.s.database.GetTable("Portals" + message).Delete();
+                    Server.s.database.GetTable("Messages" + message).Delete();
+                    Server.s.database.GetTable("Zones" + message).Delete();
 
                     Player.GlobalMessage("Level " + message + " was deleted.");
                 }

@@ -1,3 +1,4 @@
+using jDatabase;
 using System;
 using System.Collections.Generic;
 using System.Data;
@@ -20,22 +21,35 @@ namespace MCSong
         {
             try
             {
-                MySQL.executeQuery("CREATE TABLE if not exists `Inbox" + p.name + "` (PlayerFrom CHAR(20), TimeSent DATETIME, Contents VARCHAR(255));");
+                //MySQL.executeQuery("CREATE TABLE if not exists `Inbox" + p.name + "` (PlayerFrom CHAR(20), TimeSent DATETIME, Contents VARCHAR(255));");
+                try { Server.s.database.CreateTable("Inbox" + p.name, new List<string> { "PlayerFrom", "TimeSent", "Contents" }); }
+                catch { }
+
                 if (message == "")
                 {
-                    DataTable Inbox = MySQL.fillData("SELECT * FROM `Inbox" + p.name + "` ORDER BY TimeSent");
+                    //DataTable Inbox = MySQL.fillData("SELECT * FROM `Inbox" + p.name + "` ORDER BY TimeSent");
 
-                    if (Inbox.Rows.Count == 0) { Player.SendMessage(p, "No messages found."); Inbox.Dispose(); return; }
+                    Table inbox = Server.s.database.GetTable("Inbox" + p.name);
+                    List <List<string>> rows = inbox.Rows;
 
+                    //if (Inbox.Rows.Count == 0) { Player.SendMessage(p, "No messages found."); Inbox.Dispose(); return; }
+
+                    if (rows.Count <= 1) { Player.SendMessage(p, "No messages found."); return; }
+                    /*
                     for (int i = 0; i < Inbox.Rows.Count; ++i)
                     {
                         Player.SendMessage(p, i + ": From &5" + Inbox.Rows[i]["PlayerFrom"].ToString() + Server.DefaultColor + " at &a" + Inbox.Rows[i]["TimeSent"].ToString());
                     }
-                    Inbox.Dispose();
+                    Inbox.Dispose();*/
+                    foreach (List<string> row in rows)
+                    {
+                        int i = rows.IndexOf(row);
+                        Player.SendMessage(p, i + ": From &5" + inbox.GetValue(i, "PlayerFrom") + Server.DefaultColor + " at &a" + inbox.GetValue(i, "TimeSent"));
+                    }
                 }
                 else if (message.Split(' ')[0].ToLower() == "del" || message.Split(' ')[0].ToLower() == "delete")
                 {
-                    int FoundRecord = -1;
+                    int FoundRecord = 0;
 
                     if (message.Split(' ')[1].ToLower() != "all")
                     {
@@ -45,18 +59,32 @@ namespace MCSong
                         }
                         catch { Player.SendMessage(p, "Incorrect number given."); return; }
 
-                        if (FoundRecord < 0) { Player.SendMessage(p, "Cannot delete records below 0"); return; }
+                        if (FoundRecord < 1) { Player.SendMessage(p, "Cannot delete records below 1"); return; }
                     }
 
-                    DataTable Inbox = MySQL.fillData("SELECT * FROM `Inbox" + p.name + "` ORDER BY TimeSent");
+                    //DataTable Inbox = MySQL.fillData("SELECT * FROM `Inbox" + p.name + "` ORDER BY TimeSent");
 
-                    if (Inbox.Rows.Count - 1 < FoundRecord || Inbox.Rows.Count == 0)
+                    Table inbox = Server.s.database.GetTable("Inbox" + p.name);
+                    List<List<string>> rows = inbox.Rows;
+
+                    if (rows.Count < FoundRecord + 1 || rows.Count <= 1)
                     {
-                        Player.SendMessage(p, "\"" + FoundRecord + "\" does not exist."); Inbox.Dispose(); return;
+                        Player.SendMessage(p, "\"" + FoundRecord + "\" does not exist."); return;
                     }
 
+                    if (FoundRecord == 0)
+                    {
+                        inbox.Truncate();
+                        Player.SendMessage(p, "Deleted all messages.");
+                    }
+                    else
+                    {
+                        inbox.DeleteRow(FoundRecord);
+                        Player.SendMessage(p, "Deleted message " + FoundRecord + ".");
+                    }
+                    /*
                     string queryString;
-                    if (FoundRecord == -1)
+                    if (FoundRecord == 0)
                         queryString = "TRUNCATE TABLE `Inbox" + p.name + "`";
                     else
                         queryString = "DELETE FROM `Inbox" + p.name + "` WHERE PlayerFrom='" + Inbox.Rows[FoundRecord]["PlayerFrom"] + "' AND TimeSent='" + Convert.ToDateTime(Inbox.Rows[FoundRecord]["TimeSent"]).ToString("yyyy-MM-dd HH:mm:ss") + "'";
@@ -68,7 +96,7 @@ namespace MCSong
                     else
                         Player.SendMessage(p, "Deleted message.");
 
-                    Inbox.Dispose();
+                    Inbox.Dispose();*/
                 }
                 else
                 {
@@ -80,18 +108,24 @@ namespace MCSong
                     }
                     catch { Player.SendMessage(p, "Incorrect number given."); return; }
 
-                    if (FoundRecord < 0) { Player.SendMessage(p, "Cannot read records below 0"); return; }
+                    if (FoundRecord < 1) { Player.SendMessage(p, "Cannot read records below 1"); return; }
 
-                    DataTable Inbox = MySQL.fillData("SELECT * FROM `Inbox" + p.name + "` ORDER BY TimeSent");
+                    Table inbox = Server.s.database.GetTable("Inbox" + p.name);
+                    List<List<string>> rows = inbox.Rows;
 
-                    if (Inbox.Rows.Count - 1 < FoundRecord || Inbox.Rows.Count == 0)
+                    Player.SendMessage(p, "Message from &5" + inbox.GetValue(FoundRecord, "PlayerFrom") + Server.DefaultColor + " sent at &a" + inbox.GetValue(FoundRecord, "TimeSent") + Server.DefaultColor + ":");
+                    Player.SendMessage(p, inbox.GetValue(FoundRecord, "Contents"));
+
+                    //DataTable Inbox = MySQL.fillData("SELECT * FROM `Inbox" + p.name + "` ORDER BY TimeSent");
+                    
+                    if (rows.Count - 1 < FoundRecord || rows.Count <= 0)
                     {
-                        Player.SendMessage(p, "\"" + FoundRecord + "\" does not exist."); Inbox.Dispose(); return;
+                        Player.SendMessage(p, "\"" + FoundRecord + "\" does not exist."); return;
                     }
-
+                    /*
                     Player.SendMessage(p, "Message from &5" + Inbox.Rows[FoundRecord]["PlayerFrom"] + Server.DefaultColor + " sent at &a" + Inbox.Rows[FoundRecord]["TimeSent"] + ":");
                     Player.SendMessage(p, Inbox.Rows[FoundRecord]["Contents"].ToString());
-                    Inbox.Dispose();
+                    Inbox.Dispose();*/
                 }
             }
             catch

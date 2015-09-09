@@ -15,6 +15,7 @@
 using System;
 using System.Data;
 using System.Collections.Generic;
+using jDatabase;
 //using MySql.Data.MySqlClient;
 //using MySql.Data.Types;
 
@@ -54,11 +55,26 @@ namespace MCSong
             message = p.level.foundInfo(x, y, z);
             if (message != "") Player.SendMessage(p, "Physics information: &a" + message);
 
-            DataTable Blocks = MySQL.fillData("SELECT * FROM `Block" + p.level.name + "` WHERE X=" + (int)x + " AND Y=" + (int)y + " AND Z=" + (int)z);
+            Table blocks = Server.s.database.GetTable("Blocks" + p.level.name);
+            List<List<string>> foundRows = blocks.GetRows(new string[] { "X", "Y", "Z" }, new string[] { x.ToString(), y.ToString(), z.ToString() });
 
             string Username, TimePerformed, BlockUsed;
             bool Deleted, foundOne = false;
+            foreach (List<string> row in foundRows)
+            {
+                int i = foundRows.IndexOf(row);
+                foundOne = true;
+                Username = blocks.GetValue(i, "Username");
+                TimePerformed = blocks.GetValue(i, "TimePerformed");
+                BlockUsed = Block.Name(byte.Parse(blocks.GetValue(i, "Type")));
+                Deleted = bool.Parse(blocks.GetValue(i, "Deleted"));
 
+                Player.SendMessage(p, ((Deleted) ? "&4Destroyed by " : "&3Created by ") + Server.FindColor(Username.Trim()) + Username.Trim() + Server.DefaultColor + ", using &3" + BlockUsed);
+                Player.SendMessage(p, "Date and time modified: &2" + TimePerformed);
+            }
+            //DataTable Blocks = MySQL.fillData("SELECT * FROM `Block" + p.level.name + "` WHERE X=" + (int)x + " AND Y=" + (int)y + " AND Z=" + (int)z);
+            
+            /*
             for (int i = 0; i < Blocks.Rows.Count; i++)
             {
                 foundOne = true;
@@ -72,7 +88,7 @@ namespace MCSong
                 else
                     Player.SendMessage(p, "&4Destroyed by " + Server.FindColor(Username.Trim()) + Username.Trim() + Server.DefaultColor + ", using &3" + BlockUsed);
                 Player.SendMessage(p, "Date and time modified: &2" + TimePerformed);
-            }
+            }*/
 
             List<Level.BlockPos> inCache = p.level.blockCache.FindAll(bP => bP.x == x && bP.y == y && bP.z == z);
 
@@ -94,7 +110,7 @@ namespace MCSong
             if (!foundOne)
                 Player.SendMessage(p, "This block has not been modified since the map was cleared.");
  
-            Blocks.Dispose();
+            //Blocks.Dispose();
 
             GC.Collect();
             GC.WaitForPendingFinalizers();

@@ -13,6 +13,7 @@
 	permissions and limitations under the License.
 */
 using System;
+using System.Threading;
 
 namespace MCSong
 {
@@ -44,6 +45,7 @@ namespace MCSong
                             Player.SendMessage(p, "Use &b/help build" + Server.DefaultColor + " for a list of building commands.");
                             Player.SendMessage(p, "Use &b/help mod" + Server.DefaultColor + " for a list of moderation commands.");
                             Player.SendMessage(p, "Use &b/help information" + Server.DefaultColor + " for a list of information commands.");
+                            Player.SendMessage(p, "Use &b/help game" + Server.DefaultColor + " for a list of game commands.");
                             Player.SendMessage(p, "Use &b/help other" + Server.DefaultColor + " for a list of other commands.");
                             Player.SendMessage(p, "Use &b/help old" + Server.DefaultColor + " to view the Old help menu.");
                             Player.SendMessage(p, "Use &b/help [command] or /help [block] " + Server.DefaultColor + "to view more info.");
@@ -98,6 +100,18 @@ namespace MCSong
                         Player.SendMessage(p, "Information commands you may use:");
                         Player.SendMessage(p, message.Remove(0, 2) + ".");
                         break;
+                    case "game":
+                        message = "";
+                        foreach (Command comm in Command.all.commands)
+                        {
+                            if (p == null || p.group.commands.All().Contains(comm))
+                                if (comm.type == CommandType.Game) message += ", " + getColor(comm.name) + comm.name;
+                        }
+
+                        if (message == "") { Player.SendMessage(p, "No commands of this type are available to you."); break; }
+                        Player.SendMessage(p, "Game commands you may use:");
+                        Player.SendMessage(p, message.Remove(0, 2));
+                        break;
                     case "other":
                         message = "";
                         foreach (Command comm in Command.all.commands)
@@ -147,6 +161,8 @@ namespace MCSong
                         if (b != Block.Zero)
                         {
                             Player.SendMessage(p, "Block \"" + message + "\" appears as &b" + Block.Name(Block.Convert(b)));
+                            if (Block.Extended(b))
+                                Player.SendMessage(p, "Block \"" + message + "\" is part of CPE CustomBlocks level " + Block.SupportLevel(b) + " and appears as " + Block.Name(Block.Fallback(Block.Convert(b))) + ".");
                             string foundRank = Level.PermissionToName(Block.BlockList.Find(bs => bs.type == b).lowestRank);
                             Player.SendMessage(p, "Rank needed: " + foundRank);
                             return;
@@ -175,6 +191,12 @@ namespace MCSong
         public override void Help(Player p)
         {
             Player.SendMessage(p, "...really? Wow. Just...wow.");
+            Thread.Sleep(2000);
+            Player.SendMessage(p, "...You know what? Fine. I'll just do it for you.");
+            Player.SendMessage(p, "Here:");
+            Thread.Sleep(1000);
+            Use(p, "");
+            Player.SendMessage(p, "There you go. There's your help.");
         }
     }
 }

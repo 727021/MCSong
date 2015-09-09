@@ -18,6 +18,7 @@ using System.IO;
 using System.IO.Compression;
 using System.Data;
 using System.Threading;
+using jDatabase;
 //using MySql.Data.MySqlClient;
 //using MySql.Data.Types;
 
@@ -333,17 +334,20 @@ namespace MCSong
             if (blockCache.Count == 0) return;
             List<BlockPos> tempCache = blockCache;
             blockCache = new List<BlockPos>();
-            string queryString;
-            queryString = "INSERT INTO `Block" + name + "` (Username, TimePerformed, X, Y, Z, type, deleted) VALUES ";
+            //string queryString;
+            //queryString = "INSERT INTO `Block" + name + "` (Username, TimePerformed, X, Y, Z, type, deleted) VALUES ";
+
+            Table block = Server.s.database.GetTable("Blocks" + name);
 
             foreach (BlockPos bP in tempCache)
             {
-                queryString += "('" + bP.name + "', '" + bP.TimePerformed.ToString("yyyy-MM-dd HH:mm:ss") + "', " + (int)bP.x + ", " + (int)bP.y + ", " + (int)bP.z + ", " + bP.type + ", " + bP.deleted + "), ";
+                block.AddRow(new List<string> { bP.name, bP.TimePerformed.ToString("yyyy-MM-dd HH:mm:ss"), bP.x.ToString(), bP.y.ToString(), bP.z.ToString(), bP.type.ToString(), bP.deleted.ToString() });
+                //queryString += "('" + bP.name + "', '" + bP.TimePerformed.ToString("yyyy-MM-dd HH:mm:ss") + "', " + (int)bP.x + ", " + (int)bP.y + ", " + (int)bP.z + ", " + bP.type + ", " + bP.deleted + "), ";
             }
 
-            queryString = queryString.Remove(queryString.Length - 2);
+            //queryString = queryString.Remove(queryString.Length - 2);
 
-            MySQL.executeQuery(queryString);
+            //MySQL.executeQuery(queryString);
             tempCache.Clear();
         }
 
@@ -438,7 +442,18 @@ namespace MCSong
                                 if (p.zoneDel)
                                 {
                                     //DB
-                                    MySQL.executeQuery("DELETE FROM `Zone" + p.level.name + "` WHERE Owner='" + Zn.Owner + "' AND SmallX='" + Zn.smallX + "' AND SMALLY='" + Zn.smallY + "' AND SMALLZ='" + Zn.smallZ + "' AND BIGX='" + Zn.bigX + "' AND BIGY='" + Zn.bigY + "' AND BIGZ='" + Zn.bigZ + "'");
+                                    //MySQL.executeQuery("DELETE FROM `Zone" + p.level.name + "` WHERE Owner='" + Zn.Owner + "' AND SmallX='" + Zn.smallX + "' AND SMALLY='" + Zn.smallY + "' AND SMALLZ='" + Zn.smallZ + "' AND BIGX='" + Zn.bigX + "' AND BIGY='" + Zn.bigY + "' AND BIGZ='" + Zn.bigZ + "'");
+
+                                    Table zones = Server.s.database.GetTable("Zones" + p.level.name);
+                                    List<List<string>> rows = zones.Rows;
+
+                                    foreach (List<string> row in rows)
+                                    {
+                                        int i = rows.IndexOf(row);
+                                        if (zones.GetValue(i, "Owner") == Zn.Owner && zones.GetValue(i, "SmallX") == Zn.smallX.ToString() && zones.GetValue(i, "SmallY") == Zn.smallY.ToString() && zones.GetValue(i, "SmallZ") == Zn.smallZ.ToString() && zones.GetValue(i, "BigX") == Zn.bigX.ToString() && zones.GetValue(i, "BigY") == Zn.bigY.ToString() && zones.GetValue(i, "BigZ") == Zn.bigZ.ToString())
+                                            zones.DeleteRow(i);
+                                    }
+
                                     toDel.Add(Zn);
 
                                     p.SendBlockchange(x, y, z, b);
@@ -676,6 +691,21 @@ namespace MCSong
                     } gs.Write(level, 0, level.Length); gs.Close();
                     fs.Close();
 
+                    Table mbs = Server.s.database.GetTable("Messages" + name);
+                    if (MBList.Count > 0)
+                    {
+                        try
+                        {// Should I be completely rewriting the message block db every save?
+                            mbs.Truncate();
+                            foreach (MessageBlock mb in MBList)
+                            {
+                                try { mbs.AddRow(new List<string> { mb.X.ToString(), mb.Y.ToString(), mb.Z.ToString(), mb.type.ToString(), mb.message }); }
+                                catch { }
+                            }
+                        }
+                        catch(Exception e) { Server.ErrorLog(e); }
+                    }
+
                     File.Delete(path + ".backup");
                     File.Copy(path + ".back", path + ".backup");
                     File.Delete(path);
@@ -776,12 +806,20 @@ namespace MCSong
         public static Level Load(string givenName, byte phys)
         {
 
-            MySQL.executeQuery("CREATE TABLE if not exists `Block" + givenName + "` (Username CHAR(20), TimePerformed DATETIME, X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Type TINYINT UNSIGNED, Deleted BOOL)");
-            MySQL.executeQuery("CREATE TABLE if not exists `Portals" + givenName + "` (EntryX SMALLINT UNSIGNED, EntryY SMALLINT UNSIGNED, EntryZ SMALLINT UNSIGNED, ExitMap CHAR(20), ExitX SMALLINT UNSIGNED, ExitY SMALLINT UNSIGNED, ExitZ SMALLINT UNSIGNED)");
+            //MySQL.executeQuery("CREATE TABLE if not exists `Block" + givenName + "` (Username CHAR(20), TimePerformed DATETIME, X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Type TINYINT UNSIGNED, Deleted BOOL)");
+            //MySQL.executeQuery("CREATE TABLE if not exists `Portals" + givenName + "` (EntryX SMALLINT UNSIGNED, EntryY SMALLINT UNSIGNED, EntryZ SMALLINT UNSIGNED, ExitMap CHAR(20), ExitX SMALLINT UNSIGNED, ExitY SMALLINT UNSIGNED, ExitZ SMALLINT UNSIGNED)");
             //MySQL.executeQuery("CREATE TABLE if not exists `Messages" + givenName + "` (X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Message CHAR(255));");
+            //MySQL.executeQuery("CREATE TABLE if not exists `Zone" + givenName + "` (SmallX SMALLINT UNSIGNED, SmallY SMALLINT UNSIGNED, SmallZ SMALLINT UNSIGNED, BigX SMALLINT UNSIGNED, BigY SMALLINT UNSIGNED, BigZ SMALLINT UNSIGNED, Owner VARCHAR(20));");
 
-            MySQL.executeQuery("CREATE TABLE if not exists `Zone" + givenName + "` (SmallX SMALLINT UNSIGNED, SmallY SMALLINT UNSIGNED, SmallZ SMALLINT UNSIGNED, BigX SMALLINT UNSIGNED, BigY SMALLINT UNSIGNED, BigZ SMALLINT UNSIGNED, Owner VARCHAR(20));");
-            
+            try { Server.s.database.CreateTable("Blocks" + givenName, new List<string> { "Username", "TimePerformed", "X", "Y", "Z", "Type", "Deleted" }); }
+            catch { }
+            try { Server.s.database.CreateTable("Portals" + givenName, new List<string> { "EntryX", "EntryY", "EntryZ", "ExitMap", "ExitX", "ExitY", "ExitZ" }); }
+            catch { }
+            try { Server.s.database.CreateTable("Messages" + givenName, new List<string> { "X", "Y", "Z", "Type", "Message" }); }
+            catch { }
+            try { Server.s.database.CreateTable("Zones" + givenName, new List<string> { "SmallX", "SmallY", "SmallZ", "BigX", "BigY", "BigZ", "Owner" }); }
+            catch { }
+
             string path = "levels/" + givenName + ".lvl";
             if (File.Exists(path))
             {
@@ -831,6 +869,24 @@ namespace MCSong
 
                     level.backedup = true;
 
+                    Table zones = Server.s.database.GetTable("Zones" + givenName);
+                    List<List<string>> rows = zones.Rows;
+                    level.ZoneList.Clear();
+                    Zone Zn;
+                    if (rows.Count > 1)
+                        foreach (List<string> row in rows)
+                        {
+                            int i = rows.IndexOf(row);
+                            Zn.smallX = ushort.Parse(zones.GetValue(i, "SmallX"));
+                            Zn.smallY = ushort.Parse(zones.GetValue(i, "SmallY"));
+                            Zn.smallZ = ushort.Parse(zones.GetValue(i, "SmallZ"));
+                            Zn.bigX = ushort.Parse(zones.GetValue(i, "BigX"));
+                            Zn.bigY = ushort.Parse(zones.GetValue(i, "BigY"));
+                            Zn.bigZ = ushort.Parse(zones.GetValue(i, "BigZ"));
+                            Zn.Owner = zones.GetValue(i, "Owner");
+                            level.ZoneList.Add(Zn);
+                        }
+
                     /*DataTable ZoneDB = MySQL.fillData("SELECT * FROM `Zone" + givenName + "`");
 
                     Zone Zn;
@@ -847,7 +903,27 @@ namespace MCSong
                     }
 
                     ZoneDB.Dispose();*/
-                    MessagesDB.Load(level);
+
+                    Table messages = Server.s.database.GetTable("Messages" + givenName);
+                    List<List<string>> mrows = messages.Rows;
+                    level.MBList.Clear();
+                    MessageBlock mb;
+                    if (rows.Count > 0)
+                        foreach (List<string> row in mrows)
+                        {
+                            int i = mrows.IndexOf(row);
+                            if (i <= 0) goto Zero;
+                            mb.X = ushort.Parse(messages.GetValue(i, "X"));
+                            mb.Y = ushort.Parse(messages.GetValue(i, "Y"));
+                            mb.Z = ushort.Parse(messages.GetValue(i, "Z"));
+                            mb.type = int.Parse(messages.GetValue(i, "Type"));
+                            mb.message = messages.GetValue(i, "Message");
+                            if (Block.mb(level.GetTile(mb.X, mb.Y, mb.Z)))
+                                level.MBList.Add(mb);
+                            Zero: ;
+                        }
+
+                    //MessagesDB.Load(level);
 
                     level.jailx = (ushort)(level.spawnx * 32); level.jaily = (ushort)(level.spawny * 32); level.jailz = (ushort)(level.spawnz * 32);
                     level.jailrotx = level.rotx; level.jailroty = level.roty;
@@ -856,7 +932,7 @@ namespace MCSong
 
                     try
                     {
-                        DataTable foundDB = MySQL.fillData("SELECT * FROM `Portals" + givenName + "`");
+                        /*DataTable foundDB = MySQL.fillData("SELECT * FROM `Portals" + givenName + "`");
 
                         for (int i = 0; i < foundDB.Rows.Count; ++i)
                         {
@@ -864,6 +940,17 @@ namespace MCSong
                             {
                                 MySQL.executeQuery("DELETE FROM `Portals" + givenName + "` WHERE EntryX=" + foundDB.Rows[i]["EntryX"] + " AND EntryY=" + foundDB.Rows[i]["EntryY"] + " AND EntryZ=" + foundDB.Rows[i]["EntryZ"]);
                             }
+                        }*/
+                        
+                        Table portals = Server.s.database.GetTable("Portals" + givenName);
+                        List<List<string>> prows = portals.Rows;
+                        foreach (List<string> row in prows)
+                        {
+                            int i = prows.IndexOf(row);
+                            if (i <= 0) goto Zero;
+                            if (!Block.portal(level.GetTile(ushort.Parse(portals.GetValue(i, "EntryX")), ushort.Parse(portals.GetValue(i, "EntryY")), ushort.Parse(portals.GetValue(i, "EntryZ")))))
+                                portals.DeleteRow(i);
+                            Zero: ;
                         }
 
                         /*foundDB = MySQL.fillData("SELECT * FROM `Messages" + givenName + "`");
@@ -874,8 +961,18 @@ namespace MCSong
                             {
                                 MySQL.executeQuery("DELETE FROM `Messages" + givenName + "` WHERE X=" + foundDB.Rows[i]["X"] + " AND Y=" + foundDB.Rows[i]["Y"] + " AND Z=" + foundDB.Rows[i]["Z"]);
                             }
-                        }*/
-                        foundDB.Dispose();
+                        }
+                        foundDB.Dispose();*/
+
+                        foreach (List<string> row in mrows)
+                        {
+                            int i = mrows.IndexOf(row);
+                            if (i <= 0) goto Zero;
+                            if (!Block.mb(level.GetTile(ushort.Parse(messages.GetValue(i, "X")), ushort.Parse(messages.GetValue(i, "Y")), ushort.Parse(messages.GetValue(i, "Z")))))
+                                messages.DeleteRow(i);
+                            Zero:;
+                        }
+
                     }
                     catch (Exception e) { Server.ErrorLog(e); }
 

@@ -15,14 +15,15 @@ namespace MCSong
         public override void Use(Player p, string message)
         {
             if (message == "") { Help(p); return; }
-
+            string[] args = message.Split(' ');
             CatchPos cpos = new CatchPos();
             cpos.message = "";
             bool typeSet = false;
             bool blockset = true;
             try
             {
-                switch (message.Split(' ')[0].ToLower())
+                Server.s.Debug("0");
+                switch (args[0].ToLower())
                 {
                     case "air": cpos.block = Block.MsgAir; break;
                     case "water": cpos.block = Block.MsgWater; break;
@@ -30,32 +31,42 @@ namespace MCSong
                     case "black": cpos.block = Block.MsgBlack; break;
                     case "white": cpos.block = Block.MsgWhite; break;
                     case "show": showMBs(p); return;
-                    case "chat": typeSet = true; cpos.block = Block.MsgWhite; cpos.type = MessageType.CHAT; cpos.message = message.Replace(message.Split(' ')[0] + " ", ""); break;
-                    case "announce": typeSet = true; cpos.block = Block.MsgWhite; cpos.type = MessageType.ANNOUNCEMENT; cpos.message = message.Replace(message.Split(' ')[0] + " ", ""); break;
+                    case "chat": typeSet = true; cpos.block = Block.MsgWhite; cpos.type = MessageType.CHAT; cpos.message = message.Replace(args[0], ""); break;
+                    case "announce": typeSet = true; cpos.block = Block.MsgWhite; cpos.type = MessageType.ANNOUNCEMENT; cpos.message = message.Replace(args[0], ""); break;
                     default: blockset = false; cpos.block = Block.MsgWhite; cpos.type = MessageType.CHAT; cpos.message = message; break;
                 }
             }
-            catch { cpos.block = Block.MsgWhite; cpos.type = MessageType.CHAT; cpos.message = message; }
+            catch { Server.s.Debug("1"); cpos.block = Block.MsgWhite; cpos.type = MessageType.CHAT; cpos.message = message; }
 
             if (!typeSet)
             {
+                Server.s.Debug("2");
                 if (blockset)
-                    switch (message.Split(' ')[1])
+                {
+                    Server.s.Debug("3");
+                    switch (args[1])
                     {
-                        case "chat": cpos.type = MessageType.CHAT; message.Replace(message.Split(' ')[1], ""); break;
-                        case "announce": cpos.type = MessageType.ANNOUNCEMENT; message.Replace(message.Split(' ')[1], ""); break;
-                        default: cpos.type = MessageType.CHAT; cpos.message = message; break;
+                        case "chat": cpos.type = MessageType.CHAT; message.Replace(args[0], "").Replace("chat", "").Trim(); break;
+                        case "announce": cpos.type = MessageType.ANNOUNCEMENT; message.Replace(args[0], "").Replace("announce", "").Trim(); break;
+                        default: cpos.type = MessageType.CHAT; cpos.message = message.Replace(args[0], ""); break;
                     }
+                }
                 if (!blockset)
-                    switch (message.Split(' ')[0])
+                {
+                    Server.s.Debug("4");
+                    switch (args[0])
                     {
-                        case "chat": cpos.type = MessageType.CHAT; message.Replace(message.Split(' ')[0], ""); break;
-                        case "announce": cpos.type = MessageType.ANNOUNCEMENT; message.Replace(message.Split(' ')[0], ""); break;
+                        case "chat": cpos.type = MessageType.CHAT; message.Replace(args[0], ""); break;
+                        case "announce": cpos.type = MessageType.ANNOUNCEMENT; message.Replace(args[0], ""); break;
                         default: cpos.type = MessageType.CHAT; cpos.message = message; break;
                     }
+                }
             }
 
+            Server.s.Debug(message);
             if (cpos.message == "") cpos.message = message.Substring(message.IndexOf(' ') + 1);
+
+            Server.s.Debug(cpos.message);
             p.blockchangeObject = cpos;
 
             Player.SendMessage(p, "Place where you wish the message block to go."); p.ClearBlockchange();
@@ -93,7 +104,7 @@ namespace MCSong
                 p.level.MBList.Remove(p.level.getMB(x, y, z));
             }
 
-            p.level.MBList.Add(new Level.MessageBlock() { X = x, Y = y, Z = z, type = (int)cpos.type, message = cpos.message.Replace('|', ':') });
+            p.level.MBList.Add(new Level.MessageBlock() { X = x, Y = y, Z = z, type = (int)cpos.type, message = cpos.message});
 
             Player.SendMessage(p, "Message block placed.");
             p.level.Blockchange(p, x, y, z, cpos.block);

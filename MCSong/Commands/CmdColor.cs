@@ -39,8 +39,8 @@ namespace MCSong
                 if (message.Substring(pos + 1) == "del")
                 {
                     Player.GlobalChat(who, who.color + "*" + Name(who.name) + " color reverted to " + who.group.color + "their group's default" + Server.DefaultColor + ".", false);
-                    who.color = "group";
-                    PlayerDB.Save(who);
+                    //PlayerDB.Save(who);
+                    Server.s.database.GetTable("Players").SetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { who.name })), "Color", "");
                     who.color = who.group.color;
                     Player.GlobalDie(who, false);
                     Player.GlobalSpawn(who, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], false);
@@ -57,7 +57,9 @@ namespace MCSong
                     //                  c.Name(color) + "&e.", false);
                     Player.GlobalChat(who, who.color + "*" + Name(who.name) + " color changed to " + color + c.Name(color) + Server.DefaultColor + ".", false);
                     who.color = color;
-                    PlayerDB.Save(who);
+                    //PlayerDB.Save(who);
+
+                    Server.s.database.GetTable("Players").SetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { who.name })), "Color", color);
                     Player.GlobalDie(who, false);
                     Player.GlobalSpawn(who, who.pos[0], who.pos[1], who.pos[2], who.rot[0], who.rot[1], false);
                     who.SetPrefix();
@@ -69,8 +71,10 @@ namespace MCSong
                 if (message == "del")
                 {
                     Player.GlobalChat(p, p.color + "*" + Name(p.name) + " color reverted to " + p.group.color + "their group's default" + Server.DefaultColor + ".", false);
-                    p.color = "group";
-                    PlayerDB.Save(p);
+                    //p.color = "group";
+                    //PlayerDB.Save(p);
+
+                    Server.s.database.GetTable("Players").SetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { p.name })), "Color", "");
                     p.color = p.group.color;
                     Player.GlobalDie(p, false);
                     Player.GlobalSpawn(p, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1], false);
@@ -84,7 +88,9 @@ namespace MCSong
                 {
                     Player.GlobalChat(p, p.color + "*" + Name(p.name) + " color changed to " + color + c.Name(color) + Server.DefaultColor + ".", false);
                     p.color = color;
-                    PlayerDB.Save(p);
+                    //PlayerDB.Save(p);
+
+                    Server.s.database.GetTable("Players").SetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { p.name })), "Color", color);
                     Player.GlobalDie(p, false);
                     Player.GlobalSpawn(p, p.pos[0], p.pos[1], p.pos[2], p.rot[0], p.rot[1], false);
                     p.SetPrefix();

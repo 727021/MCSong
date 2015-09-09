@@ -37,6 +37,45 @@ namespace MCSong
         ANNOUNCEMENT = 100
     }
 
+    public enum Magic : byte
+    {
+        IDENTIFICATION = 0,
+        PING = 1,
+        LEVEL_INIT = 2,
+        LEVEL_DATA = 3,
+        LEVEL_FINALIZE = 4,
+        PLAYER_SET_BLOCK = 5,
+        BLOCK_CHANGE = 6,
+        SPAWN_PLAYER = 7,
+        POSITION_ROTATION = 8,
+        POSITION_ROTATION_UPDATE = 9,
+        POSITION_UPDATE = 10,
+        ROTATION_UPDATE = 11,
+        DESPAWN_PLAYER = 12,
+        CHAT_MESSAGE = 13,
+        DISCONNECT = 14,
+        UPDATE_PLAYER_TYPE = 15,
+        // CPE
+        EXTINFO = 16,
+        EXTENTRY = 17,
+        CLICK_DISTANCE = 18,
+        CUSTOM_BLOCK_SUPPORT_LEVEL = 19,
+        HOLD_THIS = 20,
+        SET_TEXT_HOTKEY = 21,
+        EXT_ADD_PLAYERNAME = 22,
+        EXT_ADD_ENTITY = 23,
+        EXT_REMOVE_PLAYERNAME = 24,
+        ENV_SET_COLOR = 25,
+        SELECTION_CUBOID = 26,
+        REMOVE_SELECTION_CUBOID = 27,
+        SET_BLOCK_PERMISSIONS = 28,
+        CHANGE_MODEL = 29,
+        ENV_SET_MAP_APPEARANCE = 30,
+        ENV_SET_WEATHER_TYPE = 31,
+        HACK_CONTROL = 32,
+        EXT_ADD_ENTITY2 = 33
+    }
+
     public sealed partial class Player
     {
         public static List<Player> players = new List<Player>();
@@ -71,7 +110,7 @@ namespace MCSong
         public byte id;
         public int userID = -1;
         public string ip;
-        public string color;
+        public string color = "";
         public Group group;
         public bool hidden = false;
         public bool painting = false;
@@ -80,7 +119,7 @@ namespace MCSong
         public bool invincible = false;
         public string prefix = "";
         public string title = "";
-        public string titlecolor;
+        public string titlecolor = "";
 
         public bool deleteMode = false;
         public bool ignorePermission = false;
@@ -172,7 +211,7 @@ namespace MCSong
             switch (status1.ToLower())
             {
                 case "clear":
-                    message = "&f";
+                    message = "";
                     break;
                 case "custom":
                     message = status1c;
@@ -181,8 +220,8 @@ namespace MCSong
                     message = "[" + Compass(rot[0] / (int)(255 / (compass.Length - 1))) + "]";
                     break;
                 case "game":
-                    if (level.ctfmode) { if (team != null) { message = "&fCTF: " + team.color + team.teamstring + " &fPoints: " + team.color + team.points; break; } }
-                    message = "&fNo Team";
+                    if (level.ctfmode && team != null) message = "&fCTF: " + team.color + team.teamstring + " &fPoints: " + team.color + team.points;
+                    else message = "&fNo Team";
                     break;
                 case "block":
                     message = BlockInfo();
@@ -207,8 +246,8 @@ namespace MCSong
                     message = "[" + Compass(rot[0] / (int)(255 / (compass.Length - 1))) + "]";
                     break;
                 case "game":
-                    if (level.ctfmode) { if (team != null) message = "&fCTF: " + team.color + team.teamstring + " &fPoints: " + team.color + team.points; }
-                    else { message = "&fNo Team"; }
+                    if (level.ctfmode && team != null) message = "&fCTF: " + team.color + team.teamstring + " &fPoints: " + team.color + team.points;
+                    else message = "&fNo Team";
                     break;
                 case "block":
                     message = BlockInfo();
@@ -224,29 +263,31 @@ namespace MCSong
             switch (status3.ToLower())
             {
                 case "clear":
-                    message = "";
-                    break;
+                    message = " ";
+                    goto default;
                 case "custom":
                     message = status3c;
-                    break;
+                    goto default;
                 case "compass":
                     message = "[" + Compass(rot[0] / (int)(255 / (compass.Length - 1))) + "]";
-                    break;
+                    goto default;
                 case "game":
-                    if (level.ctfmode) { if (team != null) message = "&fCTF: " + team.color + team.teamstring + " &fPoints: " + team.color + team.points; }
-                    else { message = "&fNo Team"; }
-                    break;
+                    if (level.ctfmode && team != null) message = "&fCTF: " + team.color + team.teamstring + " &fPoints: " + team.color + team.points;
+                    else message = "&fNo Team";
+                    goto default;
                 case "block":
                     message = BlockInfo();
-                    break;
+                    goto default;
                 case "motd":
                     message = (level.motd == "ignore") ? Server.motd : level.motd;
-                    break;
+                    goto default;
                 case "default":
                     message = "&f" + Server.moneys + ": &a" + money + " &fLevel: " + Group.findPerm(level.permissionvisit).color + level.name + " (" + level.physics + ")";
+                    goto default;
+                default:
+                    SendMessage(this, message, MessageType.STATUS_BOTTOM);
                     break;
             }
-            SendMessage(this, message, MessageType.STATUS_BOTTOM);
         }
         private string compass = " -NW- | -N- | -NE- | -E- | -SE- | -S- | -SW- | -W- |";
         public string Compass(int start)
@@ -401,10 +442,12 @@ namespace MCSong
                     {
                         if (!Group.Find("Nobody").commands.Contains("inbox") && !Group.Find("Nobody").commands.Contains("send"))
                         {
-                            DataTable Inbox = MySQL.fillData("SELECT * FROM `Inbox" + name + "`", true);
+                            //DataTable Inbox = MySQL.fillData("SELECT * FROM `Inbox" + name + "`", true);
 
-                            SendMessage("&cYou have &f" + Inbox.Rows.Count + Server.DefaultColor + " &cmessages in /inbox");
-                            Inbox.Dispose();
+
+
+                            SendMessage("&cYou have &f" + Server.s.database.GetTable("Inbox" + name).Rows.Count + Server.DefaultColor + " &cmessages in /inbox");
+                            //Inbox.Dispose();
                         }
                     }
                     catch { }
@@ -475,8 +518,18 @@ namespace MCSong
                 " WHERE Name='" + name + "'";
 
             MySQL.executeQuery(commandString);*/
-
-            PlayerDB.Save(this);
+            string c = "";
+            string tc = "";
+            string t = "";
+            try
+            {
+                c = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "Color");
+                tc = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "TColor");
+                t = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "Title");
+                Server.s.database.GetTable("Players").DeleteRow(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })));
+            }
+            catch { }
+            Server.s.database.GetTable("Players").AddRow(new List<string> { id.ToString(), name, ip, firstLogin.ToString("yyyy-MM-dd HH:mm:ss"), lastLogin.ToString("yyyy-MM-dd HH:mm:ss"), totalLogins.ToString(), title, deathCount.ToString(), money.ToString(), (overallBlocks + loginBlocks).ToString(), totalKicked.ToString(), c, tc });
 
             try
             {
@@ -910,7 +963,42 @@ namespace MCSong
                 overallBlocks = int.Parse(playerDb.Rows[0]["totalBlocks"].ToString().Trim());
                 money = int.Parse(playerDb.Rows[0]["Money"].ToString());
                 totalKicked = int.Parse(playerDb.Rows[0]["totalKicked"].ToString());*/
-            PlayerDB.Load(this);
+            //PlayerDB.Load(this);
+
+            jDatabase.Table plrs = Server.s.database.GetTable("Players");
+            List<List<string>> rows = plrs.Rows;
+
+            try
+            {
+                int i = rows.IndexOf(plrs.GetRow(new string[] { "Name" }, new string[] { name }));
+                title = plrs.GetValue(i, "Title");
+                titlecolor = plrs.GetValue(i, "TColor");
+                color = (String.IsNullOrWhiteSpace(plrs.GetValue(i, "Color")) ? group.color : plrs.GetValue(i, "Color"));
+                money = int.Parse(plrs.GetValue(i, "Money"));
+                firstLogin = DateTime.Parse(plrs.GetValue(i, "FirstLogin"));
+                lastLogin = DateTime.Parse(plrs.GetValue(i, "LastLogin"));
+                totalLogins = int.Parse(plrs.GetValue(i, "TotalLogins"));
+                totalKicked = int.Parse(plrs.GetValue(i, "TotalKicks"));
+                overallDeath = int.Parse(plrs.GetValue(i, "TotalDeaths"));
+                overallBlocks = int.Parse(plrs.GetValue(i, "TotalBlocks"));
+                timeLogged = DateTime.Now;
+            }
+            catch
+            {
+                title = "";
+                titlecolor = "";
+                color = group.color;
+                money = 0;
+                firstLogin = DateTime.Now;
+                lastLogin = DateTime.Now;
+                totalLogins = 1;
+                totalKicked = 0;
+                overallDeath = 0;
+                overallBlocks = 0;
+                timeLogged = DateTime.Now;
+                Server.s.database.GetTable("Players").AddRow(new List<string> { id.ToString(), name, ip, firstLogin.ToString("yyyy-MM-dd HH:mm:ss"), lastLogin.ToString("yyyy-MM-dd HH:mm:ss"), totalLogins.ToString(), "", deathCount.ToString(), money.ToString(), (overallBlocks + loginBlocks).ToString(), totalKicked.ToString(), "", "" });
+            }
+
             SendMessage("Welcome back " + color + prefix + name + Server.DefaultColor + "! You've been here " + totalLogins + " times!");
             //}
             //playerDb.Dispose();
@@ -1219,9 +1307,32 @@ namespace MCSong
         {
             try
             {
-                DataTable Portals = MySQL.fillData("SELECT * FROM `Portals" + level.name + "` WHERE EntryX=" + (int)x + " AND EntryY=" + (int)y + " AND EntryZ=" + (int)z);
+                //DataTable Portals = MySQL.fillData("SELECT * FROM `Portals" + level.name + "` WHERE EntryX=" + (int)x + " AND EntryY=" + (int)y + " AND EntryZ=" + (int)z);
 
-                int LastPortal = Portals.Rows.Count - 1;
+                jDatabase.Table portals = Server.s.database.GetTable("Portals" + level.name);
+                int i = portals.Rows.IndexOf(portals.GetRow(new string[] { "EntryX", "EntryY", "EntryZ" }, new string[] { x.ToString(), y.ToString(), z.ToString() }));
+
+                if (i > -1)
+                {
+                    if (level.name != portals.GetValue(i, "ExitMap"))
+                    {
+                        ignorePermission = true;
+                        Level thisLevel = level;
+                        Command.all.Find("goto").Use(this, portals.GetValue(i, "ExitMap"));
+                        if (thisLevel == level) { Player.SendMessage(p, "The map the portal goes to isn't loaded."); return; }
+                        ignorePermission = false;
+                    }
+                    else
+                        SendBlockchange(x, y, z, b);
+
+                    while (p.Loading) { }
+                    Command.all.Find("move").Use(this, this.name + " " + portals.GetValue(i, "ExitX") + " " + portals.GetValue(i, "ExitY") + " " + portals.GetValue(i, "ExitZ"));
+
+                }
+                else
+                    Blockchange(this, x, y, z, (byte)0);
+
+                /*int LastPortal = Portals.Rows.Count - 1;
                 if (LastPortal > -1)
                 {
                     if (level.name != Portals.Rows[LastPortal]["ExitMap"].ToString())
@@ -1241,7 +1352,7 @@ namespace MCSong
                 {
                     Blockchange(this, x, y, z, (byte)0);
                 }
-                Portals.Dispose();
+                Portals.Dispose();*/
             }
             catch { Player.SendMessage(p, "Portal had no exit."); return; }
         }
@@ -2174,7 +2285,7 @@ namespace MCSong
                     }
 
                     StringFormat(newLine, 64).CopyTo(buffer, 1);
-                    Server.s.Debug("Sending Packet(13): " + newLine);
+                    //Server.s.Debug("Sending Packet(13): " + newLine);
                     SendRaw(13, buffer);
                 }
             }
@@ -2685,7 +2796,7 @@ namespace MCSong
                     players.Remove(this);
                     Server.s.PlayerListUpdate();
                     left.Add(this.name.ToLower(), this.ip);
-                    PlayerDB.allOffline.Add(new OfflinePlayer(name));
+                    //PlayerDB.allOffline.Add(new OfflinePlayer(name));
                     if (Server.AutoLoad && level.unload)
                     {
                         foreach (Player pl in Player.players)

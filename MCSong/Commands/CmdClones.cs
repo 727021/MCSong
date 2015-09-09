@@ -42,11 +42,20 @@ namespace MCSong
                 if (FindIP.Rows.Count == 0) { Player.SendMessage(p, "Could not find any player by the name entered."); FindIP.Dispose(); return; }
 
                 message = FindIP.Rows[0]["IP"].ToString();
-                FindIP.Dispose();*/
+                FindIP.Dispose();
 
                 OfflinePlayer o = OfflinePlayer.Find(message);
                 if (o == null) { Player.SendMessage(p, "Could not find any player by the name entered."); return; }
-                message = o.ip;
+                message = o.ip;*/
+                try
+                {
+                    message = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { message })), "IP");
+                }
+                catch
+                {
+                    Player.SendMessage(p, "Could not find any player by the name entered.");
+                    return;
+                }
             }
             else
             {
@@ -66,7 +75,7 @@ namespace MCSong
 
             Clones.Dispose();*/
             List<string> foundPeople = new List<string>();
-            Player.players.ForEach(delegate (Player pl)
+            /*Player.players.ForEach(delegate (Player pl)
             {
                 if (pl.ip == message)
                     if (!foundPeople.Contains(pl.name))
@@ -77,7 +86,11 @@ namespace MCSong
                 if (op.ip == message)
                     if (!foundPeople.Contains(op.name))
                         foundPeople.Add(op.name);
-            });
+            });*/
+            jDatabase.Table players = Server.s.database.GetTable("Players");
+            List<List<string>> foundRows = players.GetRows("IP", message);
+            foreach (List<string> row in foundRows)
+                foundPeople.Add(players.GetValue(players.Rows.IndexOf(row), "Name"));
             if (foundPeople.Count <= 1) { Player.SendMessage(p, originalName + " has no clones."); return; }
 
             Player.SendMessage(p, "These people have the same IP address:");

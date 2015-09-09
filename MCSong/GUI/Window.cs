@@ -1113,7 +1113,7 @@ namespace MCSong.Gui
             liMaps.SetSelected(0, false);
             l.Unload();
             UpdateMapList();
-            if (Level.Find(l.name) == null)
+            if (l == null && liUnloaded.Items.Contains(l.name))
                 liUnloaded.SetSelected(liUnloaded.Items.IndexOf(l.name), true);
         }
 
@@ -1235,11 +1235,16 @@ namespace MCSong.Gui
                             try { File.Delete("levels/level properties/" + message + ".properties"); }
                             catch { }
                             try { File.Delete("levels/level properties/" + message); }
-                            catch { }
+                            catch { }/*
                             try { File.Delete("db/mb/" + message + ".txt"); }
-                            catch { }
+                            catch { }*/
 
-                            MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Zone" + message + "`");
+                            //MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Zone" + message + "`");
+
+                            Server.s.database.GetTable("Blocks" + message).Delete();
+                            Server.s.database.GetTable("Portals" + message).Delete();
+                            Server.s.database.GetTable("Messages" + message).Delete();
+                            Server.s.database.GetTable("Zones" + message).Delete();
 
                             Player.GlobalMessage("Level " + message + " was deleted.");
                             MessageBox.Show("Level " + message + " was deleted.");
@@ -1284,11 +1289,16 @@ namespace MCSong.Gui
                             try { File.Delete("levels/level properties/" + message); }
                             catch { }
                             try { Directory.Delete(Server.backupLocation + "/" + message); }
-                            catch { }
+                            catch { }/*
                             try { File.Delete("db/mb/" + message + ".txt"); }
-                            catch { }
+                            catch { }*/
 
-                            MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Zone" + message + "`");
+                            //MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Zone" + message + "`");
+
+                            Server.s.database.GetTable("Blocks" + message).Delete();
+                            Server.s.database.GetTable("Portals" + message).Delete();
+                            Server.s.database.GetTable("Messages" + message).Delete();
+                            Server.s.database.GetTable("Zones" + message).Delete();
 
                             Player.GlobalMessage("Level " + message + " was deleted.");
                             MessageBox.Show("Level " + message + " AND all its backups were deleted.");
@@ -1337,17 +1347,22 @@ namespace MCSong.Gui
                         {
                             File.Move("levels/level properties/" + oldName, "levels/level properties/" + newName + ".properties");
                         }
-                        catch { }
+                        catch { }/*
                         try
                         {
                             File.Move("db/mb/" + oldName + ".txt", "db/mb/" + newName + ".txt");
                         }
-                        catch { }
+                        catch { }*/
 
-                        MySQL.executeQuery("RENAME TABLE `Block" + oldName.ToLower() + "` TO `Block" + newName.ToLower() +
+                        /*MySQL.executeQuery("RENAME TABLE `Block" + oldName.ToLower() + "` TO `Block" + newName.ToLower() +
                             "`, `Portals" + oldName.ToLower() + "` TO `Portals" + newName.ToLower() +
                             "`, `Messages" + oldName.ToLower() + "` TO Messages" + newName.ToLower() +
-                            ", `Zone" + oldName.ToLower() + "` TO `Zone" + newName.ToLower() + "`");
+                            ", `Zone" + oldName.ToLower() + "` TO `Zone" + newName.ToLower() + "`");*/
+
+                        Server.s.database.GetTable("Blocks" + oldName).Rename("Blocks" + newName);
+                        Server.s.database.GetTable("Portals" + oldName).Rename("Portals" + newName);
+                        Server.s.database.GetTable("Messages" + oldName).Rename("Messages" + newName);
+                        Server.s.database.GetTable("Zones" + oldName).Rename("Zones" + newName);
 
                         Player.GlobalMessage("Renamed " + oldName + " to " + newName);
                     }
