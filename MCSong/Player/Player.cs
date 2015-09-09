@@ -37,7 +37,7 @@ namespace MCSong
         ANNOUNCEMENT = 100
     }
 
-    public enum Magic : byte
+    public enum Magic
     {
         IDENTIFICATION = 0,
         PING = 1,
@@ -2121,6 +2121,14 @@ namespace MCSong
         }
         #endregion
         #region == OUTGOING ==
+        public void SendRaw(Magic magic)
+        {
+            SendRaw(magic, new byte[0]);
+        }
+        public void SendRaw(Magic magic, byte[] send)
+        {
+            SendRaw((int)magic, send);
+        }
         public void SendRaw(int id)
         {
             SendRaw(id, new byte[0]);
@@ -2286,7 +2294,7 @@ namespace MCSong
 
                     StringFormat(newLine, 64).CopyTo(buffer, 1);
                     //Server.s.Debug("Sending Packet(13): " + newLine);
-                    SendRaw(13, buffer);
+                    SendRaw(Magic.CHAT_MESSAGE, buffer);
                 }
             }
             catch (Exception e)
@@ -2310,7 +2318,7 @@ namespace MCSong
                 buffer[129] = 0;
 
             Server.s.Debug("Sending Packet(0): 8 " + Server.name + " " + Server.motd + " " + buffer[129]);
-            SendRaw(0, buffer);
+            SendRaw(Magic.IDENTIFICATION, buffer);
             
         }
 
@@ -2327,13 +2335,13 @@ namespace MCSong
             else
                 buffer[129] = 0;
             Server.s.Debug("Sending Packet(0): " + ((level.motd == "ignore") ? Server.name + " " + Server.motd : level.motd) + " " + buffer[129]);
-            SendRaw(0, buffer);
+            SendRaw(Magic.IDENTIFICATION, buffer);
         }
 
         public void SendMap()
         {
             Server.s.Debug("Sending Packet(2)");
-            SendRaw(2);
+            SendRaw(Magic.LEVEL_INIT);
             byte[] buffer = new byte[level.blocks.Length + 4];
             BitConverter.GetBytes(IPAddress.HostToNetworkOrder(level.blocks.Length)).CopyTo(buffer, 0);
             //ushort xx; ushort yy; ushort z;z
@@ -2359,7 +2367,7 @@ namespace MCSong
                 buffer = tempbuffer;
                 send[1026] = (byte)(i * 100 / number);
                 Server.s.Debug("Sending Packet(3): " + length + " {chunk data} " + (i * 100 / number).ToString());
-                SendRaw(3, send);
+                SendRaw(Magic.LEVEL_DATA, send);
                 if (ip == "127.0.0.1") { }
                 else if (Server.updateTimer.Interval > 1000) Thread.Sleep(100);
                 else Thread.Sleep(10);
@@ -2370,7 +2378,7 @@ namespace MCSong
             HTNO((short)level.depth).CopyTo(buffer, 2);
             HTNO((short)level.height).CopyTo(buffer, 4);
             Server.s.Debug("Sending Packet(4): " + level.width + " " + level.depth + " " + level.height);
-            SendRaw(4, buffer);
+            SendRaw(Magic.LEVEL_FINALIZE, buffer);
             Loading = false;
 
             GC.Collect();
@@ -2381,11 +2389,11 @@ namespace MCSong
         {
             byte[] buffer = new byte[66];
 
-            StringFormat("MCSong Server", 64).CopyTo(buffer, 0);
+            StringFormat("MCSong Server v" + Server.Version, 64).CopyTo(buffer, 0);
             HTNO((short)Extension.all.Count).CopyTo(buffer, 64);
 
             Server.s.Debug("Sending Packet(16): MCSong Server " + Extension.all.Count);
-            SendRaw(16, buffer);
+            SendRaw(Magic.EXTINFO, buffer);
         }
 
         public void SendExtEntry()
@@ -2396,7 +2404,7 @@ namespace MCSong
                 StringFormat(e.name, 64).CopyTo(buffer, 0);
                 HTNO(e.version).CopyTo(buffer, 64);
                 Server.s.Debug("Sending Packet(17): " + e.name + " " + e.version);
-                SendRaw(17, buffer);
+                SendRaw(Magic.EXTENTRY, buffer);
             }
         }
 
@@ -2406,7 +2414,7 @@ namespace MCSong
             byte[] buffer = new byte[2];
             HTNO(distance).CopyTo(buffer, 0);
             Server.s.Debug("Sending Packet(18): " + distance);
-            SendRaw(18, buffer);
+            SendRaw(Magic.CLICK_DISTANCE, buffer);
             Server.s.Log(name + "'s click distance was set to " + distance);
         }
 
@@ -2415,7 +2423,7 @@ namespace MCSong
             byte[] buffer = new byte[1];
             buffer[0] = Server.CustomBlockSupportLevel;
             Server.s.Debug("Sending Packet(19): " + Server.CustomBlockSupportLevel);
-            SendRaw(19, buffer);
+            SendRaw(Magic.CUSTOM_BLOCK_SUPPORT_LEVEL, buffer);
         }
 
         public void SendHackControl()
@@ -2428,7 +2436,7 @@ namespace MCSong
             buffer[4] = (level.hacks.ThirdPerson) ? (byte)1 : (byte)0;
             HTNO(level.hacks.JumpHeight).CopyTo(buffer, 5);
             Server.s.Debug("Sending Packet(32): " + buffer[0] + " " + buffer[1] + " " + buffer[2] + " " + buffer[3] + " " + buffer[4] + " " + level.hacks.JumpHeight);
-            SendRaw(32, buffer);
+            SendRaw(Magic.HACK_CONTROL, buffer);
         }
 
         public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty)
@@ -2442,7 +2450,7 @@ namespace MCSong
             HTNO(z).CopyTo(buffer, 69);
             buffer[71] = rotx; buffer[72] = roty;
             Server.s.Debug("Sending Packet(7): " + id + " " + name + " " + x + " " + y + " " + z + " " + rotx + " " + roty);
-            SendRaw(7, buffer);
+            SendRaw(Magic.SPAWN_PLAYER, buffer);
         }
         public void SendPos(byte id, ushort x, ushort y, ushort z, byte rotx, byte roty)
         {
@@ -2467,10 +2475,10 @@ namespace MCSong
             HTNO(z).CopyTo(buffer, 5);
             buffer[7] = rotx; buffer[8] = roty;
             //Server.s.Debug("Sending Packet(8): " + id + " " + x + " " + y + " " + z + " " + rotx + " " + roty);
-            SendRaw(8, buffer);
+            SendRaw(Magic.POSITION_ROTATION, buffer);
         }
         //TODO: Figure a way to SendPos without changing rotation
-        public void SendDie(byte id) { Server.s.Debug("Sending Packet(0x0C): " + id); SendRaw(0x0C, new byte[1] { id }); }
+        public void SendDie(byte id) { Server.s.Debug("Sending Packet(0x0C): " + id); SendRaw(Magic.DESPAWN_PLAYER, new byte[1] { id }); }
         public void SendBlockchange(ushort x, ushort y, ushort z, byte type)
         {
             if (!extensions.Contains(Extension.CustomBlocks) || (CustomBlockSupportLevel < Block.SupportLevel(type)))
@@ -2487,10 +2495,10 @@ namespace MCSong
             HTNO(z).CopyTo(buffer, 4);
             buffer[6] = Block.Convert(type);
             Server.s.Debug("Sending Packet(6): " + x + " " + y + " " + z + " " + Block.Convert(type));
-            SendRaw(6, buffer);
+            SendRaw(Magic.BLOCK_CHANGE, buffer);
         }
-        void SendKick(string message) { Server.s.Debug("Sending Packet(14): " + message); SendRaw(14, StringFormat(message, 64)); }
-        void SendPing() { /*pingDelay = 0; pingDelayTimer.Start(); Server.s.Debug("Sending Packet(1)");*/ SendRaw(1); }
+        void SendKick(string message) { Server.s.Debug("Sending Packet(14): " + message); SendRaw(Magic.DISCONNECT, StringFormat(message, 64)); }
+        void SendPing() { /*pingDelay = 0; pingDelayTimer.Start(); Server.s.Debug("Sending Packet(1)");*/ SendRaw(Magic.PING); }
         void UpdatePosition()
         {
 
@@ -2520,10 +2528,10 @@ namespace MCSong
             if ((oldpos[0] == pos[0] && oldpos[1] == pos[1] && oldpos[2] == pos[2]) && (basepos[0] != pos[0] || basepos[1] != pos[1] || basepos[2] != pos[2]))
                 changed |= 4;
 
-            byte[] buffer = new byte[0]; byte msg = 0; string content = "";
+            byte[] buffer = new byte[0]; Magic msg = 0; string content = "";
             if ((changed & 4) != 0)
             {
-                msg = 8; //Player teleport - used for spawning or moving too fast
+                msg = Magic.POSITION_ROTATION; //Player teleport - used for spawning or moving too fast
                 buffer = new byte[9]; buffer[0] = id;
                 HTNO(pos[0]).CopyTo(buffer, 1);
                 HTNO(pos[1]).CopyTo(buffer, 3);
@@ -2547,7 +2555,7 @@ namespace MCSong
             {
                 try
                 {
-                    msg = 10; //Position update
+                    msg = Magic.POSITION_UPDATE; //Position update
                     buffer = new byte[4]; buffer[0] = id;
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[0] - oldpos[0])), 0, buffer, 1, 1);
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[1] - oldpos[1])), 0, buffer, 2, 1);
@@ -2558,7 +2566,7 @@ namespace MCSong
             }
             else if (changed == 2)
             {
-                msg = 11; //Orientation update
+                msg = Magic.ROTATION_UPDATE; //Orientation update
                 buffer = new byte[3]; buffer[0] = id;
                 buffer[1] = rot[0];
 
@@ -2578,7 +2586,7 @@ namespace MCSong
             {
                 try
                 {
-                    msg = 9; //Position and orientation update
+                    msg = Magic.POSITION_ROTATION_UPDATE; //Position and orientation update
                     buffer = new byte[6]; buffer[0] = id;
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[0] - oldpos[0])), 0, buffer, 1, 1);
                     Buffer.BlockCopy(System.BitConverter.GetBytes((sbyte)(pos[1] - oldpos[1])), 0, buffer, 2, 1);
