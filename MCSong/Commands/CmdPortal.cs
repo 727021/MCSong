@@ -4,6 +4,7 @@ using System.Collections.Generic;
 //using MySql.Data.MySqlClient;
 //using MySql.Data.Types;
 using System.Data;
+using jDatabase;
 
 namespace MCSong
 {
@@ -102,7 +103,7 @@ namespace MCSong
 
             foreach (portPos pos in bp.port)
             {
-                DataTable Portals = MySQL.fillData("SELECT * FROM `Portals" + pos.portMapName + "` WHERE EntryX=" + (int)pos.x + " AND EntryY=" + (int)pos.y + " AND EntryZ=" + (int)pos.z);
+                /*DataTable Portals = MySQL.fillData("SELECT * FROM `Portals" + pos.portMapName + "` WHERE EntryX=" + (int)pos.x + " AND EntryY=" + (int)pos.y + " AND EntryZ=" + (int)pos.z);
                 Portals.Dispose();
 
                 if (Portals.Rows.Count == 0)
@@ -112,8 +113,20 @@ namespace MCSong
                 else
                 {
                     MySQL.executeQuery("UPDATE `Portals" + pos.portMapName + "` SET ExitMap='" + p.level.name + "', ExitX=" + (int)x + ", ExitY=" + (int)y + ", ExitZ=" + (int)z + " WHERE EntryX=" + (int)pos.x + " AND EntryY=" + (int)pos.y + " AND EntryZ=" + (int)pos.z);
-                }
+                }*/
                 //DB
+
+                Table portals = Server.s.database.GetTable("Portals" + pos.portMapName);
+                List<List<string>> rows = portals.Rows;
+                if (portals.GetRows(new string[] { "EntryX", "EntryY", "EntryZ" }, new string[] { pos.x.ToString(), pos.y.ToString(), pos.z.ToString() }).Count == 0)
+                {
+                    portals.AddRow(new List<string> { pos.x.ToString(), pos.y.ToString(), pos.z.ToString(), p.level.ToString(), x.ToString(), y.ToString(), z.ToString() });
+                }
+                else
+                {
+                    portals.DeleteRow(rows.IndexOf(portals.GetRow(new string[] { "EntryX", "EntryY", "EntryZ" }, new string[] { pos.x.ToString(), pos.y.ToString(), pos.z.ToString() })));
+                    portals.AddRow(new List<string> { pos.x.ToString(), pos.y.ToString(), pos.z.ToString(), p.level.name, x.ToString(), y.ToString(), z.ToString() });
+                }
 
                 if (pos.portMapName == p.level.name) p.SendBlockchange(pos.x, pos.y, pos.z, bp.type);
             }
@@ -130,6 +143,32 @@ namespace MCSong
         {
             p.showPortals = !p.showPortals;
 
+            Table portals = Server.s.database.GetTable("Portals" + p.level.name);
+            List<List<string>> rows = portals.Rows;
+            if (p.showPortals)
+            {
+                foreach (List<string> row in rows)
+                {
+                    int i = rows.IndexOf(row) + 1;
+                    if (portals.GetValue(i, "ExitMap") == p.level.name)
+                        p.SendBlockchange(ushort.Parse(portals.GetValue(i, "ExitX")), ushort.Parse(portals.GetValue(i, "ExitY")), ushort.Parse(portals.GetValue(i, "ExitZ")), Block.orange_portal);
+                    p.SendBlockchange(ushort.Parse(portals.GetValue(i, "EntryX")), ushort.Parse(portals.GetValue(i, "EntryY")), ushort.Parse(portals.GetValue(i, "EntryZ")), Block.blue_portal);
+                }
+                Player.SendMessage(p, "Now showing &a" + rows.Count + Server.DefaultColor + " portals.");
+            }
+            else
+            {
+                foreach (List<string> row in rows)
+                {
+                    int i = rows.IndexOf(row) + 1;
+                    if (portals.GetValue(i, "ExitMap") == p.level.name)
+                        p.SendBlockchange(ushort.Parse(portals.GetValue(i, "ExitX")), ushort.Parse(portals.GetValue(i, "ExitY")), ushort.Parse(portals.GetValue(i, "ExitZ")), Block.air);
+                    p.SendBlockchange(ushort.Parse(portals.GetValue(i, "EntryX")), ushort.Parse(portals.GetValue(i, "EntryY")), ushort.Parse(portals.GetValue(i, "EntryZ")), p.level.GetTile(ushort.Parse(portals.GetValue(i, "EntryX")), ushort.Parse(portals.GetValue(i, "EntryY")), ushort.Parse(portals.GetValue(i, "EntryZ"))));
+                }
+                Player.SendMessage(p, "Now hiding portals.");
+            }
+
+            /*
             DataTable Portals = MySQL.fillData("SELECT * FROM `Portals" + p.level.name + "`");
 
             int i;
@@ -158,7 +197,7 @@ namespace MCSong
                 Player.SendMessage(p, "Now hiding portals.");
             }
 
-            Portals.Dispose();
+            Portals.Dispose();*/
         }
     }
 }

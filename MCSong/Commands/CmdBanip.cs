@@ -63,15 +63,23 @@ namespace MCSong
                         Player.SendMessage(p, "Unable to find an IP address for that user.");
                         return;
                     }
-                    ip.Dispose();*/
+                    ip.Dispose();
                     if (OfflinePlayer.Find(message) != null)
                         message = OfflinePlayer.Find(message).ip;
                     else
                     {
                         Player.SendMessage(p, "Unable to find an IP address for that user.");
                         return;
+                    }*/
+                    try
+                    {
+                        message = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { message })), "IP");
                     }
-
+                    catch
+                    {
+                        Player.SendMessage(p, "Unable to find an IP address for that user.");
+                        return;
+                    }
                 }
                 else
                 {
@@ -88,7 +96,7 @@ namespace MCSong
             if (message.Equals("127.0.0.1")) { Player.SendMessage(p, "You can't ip-ban the server!"); return; }
             if (message.IndexOf('.') == -1) { Player.SendMessage(p, "Invalid IP!"); return; }
             if (message.Split('.').Length != 4) { Player.SendMessage(p, "Invalid IP!"); return; }
-            if (p != null) { if (p.ip == message) { Player.SendMessage(p, "You can't ip-ban yourself.!"); return; } }
+            if (p != null) { if (p.ip == message) { Player.SendMessage(p, "You can't ip-ban yourself!"); return; } }
             if (Server.bannedIP.Contains(message)) { Player.SendMessage(p, message + " is already ip-banned."); return; }
             Player.GlobalMessage(message + " got &8ip-banned!");
             if (p != null)

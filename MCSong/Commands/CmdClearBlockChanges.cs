@@ -22,7 +22,7 @@ namespace MCSong
             if (l == null && p != null) l = p.level;
             if (l == null && p == null) { Player.SendMessage(p, "Could not find level."); return; }
 
-            MySQL.executeQuery("TRUNCATE TABLE `Block" + l.name + "`");
+            Server.s.database.GetTable("Blocks" + l.name).Truncate();
             Player.SendMessage(p, "Cleared &cALL" + Server.DefaultColor + " recorded block changes in: &d" + l.name);
         }
         public override void Help(Player p)

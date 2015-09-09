@@ -1,7 +1,5 @@
 using System;
 using System.Collections.Generic;
-//using MySql.Data.MySqlClient;
-//using MySql.Data.Types;
 
 namespace MCSong
 {
@@ -54,7 +52,7 @@ namespace MCSong
                     return;
                 }
                 else
-                {
+                {/*
                     for (int i = 0; i < p.level.ZoneList.Count; i++)
                     {
                         Level.Zone Zn = p.level.ZoneList[i];
@@ -64,7 +62,10 @@ namespace MCSong
                         p.level.ZoneList.Remove(p.level.ZoneList[i]);
                         if (i == p.level.ZoneList.Count) { Player.SendMessage(p, "Finished removing all zones"); return; }
                         i--;
-                    }
+                    }*/
+                    Server.s.database.GetTable("Zones" + p.level.name).Truncate();
+                    Player.SendMessage(p, "Deleted all zones.");
+                    return;
                 }
             }
 
@@ -135,8 +136,9 @@ namespace MCSong
             p.level.ZoneList.Add(Zn);
 
             //DB
-            MySQL.executeQuery("INSERT INTO `Zone" + p.level.name + "` (SmallX, SmallY, SmallZ, BigX, BigY, BigZ, Owner) VALUES (" + Zn.smallX + ", " + Zn.smallY + ", " + Zn.smallZ + ", " + Zn.bigX + ", " + Zn.bigY + ", " + Zn.bigZ + ", '" + Zn.Owner + "')");
+            //MySQL.executeQuery("INSERT INTO `Zone" + p.level.name + "` (SmallX, SmallY, SmallZ, BigX, BigY, BigZ, Owner) VALUES (" + Zn.smallX + ", " + Zn.smallY + ", " + Zn.smallZ + ", " + Zn.bigX + ", " + Zn.bigY + ", " + Zn.bigZ + ", '" + Zn.Owner + "')");
             //DB
+            Server.s.database.GetTable("Zones" + p.level.name).AddRow(new List<string> { Zn.smallX.ToString(), Zn.smallY.ToString(), Zn.smallZ.ToString(), Zn.bigX.ToString(), Zn.bigY.ToString(), Zn.bigZ.ToString(), Zn.Owner });
 
             Player.SendMessage(p, "Added zone for &b" + cpos.Owner);
         }

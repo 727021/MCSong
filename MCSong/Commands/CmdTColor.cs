@@ -43,7 +43,8 @@ namespace MCSong
             {
                 who.titlecolor = "";
                 Player.GlobalChat(who, who.color + who.name + Server.DefaultColor + " had their title color removed.", false);
-                PlayerDB.Save(who);
+                //PlayerDB.Save(who);
+                Server.s.database.GetTable("Players").SetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { who.name })), "TColor", "");
                 who.SetPrefix();
                 return;
             }
@@ -56,7 +57,8 @@ namespace MCSong
                 {
                     Player.GlobalChat(who, who.color + who.name + Server.DefaultColor + " had their title color changed to " + color + c.Name(color) + Server.DefaultColor + ".", false);
                     who.titlecolor = color;
-                    PlayerDB.Save(who);
+                    //PlayerDB.Save(who);
+                    Server.s.database.GetTable("Players").SetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { who.name })), "TColor", color);
                     who.SetPrefix();
                 }
             }

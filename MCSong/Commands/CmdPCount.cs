@@ -41,7 +41,7 @@ namespace MCSong
             Player.SendMessage(p, "A total of " + count.Rows[0]["COUNT(id)"] + " unique players have visited this server.");
             Player.SendMessage(p, "Of these players, " + bancount + " have been banned.");
             count.Dispose();*/
-            Player.SendMessage(p, "A total of " + new DirectoryInfo("db/players/").GetFiles("*.txt", SearchOption.TopDirectoryOnly).Length + " unique players have visited this server.");
+            Player.SendMessage(p, "A total of " + Server.s.database.GetTable("Players").Rows.Count + " unique players have visited this server.");
             Player.SendMessage(p, "Of these players, " + bancount + " have been banned.");
 
             int playerCount = 0;

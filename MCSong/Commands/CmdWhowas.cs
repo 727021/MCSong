@@ -13,11 +13,6 @@
 	permissions and limitations under the License.
 */
 using System;
-using System.Collections.Generic;
-using System.Data;
-using System.IO;
-//using MySql.Data.MySqlClient;
-//using MySql.Data.Types;
 
 namespace MCSong
 {
@@ -44,29 +39,47 @@ namespace MCSong
 
             string FoundRank = Group.findPlayer(message.ToLower());
 
-            OfflinePlayer off = new OfflinePlayer(message);
+            jDatabase.Table op = Server.s.database.GetTable("Players");
+            int i;
+            try { i = op.Rows.IndexOf(op.GetRow(new string[] { "Name" }, new string[] { message })); }
+            catch { i = 0; }
 
-            if (!off.seen/* || (off.seen & String.IsNullOrEmpty(off.ip))*/) { Player.SendMessage(p, Group.Find(FoundRank).color + message + Server.DefaultColor + " has the rank of " + Group.Find(FoundRank).color + FoundRank); return; }
-            if (String.IsNullOrEmpty(off.title))
-                Player.SendMessage(p, off.color + message + Server.DefaultColor + " has:");
+            //OfflinePlayer off = new OfflinePlayer(message);
+
+            if (i <= 0) { Player.SendMessage(p, Group.Find(FoundRank).color + message + Server.DefaultColor + " has the rank of " + Group.Find(FoundRank).color + FoundRank); return; }
+
+            string title = op.GetValue(i, "Title");
+            string color = op.GetValue(i, "Color");
+            string tcolor = op.GetValue(i, "TColor");
+            string money = op.GetValue(i, "Money");
+            string deaths = op.GetValue(i, "TotalDeaths");
+            string blocks = op.GetValue(i, "TotalBlocks");
+            string llogin = op.GetValue(i, "LastLogin");
+            string flogin = op.GetValue(i, "FirstLogin");
+            string logins = op.GetValue(i, "TotalLogins");
+            string kicks = op.GetValue(i, "TotalKicks");
+            string ip = op.GetValue(i, "IP");
+
+            if (String.IsNullOrEmpty(title))
+                Player.SendMessage(p, color + message + Server.DefaultColor + " has:");
             else
-                Player.SendMessage(p, off.color + "[" + off.tcolor + off.title + off.color + "] " + message + Server.DefaultColor + " has:");
+                Player.SendMessage(p, color + "[" + tcolor + title + color + "] " + message + Server.DefaultColor + " has:");
             Player.SendMessage(p, "> > the rank of " + Group.Find(FoundRank).color + FoundRank);
             try
             {
-                if (!Group.Find("Nobody").commands.Contains("pay") && !Group.Find("Nobody").commands.Contains("give") && !Group.Find("Nobody").commands.Contains("take")) Player.SendMessage(p, "> > &a" + off.money + Server.DefaultColor + " " + Server.moneys);
+                if (!Group.Find("Nobody").commands.Contains("pay") && !Group.Find("Nobody").commands.Contains("give") && !Group.Find("Nobody").commands.Contains("take")) Player.SendMessage(p, "> > &a" + money + Server.DefaultColor + " " + Server.moneys);
             }
             catch { }
-            Player.SendMessage(p, "> > &cdied &a" + off.deaths + Server.DefaultColor + " times");
-            Player.SendMessage(p, "> > &bmodified &a" + off.blocks + Server.DefaultColor + " blocks.");
-            Player.SendMessage(p, "> > was last seen on &a" + off.llogin);
-            Player.SendMessage(p, "> > first logged into the server on &a" + off.flogin);
-            Player.SendMessage(p, "> > logged in &a" + off.logins + Server.DefaultColor + " times, &c" + off.kicks + Server.DefaultColor + " of which ended in a kick.");
+            Player.SendMessage(p, "> > &cdied &a" + deaths + Server.DefaultColor + " times");
+            Player.SendMessage(p, "> > &bmodified &a" + blocks + Server.DefaultColor + " blocks.");
+            Player.SendMessage(p, "> > was last seen on &a" + llogin);
+            Player.SendMessage(p, "> > first logged into the server on &a" + flogin);
+            Player.SendMessage(p, "> > logged in &a" + logins + Server.DefaultColor + " times, &c" + kicks + Server.DefaultColor + " of which ended in a kick.");
             Player.SendMessage(p, "> > " + Awards.awardAmount(message) + " awards");
 
-            if (Server.bannedIP.Contains(off.ip))
-                off.ip = "&8" + off.ip + ", which is banned";
-            Player.SendMessage(p, "> > the IP of " + off.ip);
+            if (Server.bannedIP.Contains(ip))
+                ip = "&8" + ip + ", which is banned";
+            Player.SendMessage(p, "> > the IP of " + ip);
             if (Server.useWhitelist)
             {
                 if (Server.whiteList.Contains(message.ToLower()))

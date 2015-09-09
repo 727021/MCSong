@@ -22,6 +22,7 @@ namespace MCSong
         Building,
         Moderation,
         Information,
+        Game,
         Other
     }
 

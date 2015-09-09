@@ -21,7 +21,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
-using System.Data;
+using jDatabase;
 
 //using MySql.Data.MySqlClient;
 //using MySql.Data.Types;
@@ -234,6 +234,10 @@ namespace MCSong
         public static bool upnpRunning = false;
         #endregion
 
+
+        public Database database;
+
+
         public static MainLoop ml;
         public static Server s;
         public Server()
@@ -257,7 +261,7 @@ namespace MCSong
             if (!Directory.Exists("extra/copy/")) { Directory.CreateDirectory("extra/copy/"); }
             if (!Directory.Exists("extra/copyBackup/")) { Directory.CreateDirectory("extra/copyBackup/"); }
 
-            if (!Directory.Exists("db/players/")) Directory.CreateDirectory("db/players/");
+            //if (!Directory.Exists("db/players/")) Directory.CreateDirectory("db/players/");
 
             try
             {
@@ -273,7 +277,7 @@ namespace MCSong
 
             Properties.Load("properties/server.properties");
             Updater.Load("properties/update.properties");
-
+            database = new Database(MySQLDatabaseName);
             Group.InitAll();
             Command.InitAll();
             GrpCommands.fillRanks();
@@ -293,27 +297,27 @@ namespace MCSong
             }
 
             timeOnline = DateTime.Now;
-
-            try
-            {
-                if (Server.useMySQL)
-                    MySQL.executeQuery("CREATE DATABASE if not exists `" + MySQLDatabaseName + "`", true);
-            }
-            catch (Exception e)
-            {
-                Server.s.Log("MySQL settings have not been set! Please reference the MySQL_Setup.txt file on setting up MySQL!");
-                try
-                {
-                    WebClient web = new WebClient();
-                    web.DownloadFile("http://updates.mcsong.x10.mx/MySQL_Setup.txt", "MySQL_Setup.txt");
-                    web.Dispose();
-                    Server.s.Log("MySQL_Setup.txt has been downloaded automatically.");
-                }
-                catch { Server.s.Log("MySQL_Setup.txt can be downloaded manually from http://updates.mcsong.x10.mx."); }
-                Server.ErrorLog(e);
-                //process.Kill();
-                return;
-            }
+            /*
+                        try
+                        {
+                            if (Server.useMySQL)
+                                MySQL.executeQuery("CREATE DATABASE if not exists `" + MySQLDatabaseName + "`", true);
+                        }
+                        catch (Exception e)
+                        {
+                            Server.s.Log("MySQL settings have not been set! Please reference the MySQL_Setup.txt file on setting up MySQL!");
+                            try
+                            {
+                                WebClient web = new WebClient();
+                                web.DownloadFile("http://updates.mcsong.x10.mx/MySQL_Setup.txt", "MySQL_Setup.txt");
+                                web.Dispose();
+                                Server.s.Log("MySQL_Setup.txt has been downloaded automatically.");
+                            }
+                            catch { Server.s.Log("MySQL_Setup.txt can be downloaded manually from http://updates.mcsong.x10.mx."); }
+                            Server.ErrorLog(e);
+                            //process.Kill();
+                            return;
+                        }*/
 
             /*MySQL.executeQuery("CREATE TABLE if not exists Players (ID MEDIUMINT not null auto_increment, Name VARCHAR(20), IP CHAR(15), FirstLogin DATETIME, LastLogin DATETIME, totalLogin MEDIUMINT, Title CHAR(20), TotalDeaths SMALLINT, Money MEDIUMINT UNSIGNED, totalBlocks BIGINT, totalKicked MEDIUMINT, color VARCHAR(6), title_color VARCHAR(6), PRIMARY KEY (ID));");
 
@@ -334,6 +338,9 @@ namespace MCSong
                 MySQL.executeQuery("ALTER TABLE Players ADD COLUMN title_color VARCHAR(6) AFTER color");
             }
             tcolorExists.Dispose();*/
+            
+            try { database.CreateTable("Players", new List<string> { "ID", "Name", "IP", "FirstLogin", "LastLogin", "TotalLogins", "Title", "TotalDeaths", "Money", "TotalBlocks", "TotalKicks", "Color", "TColor" }); }
+            catch { }
 
             if (levels != null)
                 foreach (Level l in levels) { l.Unload(); }

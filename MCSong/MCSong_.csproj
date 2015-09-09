@@ -342,6 +342,9 @@
       <DependentUpon>UpdateWindow.cs</DependentUpon>
     </Compile>
     <Compile Include="IRCBot.cs" />
+    <Compile Include="jDatabase\Database.cs" />
+    <Compile Include="jDatabase\Table.cs" />
+    <Compile Include="jDatabase\Util.cs" />
     <Compile Include="Levels\Level.cs" />
     <Compile Include="Levels\ConvertDAT.cs" />
     <Compile Include="MySQL.cs" />
@@ -446,6 +449,7 @@
   <ItemGroup>
     <None Include="Resources\Icon1.ico" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.

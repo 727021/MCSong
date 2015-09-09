@@ -19,8 +19,7 @@ namespace MCSong
             int pos = message.IndexOf(' ');
             Player who = Player.Find(message.Split(' ')[0]);
             if (who == null) { Player.SendMessage(p, "Could not find player."); return; }
-
-            string query;
+            
             string newTitle = "";
             if (message.Split(' ').Length > 1) newTitle = message.Substring(pos + 1);
             else
@@ -30,7 +29,8 @@ namespace MCSong
                 Player.GlobalChat(null, who.color + who.name + Server.DefaultColor + " had their title removed.", false);
                 /*query = "UPDATE Players SET Title = '' WHERE Name = '" + who.name + "'";
                 MySQL.executeQuery(query);*/
-                PlayerDB.Save(who);
+                //PlayerDB.Save(who);
+                Server.s.database.GetTable("Players").SetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { who.name })), "Title", "");
                 return;
             }
 
@@ -63,7 +63,8 @@ namespace MCSong
             }
             MySQL.executeQuery(query);*/
             who.title = newTitle;
-            PlayerDB.Save(who);
+            //PlayerDB.Save(who);
+            Server.s.database.GetTable("Players").SetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { who.name })), "Title", newTitle);
             who.SetPrefix();
         }
         public override void Help(Player p)
