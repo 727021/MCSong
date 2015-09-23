@@ -47,7 +47,7 @@ namespace MCSong
         public bool Speeding = true;
         public bool SpawnControl = true;
         public bool ThirdPerson = true;
-        public short JumpHeight = -1;
+        public short JumpHeight = 1;
         public HackControl() { }
 
         public override string ToString()
