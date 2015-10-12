@@ -80,7 +80,7 @@ namespace MCSong
         static void worker_DoWork(object sender, DoWorkEventArgs e)
         {
             Pump(BeatType.ClassiCube);
-            Pump(BeatType.Mojang);
+            //Pump(BeatType.Mojang);
             //Pump(BeatType.MCSong);
             Thread.Sleep(timeout);
         }
