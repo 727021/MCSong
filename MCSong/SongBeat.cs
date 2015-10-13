@@ -26,7 +26,7 @@ namespace MCSong
         public static string serverURL;
         static string staticVars;
 
-        static bool ccSuccess = false;
+        static bool ccSuccess = true;
 
         static BackgroundWorker worker;
         static HttpWebRequest request;
@@ -187,23 +187,15 @@ namespace MCSong
                             else if (resp.StartsWith("{"))
                             {
                                 JObject json = JObject.Parse(resp);
-                                Server.s.Log("ClassiCube returned an error: " + json["errors"][0][0].ToString().Replace("\"", ""));
+                                serverURL = json["errors"][0][0].ToString().Replace("\"", "");
+                                Server.s.Log("ClassiCube returned an error: " + serverURL);
                                 ccSuccess = false;
-                                /*                                
-                                {
-                                  "errors": [
-                                    [
-                                       "Server not reachable, port may not be open."
-                                    ]
-                                  ], 
-                                  "response": "", 
-                                  "status": "fail"
-                                }
-                                */
+                                Server.s.UpdateUrl(serverURL);
+                                Server.externalURL = serverURL;
                             }
                             responseReader.Close();
                             break;
-                        case BeatType.Mojang:
+                        /*case BeatType.Mojang:
                             responseReader = new StreamReader(response.GetResponseStream());
                             string line = responseReader.ReadLine();
                             File.WriteAllText("heartbeat/Mojang.txt", line);
@@ -218,7 +210,7 @@ namespace MCSong
                                 if (Server.logbeat) Server.s.Log("URL saved to heartbeat/externalurl.txt...");
                             }
                             responseReader.Close();
-                            break;
+                            break;*/
                         case BeatType.MCSong:
                             new WebClient().DownloadFile(url + "?" + postVars, "heartbeat/MCSong.txt");
                             if (Server.logbeat) Server.s.Log("MCSong response saved to heartbeat/MCSong.txt");
