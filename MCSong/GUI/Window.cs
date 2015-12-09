@@ -160,7 +160,7 @@ namespace MCSong.Gui
                         File.Delete("extra/Changelog.txt");
                     }
                     WebClient Web = new WebClient();
-                    Web.DownloadFile("http://updates.mcsong.x10.mx/Changelog.txt", "extra/Changelog.txt");
+                    Web.DownloadFile("https://raw.githubusercontent.com/727021/MCSong/master/Text/Changelog.txt", "extra/Changelog.txt");
                     Web.Dispose();
                 }
                 catch { }
@@ -172,14 +172,15 @@ namespace MCSong.Gui
                 {
                     try
                     {
+                        txtChangelog.Clear();
                         foreach (string line in File.ReadAllLines(("extra/Changelog.txt")))
                         {
-                            txtChangelog.AppendText("\r\n\t\t" + line);
+                            txtChangelog.AppendText("\r\n  " + line);
                         }
                     }
                     catch
                     {
-                        txtChangelog.Text = "\r\nChangelog not found!\r\nDownload it manually from http://updates.mcsong.x10.mx/Changelog.txt and save it as \'extra/Changelog.txt\'";
+                        txtChangelog.Text = "\r\nChangelog not found!\r\nDownload it manually from https://raw.githubusercontent.com/727021/MCSong/master/Text/Changelog.txt and save it as \'extra/Changelog.txt\'";
                     }
                     txtCurrentVersion.Text = Server.Version;
                     txtLatestVersion.Text = latest;
@@ -627,7 +628,7 @@ namespace MCSong.Gui
                         File.Delete("extra/Changelog.txt");
                     }
                     WebClient Web = new WebClient();
-                    Web.DownloadFile("http://updates.mcsong.x10.mx/Changelog.txt", "extra/Changelog.txt");
+                    Web.DownloadFile("https://raw.githubusercontent.com/727021/MCSong/master/Text/Changelog.txt", "extra/Changelog.txt");
                     Web.Dispose();
                 }
                 catch { }
@@ -639,14 +640,15 @@ namespace MCSong.Gui
                 {
                     try
                     {
+                        txtChangelog.Clear();
                         foreach (string line in File.ReadAllLines(("extra/Changelog.txt")))
                         {
-                            txtChangelog.AppendText("\r\n\t\t" + line);
+                            txtChangelog.AppendText("\r\n  " + line);
                         }
                     }
                     catch
                     {
-                        txtChangelog.Text = "\r\nChangelog not found!\r\nDownload it manually from http://updates.mcsong.x10.mx/Changelog.txt and save it as \'extra/Changelog.txt\'";
+                        txtChangelog.Text = "\r\nChangelog not found!\r\nDownload it manually from https://raw.githubusercontent.com/727021/MCSong/master/Text/Changelog.txt and save it as \'extra/Changelog.txt\'";
                     }
                     txtCurrentVersion.Text = Server.Version;
                     txtLatestVersion.Text = latest;
@@ -1191,9 +1193,8 @@ namespace MCSong.Gui
                             if (line.Trim() != "")
                                 SW.WriteLine(line);
                 }
-
-                l.setPhysics(cmbLevelPhys.SelectedIndex);// Physics has to be set last because it causes a maps tab update
                 l.Save(true, true);
+                l.setPhysics(cmbLevelPhys.SelectedIndex);// Physics has to be set last because it causes a maps tab update
                 btnUpdateLevel.Enabled = false;
                 return;
             }

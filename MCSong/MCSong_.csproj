@@ -114,6 +114,7 @@
     </Compile>
     <Compile Include="Commands\CmdPlugin.cs" />
     <Compile Include="Commands\CmdPossess.cs" />
+    <Compile Include="Commands\CmdPWeather.cs" />
     <Compile Include="Commands\CmdShutdown.cs" />
     <Compile Include="Commands\CmdStatus.cs" />
     <Compile Include="Commands\CmdTColor.cs" />
@@ -147,6 +148,7 @@
     <Compile Include="Commands\CmdVoice.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Include="Commands\CmdWeather.cs" />
     <Compile Include="Commands\CmdWhere.cs" />
     <Compile Include="CTFGame.cs" />
     <Compile Include="Events.cs" />
