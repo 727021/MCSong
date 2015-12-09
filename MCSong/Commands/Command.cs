@@ -232,6 +232,7 @@ namespace MCSong
             all.Add(new CmdMuseum());
             all.Add(new CmdOpChat());
             all.Add(new CmdPay());
+            all.Add(new CmdPWeather());
             all.Add(new CmdRainbow());
             all.Add(new CmdRepeat());
             all.Add(new CmdRide());
@@ -252,6 +253,7 @@ namespace MCSong
             all.Add(new CmdTp());
             all.Add(new CmdTpZone());
             all.Add(new CmdView());
+            all.Add(new CmdWeather());
             all.Add(new CmdWhisper());
             all.Add(new CmdWhois());
 

@@ -28,6 +28,13 @@ using jDatabase;
 
 namespace MCSong
 {
+    public enum Weather
+    {
+        SUNNY = 0,
+        RAINING = 1,
+        SNOWING = 2
+    }
+
     public enum LevelPermission
     {
         Banned = -20,
@@ -155,6 +162,7 @@ namespace MCSong
 
         // CPE
         public HackControl hacks = new HackControl();
+        public Weather weather = Weather.SUNNY;
 
         public ushort[,] shadows;
         /// <summary>

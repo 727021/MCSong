@@ -211,7 +211,7 @@ namespace MCSong
             switch (status1.ToLower())
             {
                 case "clear":
-                    message = "";
+                    message = " ";
                     break;
                 case "custom":
                     message = status1c;
@@ -237,7 +237,7 @@ namespace MCSong
             switch (status2.ToLower())
             {
                 case "clear":
-                    message = "";
+                    message = " ";
                     break;
                 case "custom":
                     message = status2c;
@@ -264,30 +264,29 @@ namespace MCSong
             {
                 case "clear":
                     message = " ";
-                    goto default;
+                    break;
                 case "custom":
                     message = status3c;
-                    goto default;
+                    break;
                 case "compass":
                     message = "[" + Compass(rot[0] / (int)(255 / (compass.Length - 1))) + "]";
-                    goto default;
+                    break;
                 case "game":
                     if (level.ctfmode && team != null) message = "&fCTF: " + team.color + team.teamstring + " &fPoints: " + team.color + team.points;
                     else message = "&fNo Team";
-                    goto default;
+                    break;
                 case "block":
                     message = BlockInfo();
-                    goto default;
+                    break;
                 case "motd":
                     message = (level.motd == "ignore") ? Server.motd : level.motd;
-                    goto default;
+                    break;
                 case "default":
                     message = "&f" + Server.moneys + ": &a" + money + " &fLevel: " + Group.findPerm(level.permissionvisit).color + level.name + " (" + level.physics + ")";
-                    goto default;
-                default:
-                    SendMessage(this, message, MessageType.STATUS_BOTTOM);
                     break;
             }
+
+            SendMessage(this, message, MessageType.STATUS_BOTTOM);
         }
         private string compass = " -NW- | -N- | -NE- | -E- | -SE- | -S- | -SW- | -W- |";
         public string Compass(int start)
@@ -527,8 +526,9 @@ namespace MCSong
                 tc = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "TColor");
                 t = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "Title");
                 Server.s.database.GetTable("Players").DeleteRow(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })));
+                Server.s.Debug("1");
             }
-            catch { }
+            catch (Exception e) { Server.ErrorLog(e); }
             Server.s.database.GetTable("Players").AddRow(new List<string> { id.ToString(), name, ip, firstLogin.ToString("yyyy-MM-dd HH:mm:ss"), lastLogin.ToString("yyyy-MM-dd HH:mm:ss"), totalLogins.ToString(), title, deathCount.ToString(), money.ToString(), (overallBlocks + loginBlocks).ToString(), totalKicked.ToString(), c, tc });
 
             try
@@ -586,33 +586,33 @@ namespace MCSong
             {
                 int length = 0; byte msg = buffer[0];
                 // Get the length of the message by checking the first byte
-                switch (msg)
+                switch ((Magic)msg)
                 {
-                    case 0:
+                    case Magic.IDENTIFICATION:
                         length = 130;
                         break; // login
-                    case 5:
+                    case Magic.PLAYER_SET_BLOCK:
                         if (!loggedIn)
                             goto default;
                         length = 8;
                         break; // blockchange
-                    case 8:
+                    case Magic.POSITION_ROTATION:
                         if (!loggedIn)
                             goto default;
                         length = 9;
                         break; // input
-                    case 13:
+                    case Magic.CHAT_MESSAGE:
                         if (!loggedIn)
                             goto default;
                         length = 65;
                         break; // chat
-                    case 16:
+                    case Magic.EXTINFO:
                         length = 66;
                         break; // extinfo
-                    case 17:
+                    case Magic.EXTENTRY:
                         length = 68;
                         break; // extentry
-                    case 19:
+                    case Magic.CUSTOM_BLOCK_SUPPORT_LEVEL:
                         length = 1;
                         break;
                     default:
@@ -631,33 +631,33 @@ namespace MCSong
                     buffer = tempbuffer;
 
                     // Thread thread = null; 
-                    switch (msg)
+                    switch ((Magic)msg)
                     {
-                        case 0:
+                        case Magic.IDENTIFICATION:
                             HandleLogin(message);
                             break;
-                        case 5:
+                        case Magic.PLAYER_SET_BLOCK:
                             if (!loggedIn)
                                 break;
                             HandleBlockchange(message);
                             break;
-                        case 8:
+                        case Magic.POSITION_ROTATION:
                             if (!loggedIn)
                                 break;
                             HandleInput(message);
                             break;
-                        case 13:
+                        case Magic.CHAT_MESSAGE:
                             if (!loggedIn)
                                 break;
                             HandleChat(message);
                             break;
-                        case 16:
+                        case Magic.EXTINFO:
                             HandleExtInfo(message);
                             break;
-                        case 17:
+                        case Magic.EXTENTRY:
                             HandleExtEntry(message);
                             break;
-                        case 19:
+                        case Magic.CUSTOM_BLOCK_SUPPORT_LEVEL:
                             HandleCustomBlockSupportLevel(message);
                             break;
                     }
@@ -825,8 +825,8 @@ namespace MCSong
                     }
                 }
 
-                if (Server.guests > 0 && /*group.Permission == LevelPermission.Guest /*&&*/ guests >= Server.guests && ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower())) { Kick("Too mmany guests!"); return; }
-                if (Server.maintenanceMode && (this.group.Permission < Server.maintPerm))
+                if (Server.guests > 0 && Group.findPlayerGroup(name).Permission == LevelPermission.Guest && guests >= Server.guests && ip != "127.0.0.1" && !Server.devs.Contains(name.ToLower())) { Kick("Too mmany guests!"); return; }
+                if (Server.maintenanceMode && (Group.findPlayerGroup(name).Permission < Server.maintPerm))
                 {
                     if (ip != "127.0.0.1" && !ip.StartsWith("192.168.") && !Server.devs.Contains(name.ToLower()))
                     {
@@ -2381,6 +2381,9 @@ namespace MCSong
             SendRaw(Magic.LEVEL_FINALIZE, buffer);
             Loading = false;
 
+            if (extensions.Contains(Extension.EnvWeatherType))
+                SendWeather(level.weather);
+
             GC.Collect();
             GC.WaitForPendingFinalizers();
         }
@@ -2437,6 +2440,13 @@ namespace MCSong
             HTNO(level.hacks.JumpHeight).CopyTo(buffer, 5);
             Server.s.Debug("Sending Packet(32): " + buffer[0] + " " + buffer[1] + " " + buffer[2] + " " + buffer[3] + " " + buffer[4] + " " + level.hacks.JumpHeight);
             SendRaw(Magic.HACK_CONTROL, buffer);
+        }
+
+        public void SendWeather(Weather weather)
+        {
+            byte[] buffer = new byte[1] { (byte)weather };
+            Server.s.Debug("Sending Packet(31): " + weather.ToString());
+            SendRaw(Magic.ENV_SET_WEATHER_TYPE, buffer);
         }
 
         public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty)
@@ -2739,7 +2749,7 @@ namespace MCSong
             return true;
         }
 
-        public static void GlobalUpdate() { players.ForEach(delegate(Player p) { if (!p.hidden) { p.UpdatePosition(); } }); }
+        public static void GlobalUpdate() { try { players.ForEach(delegate (Player p) { if (!p.hidden) { p.UpdatePosition(); } }); } catch { } }
         #endregion
         #region == DISCONNECTING ==
         public void Disconnect() { leftGame(); }
