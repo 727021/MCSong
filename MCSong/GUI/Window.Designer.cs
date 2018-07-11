@@ -149,7 +149,6 @@ namespace MCSong.Gui
             this.liUnloaded = new System.Windows.Forms.ListBox();
             this.groupBox6 = new System.Windows.Forms.GroupBox();
             this.liMaps = new System.Windows.Forms.ListBox();
-            this.txtLevelPath = new System.Windows.Forms.TextBox();
             this.btnUnloadLevel = new System.Windows.Forms.Button();
             this.btnLoadLevel = new System.Windows.Forms.Button();
             this.tpChangelog = new System.Windows.Forms.TabPage();
@@ -199,6 +198,8 @@ namespace MCSong.Gui
             this.iconContext = new System.Windows.Forms.ContextMenuStrip(this.components);
             this.openConsole = new System.Windows.Forms.ToolStripMenuItem();
             this.shutdownServer = new System.Windows.Forms.ToolStripMenuItem();
+            this.btnEnvColors = new System.Windows.Forms.Button();
+            this.button8 = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox3.SuspendLayout();
@@ -817,7 +818,6 @@ namespace MCSong.Gui
             this.panel2.Controls.Add(this.groupBox8);
             this.panel2.Controls.Add(this.groupBox7);
             this.panel2.Controls.Add(this.groupBox6);
-            this.panel2.Controls.Add(this.txtLevelPath);
             this.panel2.Controls.Add(this.btnUnloadLevel);
             this.panel2.Controls.Add(this.btnLoadLevel);
             this.panel2.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -860,6 +860,8 @@ namespace MCSong.Gui
             // 
             // groupBox8
             // 
+            this.groupBox8.Controls.Add(this.button8);
+            this.groupBox8.Controls.Add(this.btnEnvColors);
             this.groupBox8.Controls.Add(this.groupBox18);
             this.groupBox8.Controls.Add(this.chkAutoLoad);
             this.groupBox8.Controls.Add(this.chkAutoUnload);
@@ -890,9 +892,9 @@ namespace MCSong.Gui
             this.groupBox8.Controls.Add(this.txtLevelMotd);
             this.groupBox8.Controls.Add(this.label9);
             this.groupBox8.Controls.Add(this.btnUpdateLevel);
-            this.groupBox8.Location = new System.Drawing.Point(146, 32);
+            this.groupBox8.Location = new System.Drawing.Point(146, 3);
             this.groupBox8.Name = "groupBox8";
-            this.groupBox8.Size = new System.Drawing.Size(275, 259);
+            this.groupBox8.Size = new System.Drawing.Size(275, 288);
             this.groupBox8.TabIndex = 43;
             this.groupBox8.TabStop = false;
             this.groupBox8.Text = "Level Settings";
@@ -1015,7 +1017,7 @@ namespace MCSong.Gui
             // 
             // btnNewLevel
             // 
-            this.btnNewLevel.Location = new System.Drawing.Point(7, 230);
+            this.btnNewLevel.Location = new System.Drawing.Point(7, 259);
             this.btnNewLevel.Name = "btnNewLevel";
             this.btnNewLevel.Size = new System.Drawing.Size(93, 23);
             this.btnNewLevel.TabIndex = 21;
@@ -1073,7 +1075,7 @@ namespace MCSong.Gui
             // 
             // btnRenameLevel
             // 
-            this.btnRenameLevel.Location = new System.Drawing.Point(104, 230);
+            this.btnRenameLevel.Location = new System.Drawing.Point(104, 259);
             this.btnRenameLevel.Name = "btnRenameLevel";
             this.btnRenameLevel.Size = new System.Drawing.Size(75, 23);
             this.btnRenameLevel.TabIndex = 15;
@@ -1093,7 +1095,7 @@ namespace MCSong.Gui
             // 
             // btnDeleteLevel
             // 
-            this.btnDeleteLevel.Location = new System.Drawing.Point(181, 230);
+            this.btnDeleteLevel.Location = new System.Drawing.Point(181, 259);
             this.btnDeleteLevel.Name = "btnDeleteLevel";
             this.btnDeleteLevel.Size = new System.Drawing.Size(88, 23);
             this.btnDeleteLevel.TabIndex = 12;
@@ -1121,6 +1123,7 @@ namespace MCSong.Gui
             // label13
             // 
             this.label13.AutoSize = true;
+            this.label13.BackColor = System.Drawing.Color.Transparent;
             this.label13.Location = new System.Drawing.Point(134, 44);
             this.label13.Name = "label13";
             this.label13.Size = new System.Drawing.Size(45, 13);
@@ -1186,8 +1189,10 @@ namespace MCSong.Gui
             // 
             // txtLevelMotd
             // 
+            this.txtLevelMotd.BackColor = System.Drawing.SystemColors.Window;
             this.txtLevelMotd.Location = new System.Drawing.Point(50, 14);
             this.txtLevelMotd.Name = "txtLevelMotd";
+            this.txtLevelMotd.ReadOnly = true;
             this.txtLevelMotd.Size = new System.Drawing.Size(219, 21);
             this.txtLevelMotd.TabIndex = 3;
             this.txtLevelMotd.TextChanged += new System.EventHandler(this.LevelSettings_Changed);
@@ -1252,15 +1257,6 @@ namespace MCSong.Gui
             this.liMaps.Size = new System.Drawing.Size(125, 420);
             this.liMaps.TabIndex = 36;
             this.liMaps.SelectedIndexChanged += new System.EventHandler(this.liMaps_SelectedIndexChanged);
-            // 
-            // txtLevelPath
-            // 
-            this.txtLevelPath.Location = new System.Drawing.Point(146, 5);
-            this.txtLevelPath.Name = "txtLevelPath";
-            this.txtLevelPath.ReadOnly = true;
-            this.txtLevelPath.Size = new System.Drawing.Size(275, 21);
-            this.txtLevelPath.TabIndex = 40;
-            this.txtLevelPath.TextAlign = System.Windows.Forms.HorizontalAlignment.Right;
             // 
             // btnUnloadLevel
             // 
@@ -1803,6 +1799,25 @@ namespace MCSong.Gui
             this.shutdownServer.Text = "Shutdown Server";
             this.shutdownServer.Click += new System.EventHandler(this.shutdownServer_Click);
             // 
+            // btnEnvColors
+            // 
+            this.btnEnvColors.Location = new System.Drawing.Point(7, 230);
+            this.btnEnvColors.Name = "btnEnvColors";
+            this.btnEnvColors.Size = new System.Drawing.Size(127, 23);
+            this.btnEnvColors.TabIndex = 31;
+            this.btnEnvColors.Text = "Environment Colors";
+            this.btnEnvColors.UseVisualStyleBackColor = true;
+            this.btnEnvColors.Click += new System.EventHandler(this.button7_Click);
+            // 
+            // button8
+            // 
+            this.button8.Enabled = false;
+            this.button8.Location = new System.Drawing.Point(142, 230);
+            this.button8.Name = "button8";
+            this.button8.Size = new System.Drawing.Size(127, 23);
+            this.button8.TabIndex = 32;
+            this.button8.UseVisualStyleBackColor = true;
+            // 
             // Window
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1840,7 +1855,6 @@ namespace MCSong.Gui
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tpLevels.ResumeLayout(false);
             this.panel2.ResumeLayout(false);
-            this.panel2.PerformLayout();
             this.gbMapViewer.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.pbMapViewer)).EndInit();
             this.groupBox8.ResumeLayout(false);
@@ -1919,7 +1933,6 @@ namespace MCSong.Gui
         private TableLayoutPanel tableLayoutPanel1;
         private Button btnLoadLevel;
         private ListBox liUnloaded;
-        private TextBox txtLevelPath;
         private Button btnUnloadLevel;
         private GroupBox groupBox8;
         private GroupBox groupBox7;
@@ -2011,5 +2024,7 @@ namespace MCSong.Gui
         private CheckBox chkSurvivalDeath;
         private CheckBox chkAnimalAi;
         private CheckBox chkKillerBlocks;
+        private Button button8;
+        private Button btnEnvColors;
     }
 }
