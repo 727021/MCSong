@@ -199,6 +199,8 @@ namespace MCSong
 
         public short clickDistance = 160;
 
+        public byte heldBlock;
+
         public string status1 = "clear";
         public string status1c = "";
         public string status2 = "clear";
@@ -1552,6 +1554,8 @@ namespace MCSong
             byte[] message = (byte[])m;
             byte thisid = message[0];
 
+            if (extensions.Contains(Extension.HeldBlock)) heldBlock = thisid;
+
             ushort x = NTHO(message, 1);
             ushort y = NTHO(message, 3);
             ushort z = NTHO(message, 5);
@@ -2372,7 +2376,18 @@ namespace MCSong
                 else if (Server.updateTimer.Interval > 1000) Thread.Sleep(100);
                 else Thread.Sleep(10);
             }
-            SendHackControl();
+            if (extensions.Contains(Extension.HackControl))
+               SendHackControl();
+
+            if (extensions.Contains(Extension.EnvColors))
+            {
+                SendEnvColors(EnvColors.SKY, level.skyColor[0], level.skyColor[1], level.skyColor[2]);
+                SendEnvColors(EnvColors.CLOUD, level.cloudColor[0], level.cloudColor[1], level.cloudColor[2]);
+                SendEnvColors(EnvColors.FOG, level.fogColor[0], level.fogColor[1], level.fogColor[2]);
+                SendEnvColors(EnvColors.SHADOW, level.shadowColor[0], level.shadowColor[1], level.shadowColor[2]);
+                SendEnvColors(EnvColors.SUNLIGHT, level.sunlightColor[0], level.sunlightColor[1], level.sunlightColor[2]);
+            }
+
             buffer = new byte[6];
             HTNO((short)level.width).CopyTo(buffer, 0);
             HTNO((short)level.depth).CopyTo(buffer, 2);
@@ -2447,6 +2462,38 @@ namespace MCSong
             byte[] buffer = new byte[1] { (byte)weather };
             Server.s.Debug("Sending Packet(31): " + weather.ToString());
             SendRaw(Magic.ENV_SET_WEATHER_TYPE, buffer);
+        }
+
+        public void SendEnvColors(EnvColors variable, short red, short green, short blue)
+        {
+            byte[] buffer = new byte[7];
+            buffer[0] = (byte)variable;
+            HTNO(red).CopyTo(buffer, 1);
+            HTNO(green).CopyTo(buffer, 3);
+            HTNO(blue).CopyTo(buffer, 5);
+            Server.s.Debug("Sending Packet(25): " + variable + " " + red.ToString() + " " + green.ToString() + " " + blue.ToString());
+            SendRaw(Magic.ENV_SET_COLOR, buffer);
+        }
+
+        /// <summary>
+        /// Can be used to force the client to hold the desired block type
+        /// </summary>
+        /// <param name="block">The block to be held</param>
+        /// <param name="preventChange">Can the player change the block type? 1=Prevent 0=Allow</param>
+        public void SendHoldThis(Block.Blocks block, byte preventChange)
+        {
+            SendHoldThis(block.type, preventChange);
+        }
+        public void SendHoldThis(string block, byte preventChange)
+        {
+            SendHoldThis(Block.Byte(block), preventChange);
+        }
+        public void SendHoldThis(byte block, byte preventChange)
+        {
+            byte[] buffer = new byte[2] { block, preventChange };
+            heldBlock = block;
+            Server.s.Debug("Sending Packet(20): " + block + "(" + Block.Name(block) + ") " + preventChange + "(" + (preventChange == 1 ? "Prevent" : "Allow") + "Change)");
+            SendRaw(Magic.HOLD_THIS, buffer);
         }
 
         public void SendSpawn(byte id, string name, ushort x, ushort y, ushort z, byte rotx, byte roty)

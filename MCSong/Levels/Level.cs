@@ -35,6 +35,15 @@ namespace MCSong
         SNOWING = 2
     }
 
+    public enum EnvColors
+    {
+        SKY = 0,
+        CLOUD = 1,
+        FOG = 2,
+        SHADOW = 3,
+        SUNLIGHT = 4
+    }
+
     public enum LevelPermission
     {
         Banned = -20,
@@ -163,6 +172,12 @@ namespace MCSong
         // CPE
         public HackControl hacks = new HackControl();
         public Weather weather = Weather.SUNNY;
+        // EnvColors
+        public short[] skyColor = new short[3] { -1, -1, -1 };
+        public short[] cloudColor = new short[3] { -1, -1, -1 };
+        public short[] fogColor = new short[3] { -1, -1, -1 };
+        public short[] shadowColor = new short[3] { -1, -1, -1 };
+        public short[] sunlightColor = new short[3] { -1, -1, -1 };
 
         public ushort[,] shadows;
         /// <summary>
@@ -739,6 +754,11 @@ namespace MCSong
                     SW.WriteLine("PerBuild = " + PermissionToName(permissionbuild));
                     SW.WriteLine("PerVisit = " + PermissionToName(permissionvisit));
                     SW.WriteLine("HackControl = " + hacks.ToString());
+                    SW.WriteLine("SkyColor = " + skyColor[0] + ":" + skyColor[1] + ":" + skyColor[2]);
+                    SW.WriteLine("CloudColor = " + cloudColor[0] + ":" + cloudColor[1] + ":" + cloudColor[2]);
+                    SW.WriteLine("FogColor = " + fogColor[0] + ":" + fogColor[1] + ":" + fogColor[2]);
+                    SW.WriteLine("ShadowColor = " + shadowColor[0] + ":" + shadowColor[1] + ":" + shadowColor[2]);
+                    SW.WriteLine("SunlightColor = " + sunlightColor[0] + ":" + sunlightColor[1] + ":" + sunlightColor[2]);
                     SW.Flush();
                     SW.Close();
 
@@ -1040,6 +1060,46 @@ namespace MCSong
                                                 };
                                             }
                                             catch { Server.s.Log("Invalid hack control for " + level.name + ". Using default."); level.hacks = new HackControl(); }
+                                            break;
+                                        case "skycolor":
+                                            string[] s = value.Trim().Split(':');
+                                            try
+                                            {
+                                                level.skyColor = new short[3] { Convert.ToInt16(s[0]), Convert.ToInt16(s[1]), Convert.ToInt16(s[2]) };
+                                            }
+                                            catch { Server.s.Log("Invalid sky color for " + level.name + ". Using default."); level.skyColor = new short[3] { -1, -1, -1 }; }
+                                            break;
+                                        case "cloudcolor":
+                                            string[] ss = value.Trim().Split(':');
+                                            try
+                                            {
+                                                level.cloudColor = new short[3] { Convert.ToInt16(ss[0]), Convert.ToInt16(ss[1]), Convert.ToInt16(ss[2]) };
+                                            }
+                                            catch { Server.s.Log("Invalid cloud color for " + level.name + ". Using default."); level.cloudColor = new short[3] { -1, -1, -1 }; }
+                                            break;
+                                        case "fogcolor":
+                                            string[] sss = value.Trim().Split(':');
+                                            try
+                                            {
+                                                level.fogColor = new short[3] { Convert.ToInt16(sss[0]), Convert.ToInt16(sss[1]), Convert.ToInt16(sss[2]) };
+                                            }
+                                            catch { Server.s.Log("Invalid fog color for " + level.name + ". Using default."); level.fogColor = new short[3] { -1, -1, -1 }; }
+                                            break;
+                                        case "shadowcolor":
+                                            string[] ssss = value.Trim().Split(':');
+                                            try
+                                            {
+                                                level.shadowColor = new short[3] { Convert.ToInt16(ssss[0]), Convert.ToInt16(ssss[1]), Convert.ToInt16(ssss[2]) };
+                                            }
+                                            catch { Server.s.Log("Invalid shadow color for " + level.name + ". Using default."); level.shadowColor = new short[3] { -1, -1, -1 }; }
+                                            break;
+                                        case "sunlightcolor":
+                                            string[] sssss = value.Trim().Split(':');
+                                            try
+                                            {
+                                                level.sunlightColor = new short[3] { Convert.ToInt16(sssss[0]), Convert.ToInt16(sssss[1]), Convert.ToInt16(sssss[2]) };
+                                            }
+                                            catch { Server.s.Log("Invalid sunlight color for " + level.name + ". Using default."); level.sunlightColor = new short[3] { -1, -1, -1 }; }
                                             break;
                                     }
                                 }

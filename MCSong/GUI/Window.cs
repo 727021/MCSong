@@ -1014,9 +1014,10 @@ namespace MCSong.Gui
                 if (!String.IsNullOrWhiteSpace(liMaps.Text))
                 {
                     Level l = Level.Find(liMaps.Text.Remove(liMaps.Text.Length - 4));
-                    if (l == null) goto clearMapPath;
 
                     btnLevelHacks.Enabled = true;
+                    btnEnvColors.Enabled = true;
+                    txtLevelMotd.ReadOnly = false;
                     
                     btnLoadLevel.Enabled = false;
                     cmbLevelPhys.Enabled = cmbPerVisit.Enabled = cmbPerBuild.Enabled = true;
@@ -1026,8 +1027,7 @@ namespace MCSong.Gui
                     chkLevelChat.Enabled = chkAutoUnload.Enabled = chkAutoLoad.Enabled = true;
 
                     btnUnloadLevel.Enabled = btnRenameLevel.Enabled = btnDeleteLevel.Enabled = chkAutoLoad.Enabled = chkAutoUnload.Enabled = (l != Server.mainLevel);
-
-                    txtLevelPath.Text = new FileInfo("levels/" + l.name + ".lvl").FullName;
+                    
                     txtLevelMotd.Text = l.motd;
                     cmbLevelPhys.SelectedIndex = l.physics;
                     txtLevelX.Text = l.width.ToString();
@@ -1056,23 +1056,21 @@ namespace MCSong.Gui
                 }
                 else if (!String.IsNullOrWhiteSpace(liUnloaded.Text))
                 {
-                    btnUpdateLevel.Enabled = btnRenameLevel.Enabled = btnDeleteLevel.Enabled = btnLevelHacks.Enabled = false;
-
+                    btnUpdateLevel.Enabled = btnRenameLevel.Enabled = btnDeleteLevel.Enabled = btnLevelHacks.Enabled = btnEnvColors.Enabled = false;
+                    txtLevelMotd.ReadOnly = true;
                     btnUnloadLevel.Enabled = false;
                     btnLoadLevel.Enabled = true;
-
-                    txtLevelPath.Text = new FileInfo("levels/" + liUnloaded.Text + ".lvl").FullName;
+                    
                     goto clearMaps;
                 }
                 else
                 {
                     cmbLevelPhys.Enabled = cmbPerVisit.Enabled = cmbPerBuild.Enabled = false;
                     btnLoadLevel.Enabled = btnUnloadLevel.Enabled = false;
-                    btnUpdateLevel.Enabled = btnRenameLevel.Enabled = btnDeleteLevel.Enabled = btnLevelHacks.Enabled = false;
+                    txtLevelMotd.ReadOnly = true;
+                    btnUpdateLevel.Enabled = btnRenameLevel.Enabled = btnDeleteLevel.Enabled = btnLevelHacks.Enabled = btnEnvColors.Enabled = false;
                 }
-
-            clearMapPath:
-                txtLevelPath.Clear();
+                
             clearMaps:
                 txtLevelMotd.Clear();
                 cmbLevelPhys.SelectedIndex = 0;
@@ -1149,7 +1147,7 @@ namespace MCSong.Gui
             {
                 Level l = Level.Find(liMaps.Text.Remove(liMaps.Text.Length - 4));
                 if (l == null) MessageBox.Show("Could not find level with name \"" + liMaps.Text.Remove(liMaps.Text.Length - 4) + "\"", "Level not found", MessageBoxButtons.OK, MessageBoxIcon.Error);
-                txtLevelPath.Text = new FileInfo("levels/" + l.name + ".lvl").FullName;
+                
                 // Only change things if the aren't blank
                 l.motd = (String.IsNullOrEmpty(txtLevelMotd.Text)) ? l.motd : txtLevelMotd.Text;
 
@@ -1467,6 +1465,12 @@ namespace MCSong.Gui
         private void LevelSettings_Changed(object sender, EventArgs e)
         {
             btnUpdateLevel.Enabled = true;
+        }
+
+        private void button7_Click(object sender, EventArgs e)
+        {
+            Level l = Level.Find(liMaps.Text.Remove(liMaps.Text.Length - 4));
+            new EnvColorsDialog(l).ShowDialog();
         }
     }
 }

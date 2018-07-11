@@ -69,9 +69,6 @@
       <HintPath>..\Interop.NATUPNPLib.dll</HintPath>
       <EmbedInteropTypes>True</EmbedInteropTypes>
     </Reference>
-    <Reference Include="Meebey.SmartIrc4net">
-      <HintPath>.\Meebey.SmartIrc4net.dll</HintPath>
-    </Reference>
     <Reference Include="Microsoft.CSharp" />
     <Reference Include="MySql.Data, Version=6.2.3.0, Culture=neutral, PublicKeyToken=c5687fc88969c44d, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
@@ -303,6 +300,12 @@
     <Compile Include="GUI\CreateBackupDialog.Designer.cs">
       <DependentUpon>CreateBackupDialog.cs</DependentUpon>
     </Compile>
+    <Compile Include="GUI\EnvColorsDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="GUI\EnvColorsDialog.Designer.cs">
+      <DependentUpon>EnvColorsDialog.cs</DependentUpon>
+    </Compile>
     <Compile Include="GUI\FolderBrowserDialogEx.cs">
       <SubType>Component</SubType>
     </Compile>
@@ -389,6 +392,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\CreateBackupDialog.resx">
       <DependentUpon>CreateBackupDialog.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="GUI\EnvColorsDialog.resx">
+      <DependentUpon>EnvColorsDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="GUI\HackControlDialog.resx">
       <DependentUpon>HackControlDialog.cs</DependentUpon>
