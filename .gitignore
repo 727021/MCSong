@@ -2,3 +2,5 @@ MCSong/bin/
 MCSong/obj/
 FROSTEDBUTTS/
 *.suo
+/.vs/ProjectSettings.json
+/.vs
