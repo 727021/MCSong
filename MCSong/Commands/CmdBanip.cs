@@ -101,11 +101,11 @@ namespace MCSong
             Player.GlobalMessage(message + " got &8ip-banned!");
             if (p != null)
             {
-                IRCBot.Say("IP-BANNED: " + message.ToLower() + " by " + p.name);
+                //IRCBot.Say("IP-BANNED: " + message.ToLower() + " by " + p.name);
             }
             else
             {
-                IRCBot.Say("IP-BANNED: " + message.ToLower() + " by console");
+                //IRCBot.Say("IP-BANNED: " + message.ToLower() + " by console");
             }
             Server.bannedIP.Add(message);
             Server.bannedIP.Save("banned-ip.txt", false);

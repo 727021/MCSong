@@ -358,7 +358,7 @@ namespace MCSong.Gui
                     cbOpChat.addEntry(newtext);
                     Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + newtext);
                     Server.s.LogOp("Console: " + newtext);
-                    IRCBot.Say("Console: " + newtext, true);
+                    //IRCBot.Say("Console: " + newtext, true);
                  //   WriteLine("(OPs):<CONSOLE> " + txtInput.Text);
                     txtInput.Clear();
                 }
@@ -368,7 +368,7 @@ namespace MCSong.Gui
                     cbAdminChat.addEntry(newtext);
                     Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + newtext);
                     Server.s.LogAdmin("Console: " + newtext);
-                    IRCBot.Say("Console: " + newtext, true);
+                    //IRCBot.Say("Console: " + newtext, true);
                     txtInput.Clear();
                 }
                 else if (txtInput.Text[0] == '\\')
@@ -378,13 +378,13 @@ namespace MCSong.Gui
                     cbGlobalChat.addEntry(newtext);
                     Player.GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] Console: &f" + newtext);
                     Server.s.LogGC("[" + Server.gcNick + "] Console: " + newtext);
-                    GlobalBot.Say("Console: " + newtext);
+                    //GlobalBot.Say("Console: " + newtext);
                     txtInput.Clear();
                 }
                 else
                 {
                     Player.GlobalMessage("Console [&a" + Server.ZallState + Server.DefaultColor + "]: &f" + txtInput.Text);
-                    IRCBot.Say("Console [" + Server.ZallState + "]: " + txtInput.Text);
+                    //IRCBot.Say("Console [" + Server.ZallState + "]: " + txtInput.Text);
                     WriteLine("<CONSOLE> " + txtInput.Text);
                     txtInput.Clear();
                 }
@@ -672,7 +672,7 @@ namespace MCSong.Gui
                 cbOpChat.addEntry(newtext);
                 Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + newtext);
                 Server.s.LogOp("Console: " + newtext);
-                IRCBot.Say("Console: " + newtext, true);
+                //IRCBot.Say("Console: " + newtext, true);
                 //   WriteLine("(OPs):<CONSOLE> " + txtInput.Text);
                 txtInput.Clear();
             }
@@ -682,7 +682,7 @@ namespace MCSong.Gui
                 cbAdminChat.addEntry(newtext);
                 Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + newtext);
                 Server.s.LogAdmin("Console: " + newtext);
-                IRCBot.Say("Console: " + newtext, true);
+                //IRCBot.Say("Console: " + newtext, true);
                 txtInput.Clear();
             }
             else if (txtInput.Text[0] == '\\')
@@ -692,13 +692,13 @@ namespace MCSong.Gui
                 cbGlobalChat.addEntry(newtext);
                 Player.GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] Console: &f" + newtext);
                 Server.s.LogGC("[" + Server.gcNick + "] Console: " + newtext);
-                GlobalBot.Say("Console: " + newtext);
+                //GlobalBot.Say("Console: " + newtext);
                 txtInput.Clear();
             }
             else
             {
                 Player.GlobalMessage("Console [&a" + Server.ZallState + Server.DefaultColor + "]: &f" + txtInput.Text);
-                IRCBot.Say("Console [" + Server.ZallState + "]: " + txtInput.Text);
+                //IRCBot.Say("Console [" + Server.ZallState + "]: " + txtInput.Text);
                 WriteLine("<CONSOLE> " + txtInput.Text);
                 txtInput.Clear();
             }
@@ -880,7 +880,7 @@ namespace MCSong.Gui
 
             Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + text);
             Server.s.LogAdmin("Console: " + text);
-            IRCBot.Say("Console: " + text, true);
+            //IRCBot.Say("Console: " + text, true);
             txtAdminIn.Clear();
         }
 
@@ -893,7 +893,7 @@ namespace MCSong.Gui
 
             Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + text);
             Server.s.LogOp("Console: " + text);
-            IRCBot.Say("Console: " + text, true);
+            //IRCBot.Say("Console: " + text, true);
             txtOpIn.Clear();
         }
 
@@ -906,7 +906,7 @@ namespace MCSong.Gui
 
             Player.GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] Console: &f" + text);
             Server.s.LogGC("[" + Server.gcNick + "] Console: " + text);
-            GlobalBot.Say("Console: " + text);
+            //GlobalBot.Say("Console: " + text);
             txtGlobalIn.Clear();
         }
 
@@ -921,7 +921,7 @@ namespace MCSong.Gui
 
                 Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + text);
                 Server.s.LogAdmin("Console: " + text);
-                IRCBot.Say("Console: " + text, true);
+                //IRCBot.Say("Console: " + text, true);
                 txtAdminIn.Clear();
             }
             else if (e.KeyCode == Keys.Up)
@@ -950,7 +950,7 @@ namespace MCSong.Gui
 
                 Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + text);
                 Server.s.LogOp("Console: " + text);
-                IRCBot.Say("Console: " + text, true);
+                //IRCBot.Say("Console: " + text, true);
                 txtOpIn.Clear();
             }
             else if (e.KeyCode == Keys.Up)
@@ -979,7 +979,7 @@ namespace MCSong.Gui
 
                 Player.GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] Console: &f" + text);
                 Server.s.LogGC("[" + Server.gcNick + "] Console: " + text);
-                GlobalBot.Say("Console: " + text);
+                //GlobalBot.Say("Console: " + text);
                 txtGlobalIn.Clear();
             }
             else if (e.KeyCode == Keys.Up)

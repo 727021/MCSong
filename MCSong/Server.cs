@@ -21,7 +21,6 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
-using jDatabase;
 
 //using MySql.Data.MySqlClient;
 //using MySql.Data.Types;
@@ -234,7 +233,7 @@ namespace MCSong
         public static bool upnpRunning = false;
         #endregion
 
-
+        // TODO Implement PostgreSQL database
         public Database database;
 
 

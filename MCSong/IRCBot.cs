@@ -15,13 +15,13 @@
 using System;
 using System.Collections.Generic;
 using System.Text;
-using Meebey.SmartIrc4net;
+//using Meebey.SmartIrc4net;
 using System.Threading;
 
 namespace MCSong
 {
     class IRCBot
-    {
+    {/*
         static IrcClient irc = new IrcClient();
         static string server = Server.ircServer;
         static string channel = Server.ircChannel;
@@ -399,6 +399,6 @@ namespace MCSong
         {
             irc.Disconnect();
             ircThread.Abort();
-        }
+        }*/
     }
 }
