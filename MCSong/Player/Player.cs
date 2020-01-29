@@ -524,11 +524,16 @@ namespace MCSong
             string t = "";
             try
             {
-                c = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "Color");
-                tc = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "TColor");
-                t = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "Title");
-                Server.s.database.GetTable("Players").DeleteRow(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })));
-                Server.s.Debug("1");
+                List<string> currentRow = Server.s.database.GetTable("Players").GetValues("Name", name);
+                string tmp = "";
+                foreach (string s in currentRow)
+                    tmp += s + " ";
+                Server.s.Debug(tmp);
+                //c = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "Color");
+                //tc = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "TColor");
+                //t = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "Title");
+                //Server.s.database.GetTable("Players").DeleteRow(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })));
+                //Server.s.Debug("1");
             }
             catch (Exception e) { Server.ErrorLog(e); }
             Server.s.database.GetTable("Players").AddRow(new List<string> { id.ToString(), name, ip, firstLogin.ToString("yyyy-MM-dd HH:mm:ss"), lastLogin.ToString("yyyy-MM-dd HH:mm:ss"), totalLogins.ToString(), title, deathCount.ToString(), money.ToString(), (overallBlocks + loginBlocks).ToString(), totalKicked.ToString(), c, tc });
@@ -619,7 +624,7 @@ namespace MCSong
                         break;
                     default:
                         Server.s.Debug("Unhandled message id \"" + msg + "\"");
-                        Kick("Unhandled message id \"" + msg + "\"!");
+                        //Kick("Unhandled message id \"" + msg + "\"!");
                         return new byte[0];
                 }
                 if (buffer.Length > length)
@@ -887,7 +892,7 @@ namespace MCSong
 
             Server.s.PlayerListUpdate();
 
-            IRCBot.Say(name + " joined the game.");
+            //IRCBot.Say(name + " joined the game.");
 
             //Test code to show when people come back with different accounts on the same IP
             string temp = "Lately known as:";
@@ -906,7 +911,7 @@ namespace MCSong
                 {
                     GlobalMessageOps(temp);
                     Server.s.Log(temp);
-                    IRCBot.Say(temp, true);       //Tells people in op channel on IRC
+                    //IRCBot.Say(temp, true);       //Tells people in op channel on IRC
                 }
             }
             
@@ -1841,7 +1846,7 @@ namespace MCSong
                     {
                         Server.afkset.Remove(this.name);
                         Player.GlobalMessage("-" + this.color + this.name + Server.DefaultColor + "- is no longer AFK");
-                        IRCBot.Say(this.name + " is no longer AFK");
+                        //IRCBot.Say(this.name + " is no longer AFK");
                     }
                 }
 
@@ -1900,7 +1905,7 @@ namespace MCSong
                     if (group.Permission < Server.opchatperm && !Server.devs.Contains(name.ToLower()))
                         SendMessage("To Ops &f-" + color + name + "&f- " + newtext);
                     Server.s.LogOp(name + ": " + newtext);
-                    IRCBot.Say(name + ": " + newtext, true);
+                    //IRCBot.Say(name + ": " + newtext, true);
                     return;
                 }
                 if (text[0] == ';' || adminchat)
@@ -1912,7 +1917,7 @@ namespace MCSong
                     if (group.Permission < Server.adminchatperm && !Server.devs.Contains(name.ToLower()))
                         SendMessage("To Admins &f-" + color + name + "&f- " + newtext);
                     Server.s.LogAdmin(name + ": " + newtext);
-                    IRCBot.Say(name + ": " + newtext, true);
+                    //IRCBot.Say(name + ": " + newtext, true);
                     return;
                 }
                 if (text[0] == '\\')
@@ -1923,7 +1928,7 @@ namespace MCSong
 
                     GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] " + name + ": &f" + newtext);
                     Server.s.LogGC("[" + Server.gcNick + "] " + name + ": " + newtext);
-                    GlobalBot.Say(name + ": " + newtext);
+                    //GlobalBot.Say(name + ": " + newtext);
                     return;
                 }
 
@@ -1959,7 +1964,7 @@ namespace MCSong
 
                         stRead.Close();
                         stRead.Dispose();
-                        text = lines[i];
+                        text = i == 0 ? "I'm a joke!" : lines[i];
                     }
                     else { File.Create("text/joker.txt"); }
 
@@ -1985,7 +1990,7 @@ namespace MCSong
                         GlobalChat(this, newtext);
                     }
                     Server.s.Log("<" + name + "> " + newtext);
-                    IRCBot.Say("<" + name + "> " + newtext);
+                    //IRCBot.Say("<" + name + "> " + newtext);
                     return;
                 }
                 Server.s.Log("<" + name + "> " + text);
@@ -1999,7 +2004,7 @@ namespace MCSong
                     GlobalChatLevel(this, text, true);
                 }
 
-                IRCBot.Say(name + ": " + text);
+                //IRCBot.Say(name + ": " + text);
             }
             catch (Exception e) { Server.ErrorLog(e); Player.GlobalMessage("An error occurred: " + e.Message); }
         }
@@ -2179,7 +2184,7 @@ namespace MCSong
                 else
                 {
                     Server.s.Log(message);
-                    IRCBot.Say(message, true); 
+                    //IRCBot.Say(message, true); 
                 }
                 return; 
             }
@@ -2408,9 +2413,13 @@ namespace MCSong
             byte[] buffer = new byte[66];
 
             StringFormat("MCSong Server v" + Server.Version, 64).CopyTo(buffer, 0);
-            HTNO((short)Extension.all.Count).CopyTo(buffer, 64);
+            short extCount = 0;
+            foreach (Extension e in Extension.all)
+                if (e.implemented)
+                    extCount++;
+            HTNO(extCount).CopyTo(buffer, 64);
 
-            Server.s.Debug("Sending Packet(16): MCSong Server " + Extension.all.Count);
+            Server.s.Debug("Sending Packet(16): MCSong Server v" + Server.Version + " " + extCount);
             SendRaw(Magic.EXTINFO, buffer);
         }
 
@@ -2418,11 +2427,14 @@ namespace MCSong
         {
             foreach (Extension e in Extension.all)
             {
-                byte[] buffer = new byte[68];
-                StringFormat(e.name, 64).CopyTo(buffer, 0);
-                HTNO(e.version).CopyTo(buffer, 64);
-                Server.s.Debug("Sending Packet(17): " + e.name + " " + e.version);
-                SendRaw(Magic.EXTENTRY, buffer);
+                if (e.implemented)
+                {
+                    byte[] buffer = new byte[68];
+                    StringFormat(e.name, 64).CopyTo(buffer, 0);
+                    HTNO(e.version).CopyTo(buffer, 64);
+                    Server.s.Debug("Sending Packet(17): " + e.name + " " + e.version);
+                    SendRaw(Magic.EXTENTRY, buffer);
+                }
             }
         }
 
@@ -2844,14 +2856,14 @@ namespace MCSong
                     if (kickString == "Disconnected." || kickString.IndexOf("Server shutdown") != -1 || kickString == Server.customShutdownMessage)
                     {
                         if (!hidden) { GlobalChat(this, "&c- " + color + prefix + name + Server.DefaultColor + " disconnected.", false); }
-                        IRCBot.Say(name + " left the game.");
+                        //IRCBot.Say(name + " left the game.");
                         Server.s.Log(name + " disconnected.");
                     }
                     else
                     {
                         totalKicked++;
                         GlobalChat(this, "&c- " + color + prefix + name + Server.DefaultColor + " kicked (" + kickString + ").", false);
-                        IRCBot.Say(name + " kicked (" + kickString + ").");
+                        //IRCBot.Say(name + " kicked (" + kickString + ").");
                         Server.s.Log(name + " kicked (" + kickString + ").");
                     }
 

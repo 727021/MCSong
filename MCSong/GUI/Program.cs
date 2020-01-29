@@ -188,23 +188,23 @@ namespace MCSong_.Gui
                     s = s.Remove(0, 1);
                     Player.GlobalMessageOps("To Ops &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + s);
                     Server.s.Log("(OPs): Console: " + s);
-                    IRCBot.Say("Console: " + s, true);
+                    //IRCBot.Say("Console: " + s, true);
                     break;
                 case ';':// Admin Chat
                     s = s.Remove(0, 1);
                     Player.GlobalMessageAdmins("To Admins &f-" + Server.DefaultColor + "Console [&a" + Server.ZallState + Server.DefaultColor + "]&f- " + s);
                     Server.s.Log("(Admins): Console: " + s);
-                    IRCBot.Say("Console: " + s, true);
+                    //IRCBot.Say("Console: " + s, true);
                     break;
                 case '\\':// Global Chat
                     s = s.Remove(0, 1);
                     Player.GlobalMessageGC(Server.gcColor + "[Global][" + Server.gcNick + "] Console: &f" + s);
                     Server.s.Log("[Global][" + Server.gcNick + "] Console: " + s);
-                    GlobalBot.Say("Console: " + s);
+                    //GlobalBot.Say("Console: " + s);
                     break;
                 default:// Chat
                     Player.GlobalMessage("Console [&a" + Server.ZallState + Server.DefaultColor + "]: &f" + s);
-                    IRCBot.Say("Console [" + Server.ZallState + "]: " + s);
+                    //IRCBot.Say("Console [" + Server.ZallState + "]: " + s);
                     WriteLine("<CONSOLE> " + s);
                     break;
             }

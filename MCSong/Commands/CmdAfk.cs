@@ -44,7 +44,7 @@ namespace MCSong
                         message = "";
                     }
                     Player.GlobalMessage("-" + p.color + p.name + Server.DefaultColor + "- is AFK " + message);
-                    IRCBot.Say(p.name + " is AFK " + message);
+                    //IRCBot.Say(p.name + " is AFK " + message);
                     return;
 
                 }
@@ -52,7 +52,7 @@ namespace MCSong
                 {
                     Server.afkset.Remove(p.name);
                     Player.GlobalMessage("-" + p.color + p.name + Server.DefaultColor + "- is no longer AFK");
-                    IRCBot.Say(p.name + " is no longer AFK");
+                    //IRCBot.Say(p.name + " is no longer AFK");
                     return;
                 }
             }

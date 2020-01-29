@@ -18,7 +18,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Data;
 using System.Threading;
-using jDatabase;
 //using MySql.Data.MySqlClient;
 //using MySql.Data.Types;
 
@@ -714,6 +713,8 @@ namespace MCSong
                     } gs.Write(level, 0, level.Length); gs.Close();
                     fs.Close();
 
+                    if (!Table.Exists("Messages" + name, Server.s.database.Name))
+                        Server.s.database.CreateTable("Messages" + name, new List<string>() { "X", "Y", "Z", "Type", "Message" });
                     Table mbs = Server.s.database.GetTable("Messages" + name);
                     if (MBList.Count > 0)
                     {

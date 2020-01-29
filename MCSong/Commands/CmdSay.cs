@@ -34,7 +34,7 @@ namespace MCSong
             message = message.Replace("%", "&"); // Alow colors in global messages
             Player.GlobalChat(p, message, false);
             message = message.Replace("&", ""); // converts the MC color codes to IRC. Doesn't seem to work with multiple colors
-            IRCBot.Say(message);
+            //IRCBot.Say(message);
         }
         public override void Help(Player p)
         {

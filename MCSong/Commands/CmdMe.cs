@@ -41,7 +41,7 @@ namespace MCSong
             {
                 Player.GlobalChatLevel(p, p.color + "*" + p.name + " " + message, false);
             }
-            IRCBot.Say("*" + p.name + " " + message);
+            //IRCBot.Say("*" + p.name + " " + message);
 
 
         }

@@ -1,13 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-using Meebey.SmartIrc4net;
+//using Meebey.SmartIrc4net;
 using System.Threading;
 
 namespace MCSong
 {
     class GlobalBot
-    {
+    {/*
         static IrcClient irc = new IrcClient();
         static string server = "irc.esper.net";
         static string channel = "#mcsongglobal";
@@ -205,6 +205,6 @@ namespace MCSong
         {
             irc.Disconnect();
             ircThread.Abort();
-        }
+        }*/
     }
 }

@@ -15,7 +15,6 @@
 using System;
 using System.Data;
 using System.Collections.Generic;
-using jDatabase;
 //using MySql.Data.MySqlClient;
 //using MySql.Data.Types;
 
