@@ -53,7 +53,7 @@ namespace MCSong_.Gui
         public static void WriteLine(string message = "")
         {
             if (message == "") { Console.WriteLine(); return; }
-            try { Console.WriteLine(Server.stripColors(message)); }
+            try { Console.WriteLine(Server.StripColors(message)); }
             catch { Console.WriteLine(message); }
         }
 

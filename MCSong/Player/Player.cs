@@ -443,12 +443,7 @@ namespace MCSong
                     {
                         if (!Group.Find("Nobody").commands.Contains("inbox") && !Group.Find("Nobody").commands.Contains("send"))
                         {
-                            //DataTable Inbox = MySQL.fillData("SELECT * FROM `Inbox" + name + "`", true);
-
-
-
-                            SendMessage("&cYou have &f" + Server.s.database.GetTable("Inbox" + name).Rows.Count + Server.DefaultColor + " &cmessages in /inbox");
-                            //Inbox.Dispose();
+                            SendMessage($"&cYou have &f{SQLiteHelper.ExecuteQuery($@"SELECT id FROM Inbox WHERE to = (SELECT id FROM Players WHERE name = '{name}');").rowsAffected} &cmessages in /inbox");
                         }
                     }
                     catch { }
@@ -508,35 +503,15 @@ namespace MCSong
 
         public void save()
         {
-            /*string commandString =
-                "UPDATE Players SET IP='" + ip + "'" +
-                ", LastLogin='" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "'" +
-                ", totalLogin=" + totalLogins +
-                ", totalDeaths=" + overallDeath +
-                ", Money=" + money +
-                ", totalBlocks=" + overallBlocks + " + " + loginBlocks +
-                ", totalKicked=" + totalKicked +
-                " WHERE Name='" + name + "'";
-
-            MySQL.executeQuery(commandString);*/
-            string c = "";
-            string tc = "";
-            string t = "";
-            try
-            {
-                List<string> currentRow = Server.s.database.GetTable("Players").GetValues("Name", name);
-                string tmp = "";
-                foreach (string s in currentRow)
-                    tmp += s + " ";
-                Server.s.Debug(tmp);
-                //c = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "Color");
-                //tc = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "TColor");
-                //t = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })), "Title");
-                //Server.s.database.GetTable("Players").DeleteRow(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { name })));
-                //Server.s.Debug("1");
-            }
-            catch (Exception e) { Server.ErrorLog(e); }
-            Server.s.database.GetTable("Players").AddRow(new List<string> { id.ToString(), name, ip, firstLogin.ToString("yyyy-MM-dd HH:mm:ss"), lastLogin.ToString("yyyy-MM-dd HH:mm:ss"), totalLogins.ToString(), title, deathCount.ToString(), money.ToString(), (overallBlocks + loginBlocks).ToString(), totalKicked.ToString(), c, tc });
+            SQLiteHelper.ExecuteQuery(
+                $@"UPDATE Players SET ip = '{ip}'" +
+                $@", last_login = '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}'" +
+                $@", logins = {totalLogins}" +
+                $@", deaths = {overallDeath}" +
+                $@", money = {money}" +
+                $@", blocks = {overallBlocks}" +
+                $@", kicks = {totalKicked}" +
+                $@"WHERE id = {userID}");
 
             try
             {
@@ -622,7 +597,7 @@ namespace MCSong
                     case Magic.CUSTOM_BLOCK_SUPPORT_LEVEL:
                         length = 1;
                         break;
-                    default:
+                    default:// TODO Fix bug with '34' (PlayerClick) packets
                         Server.s.Debug("Unhandled message id \"" + msg + "\"");
                         //Kick("Unhandled message id \"" + msg + "\"!");
                         return new byte[0];
@@ -915,11 +890,9 @@ namespace MCSong
                 }
             }
             
-            // --------------------
+            var playerQuery = SQLiteHelper.ExecuteQuery($@"SELECT id, name, ip, first_login, last_login, logins, title, deaths, money, blocks, kicks, color, tcolor FROM Players WHERE name = '{name}';");
 
-            /*DataTable playerDb = MySQL.fillData("SELECT * FROM Players WHERE Name='" + name + "'");
-
-            if (playerDb.Rows.Count == 0)
+            if (playerQuery.rowsAffected <= 0) // New player
             {
                 this.prefix = "";
                 this.titlecolor = "";
@@ -931,84 +904,36 @@ namespace MCSong
                 this.overallDeath = 0;
                 this.overallBlocks = 0;
                 this.timeLogged = DateTime.Now;
-                SendMessage("Welcome " + name + "! This is your first visit.");
+                SendMessage($"Welcome {name}! This is your first visit.");
 
-                MySQL.executeQuery("INSERT INTO Players (Name, IP, FirstLogin, LastLogin, totalLogin, Title, totalDeaths, Money, totalBlocks, totalKicked)" +
-                    "VALUES ('" + name + "', '" + ip + "', '" + firstLogin.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', " + totalLogins +
-                    ", '" + prefix + "', " + overallDeath + ", " + money + ", " + loginBlocks + ", " + totalKicked + ")");
-
+                this.userID = (int)SQLiteHelper.ExecuteScalar(
+                    $@"INSERT INTO Players (name, ip, first_login, last_login, logins, title, deaths, money, blocks, kicks) " +
+                    $@"VALUES ('{name}', '{ip}', '{firstLogin.ToString("yyyy-MM-dd HH:mm:ss")}', '{DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}', {totalLogins}, " +
+                    $@"'{prefix}', {overallDeath}, {money}, {overallBlocks}, {totalKicked});" +
+                    $@"SELECT last_insert_rowid();");
             }
-            else
+            else // Existing player
             {
-                totalLogins = int.Parse(playerDb.Rows[0]["totalLogin"].ToString()) + 1;
-                userID = int.Parse(playerDb.Rows[0]["ID"].ToString());
-                firstLogin = DateTime.Parse(playerDb.Rows[0]["firstLogin"].ToString());
+                totalLogins = int.Parse(playerQuery[0]["logins"]) + 1;
+                userID = int.Parse(playerQuery[0]["id"]);
+                firstLogin = DateTime.Parse(playerQuery[0]["first_login"]);
                 timeLogged = DateTime.Now;
-                if (playerDb.Rows[0]["Title"].ToString().Trim() != "")
-                {
-                    string parse = playerDb.Rows[0]["Title"].ToString().Trim().Replace("[", "");
-                    title = parse.Replace("]", "");
-                }
-                if (playerDb.Rows[0]["title_color"].ToString().Trim() != "")
-                {
-                    titlecolor = c.Parse(playerDb.Rows[0]["title_color"].ToString().Trim());
-                }
-                else
-                {
-                    titlecolor = "";
-                }
-                if (playerDb.Rows[0]["color"].ToString().Trim() != "")
-                {
-                    color = c.Parse(playerDb.Rows[0]["color"].ToString().Trim());
-                }
-                else
-                {
-                    color = group.color;
-                }
+                if (playerQuery[0]["title"].ToLower() != "null" && !string.IsNullOrEmpty(playerQuery[0]["title"]))
+                    title = playerQuery[0]["title"].Trim().Replace("[", "").Replace("]", "");
+                titlecolor = (playerQuery[0]["tcolor"].ToLower() != "null" && !string.IsNullOrEmpty(playerQuery[0]["tcolor"]))
+                    ? c.Parse(playerQuery[0]["tcolor"])
+                    : "";
+                color = (playerQuery[0]["color"].ToLower() != "null" && !string.IsNullOrEmpty(playerQuery[0]["color"]))
+                    ? c.Parse(playerQuery[0]["color"])
+                    : group.color;
                 SetPrefix();
-                overallDeath = int.Parse(playerDb.Rows[0]["TotalDeaths"].ToString());
-                overallBlocks = int.Parse(playerDb.Rows[0]["totalBlocks"].ToString().Trim());
-                money = int.Parse(playerDb.Rows[0]["Money"].ToString());
-                totalKicked = int.Parse(playerDb.Rows[0]["totalKicked"].ToString());*/
-            //PlayerDB.Load(this);
+                overallDeath = int.Parse(playerQuery[0]["deaths"]);
+                overallBlocks = int.Parse(playerQuery[0]["blocks"]);
+                money = int.Parse(playerQuery[0]["money"]);
+                totalKicked = int.Parse(playerQuery[0]["kicks"]);
 
-            jDatabase.Table plrs = Server.s.database.GetTable("Players");
-            List<List<string>> rows = plrs.Rows;
-
-            try
-            {
-                int i = rows.IndexOf(plrs.GetRow(new string[] { "Name" }, new string[] { name }));
-                title = plrs.GetValue(i, "Title");
-                titlecolor = plrs.GetValue(i, "TColor");
-                color = (String.IsNullOrWhiteSpace(plrs.GetValue(i, "Color")) ? group.color : plrs.GetValue(i, "Color"));
-                money = int.Parse(plrs.GetValue(i, "Money"));
-                firstLogin = DateTime.Parse(plrs.GetValue(i, "FirstLogin"));
-                lastLogin = DateTime.Parse(plrs.GetValue(i, "LastLogin"));
-                totalLogins = int.Parse(plrs.GetValue(i, "TotalLogins"));
-                totalKicked = int.Parse(plrs.GetValue(i, "TotalKicks"));
-                overallDeath = int.Parse(plrs.GetValue(i, "TotalDeaths"));
-                overallBlocks = int.Parse(plrs.GetValue(i, "TotalBlocks"));
-                timeLogged = DateTime.Now;
+                SendMessage("Welcome back " + color + prefix + name + Server.DefaultColor + "! You've been here " + totalLogins + " times!");
             }
-            catch
-            {
-                title = "";
-                titlecolor = "";
-                color = group.color;
-                money = 0;
-                firstLogin = DateTime.Now;
-                lastLogin = DateTime.Now;
-                totalLogins = 1;
-                totalKicked = 0;
-                overallDeath = 0;
-                overallBlocks = 0;
-                timeLogged = DateTime.Now;
-                Server.s.database.GetTable("Players").AddRow(new List<string> { id.ToString(), name, ip, firstLogin.ToString("yyyy-MM-dd HH:mm:ss"), lastLogin.ToString("yyyy-MM-dd HH:mm:ss"), totalLogins.ToString(), "", deathCount.ToString(), money.ToString(), (overallBlocks + loginBlocks).ToString(), totalKicked.ToString(), "", "" });
-            }
-
-            SendMessage("Welcome back " + color + prefix + name + Server.DefaultColor + "! You've been here " + totalLogins + " times!");
-            //}
-            //playerDb.Dispose();
 
             if (Server.devs.Contains(this.name.ToLower()))
             {
@@ -1314,52 +1239,29 @@ namespace MCSong
         {
             try
             {
-                //DataTable Portals = MySQL.fillData("SELECT * FROM `Portals" + level.name + "` WHERE EntryX=" + (int)x + " AND EntryY=" + (int)y + " AND EntryZ=" + (int)z);
+                SQLiteHelper.SQLResult portalQuery = SQLiteHelper.ExecuteQuery($@"SELECT entryx, entryy, entryz, exitmap, exitx, exity, exitz FROM Portals{level.name} " +
+                    $@"WHERE entryx = {x} AND entryy = {y} AND entryz = {z};");
 
-                jDatabase.Table portals = Server.s.database.GetTable("Portals" + level.name);
-                int i = portals.Rows.IndexOf(portals.GetRow(new string[] { "EntryX", "EntryY", "EntryZ" }, new string[] { x.ToString(), y.ToString(), z.ToString() }));
-
-                if (i > -1)
+                if (portalQuery.rowsAffected >= 1)
                 {
-                    if (level.name != portals.GetValue(i, "ExitMap"))
+                    SQLiteHelper.SQLRow portal = portalQuery[portalQuery.rowsAffected - 1];
+
+                    if (!level.name.Equals(portal["exitmap"]))
                     {
                         ignorePermission = true;
                         Level thisLevel = level;
-                        Command.all.Find("goto").Use(this, portals.GetValue(i, "ExitMap"));
+                        Command.all.Find("goto").Use(this, portal["exitmap"]);
                         if (thisLevel == level) { Player.SendMessage(p, "The map the portal goes to isn't loaded."); return; }
                         ignorePermission = false;
                     }
                     else
                         SendBlockchange(x, y, z, b);
 
-                    while (p.Loading) { }
-                    Command.all.Find("move").Use(this, this.name + " " + portals.GetValue(i, "ExitX") + " " + portals.GetValue(i, "ExitY") + " " + portals.GetValue(i, "ExitZ"));
-
+                    while (p.Loading) ;
+                    Command.all.Find("move").Use(this, $"{name} {portal["exitx"]} {portal["exity"]} {portal["exitz"]}");
                 }
                 else
                     Blockchange(this, x, y, z, (byte)0);
-
-                /*int LastPortal = Portals.Rows.Count - 1;
-                if (LastPortal > -1)
-                {
-                    if (level.name != Portals.Rows[LastPortal]["ExitMap"].ToString())
-                    {
-                        ignorePermission = true;
-                        Level thisLevel = level;
-                        Command.all.Find("goto").Use(this, Portals.Rows[LastPortal]["ExitMap"].ToString());
-                        if (thisLevel == level) { Player.SendMessage(p, "The map the portal goes to isn't loaded."); return; }
-                        ignorePermission = false;
-                    }
-                    else SendBlockchange(x, y, z, b);
-
-                    while (p.Loading) { }  //Wait for player to spawn in new map
-                    Command.all.Find("move").Use(this, this.name + " " + Portals.Rows[LastPortal]["ExitX"].ToString() + " " + Portals.Rows[LastPortal]["ExitY"].ToString() + " " + Portals.Rows[LastPortal]["ExitZ"].ToString());
-                }
-                else
-                {
-                    Blockchange(this, x, y, z, (byte)0);
-                }
-                Portals.Dispose();*/
             }
             catch { Player.SendMessage(p, "Portal had no exit."); return; }
         }
@@ -2175,7 +2077,7 @@ namespace MCSong
         {
             if (p == null) {
 
-                message = Server.stripColors(message);
+                message = Server.StripColors(message);
 
                 if (storeHelp)
                 {

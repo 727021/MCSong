@@ -547,15 +547,6 @@ namespace MCSong.Gui
                     w.WriteLine("#Error logging");
                     w.WriteLine("report-back = " + Server.reportBack.ToString().ToLower());
                     w.WriteLine();
-                    w.WriteLine("#MySQL information");
-                    w.WriteLine("UseMySQL = " + Server.useMySQL);
-                    w.WriteLine("Host = " + Server.MySQLHost);
-                    w.WriteLine("SQLPort = " + Server.MySQLPort);
-                    w.WriteLine("Username = " + Server.MySQLUsername);
-                    w.WriteLine("Password = " + Server.MySQLPassword);
-                    w.WriteLine("DatabaseName = " + Server.MySQLDatabaseName);
-                    w.WriteLine("Pooling = " + Server.MySQLPooling);
-                    w.WriteLine();
                     w.WriteLine("#Colors");
                     w.WriteLine("defaultColor = " + cmbDefaultColour.Items[cmbDefaultColour.SelectedIndex].ToString());
                     w.WriteLine("irc-color = " + cmbIRCColour.Items[cmbIRCColour.SelectedIndex].ToString());
@@ -631,7 +622,7 @@ namespace MCSong.Gui
             SaveCommands();
             SaveBlocks();
 
-            Properties.Load("properties/server.properties", true);
+            ServerProperties.Load("properties/server.properties", true);
             GrpCommands.fillRanks();
         }
 
@@ -928,7 +919,7 @@ namespace MCSong.Gui
             Command.all.Find("help").Use(null, toHelp);
             Player.storeHelp = false;
             string messageInfo = "Help information for " + toHelp + ":\r\n\r\n";
-            messageInfo += Server.stripColors(Player.storedHelp);
+            messageInfo += Server.StripColors(Player.storedHelp);
             MessageBox.Show(messageInfo);
         }
 

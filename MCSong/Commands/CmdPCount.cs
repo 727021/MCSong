@@ -18,8 +18,6 @@
 using System;
 using System.Data;
 using System.IO;
-//using MySql.Data.MySqlClient;
-//using MySql.Data.Types;
 
 namespace MCSong
 {
@@ -37,12 +35,8 @@ namespace MCSong
         {
             int bancount = Group.findPerm(LevelPermission.Banned).playerList.All().Count;
 
-            /*DataTable count = MySQL.fillData("SELECT COUNT(id) FROM players");
-            Player.SendMessage(p, "A total of " + count.Rows[0]["COUNT(id)"] + " unique players have visited this server.");
-            Player.SendMessage(p, "Of these players, " + bancount + " have been banned.");
-            count.Dispose();*/
-            Player.SendMessage(p, "A total of " + Server.s.database.GetTable("Players").Rows.Count + " unique players have visited this server.");
-            Player.SendMessage(p, "Of these players, " + bancount + " have been banned.");
+            Player.SendMessage(p, $"A total of {SQLiteHelper.ExecuteQuery($@"SELECT id FROM Players").rowsAffected} unique players have visited this server.");
+            Player.SendMessage(p, $"Of these players, {bancount} have been banned.");
 
             int playerCount = 0;
             int hiddenCount = 0;

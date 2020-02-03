@@ -15,8 +15,6 @@
 using System;
 using System.IO;
 using System.Data;
-//using MySql.Data.MySqlClient;
-//using MySql.Data.Types;
 
 namespace MCSong
 {
@@ -39,43 +37,16 @@ namespace MCSong
                 Player who = Player.Find(message);
                 if (who == null)
                 {
-                    /*DataTable ip;
-                    int tryCounter = 0;
-            rerun:  try
-                    {
-                        ip = MySQL.fillData("SELECT IP FROM Players WHERE Name = '" + message + "'");
-                    }
-                    catch (Exception e)
-                    {
-                        tryCounter++;
-                        if (tryCounter < 10)
-                            goto rerun;
-                        else
-                        {
-                            Server.ErrorLog(e);
-                            return;
-                        }
-                    }
-                    if (ip.Rows.Count > 0)
-                        message = ip.Rows[0]["IP"].ToString();
-                    else
-                    {
-                        Player.SendMessage(p, "Unable to find an IP address for that user.");
-                        return;
-                    }
-                    ip.Dispose();
-                    if (OfflinePlayer.Find(message) != null)
-                        message = OfflinePlayer.Find(message).ip;
-                    else
-                    {
-                        Player.SendMessage(p, "Unable to find an IP address for that user.");
-                        return;
-                    }*/
                     try
                     {
-                        message = Server.s.database.GetTable("Players").GetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { message })), "IP");
+                        message = SQLiteHelper.ExecuteQuery($@"SELECT ip FROM Players WHERE name = '{message}' LIMIT 1;")[0]["ip"];
                     }
                     catch
+                    {
+                        Player.SendMessage(p, "Unable to find an IP address for that user.");
+                        return;
+                    }
+                    if (string.IsNullOrEmpty(message))
                     {
                         Player.SendMessage(p, "Unable to find an IP address for that user.");
                         return;
@@ -110,14 +81,14 @@ namespace MCSong
             Server.bannedIP.Add(message);
             Server.bannedIP.Save("banned-ip.txt", false);
             Server.s.Log("IP-BANNED: " + message.ToLower());
-            /*
+            
             foreach (Player pl in Player.players) {
                 if (message == pl.ip) { pl.Kick("Kicked by ipban"); }
-            }*/
+            }
         }
         public override void Help(Player p)
         {
-            Player.SendMessage(p, "/banip <ip/name> - Bans an ip. Also accepts a player name when you use @ before the name.");
+            Player.SendMessage(p, "/banip <ip/@name> - Bans an ip. Also accepts a player name when you use @ before the name.");
         }
     }
 }

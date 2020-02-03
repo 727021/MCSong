@@ -2,8 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Data;
 using System.IO;
-//using MySql.Data.MySqlClient;
-//using MySql.Data.Types;
 
 namespace MCSong
 {
@@ -21,15 +19,16 @@ namespace MCSong
         {
             if (message == "") { Help(p); return; }
 
-            string players = "Players with this IP: ";
-            jDatabase.Table plrs = Server.s.database.GetTable("Players");
-            foreach (int i in plrs.GetRowNumbers("IP", message))
+            SQLiteHelper.SQLResult ipQuery = SQLiteHelper.ExecuteQuery($@"SELECT name FROM Players WHERE ip = '{message}';");
+            if (ipQuery.rowsAffected <= 0)
             {
-                players += plrs.GetValue(i, "Name") + ", ";
+                Player.SendMessage(p, "Could not find anyone with this IP.");
+                return;
             }
-            if (players == "Players with this IP: ") { Player.SendMessage(p, "Could not find anyone with this IP"); return; }
-            players = players.Remove(players.Length - 2);
-            Player.SendMessage(p, players);
+            List<string> players = new List<string>();
+            foreach (SQLiteHelper.SQLRow row in ipQuery)
+                players.Add(row["name"]);
+            Player.SendMessage(p, $"Found {players.Count} player{(players.Count > 1 ? "s" : "")} with this IP: {string.Join(", ", players)}");
         }
         public override void Help(Player p)
         {

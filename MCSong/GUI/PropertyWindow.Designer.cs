@@ -32,6 +32,7 @@
             this.tabControl = new System.Windows.Forms.TabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
             this.groupBox9 = new System.Windows.Forms.GroupBox();
+            this.chkDebug = new System.Windows.Forms.CheckBox();
             this.chkRestart = new System.Windows.Forms.CheckBox();
             this.chkMono = new System.Windows.Forms.CheckBox();
             this.chkLogBeat = new System.Windows.Forms.CheckBox();
@@ -186,7 +187,6 @@
             this.btnDiscard = new System.Windows.Forms.Button();
             this.btnApply = new System.Windows.Forms.Button();
             this.toolTip = new System.Windows.Forms.ToolTip(this.components);
-            this.chkDebug = new System.Windows.Forms.CheckBox();
             this.tabControl.SuspendLayout();
             this.tabPage1.SuspendLayout();
             this.groupBox9.SuspendLayout();
@@ -252,6 +252,17 @@
             this.groupBox9.TabIndex = 25;
             this.groupBox9.TabStop = false;
             this.groupBox9.Text = "Misc.";
+            // 
+            // chkDebug
+            // 
+            this.chkDebug.Appearance = System.Windows.Forms.Appearance.Button;
+            this.chkDebug.AutoSize = true;
+            this.chkDebug.Location = new System.Drawing.Point(63, 136);
+            this.chkDebug.Name = "chkDebug";
+            this.chkDebug.Size = new System.Drawing.Size(96, 23);
+            this.chkDebug.TabIndex = 25;
+            this.chkDebug.Text = "Debug Messages";
+            this.chkDebug.UseVisualStyleBackColor = true;
             // 
             // chkRestart
             // 
@@ -1852,17 +1863,6 @@
             this.toolTip.ToolTipIcon = System.Windows.Forms.ToolTipIcon.Info;
             this.toolTip.ToolTipTitle = "Information";
             this.toolTip.Popup += new System.Windows.Forms.PopupEventHandler(this.toolTip_Popup);
-            // 
-            // chkDebug
-            // 
-            this.chkDebug.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkDebug.AutoSize = true;
-            this.chkDebug.Location = new System.Drawing.Point(63, 136);
-            this.chkDebug.Name = "chkDebug";
-            this.chkDebug.Size = new System.Drawing.Size(96, 23);
-            this.chkDebug.TabIndex = 25;
-            this.chkDebug.Text = "Debug Messages";
-            this.chkDebug.UseVisualStyleBackColor = true;
             // 
             // PropertyWindow
             // 

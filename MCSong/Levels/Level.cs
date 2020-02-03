@@ -18,8 +18,6 @@ using System.IO;
 using System.IO.Compression;
 using System.Data;
 using System.Threading;
-//using MySql.Data.MySqlClient;
-//using MySql.Data.Types;
 
 ///WARNING! DO NOT CHANGE THE WAY THE LEVEL IS SAVED/LOADED!
 ///You MUST make it able to save and load as a new version other wise you will make old levels incompatible!
@@ -43,6 +41,7 @@ namespace MCSong
         SUNLIGHT = 4
     }
 
+    // TODO The permission system should be redone eventually
     public enum LevelPermission
     {
         Banned = -20,
@@ -345,8 +344,8 @@ namespace MCSong
             Player.GlobalMessageOps("&3" + name + Server.DefaultColor + " was unloaded.");
             Server.s.Log(name + " was unloaded.");
 
-            if (OnLevelUnloadEvent != null) OnLevelUnloadEvent(this.name);
-            if (OnUnloadEvent != null) OnUnloadEvent();
+            OnLevelUnloadEvent?.Invoke(this.name);
+            OnUnloadEvent?.Invoke();
 
             return true;
         }
@@ -356,20 +355,18 @@ namespace MCSong
             if (blockCache.Count == 0) return;
             List<BlockPos> tempCache = blockCache;
             blockCache = new List<BlockPos>();
-            //string queryString;
-            //queryString = "INSERT INTO `Block" + name + "` (Username, TimePerformed, X, Y, Z, type, deleted) VALUES ";
-
-            Table block = Server.s.database.GetTable("Blocks" + name);
+            string queryString = $@"INSERT INTO Blocks{name} (username, when, x, y, z, type, deleted) VALUES ";
 
             foreach (BlockPos bP in tempCache)
             {
-                block.AddRow(new List<string> { bP.name, bP.TimePerformed.ToString("yyyy-MM-dd HH:mm:ss"), bP.x.ToString(), bP.y.ToString(), bP.z.ToString(), bP.type.ToString(), bP.deleted.ToString() });
-                //queryString += "('" + bP.name + "', '" + bP.TimePerformed.ToString("yyyy-MM-dd HH:mm:ss") + "', " + (int)bP.x + ", " + (int)bP.y + ", " + (int)bP.z + ", " + bP.type + ", " + bP.deleted + "), ";
+                queryString += $@"('{bP.name}', '{bP.TimePerformed.ToString("yyyy-MM-dd HH:mm:ss")}', {(int)bP.x}, {(int)bP.y}, {(int)bP.z}, {(int)bP.type}, {bP.deleted.ToString()}), ";
             }
 
-            //queryString = queryString.Remove(queryString.Length - 2);
+            queryString = queryString.Remove(queryString.Length - 2) + ";";
 
-            //MySQL.executeQuery(queryString);
+            int rowsAffected = SQLiteHelper.ExecuteQuery(queryString).rowsAffected;
+            Server.s.Debug($"Inserted {rowsAffected} into Blocks{name}");
+
             tempCache.Clear();
         }
 
@@ -463,18 +460,8 @@ namespace MCSong
                                 inZone = true;
                                 if (p.zoneDel)
                                 {
-                                    //DB
-                                    //MySQL.executeQuery("DELETE FROM `Zone" + p.level.name + "` WHERE Owner='" + Zn.Owner + "' AND SmallX='" + Zn.smallX + "' AND SMALLY='" + Zn.smallY + "' AND SMALLZ='" + Zn.smallZ + "' AND BIGX='" + Zn.bigX + "' AND BIGY='" + Zn.bigY + "' AND BIGZ='" + Zn.bigZ + "'");
-
-                                    Table zones = Server.s.database.GetTable("Zones" + p.level.name);
-                                    List<List<string>> rows = zones.Rows;
-
-                                    foreach (List<string> row in rows)
-                                    {
-                                        int i = rows.IndexOf(row);
-                                        if (zones.GetValue(i, "Owner") == Zn.Owner && zones.GetValue(i, "SmallX") == Zn.smallX.ToString() && zones.GetValue(i, "SmallY") == Zn.smallY.ToString() && zones.GetValue(i, "SmallZ") == Zn.smallZ.ToString() && zones.GetValue(i, "BigX") == Zn.bigX.ToString() && zones.GetValue(i, "BigY") == Zn.bigY.ToString() && zones.GetValue(i, "BigZ") == Zn.bigZ.ToString())
-                                            zones.DeleteRow(i);
-                                    }
+                                    int rowsAffected = SQLiteHelper.ExecuteQuery($@"DELETE FROM Zone{p.level.name} WHERE owner = '{Zn.Owner}' AND smallx = {Zn.smallX} AND smally = {Zn.smallY} AND smallz = {Zn.smallZ} AND bigx = {Zn.bigX} AND bigy = {Zn.bigY} AND bigz = {Zn.bigZ};").rowsAffected;
+                                    Server.s.Debug($"Deleted {rowsAffected} rows from Zone{p.level.name}");
 
                                     toDel.Add(Zn);
 
@@ -607,7 +594,16 @@ namespace MCSong
             //    b.lastaction.Add(foo); edits.Add(foo); p.actions.Add(foo);
             //} b.type = type;
         }
-        public void Blockchange(ushort x, ushort y, ushort z, byte type, bool overRide = false, string extraInfo = "")    //Block change made by physics
+        /// <summary>
+        /// Block change made by physics
+        /// </summary>
+        /// <param name="x"></param>
+        /// <param name="y"></param>
+        /// <param name="z"></param>
+        /// <param name="type"></param>
+        /// <param name="overRide"></param>
+        /// <param name="extraInfo"></param>
+        public void Blockchange(ushort x, ushort y, ushort z, byte type, bool overRide = false, string extraInfo = "")
         {
             if (x < 0 || y < 0 || z < 0) return;
             if (x >= width || y >= depth || z >= height) return;
@@ -713,21 +709,19 @@ namespace MCSong
                     } gs.Write(level, 0, level.Length); gs.Close();
                     fs.Close();
 
-                    if (!Table.Exists("Messages" + name, Server.s.database.Name))
-                        Server.s.database.CreateTable("Messages" + name, new List<string>() { "X", "Y", "Z", "Type", "Message" });
-                    Table mbs = Server.s.database.GetTable("Messages" + name);
+                    SQLiteHelper.ExecuteQuery($@"CREATE TABLE IF NOT EXISTS Messages{name} (x INTEGER, y INTEGER, z INTEGER, type INTEGER, message TEXT);");
+
                     if (MBList.Count > 0)
                     {
-                        try
-                        {// Should I be completely rewriting the message block db every save?
-                            mbs.Truncate();
-                            foreach (MessageBlock mb in MBList)
-                            {
-                                try { mbs.AddRow(new List<string> { mb.X.ToString(), mb.Y.ToString(), mb.Z.ToString(), mb.type.ToString(), mb.message }); }
-                                catch { }
-                            }
+                        string queryString = $@"INSERT INTO Messages{name} (x,y,z,type,message) VALUES ";
+                        foreach (MessageBlock mb in MBList)
+                        {
+                            queryString += $@"({(int)mb.X}, {(int)mb.Y}, {(int)mb.Z}, {(int)mb.type}, '{mb.message}'), ";
                         }
-                        catch(Exception e) { Server.ErrorLog(e); }
+                        queryString = queryString.Remove(-2) + ";";
+
+                        int rowsAffected = SQLiteHelper.ExecuteQuery(queryString).rowsAffected;
+                        Server.s.Debug($"Inserted {rowsAffected} rows into Messages{name}");
                     }
 
                     File.Delete(path + ".backup");
@@ -835,19 +829,10 @@ namespace MCSong
         public static Level Load(string givenName, byte phys)
         {
 
-            //MySQL.executeQuery("CREATE TABLE if not exists `Block" + givenName + "` (Username CHAR(20), TimePerformed DATETIME, X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Type TINYINT UNSIGNED, Deleted BOOL)");
-            //MySQL.executeQuery("CREATE TABLE if not exists `Portals" + givenName + "` (EntryX SMALLINT UNSIGNED, EntryY SMALLINT UNSIGNED, EntryZ SMALLINT UNSIGNED, ExitMap CHAR(20), ExitX SMALLINT UNSIGNED, ExitY SMALLINT UNSIGNED, ExitZ SMALLINT UNSIGNED)");
-            //MySQL.executeQuery("CREATE TABLE if not exists `Messages" + givenName + "` (X SMALLINT UNSIGNED, Y SMALLINT UNSIGNED, Z SMALLINT UNSIGNED, Message CHAR(255));");
-            //MySQL.executeQuery("CREATE TABLE if not exists `Zone" + givenName + "` (SmallX SMALLINT UNSIGNED, SmallY SMALLINT UNSIGNED, SmallZ SMALLINT UNSIGNED, BigX SMALLINT UNSIGNED, BigY SMALLINT UNSIGNED, BigZ SMALLINT UNSIGNED, Owner VARCHAR(20));");
-
-            try { Server.s.database.CreateTable("Blocks" + givenName, new List<string> { "Username", "TimePerformed", "X", "Y", "Z", "Type", "Deleted" }); }
-            catch { }
-            try { Server.s.database.CreateTable("Portals" + givenName, new List<string> { "EntryX", "EntryY", "EntryZ", "ExitMap", "ExitX", "ExitY", "ExitZ" }); }
-            catch { }
-            try { Server.s.database.CreateTable("Messages" + givenName, new List<string> { "X", "Y", "Z", "Type", "Message" }); }
-            catch { }
-            try { Server.s.database.CreateTable("Zones" + givenName, new List<string> { "SmallX", "SmallY", "SmallZ", "BigX", "BigY", "BigZ", "Owner" }); }
-            catch { }
+            SQLiteHelper.ExecuteQuery($@"CREATE TABLE IF NOT EXISTS Blocks{givenName} (username TEXT, edit_time TEXT, x INTEGER, y INTEGER, z INTEGER, type INTEGER, deleted TEXT);");
+            SQLiteHelper.ExecuteQuery($@"CREATE TABLE IF NOT EXISTS Portals{givenName} (entryx INTEGER, entryy INTEGER, entryz INTEGER, exitmap TEXT, exitx INTEGER, exity INTEGER, exitz INTEGER);");
+            SQLiteHelper.ExecuteQuery($@"CREATE TABLE IF NOT EXISTS Messages{givenName} (x INTEGER, y INTEGER, z INTEGER, type INTEGER, message TEXT);");
+            SQLiteHelper.ExecuteQuery($@"CREATE TABLE IF NOT EXISTS Zones{givenName} (owner TEXT, smallx INTEGER, smally INTEGER, smallz INTEGER, bigx INTEGER, bigy INTEGER, bigz INTEGER);");
 
             string path = "levels/" + givenName + ".lvl";
             if (File.Exists(path))
@@ -898,112 +883,52 @@ namespace MCSong
 
                     level.backedup = true;
 
-                    Table zones = Server.s.database.GetTable("Zones" + givenName);
-                    List<List<string>> rows = zones.Rows;
+                    // Load zones from db
                     level.ZoneList.Clear();
-                    Zone Zn;
-                    if (rows.Count > 1)
-                        foreach (List<string> row in rows)
-                        {
-                            int i = rows.IndexOf(row);
-                            Zn.smallX = ushort.Parse(zones.GetValue(i, "SmallX"));
-                            Zn.smallY = ushort.Parse(zones.GetValue(i, "SmallY"));
-                            Zn.smallZ = ushort.Parse(zones.GetValue(i, "SmallZ"));
-                            Zn.bigX = ushort.Parse(zones.GetValue(i, "BigX"));
-                            Zn.bigY = ushort.Parse(zones.GetValue(i, "BigY"));
-                            Zn.bigZ = ushort.Parse(zones.GetValue(i, "BigZ"));
-                            Zn.Owner = zones.GetValue(i, "Owner");
-                            level.ZoneList.Add(Zn);
-                        }
-
-                    /*DataTable ZoneDB = MySQL.fillData("SELECT * FROM `Zone" + givenName + "`");
-
-                    Zone Zn;
-                    for (int i = 0; i < ZoneDB.Rows.Count; ++i)
+                    SQLiteHelper.SQLResult zoneQuery = SQLiteHelper.ExecuteQuery($@"SELECT owner, smallx, smally, smallz, bigx, bigy, bigz FROM Zones{givenName};");
+                    for (int i = 0; i < zoneQuery.rowsAffected; i++)
                     {
-                        Zn.smallX = (ushort)ZoneDB.Rows[i]["SmallX"];
-                        Zn.smallY = (ushort)ZoneDB.Rows[i]["SmallY"];
-                        Zn.smallZ = (ushort)ZoneDB.Rows[i]["SmallZ"];
-                        Zn.bigX = (ushort)ZoneDB.Rows[i]["BigX"];
-                        Zn.bigY = (ushort)ZoneDB.Rows[i]["BigY"];
-                        Zn.bigZ = (ushort)ZoneDB.Rows[i]["BigZ"];
-                        Zn.Owner = ZoneDB.Rows[i]["Owner"].ToString();
-                        level.ZoneList.Add(Zn);
+                        level.ZoneList.Add(new Zone()
+                        {
+                            Owner = zoneQuery[i]["owner"],
+                            smallX = ushort.Parse(zoneQuery[i]["smallx"]),
+                            smallY = ushort.Parse(zoneQuery[i]["smally"]),
+                            smallZ = ushort.Parse(zoneQuery[i]["smallz"]),
+                            bigX = ushort.Parse(zoneQuery[i]["bigX"]),
+                            bigY = ushort.Parse(zoneQuery[i]["bigY"]),
+                            bigZ = ushort.Parse(zoneQuery[i]["bigZ"])
+                        });
                     }
 
-                    ZoneDB.Dispose();*/
-
-                    Table messages = Server.s.database.GetTable("Messages" + givenName);
-                    List<List<string>> mrows = messages.Rows;
+                    // Load message blocks from db
                     level.MBList.Clear();
-                    MessageBlock mb;
-                    if (rows.Count > 0)
-                        foreach (List<string> row in mrows)
+                    SQLiteHelper.SQLResult messageQuery = SQLiteHelper.ExecuteQuery($@"SELECT x, y, z, type, message FROM Messages{givenName};");
+                    for (int i = 0; i < messageQuery.rowsAffected; i++)
+                    {
+                        MessageBlock mb = new MessageBlock()
                         {
-                            int i = mrows.IndexOf(row);
-                            if (i <= 0) goto Zero;
-                            mb.X = ushort.Parse(messages.GetValue(i, "X"));
-                            mb.Y = ushort.Parse(messages.GetValue(i, "Y"));
-                            mb.Z = ushort.Parse(messages.GetValue(i, "Z"));
-                            mb.type = int.Parse(messages.GetValue(i, "Type"));
-                            mb.message = messages.GetValue(i, "Message");
-                            if (Block.mb(level.GetTile(mb.X, mb.Y, mb.Z)))
-                                level.MBList.Add(mb);
-                            Zero: ;
-                        }
-
-                    //MessagesDB.Load(level);
+                            X = ushort.Parse(messageQuery[i]["x"]),
+                            Y = ushort.Parse(messageQuery[i]["y"]),
+                            Z = ushort.Parse(messageQuery[i]["z"]),
+                            type = int.Parse(messageQuery[i]["type"]),
+                            message = messageQuery[i]["message"]
+                        };
+                        if (Block.mb(level.GetTile(mb.X, mb.Y, mb.Z)))
+                            level.MBList.Add(mb);
+                        else // Remove invalid message blocks from db
+                            SQLiteHelper.ExecuteQuery($@"DELETE FROM Messages{givenName} WHERE x = {mb.X} AND y = {mb.Y} AND z = {mb.Z} AND type = {mb.type} AND message = '{SQLiteHelper.EscapeQuotes(mb.message)}';");
+                    }
 
                     level.jailx = (ushort)(level.spawnx * 32); level.jaily = (ushort)(level.spawny * 32); level.jailz = (ushort)(level.spawnz * 32);
                     level.jailrotx = level.rotx; level.jailroty = level.roty;
 
                     level.physThread = new Thread(new ThreadStart(level.Physics));
 
-                    try
-                    {
-                        /*DataTable foundDB = MySQL.fillData("SELECT * FROM `Portals" + givenName + "`");
-
-                        for (int i = 0; i < foundDB.Rows.Count; ++i)
-                        {
-                            if (!Block.portal(level.GetTile((ushort)foundDB.Rows[i]["EntryX"], (ushort)foundDB.Rows[i]["EntryY"], (ushort)foundDB.Rows[i]["EntryZ"])))
-                            {
-                                MySQL.executeQuery("DELETE FROM `Portals" + givenName + "` WHERE EntryX=" + foundDB.Rows[i]["EntryX"] + " AND EntryY=" + foundDB.Rows[i]["EntryY"] + " AND EntryZ=" + foundDB.Rows[i]["EntryZ"]);
-                            }
-                        }*/
-                        
-                        Table portals = Server.s.database.GetTable("Portals" + givenName);
-                        List<List<string>> prows = portals.Rows;
-                        foreach (List<string> row in prows)
-                        {
-                            int i = prows.IndexOf(row);
-                            if (i <= 0) goto Zero;
-                            if (!Block.portal(level.GetTile(ushort.Parse(portals.GetValue(i, "EntryX")), ushort.Parse(portals.GetValue(i, "EntryY")), ushort.Parse(portals.GetValue(i, "EntryZ")))))
-                                portals.DeleteRow(i);
-                            Zero: ;
-                        }
-
-                        /*foundDB = MySQL.fillData("SELECT * FROM `Messages" + givenName + "`");
-
-                        for (int i = 0; i < foundDB.Rows.Count; ++i)
-                        {
-                            if (!Block.mb(level.GetTile((ushort)foundDB.Rows[i]["X"], (ushort)foundDB.Rows[i]["Y"], (ushort)foundDB.Rows[i]["Z"])))
-                            {
-                                MySQL.executeQuery("DELETE FROM `Messages" + givenName + "` WHERE X=" + foundDB.Rows[i]["X"] + " AND Y=" + foundDB.Rows[i]["Y"] + " AND Z=" + foundDB.Rows[i]["Z"]);
-                            }
-                        }
-                        foundDB.Dispose();*/
-
-                        foreach (List<string> row in mrows)
-                        {
-                            int i = mrows.IndexOf(row);
-                            if (i <= 0) goto Zero;
-                            if (!Block.mb(level.GetTile(ushort.Parse(messages.GetValue(i, "X")), ushort.Parse(messages.GetValue(i, "Y")), ushort.Parse(messages.GetValue(i, "Z")))))
-                                messages.DeleteRow(i);
-                            Zero:;
-                        }
-
-                    }
-                    catch (Exception e) { Server.ErrorLog(e); }
+                    // Remove invalid portals from db
+                    SQLiteHelper.SQLResult portalsQuery = SQLiteHelper.ExecuteQuery($@"SELECT entryx, entryy, entryz, exitmap, exitx, exity, exitz FROM Portals{givenName};");
+                    for (int i = 0; i < portalsQuery.rowsAffected; i++)
+                        if (!Block.portal(level.GetTile(ushort.Parse(portalsQuery[i]["x"]), ushort.Parse(portalsQuery[i]["y"]), ushort.Parse(portalsQuery[i]["z"]))))
+                            SQLiteHelper.ExecuteQuery($@"DELETE FROM Portals{givenName} WHERE entryx = {portalsQuery[i]["entryx"]} AND entryy = {portalsQuery[i]["entryy"]} AND entry = {portalsQuery[i]["entryz"]} AND exitmap = '{portalsQuery[i]["exitmap"]}' AND exitx = {portalsQuery[i]["exitx"]} AND exit = {portalsQuery[i]["exity"]} AND exitz = {portalsQuery[i]["exitz"]};");
 
                     try
                     {
