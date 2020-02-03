@@ -2,8 +2,6 @@ using System;
 using System.IO;
 using System.Data;
 using System.Collections.Generic;
-//using MySql.Data.MySqlClient;
-//using MySql.Data.Types;
 
 namespace MCSong
 {
@@ -49,12 +47,10 @@ namespace MCSong
                     try { File.Delete("levels/level properties/" + message); }
                     catch { }
 
-                    //MySQL.executeQuery("DROP TABLE `Block" + message + "`, `Portals" + message + "`, `Messages" + message + "`, `Zone" + message + "`");
-
-                    Server.s.database.GetTable("Blocks" + message).Delete();
-                    Server.s.database.GetTable("Portals" + message).Delete();
-                    Server.s.database.GetTable("Messages" + message).Delete();
-                    Server.s.database.GetTable("Zones" + message).Delete();
+                    SQLiteHelper.ExecuteQuery($@"DROP TABLE IF EXISTS Blocks{message}");
+                    SQLiteHelper.ExecuteQuery($@"DROP TABLE IF EXISTS Portals{message}");
+                    SQLiteHelper.ExecuteQuery($@"DROP TABLE IF EXISTS Messages{message}");
+                    SQLiteHelper.ExecuteQuery($@"DROP TABLE IF EXISTS Zones{message}");
 
                     Player.GlobalMessage("Level " + message + " was deleted.");
                 }

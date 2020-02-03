@@ -52,19 +52,9 @@ namespace MCSong
                     return;
                 }
                 else
-                {/*
-                    for (int i = 0; i < p.level.ZoneList.Count; i++)
-                    {
-                        Level.Zone Zn = p.level.ZoneList[i];
-                        MySQL.executeQuery("DELETE FROM `Zone" + p.level.name + "` WHERE Owner='" + Zn.Owner + "' AND SmallX='" + Zn.smallX + "' AND SMALLY='" + Zn.smallY + "' AND SMALLZ='" + Zn.smallZ + "' AND BIGX='" + Zn.bigX + "' AND BIGY='" + Zn.bigY + "' AND BIGZ='" + Zn.bigZ + "'");
-
-                        Player.SendMessage(p, "Zone deleted for &b" + Zn.Owner);
-                        p.level.ZoneList.Remove(p.level.ZoneList[i]);
-                        if (i == p.level.ZoneList.Count) { Player.SendMessage(p, "Finished removing all zones"); return; }
-                        i--;
-                    }*/
-                    Server.s.database.GetTable("Zones" + p.level.name).Truncate();
-                    Player.SendMessage(p, "Deleted all zones.");
+                {
+                    SQLiteHelper.SQLResult zonesQuery = SQLiteHelper.ExecuteQuery($@"DELETE FROM Zones{p.level.name};");
+                    Player.SendMessage(p, $"Deleted {(zonesQuery.rowsAffected >= 0 ? $"{zonesQuery.rowsAffected}" : "all")} zones.");
                     return;
                 }
             }
@@ -72,7 +62,8 @@ namespace MCSong
 
             if (p.group.Permission < LevelPermission.Operator)
             {
-                Player.SendMessage(p, "Setting zones is reserved for OP+"); return;
+                Player.SendMessage(p, "Setting zones is reserved for OP+");
+                return;
             }
 
             if (Group.Find(message.Split(' ')[1]) != null)
@@ -135,10 +126,8 @@ namespace MCSong
 
             p.level.ZoneList.Add(Zn);
 
-            //DB
-            //MySQL.executeQuery("INSERT INTO `Zone" + p.level.name + "` (SmallX, SmallY, SmallZ, BigX, BigY, BigZ, Owner) VALUES (" + Zn.smallX + ", " + Zn.smallY + ", " + Zn.smallZ + ", " + Zn.bigX + ", " + Zn.bigY + ", " + Zn.bigZ + ", '" + Zn.Owner + "')");
-            //DB
-            Server.s.database.GetTable("Zones" + p.level.name).AddRow(new List<string> { Zn.smallX.ToString(), Zn.smallY.ToString(), Zn.smallZ.ToString(), Zn.bigX.ToString(), Zn.bigY.ToString(), Zn.bigZ.ToString(), Zn.Owner });
+            SQLiteHelper.ExecuteQuery($@"INSERT INTO Zone{p.level.name} (smallx, smally, smallz, bigx, bigy, bigz, owner) " +
+                $@"VALUES ({Zn.smallX}, {Zn.smallY}, {Zn.smallZ}, {Zn.bigX}, {Zn.bigY}, {Zn.bigZ}, '{Zn.Owner}');");
 
             Player.SendMessage(p, "Added zone for &b" + cpos.Owner);
         }

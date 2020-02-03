@@ -66,6 +66,14 @@ namespace MCSong
             }
             return false;
         }
+
+        public override int GetHashCode()
+        {
+            var hashCode = 1545369197;
+            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(name);
+            hashCode = hashCode * -1521134295 + version.GetHashCode();
+            return hashCode;
+        }
     }
     public class ExtensionList : CollectionBase
     {

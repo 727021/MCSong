@@ -39,58 +39,26 @@ namespace MCSong
 
             string FoundRank = Group.findPlayer(message.ToLower());
 
-            jDatabase.Table op = Server.s.database.GetTable("Players");
-            int i;
-            try { i = op.Rows.IndexOf(op.GetRow(new string[] { "Name" }, new string[] { message })); }
-            catch { i = 0; }
-
-            //OfflinePlayer off = new OfflinePlayer(message);
-
-            if (i <= 0) { Player.SendMessage(p, Group.Find(FoundRank).color + message + Server.DefaultColor + " has the rank of " + Group.Find(FoundRank).color + FoundRank); return; }
-
-            string title = op.GetValue(i, "Title");
-            string color = op.GetValue(i, "Color");
-            string tcolor = op.GetValue(i, "TColor");
-            string money = op.GetValue(i, "Money");
-            string deaths = op.GetValue(i, "TotalDeaths");
-            string blocks = op.GetValue(i, "TotalBlocks");
-            string llogin = op.GetValue(i, "LastLogin");
-            string flogin = op.GetValue(i, "FirstLogin");
-            string logins = op.GetValue(i, "TotalLogins");
-            string kicks = op.GetValue(i, "TotalKicks");
-            string ip = op.GetValue(i, "IP");
-
-            if (String.IsNullOrEmpty(title))
-                Player.SendMessage(p, color + message + Server.DefaultColor + " has:");
-            else
-                Player.SendMessage(p, color + "[" + tcolor + title + color + "] " + message + Server.DefaultColor + " has:");
-            Player.SendMessage(p, "> > the rank of " + Group.Find(FoundRank).color + FoundRank);
-            try
+            SQLiteHelper.SQLResult playerQuery = SQLiteHelper.ExecuteQuery($@"SELECT title, color, tcolor, money, deaths, blocks, first_login, last_login, logins, kicks, ip FROM Players WHERE name = '{message}';");
+            if (playerQuery.rowsAffected <= 0)
             {
-                if (!Group.Find("Nobody").commands.Contains("pay") && !Group.Find("Nobody").commands.Contains("give") && !Group.Find("Nobody").commands.Contains("take")) Player.SendMessage(p, "> > &a" + money + Server.DefaultColor + " " + Server.moneys);
+                Player.SendMessage(p, $"{Group.Find(FoundRank).color}{message}{Server.DefaultColor} has the rank of {Group.Find(FoundRank).color}{FoundRank}{Server.DefaultColor}.");
+                return;
             }
-            catch { }
-            Player.SendMessage(p, "> > &cdied &a" + deaths + Server.DefaultColor + " times");
-            Player.SendMessage(p, "> > &bmodified &a" + blocks + Server.DefaultColor + " blocks.");
-            Player.SendMessage(p, "> > was last seen on &a" + llogin);
-            Player.SendMessage(p, "> > first logged into the server on &a" + flogin);
-            Player.SendMessage(p, "> > logged in &a" + logins + Server.DefaultColor + " times, &c" + kicks + Server.DefaultColor + " of which ended in a kick.");
-            Player.SendMessage(p, "> > " + Awards.awardAmount(message) + " awards");
-
-            if (Server.bannedIP.Contains(ip))
-                ip = "&8" + ip + ", which is banned";
-            Player.SendMessage(p, "> > the IP of " + ip);
-            if (Server.useWhitelist)
-            {
-                if (Server.whiteList.Contains(message.ToLower()))
-                {
-                    Player.SendMessage(p, "> > Player is &fWhitelisted");
-                }
-            }
+            SQLiteHelper.SQLRow row = playerQuery[0];
+            Player.SendMessage(p, $"{row["color"]}{(string.IsNullOrEmpty(row["title"]) ? "" : $"[{row["tcolor"]}{row["title"]}{row["color"]}] ")}{message}{Server.DefaultColor}:");
+            Player.SendMessage(p, $"> > has the rank of {Group.Find(FoundRank).color}{FoundRank}");
+            Player.SendMessage(p, $"> > $a{row["money"]}{Server.DefaultColor} {Server.moneys}");
+            Player.SendMessage(p, $"> > &cdied &a{row["deaths"]}{Server.DefaultColor} times");
+            Player.SendMessage(p, $"> > was last seen on &a{row["last_login"]}");
+            Player.SendMessage(p, $"> > first logged into the server on &a{row["first_login"]}");
+            Player.SendMessage(p, $"> > logged in &a{row["logins"]}{Server.DefaultColor} times, &c{row["kicks"]}{Server.DefaultColor} of which ended in a kick");
+            Player.SendMessage(p, $"> > has &a{Awards.awardAmount(message)}{Server.DefaultColor} awards");
+            Player.SendMessage(p, $"> > has the IP of {(Server.bannedIP.Contains(row["ip"]) ? $"&8{row["ip"]}{Server.DefaultColor}, which is banned" : row["ip"])}");
+            if (Server.useWhitelist && Server.whiteList.Contains(message.ToLower()))
+                Player.SendMessage(p, "> > Player is &fwhitelisted");
             if (Server.devs.Contains(message.ToLower()))
-            {
-                Player.SendMessage(p, Server.DefaultColor + "> > Player is a &9Developer");
-            }
+                Player.SendMessage(p, "> > Player is a &9developer");
         }
         public override void Help(Player p)
         {

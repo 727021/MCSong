@@ -102,29 +102,23 @@ namespace MCSong
 
             foreach (portPos pos in bp.port)
             {
-                /*DataTable Portals = MySQL.fillData("SELECT * FROM `Portals" + pos.portMapName + "` WHERE EntryX=" + (int)pos.x + " AND EntryY=" + (int)pos.y + " AND EntryZ=" + (int)pos.z);
-                Portals.Dispose();
+                SQLiteHelper.SQLResult portalQuery = SQLiteHelper.ExecuteQuery(
+                    $@"SELECT entryx, entryy, entryz, exitmap, exitx, exity, exitz " +
+                    $@"FROM Portals{pos.portMapName} " +
+                    $@"WHERE entryx = {pos.x} AND entryy {pos.y} AND entryz = {pos.z};");
 
-                if (Portals.Rows.Count == 0)
+                if (portalQuery.rowsAffected <= 0)
                 {
-                    MySQL.executeQuery("INSERT INTO `Portals" + pos.portMapName + "` (EntryX, EntryY, EntryZ, ExitMap, ExitX, ExitY, ExitZ) VALUES (" + (int)pos.x + ", " + (int)pos.y + ", " + (int)pos.z + ", '" + p.level.name + "', " + (int)x + ", " + (int)y + ", " + (int)z + ")");
+                    SQLiteHelper.ExecuteQuery(
+                        $@"INSERT INTO Portals{pos.portMapName} (entryx, entryy, entryz, exitmap, exitx, exity, exitz) " +
+                        $@"VALUES ({pos.x}, {pos.y}, {pos.z}, '{p.level.name}', {x}, {y}, {z});");
                 }
                 else
                 {
-                    MySQL.executeQuery("UPDATE `Portals" + pos.portMapName + "` SET ExitMap='" + p.level.name + "', ExitX=" + (int)x + ", ExitY=" + (int)y + ", ExitZ=" + (int)z + " WHERE EntryX=" + (int)pos.x + " AND EntryY=" + (int)pos.y + " AND EntryZ=" + (int)pos.z);
-                }*/
-                //DB
-
-                Table portals = Server.s.database.GetTable("Portals" + pos.portMapName);
-                List<List<string>> rows = portals.Rows;
-                if (portals.GetRows(new string[] { "EntryX", "EntryY", "EntryZ" }, new string[] { pos.x.ToString(), pos.y.ToString(), pos.z.ToString() }).Count == 0)
-                {
-                    portals.AddRow(new List<string> { pos.x.ToString(), pos.y.ToString(), pos.z.ToString(), p.level.ToString(), x.ToString(), y.ToString(), z.ToString() });
-                }
-                else
-                {
-                    portals.DeleteRow(rows.IndexOf(portals.GetRow(new string[] { "EntryX", "EntryY", "EntryZ" }, new string[] { pos.x.ToString(), pos.y.ToString(), pos.z.ToString() })));
-                    portals.AddRow(new List<string> { pos.x.ToString(), pos.y.ToString(), pos.z.ToString(), p.level.name, x.ToString(), y.ToString(), z.ToString() });
+                    SQLiteHelper.ExecuteQuery(
+                        $@"UPDATE Portals{pos.portMapName} " +
+                        $@"SET exitmap = '{p.level.name}', exitx = {x}, exity = {y}, exitz = {z} " +
+                        $@"WHERE entryx = {pos.x} AND entryy = {pos.y} AND entryz = {pos.z};");
                 }
 
                 if (pos.portMapName == p.level.name) p.SendBlockchange(pos.x, pos.y, pos.z, bp.type);
@@ -142,61 +136,15 @@ namespace MCSong
         {
             p.showPortals = !p.showPortals;
 
-            Table portals = Server.s.database.GetTable("Portals" + p.level.name);
-            List<List<string>> rows = portals.Rows;
-            if (p.showPortals)
+            SQLiteHelper.SQLResult portalQuery = SQLiteHelper.ExecuteQuery($@"SELECT entryx, entryy, entryz, exitmap, exitx, exity, exitz FROM Portals{p.level.name};");
+
+            foreach (var row in portalQuery)
             {
-                foreach (List<string> row in rows)
-                {
-                    int i = rows.IndexOf(row) + 1;
-                    if (portals.GetValue(i, "ExitMap") == p.level.name)
-                        p.SendBlockchange(ushort.Parse(portals.GetValue(i, "ExitX")), ushort.Parse(portals.GetValue(i, "ExitY")), ushort.Parse(portals.GetValue(i, "ExitZ")), Block.orange_portal);
-                    p.SendBlockchange(ushort.Parse(portals.GetValue(i, "EntryX")), ushort.Parse(portals.GetValue(i, "EntryY")), ushort.Parse(portals.GetValue(i, "EntryZ")), Block.blue_portal);
-                }
-                Player.SendMessage(p, "Now showing &a" + rows.Count + Server.DefaultColor + " portals.");
+                if (row["exitmap"].Equals(p.level.name))
+                    p.SendBlockchange(ushort.Parse(row["exitx"]), ushort.Parse(row["exity"]), ushort.Parse(row["exitz"]), p.showPortals ? Block.orange_portal : Block.air);
+                p.SendBlockchange(ushort.Parse(row["entryx"]), ushort.Parse(row["entryy"]), ushort.Parse(row["entryz"]), p.showPortals ? Block.blue_portal : p.level.GetTile(ushort.Parse(row["entryx"]), ushort.Parse(row["entryy"]), ushort.Parse(row["entryz"])));
             }
-            else
-            {
-                foreach (List<string> row in rows)
-                {
-                    int i = rows.IndexOf(row) + 1;
-                    if (portals.GetValue(i, "ExitMap") == p.level.name)
-                        p.SendBlockchange(ushort.Parse(portals.GetValue(i, "ExitX")), ushort.Parse(portals.GetValue(i, "ExitY")), ushort.Parse(portals.GetValue(i, "ExitZ")), Block.air);
-                    p.SendBlockchange(ushort.Parse(portals.GetValue(i, "EntryX")), ushort.Parse(portals.GetValue(i, "EntryY")), ushort.Parse(portals.GetValue(i, "EntryZ")), p.level.GetTile(ushort.Parse(portals.GetValue(i, "EntryX")), ushort.Parse(portals.GetValue(i, "EntryY")), ushort.Parse(portals.GetValue(i, "EntryZ"))));
-                }
-                Player.SendMessage(p, "Now hiding portals.");
-            }
-
-            /*
-            DataTable Portals = MySQL.fillData("SELECT * FROM `Portals" + p.level.name + "`");
-
-            int i;
-
-            if (p.showPortals)
-            {
-                for (i = 0; i < Portals.Rows.Count; i++)
-                {
-                    if (Portals.Rows[i]["ExitMap"].ToString() == p.level.name)
-                        p.SendBlockchange((ushort)Portals.Rows[i]["ExitX"], (ushort)Portals.Rows[i]["ExitY"], (ushort)Portals.Rows[i]["ExitZ"], Block.orange_portal);
-                    p.SendBlockchange((ushort)Portals.Rows[i]["EntryX"], (ushort)Portals.Rows[i]["EntryY"], (ushort)Portals.Rows[i]["EntryZ"], Block.blue_portal);
-                }
-
-                Player.SendMessage(p, "Now showing &a" + i.ToString() + Server.DefaultColor + " portals.");
-            }
-            else
-            {
-                for (i = 0; i < Portals.Rows.Count; i++)
-                {
-                    if (Portals.Rows[i]["ExitMap"].ToString() == p.level.name)
-                        p.SendBlockchange((ushort)Portals.Rows[i]["ExitX"], (ushort)Portals.Rows[i]["ExitY"], (ushort)Portals.Rows[i]["ExitZ"], Block.air);
-
-                    p.SendBlockchange((ushort)Portals.Rows[i]["EntryX"], (ushort)Portals.Rows[i]["EntryY"], (ushort)Portals.Rows[i]["EntryZ"], p.level.GetTile((ushort)Portals.Rows[i]["EntryX"], (ushort)Portals.Rows[i]["EntryY"], (ushort)Portals.Rows[i]["EntryZ"]));
-                }
-
-                Player.SendMessage(p, "Now hiding portals.");
-            }
-
-            Portals.Dispose();*/
+            Player.SendMessage(p, $"Now {(p.showPortals ? $"showing &a{portalQuery.rowsAffected}{Server.DefaultColor}" : "hiding")} portals.");
         }
     }
 }

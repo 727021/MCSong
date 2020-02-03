@@ -27,10 +27,7 @@ namespace MCSong
                 who.title = "";
                 who.SetPrefix();
                 Player.GlobalChat(null, who.color + who.name + Server.DefaultColor + " had their title removed.", false);
-                /*query = "UPDATE Players SET Title = '' WHERE Name = '" + who.name + "'";
-                MySQL.executeQuery(query);*/
-                //PlayerDB.Save(who);
-                Server.s.database.GetTable("Players").SetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { who.name })), "Title", "");
+                SQLiteHelper.ExecuteQuery($@"UPDATE Players SET title = '' WHERE id = {who.userID};");
                 return;
             }
 
@@ -38,9 +35,6 @@ namespace MCSong
             {
                 newTitle = newTitle.ToString().Trim().Replace("[", "");
                 newTitle = newTitle.Replace("]", "");
-                /* if (newTitle[0].ToString() != "[") newTitle = "[" + newTitle;
-                if (newTitle.Trim()[newTitle.Trim().Length - 1].ToString() != "]") newTitle = newTitle.Trim() + "]";
-                if (newTitle[newTitle.Length - 1].ToString() != " ") newTitle = newTitle + " "; */
             }
 
             if (newTitle.Length > 17) { Player.SendMessage(p, "Title must be under 17 letters."); return; }
@@ -51,20 +45,11 @@ namespace MCSong
 
             if (newTitle != "")
                 Player.GlobalChat(null, who.color + who.name + Server.DefaultColor + " was given the title of &b[" + newTitle + "]", false);
-            else Player.GlobalChat(null, who.color + who.prefix + who.name + Server.DefaultColor + " had their title removed.", false);
-
-            /*if (newTitle == "")
-            {
-                query = "UPDATE Players SET Title = '' WHERE Name = '" + who.name + "'";
-            }
             else
-            {
-                query = "UPDATE Players SET Title = '" + newTitle.Replace("'", "\'") + "' WHERE Name = '" + who.name + "'";
-            }
-            MySQL.executeQuery(query);*/
+                Player.GlobalChat(null, who.color + who.prefix + who.name + Server.DefaultColor + " had their title removed.", false);
+
             who.title = newTitle;
-            //PlayerDB.Save(who);
-            Server.s.database.GetTable("Players").SetValue(Server.s.database.GetTable("Players").Rows.IndexOf(Server.s.database.GetTable("Players").GetRow(new string[] { "Name" }, new string[] { who.name })), "Title", newTitle);
+            SQLiteHelper.ExecuteQuery($@"UPDATE Players SET title = '{SQLiteHelper.EscapeQuotes(newTitle)}' WHERE id = {who.userID};");
             who.SetPrefix();
         }
         public override void Help(Player p)

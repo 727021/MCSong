@@ -40,22 +40,12 @@ namespace MCSong
                 {
                     File.Move("levels/level properties/" + foundLevel.name, "levels/level properties/" + newName + ".properties");
                 }
-                catch { }/*
-                try
-                {
-                    File.Move("db/mb/" + foundLevel.name + ".txt", "db/mb/" + newName + ".txt");
-                }
-                catch { }*/
-                /*
-                MySQL.executeQuery("RENAME TABLE `Block" + foundLevel.name.ToLower() + "` TO `Block" + newName.ToLower() +
-                    "`, `Portals" + foundLevel.name.ToLower() + "` TO `Portals" + newName.ToLower() +
-                    "`, `Messages" + foundLevel.name.ToLower() + "` TO Messages" + newName.ToLower() +
-                    ", `Zone" + foundLevel.name.ToLower() + "` TO `Zone" + newName.ToLower() + "`");
-                    */
-                Server.s.database.GetTable("Blocks" + foundLevel.name).Rename("Blocks" + newName);
-                Server.s.database.GetTable("Portals" + foundLevel.name).Rename("Portals" + newName);
-                Server.s.database.GetTable("Messages" + foundLevel.name).Rename("Messages" + newName);
-                Server.s.database.GetTable("Zones" + foundLevel.name).Rename("Zones" + newName);
+                catch { }
+
+                SQLiteHelper.ExecuteQuery($@"ALTER TABLE Blocks{foundLevel.name} RENAME TO Blocks{newName};");
+                SQLiteHelper.ExecuteQuery($@"ALTER TABLE Portals{foundLevel.name} RENAME TO Portals{newName};");
+                SQLiteHelper.ExecuteQuery($@"ALTER TABLE Messages{foundLevel.name} RENAME TO Messages{newName};");
+                SQLiteHelper.ExecuteQuery($@"ALTER TABLE Zones{foundLevel.name} RENAME TO Zones{newName};");
                 Player.GlobalMessage("Renamed " + foundLevel.name + " to " + newName);
             }
             catch (Exception e) { Player.SendMessage(p, "Error when renaming."); Server.ErrorLog(e); }

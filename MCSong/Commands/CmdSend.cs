@@ -30,13 +30,12 @@ namespace MCSong
 
             message = message.Substring(message.IndexOf(' ') + 1);
 
-            //DB
-            //MySQL.executeQuery("CREATE TABLE if not exists `Inbox" + whoTo + "` (PlayerFrom CHAR(20), TimeSent DATETIME, Contents VARCHAR(255));");
-            try { Server.s.database.CreateTable("Inbox" + whoTo, new List<string> { "PlayerFrom", "TimeSent", "Contents" }); }
-            catch { }
-            Server.s.database.GetTable("Inbox" + whoTo).AddRow(new List<string> { whoFrom, DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss"), message });
-            //MySQL.executeQuery("INSERT INTO `Inbox" + whoTo + "` (PlayerFrom, TimeSent, Contents) VALUES ('" + p.name + "', '" + DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss") + "', '" + message.Replace("'", "\\'") + "')");
-            //DB
+            SQLiteHelper.ExecuteQuery($@"CREATE TABLE IF NOT EXISTS Inbox (id INTEGER PRIMARY KEY, " +
+                $@"to INTEGER, from INTEGER, sent TEXT, message TEXT, " +
+                $@"FOREIGN KEY (to) REFERENCES Player(id), FOREIGN KEY (from) REFERENCES Player(id));");
+
+            SQLiteHelper.ExecuteQuery($@"INSERT INTO Inbox (to, from, sent, message) VALUES " +
+                $@"((SELECT id FROM Players WHERE name = '{whoTo}'), {p.userID}, {DateTime.Now.ToString("yyyy-MM-dd HH:mm:ss")}, {message})");
 
             Player.SendMessage(p, "Message sent to &5" + whoTo + ".");
             if (who != null) who.SendMessage("Message recieved from &5" + whoFrom + Server.DefaultColor + ".");

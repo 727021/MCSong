@@ -1,0 +1,64 @@
+This file contains a summary of the SQLite database structure used
+by MCSong. The database contains one 'Blocks' 'Messages' 'Portals'
+and 'Zones' table for each map. This may be changed in the future
+if I decide to store map properties in the database.
+
+== Table Name ==
+column		TYPE		CONSTRAINTS
+
+
+== Players ==
+id			INTEGER		PRIMARY KEY
+name		TEXT
+ip			TEXT
+first_login	TEXT
+last_login	TEXT
+logins		INTEGER
+title		TEXT
+deaths		INTEGER
+money		INTEGER
+blocks		INTEGER
+kicks		INTEGER
+color		TEXT
+tcolor		TEXT
+
+== Inbox ==
+id			INTEGER		PRIMARY KEY
+to			INTEGER		FOREIGN KEY Player(id)
+from		INTEGER		FOREIGN KEY Player(id)
+sent		TEXT
+message		TEXT
+
+== Blocks{Map} ==
+username	TEXT
+edit_time	TEXT
+x			INTEGER
+y			INTEGER
+z			INTEGER
+type		INTEGER
+deleted		TEXT
+
+== Messages{Map} ==
+x			INTEGER
+y			INTEGER
+z			INTEGER
+type		INTEGER
+message		TEXT
+
+== Portals{Map} ==
+entryx		INTEGER
+entryy		INTEGER
+entryz		INTEGER
+exitmap		TEXT
+exitx		INTEGER
+exity		INTEGER
+exitz		INTEGER
+
+== Zones{Map} ==
+owner		TEXT
+smallx		INTEGER
+smally		INTEGER
+smallz		INTEGER
+bigx		INTEGER
+bigy		INTEGER
+bigz		INTEGER

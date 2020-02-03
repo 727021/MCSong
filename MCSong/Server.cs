@@ -21,9 +21,7 @@ using System.Text.RegularExpressions;
 using System.Collections.Generic;
 using System.Windows.Forms;
 using System.Diagnostics;
-
-//using MySql.Data.MySqlClient;
-//using MySql.Data.Types;
+using System.Data.SQLite;
 
 using MonoTorrent.Client;
 
@@ -52,7 +50,6 @@ namespace MCSong
         public static Thread locationChecker;
 
         public static Thread blockThread;
-        public static List<MySql.Data.MySqlClient.MySqlCommand> mySQLCommands = new List<MySql.Data.MySqlClient.MySqlCommand>();
 
         public static int speedPhysics = 250;
 
@@ -184,14 +181,6 @@ namespace MCSong
 
         public static bool checkUpdates = true;
 
-        public static bool useMySQL = false;
-        public static string MySQLHost = "127.0.0.1";
-        public static string MySQLPort = "3306";
-        public static string MySQLUsername = "root";
-        public static string MySQLPassword = "password";
-        public static string MySQLDatabaseName = "MCSongDB";
-        public static bool MySQLPooling = true;
-
         public static string DefaultColor = "&e";
         public static string IRCColour = "&5";
         public static string gcColor = "&6";
@@ -233,10 +222,6 @@ namespace MCSong
         public static bool upnpRunning = false;
         #endregion
 
-        // TODO Implement PostgreSQL database
-        public Database database;
-
-
         public static MainLoop ml;
         public static Server s;
         public Server()
@@ -252,15 +237,12 @@ namespace MCSong
             if (!Directory.Exists("properties")) Directory.CreateDirectory("properties");
             if (!Directory.Exists("bots")) Directory.CreateDirectory("bots");
             if (!Directory.Exists("text")) Directory.CreateDirectory("text");
-            if (!Directory.Exists("db")) Directory.CreateDirectory("db");
 
             if (!Directory.Exists("extra")) Directory.CreateDirectory("extra");
             if (!Directory.Exists("extra/undo")) Directory.CreateDirectory("extra/undo");
             if (!Directory.Exists("extra/undoPrevious")) Directory.CreateDirectory("extra/undoPrevious");
             if (!Directory.Exists("extra/copy/")) { Directory.CreateDirectory("extra/copy/"); }
             if (!Directory.Exists("extra/copyBackup/")) { Directory.CreateDirectory("extra/copyBackup/"); }
-
-            //if (!Directory.Exists("db/players/")) Directory.CreateDirectory("db/players/");
 
             try
             {
@@ -274,9 +256,9 @@ namespace MCSong
                 if (useWhitelist) if (File.Exists("whitelist.txt")) File.Move("whitelist.txt", "ranks/whitelist.txt");
             } catch { }
 
-            Properties.Load("properties/server.properties");
+            ServerProperties.Load("properties/server.properties");
             Updater.Load("properties/update.properties");
-            database = new Database(MySQLDatabaseName);
+
             Group.InitAll();
             Command.InitAll();
             GrpCommands.fillRanks();
@@ -296,50 +278,11 @@ namespace MCSong
             }
 
             timeOnline = DateTime.Now;
-            /*
-                        try
-                        {
-                            if (Server.useMySQL)
-                                MySQL.executeQuery("CREATE DATABASE if not exists `" + MySQLDatabaseName + "`", true);
-                        }
-                        catch (Exception e)
-                        {
-                            Server.s.Log("MySQL settings have not been set! Please reference the MySQL_Setup.txt file on setting up MySQL!");
-                            try
-                            {
-                                WebClient web = new WebClient();
-                                web.DownloadFile("http://updates.mcsong.x10.mx/MySQL_Setup.txt", "MySQL_Setup.txt");
-                                web.Dispose();
-                                Server.s.Log("MySQL_Setup.txt has been downloaded automatically.");
-                            }
-                            catch { Server.s.Log("MySQL_Setup.txt can be downloaded manually from http://updates.mcsong.x10.mx."); }
-                            Server.ErrorLog(e);
-                            //process.Kill();
-                            return;
-                        }*/
 
-            /*MySQL.executeQuery("CREATE TABLE if not exists Players (ID MEDIUMINT not null auto_increment, Name VARCHAR(20), IP CHAR(15), FirstLogin DATETIME, LastLogin DATETIME, totalLogin MEDIUMINT, Title CHAR(20), TotalDeaths SMALLINT, Money MEDIUMINT UNSIGNED, totalBlocks BIGINT, totalKicked MEDIUMINT, color VARCHAR(6), title_color VARCHAR(6), PRIMARY KEY (ID));");
-
-            // Check if the color column exists.
-            DataTable colorExists = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='color'");
-
-            if (colorExists.Rows.Count == 0)
-            {
-                MySQL.executeQuery("ALTER TABLE Players ADD COLUMN color VARCHAR(6) AFTER totalKicked");
-            }
-            colorExists.Dispose();
-
-            // Check if the title color column exists.
-            DataTable tcolorExists = MySQL.fillData("SHOW COLUMNS FROM Players WHERE `Field`='title_color'");
-            
-            if (tcolorExists.Rows.Count == 0)
-            {
-                MySQL.executeQuery("ALTER TABLE Players ADD COLUMN title_color VARCHAR(6) AFTER color");
-            }
-            tcolorExists.Dispose();*/
-            
-            try { database.CreateTable("Players", new List<string> { "ID", "Name", "IP", "FirstLogin", "LastLogin", "TotalLogins", "Title", "TotalDeaths", "Money", "TotalBlocks", "TotalKicks", "Color", "TColor" }); }
-            catch { }
+            SQLiteHelper.ExecuteQuery(@"CREATE TABLE IF NOT EXISTS Players (id INTEGER PRIMARY KEY ASC, name TEXT, ip TEXT, first_login TEXT, last_login TEXT, total_login INTEGER, title TEXT, deaths INTEGER, money INTEGER, blocks INTEGER, kicks INTEGER, color TEXT, tcolor TEXT);");
+            // Insert a console player if there isn't one already (needed for inbox messages)
+            if (SQLiteHelper.ExecuteQuery($@"SELECT id FROM Players WHERE name = 'Console';").rowsAffected <= 0)
+                SQLiteHelper.ExecuteQuery($@"INSERT INTO Players (name) VALUES ('Console');");
 
             if (levels != null)
                 foreach (Level l in levels) { l.Unload(); }
@@ -702,8 +645,7 @@ namespace MCSong
         {
             try
             {
-                UpnpHelper Helper = new UpnpHelper();
-                if (Helper.AddMapping(Convert.ToUInt16(port), "TCP", "MCSong"))
+                if (new UpnpHelper().AddMapping(Convert.ToUInt16(port), "TCP", "MCSong"))
                     return true;
                 return false;
             }
@@ -765,7 +707,6 @@ namespace MCSong
                 }
             }
 
-            //Player.players.ForEach(delegate(Player p) { p.Kick("Server shutdown. Rejoin in 10 seconds."); });
             Player.connections.ForEach(
             delegate(Player p)
             {
@@ -793,53 +734,47 @@ namespace MCSong
 
         public void PlayerListUpdate()
         {
-            if (Server.s.OnPlayerListChange != null) Server.s.OnPlayerListChange();
+            Server.s.OnPlayerListChange?.Invoke();
         }
 
         public void FailBeat()
         {
-            if (HeartBeatFail != null) HeartBeatFail();
+            HeartBeatFail?.Invoke();
         }
 
         public void UpdateUrl(string url)
         {
-            if (OnURLChange != null) OnURLChange(url);
+            OnURLChange?.Invoke(url);
         }
 
         public void LogOp(string message)
         {
-            message = stripColors(message);
-            if (OnOp != null) { OnOp(message); }
+            message = StripColors(message);
+            OnOp?.Invoke(message);
             Log("(OPs): " + message);
         }
         public void LogAdmin(string message)
         {
-            message = stripColors(message);
-            if (OnAdmin != null) { OnAdmin(message); }
+            message = StripColors(message);
+            OnAdmin?.Invoke(message);
             Log("(Admin): " + message);
         }
         public void LogGC(string message)
         {
-            message = stripColors(message);
-            if (OnGlobal != null) { OnGlobal(message); }
+            message = StripColors(message);
+            OnGlobal?.Invoke(message);
             Log("[GLOBAL]" + message);
         }
         public void Log(string message, bool systemMsg = false)
         {
-            message = stripColors(message);
-            if (OnLog != null)
-            {
-                if (!systemMsg)
-                {
-                    OnLog(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                }
-                else
-                {
-                    OnSystem(DateTime.Now.ToString("(HH:mm:ss) ") + message);
-                }
-            }
+            message = StripColors(message);
+            string msg = DateTime.Now.ToString("HH:mm:ss) ") + message;
+            if (systemMsg)
+                OnSystem?.Invoke(msg);
+            else
+                OnLog?.Invoke(msg);
 
-            Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
+            Logger.Write(msg + Environment.NewLine);
         }
         public void Debug(string message)
         {
@@ -848,13 +783,12 @@ namespace MCSong
         }
         public void ErrorCase(string message)
         {
-            if (OnError != null)
-                OnError(message);
+            OnError?.Invoke(message);
         }
 
         public void CommandUsed(string message)
         {
-            if (OnCommand != null) OnCommand(DateTime.Now.ToString("(HH:mm:ss) ") + message);
+            OnCommand?.Invoke(DateTime.Now.ToString("(HH:mm:ss) ") + message);
             Logger.Write(DateTime.Now.ToString("(HH:mm:ss) ") + message + Environment.NewLine);
         }
 
@@ -875,7 +809,7 @@ namespace MCSong
 
         internal void SettingsUpdate()
         {
-            if (OnSettingsUpdate != null) OnSettingsUpdate();
+            OnSettingsUpdate?.Invoke();
         }
 
         public static string FindColor(string Username)
@@ -887,7 +821,7 @@ namespace MCSong
             return Group.standard.color;
         }
 
-        public static string stripColors(string input)
+        public static string StripColors(string input)
         {
             return new Regex("&[0-9a-f]", RegexOptions.IgnoreCase).Replace(input, "");// Why not use regex?
         }
