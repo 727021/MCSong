@@ -21,15 +21,27 @@ namespace MCSong
         public static string rpass = "";
         public static byte version = 1;
         public static Socket listen;
+        private static bool upnpRunning = false;
 
         public static void Start()
         {
             try
             {
-                Server.s.Log("Creating listening socket on port " + port + "for Remote Console...");
+                Server.s.Log($"Creating listening socket on port {port} for Remote Console...");
                 if (Setup())
                 {
-                    Server.s.Log("Done.");
+                    if (Server.upnp)
+                    {
+                        if (UpnpSetup())
+                        {
+                            Server.s.Log($"Port {port} has been forwarded with upnp.");
+                            upnpRunning = true;
+                        }
+                        else
+                            Server.s.Log($"Could not auto forward port {port}. Make sure upnp is enabled on your router.");
+                    }
+                    if (!Server.upnp || Server.upnp && upnpRunning)
+                        Server.s.Log("Done.");
                 }
                 else
                 {
@@ -37,9 +49,26 @@ namespace MCSong
                     return;
                 }
             }
-            catch
+            catch (Exception ex)
             {
+                Server.ErrorLog(ex);
+                Server.s.Log("Could not start Remote Console server. See error log for more information.");
+            }
+        }
 
+        public static bool UpnpSetup()
+        {
+            try
+            {
+                if (new UpnpHelper().AddMapping(Convert.ToUInt16(port), "TCP", "MCSongRC"))
+                    return true;
+                return false;
+            }
+            catch (Exception e)
+            {
+                Server.ErrorLog(e);
+                Server.s.Log("Failed. Make sure your router supports upnp.");
+                return false;
             }
         }
 

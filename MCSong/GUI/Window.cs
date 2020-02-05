@@ -1100,7 +1100,7 @@ namespace MCSong.Gui
             {
                 if (l == null) return;
                 Rectangle r = new Rectangle(0, 0, pbMapViewer.Width, pbMapViewer.Height);
-                pbMapViewer.Image = new IsoCat(l, IsoCatMode.Normal, 0).Draw(out r, new BackgroundWorker() { WorkerReportsProgress = true });
+                //pbMapViewer.Image = new IsoCat(l, IsoCatMode.Normal, 0).Draw(out r, new BackgroundWorker() { WorkerReportsProgress = true });
             }
             catch (Exception e) { Server.ErrorLog(e); pbMapViewer.Image = new Bitmap(pbMapViewer.Width, pbMapViewer.Height); gbMapViewer.Text = "MapViewer - ERROR"; }
         }

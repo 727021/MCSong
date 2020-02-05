@@ -133,8 +133,6 @@ namespace MCSong
 
         public static string ZallState = "Alive";
 
-        //public static string[] userMOTD;
-
         public static string level = "main";
         public static string errlog = "error.log";
 
@@ -423,18 +421,18 @@ namespace MCSong
 
             ml.Queue(delegate
             {
-                Log("Creating listening socket on port " + Server.port + "... ");
+                Log($"Creating listening socket on port {port}...");
                 if (Setup())
                 {
                     if (upnp)
                     {
                         if (UpnpSetup())
                         {
-                            s.Log("Ports have been forwarded with upnp."); upnpRunning = true;
+                            s.Log($"Port {port} has been forwarded with upnp."); upnpRunning = true;
                         }
                         else
                         {
-                            s.Log("Could not auto forward ports. Make sure upnp is enabled on your router."); upnpRunning = false;
+                            s.Log($"Could not auto forward port {port}. Make sure upnp is enabled on your router."); upnpRunning = false;
                         }
                     }
                     if (!upnp || upnp && upnpRunning)
@@ -442,9 +440,14 @@ namespace MCSong
                 }
                 else
                 {
-                    s.Log("Could not create socket connection.  Shutting down.");
+                    s.Log("Could not create socket connection. Shutting down.");
                     return;
                 }
+            });
+
+            ml.Queue(delegate
+            {
+                RemoteServer.Start();
             });
 
             ml.Queue(delegate
@@ -613,7 +616,7 @@ namespace MCSong
                         s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
                         s.Log("YOUR IP HAS BEEN HOST BANNED. APPEAL AT http://mcsong.x10.mx/forums.");
                         s.Log("! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! ! !");
-                        Exit();
+                        listen.Close();
                     }
                 }
             }
