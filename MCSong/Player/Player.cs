@@ -696,54 +696,43 @@ namespace MCSong
                         Kick("You're still banned (temporary ban)!");
                     }
                 } catch { }
-                // OMNI BAN
+
+                // OMNIBAN
                 bool omnibanned = false;
-                /*try
-                {//Get omnibans from the devpanel
-                    string omnibans = new WebClient().DownloadString("http://dev.mcsong.x10.mx/omnibans.php?action=list");
-                    if (omnibanned)
+                try
+                { //Get omnibans from GitHub
+                    string omnibans = new WebClient().DownloadString("https://raw.githubusercontent.com/727021/MCSong/master/Text/Omnibans.txt");
+                    foreach (string s in omnibans.Split(','))
                     {
-                        foreach (string s in omnibans.Split(','))
+                        if (name.ToLower() == s.ToLower() || ip == s || Regex.IsMatch(this.ip, s))
                         {
-                            if (this.name.ToLower() == s.ToLower() || this.ip == s || Regex.IsMatch(this.ip, s))
-                            {
-                                omnibanned = true;
-                            }
+                            omnibanned = true;
                         }
                     }
                 }
                 catch
-                {*/ //Hard-coded list of omnibans
-                    if (this.name.ToLower() == "soysauceships")
-                    {
-                        omnibanned = true;
-                    }
-                //}
-                if (omnibanned) { Kick("You have been Omnibanned.  mcsong.x10.mx/forums for appeal."); omnibanned = false; return; }
+                { //Hard-coded list of omnibans
+                    omnibanned = new List<string>() { "soysauceships" }.Contains(name.ToLower());
+                }
+                if (omnibanned)
+                { 
+                    Kick("You have been Omnibanned. mcsong.x10.mx/forums for appeal.");
+                    omnibanned = false;
+                    return;
+                }
+                
                 // Whitelist check.
                 if (Server.useWhitelist)
                 {
                     if (Server.verify)
-                    {
-                        if (Server.whiteList.Contains(name))
-                        {
-                            onWhitelist = true;
-                        }
-                    }
+                        onWhitelist = Server.whiteList.Contains(name);
                     else
                     {
-                        // [TODO] KILL THIS SQL (convert to flatfile)
-                        // Verify Names is off.  Gotta check the hard way.
-                        /*DataTable ipQuery = MySQL.fillData("SELECT Name FROM Players WHERE IP = '" + ip + "'");
-
-                        if (ipQuery.Rows.Count > 0)
-                        {
-                            if (ipQuery.Rows.Contains(name) && Server.whiteList.Contains(name))
-                            {
-                                onWhitelist = true;
-                            }
-                        }
-                        ipQuery.Dispose();*/
+                        SQLiteHelper.SQLResult ipQuery = SQLiteHelper.ExecuteQuery($@"SELECT name FROM players WHERE ip = '{ip}';");
+                        if (ipQuery.rowsAffected > 0 && Server.whiteList.Contains(name))
+                            foreach (SQLiteHelper.SQLRow row in ipQuery)
+                                if (row["name"].Equals(name))
+                                    onWhitelist = true;
                     }
                 }
 
