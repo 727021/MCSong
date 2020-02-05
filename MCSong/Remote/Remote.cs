@@ -130,7 +130,12 @@ namespace MCSong
 
         public void HandleLogin(byte[] message)
         {
-
+            /* IF login is successful
+             *     loggedIn <- TRUE
+             *     remotes.Add(this)
+             * ELSE
+             *     Disconnect(Login error message)
+             */
         }
 
         public void HandleChat(byte[] message)
@@ -144,7 +149,7 @@ namespace MCSong
             try
             {
                 disconnected = true;
-                //SendKick(reason);
+                SendKick(reason);
                 if (loggedIn)
                 {
                     Server.s.Log("Remote Console user " + name + " disconnected.");
@@ -163,9 +168,30 @@ namespace MCSong
                 {
                     Server.ErrorLog(e);
                 }
-                //RemoteServer.RemoteListUpdate();
+                if (remotes.Contains(this))
+                    remotes.Remove(this);
             }
             catch (Exception e) { Server.ErrorLog(e); }
+        }
+
+        public void SendRaw(byte[] buffer)
+        {
+
+        }
+
+        public void SendMessage(string message)
+        {
+
+        }
+
+        public void SendLogin()
+        {
+
+        }
+
+        public void SendKick(string reason)
+        {
+
         }
     }
 }
