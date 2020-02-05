@@ -53,7 +53,7 @@ namespace MCSong
 
         public static int speedPhysics = 250;
 
-        public static string Version { get { return "1.0.0.0-pre1"; /*System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString();*/ } }
+        public static string Version { get { return System.Reflection.Assembly.GetExecutingAssembly().GetName().Version.ToString(); } }
 
         public static Socket listen;
         public static System.Diagnostics.Process process = System.Diagnostics.Process.GetCurrentProcess();
