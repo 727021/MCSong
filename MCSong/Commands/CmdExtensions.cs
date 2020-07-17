@@ -24,44 +24,40 @@ namespace MCSong
             else if (message.ToLower() == "list")
             {
                 Player.SendMessage(p, "Existing protocol extensions:");
-                string[] e = new string[] { };
+                List<string> e = new List<string>();
                 foreach (Extension ex in Extension.all)
-                {
-                    e[e.Length] = ((ex.implemented) ? "&a" : "&c") + ex.name;
-                }
+                    e.Add($"{(ex.implemented ? "&a" : "&c")}{ex.name}");
+
                 Player.SendMessage(p, string.Join(Server.DefaultColor + ", ", e));
             }
             else if (message.ToLower() == "server")
             {
-                string[] ex = new string[] { };
-                foreach (Extension e in Extension.all)
-                {
-                    if (e.implemented)
-                        ex[ex.Length] = e.name + "(v" + e.version + ")";
-                }
+                List<string> e = new List<string>();
+                foreach (Extension ex in Extension.all)
+                    if (ex.implemented)
+                        e.Add($"{ex.name} (v{ex.version})");
+
                 Player.SendMessage(p, "Supported extensions:");
-                Player.SendMessage(p, string.Join(", ", ex));
+                Player.SendMessage(p, string.Join(", ", e));
             }
             else if (Extension.names.Contains(message.ToLower().Trim()))
             {
                 Extension e = Extension.all.Find(message.ToLower().Trim());
 
-                Player.SendMessage(p, "-- " + e.name + " --");
+                Player.SendMessage(p, $"-- {e.name} --");
                 foreach (string s in e.description)
                     Player.SendMessage(p, s);
-                Player.SendMessage(p, "MCSong Support: " + ((e.implemented) ? "&aYES(v" + e.version + ")" : "&cNO"));
+                Player.SendMessage(p, $"MCSong Support: {(e.implemented ? $"&aYES(v{e.version})" : "&cNO")}");
             }
             else
             {
                 Player who = Player.Find(message);
                 if (p == null) { Player.SendMessage(p, "Could not find player " + message); return; }
                 Player.SendMessage(p, "Extensions supported by " + who.name + ":");
-                string temp = "";
-                foreach (Extension e in who.extensions)
-                {
-                    temp += ", " + e.name + " (v" + e.version + ")";
-                }
-                Player.SendMessage(p, (temp == "") ? "This player's client does not support CPE or has no enabled extensions." : temp.Remove(0, 2));
+                List<string> e = new List<string>();
+                foreach (Extension ex in who.extensions)
+                    e.Add($"{ex.name} (v{ex.version})");
+                Player.SendMessage(p, (e.Count == 0) ? "This player's client does not support CPE or has no enabled extensions." : string.Join(", ", e));
             }
         }
         public override void Help(Player p)

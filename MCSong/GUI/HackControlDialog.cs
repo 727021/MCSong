@@ -26,7 +26,7 @@ namespace MCSong.Gui
             chkSpeeding.Checked = l.hacks.Speeding;
             chkSpawnControl.Checked = l.hacks.SpawnControl;
             chkThirdPerson.Checked = l.hacks.ThirdPerson;
-            numJumpHeight.Value = (l.hacks.JumpHeight >= 0) ? (decimal)(Math.Round((decimal)l.hacks.JumpHeight / 16, MidpointRounding.AwayFromZero) / 2) : (decimal)-0.5;
+            numJumpHeight.Value = (l.hacks.JumpHeight >= 0) ? (Math.Round((decimal)l.hacks.JumpHeight / 16, MidpointRounding.AwayFromZero) / 2) : -1;
         }
 
         private void btnDiscard_Click(object sender, EventArgs e)
@@ -49,7 +49,7 @@ namespace MCSong.Gui
         private void btnDefaults_Click(object sender, EventArgs e)
         {
             chkFlying.Checked = chkNoClip.Checked = chkSpeeding.Checked = chkSpawnControl.Checked = chkThirdPerson.Checked = true;
-            numJumpHeight.Value = (decimal)-0.5;
+            numJumpHeight.Value = -1;
         }
     }
 }

@@ -51,9 +51,10 @@
             // chkFlying
             // 
             this.chkFlying.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkFlying.Location = new System.Drawing.Point(12, 12);
+            this.chkFlying.Location = new System.Drawing.Point(16, 15);
+            this.chkFlying.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkFlying.Name = "chkFlying";
-            this.chkFlying.Size = new System.Drawing.Size(118, 24);
+            this.chkFlying.Size = new System.Drawing.Size(157, 30);
             this.chkFlying.TabIndex = 0;
             this.chkFlying.Text = "Flying";
             this.chkFlying.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -62,9 +63,10 @@
             // chkNoClip
             // 
             this.chkNoClip.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkNoClip.Location = new System.Drawing.Point(12, 42);
+            this.chkNoClip.Location = new System.Drawing.Point(16, 52);
+            this.chkNoClip.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkNoClip.Name = "chkNoClip";
-            this.chkNoClip.Size = new System.Drawing.Size(118, 24);
+            this.chkNoClip.Size = new System.Drawing.Size(157, 30);
             this.chkNoClip.TabIndex = 1;
             this.chkNoClip.Text = "NoClip";
             this.chkNoClip.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -73,9 +75,10 @@
             // chkSpeeding
             // 
             this.chkSpeeding.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkSpeeding.Location = new System.Drawing.Point(12, 72);
+            this.chkSpeeding.Location = new System.Drawing.Point(16, 89);
+            this.chkSpeeding.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkSpeeding.Name = "chkSpeeding";
-            this.chkSpeeding.Size = new System.Drawing.Size(118, 24);
+            this.chkSpeeding.Size = new System.Drawing.Size(157, 30);
             this.chkSpeeding.TabIndex = 2;
             this.chkSpeeding.Text = "Speeding";
             this.chkSpeeding.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -84,9 +87,10 @@
             // chkSpawnControl
             // 
             this.chkSpawnControl.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkSpawnControl.Location = new System.Drawing.Point(12, 102);
+            this.chkSpawnControl.Location = new System.Drawing.Point(16, 126);
+            this.chkSpawnControl.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkSpawnControl.Name = "chkSpawnControl";
-            this.chkSpawnControl.Size = new System.Drawing.Size(118, 24);
+            this.chkSpawnControl.Size = new System.Drawing.Size(157, 30);
             this.chkSpawnControl.TabIndex = 3;
             this.chkSpawnControl.Text = "Spawn Control";
             this.chkSpawnControl.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -95,9 +99,10 @@
             // chkThirdPerson
             // 
             this.chkThirdPerson.Appearance = System.Windows.Forms.Appearance.Button;
-            this.chkThirdPerson.Location = new System.Drawing.Point(12, 132);
+            this.chkThirdPerson.Location = new System.Drawing.Point(16, 162);
+            this.chkThirdPerson.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.chkThirdPerson.Name = "chkThirdPerson";
-            this.chkThirdPerson.Size = new System.Drawing.Size(118, 24);
+            this.chkThirdPerson.Size = new System.Drawing.Size(157, 30);
             this.chkThirdPerson.TabIndex = 4;
             this.chkThirdPerson.Text = "Third Person View";
             this.chkThirdPerson.TextAlign = System.Drawing.ContentAlignment.MiddleCenter;
@@ -111,90 +116,104 @@
             0,
             0,
             65536});
-            this.numJumpHeight.Location = new System.Drawing.Point(86, 162);
+            this.numJumpHeight.Location = new System.Drawing.Point(115, 199);
+            this.numJumpHeight.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.numJumpHeight.Maximum = new decimal(new int[] {
             1023,
             0,
             0,
             0});
             this.numJumpHeight.Minimum = new decimal(new int[] {
-            5,
+            1,
             0,
             0,
-            -2147418112});
+            -2147483648});
             this.numJumpHeight.Name = "numJumpHeight";
-            this.numJumpHeight.Size = new System.Drawing.Size(44, 20);
+            this.numJumpHeight.Size = new System.Drawing.Size(59, 22);
             this.numJumpHeight.TabIndex = 5;
             this.numJumpHeight.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            this.numJumpHeight.Value = new decimal(new int[] {
+            1,
+            0,
+            0,
+            -2147483648});
             // 
             // label1
             // 
             this.label1.AutoSize = true;
-            this.label1.Location = new System.Drawing.Point(18, 164);
+            this.label1.Location = new System.Drawing.Point(24, 202);
+            this.label1.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label1.Name = "label1";
-            this.label1.Size = new System.Drawing.Size(69, 13);
+            this.label1.Size = new System.Drawing.Size(91, 17);
             this.label1.TabIndex = 6;
             this.label1.Text = "Jump Height:";
             // 
             // label2
             // 
             this.label2.AutoSize = true;
-            this.label2.Location = new System.Drawing.Point(130, 18);
+            this.label2.Location = new System.Drawing.Point(173, 22);
+            this.label2.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label2.Name = "label2";
-            this.label2.Size = new System.Drawing.Size(99, 13);
+            this.label2.Size = new System.Drawing.Size(132, 17);
             this.label2.TabIndex = 7;
             this.label2.Text = "Allow players to fly?";
             // 
             // label3
             // 
             this.label3.AutoSize = true;
-            this.label3.Location = new System.Drawing.Point(130, 102);
+            this.label3.Location = new System.Drawing.Point(173, 126);
+            this.label3.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label3.Name = "label3";
-            this.label3.Size = new System.Drawing.Size(121, 26);
+            this.label3.Size = new System.Drawing.Size(157, 34);
             this.label3.TabIndex = 8;
             this.label3.Text = "Allow using ENTER and\r\nR for respawns?";
             // 
             // label4
             // 
             this.label4.AutoSize = true;
-            this.label4.Location = new System.Drawing.Point(130, 78);
+            this.label4.Location = new System.Drawing.Point(173, 96);
+            this.label4.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label4.Name = "label4";
-            this.label4.Size = new System.Drawing.Size(96, 13);
+            this.label4.Size = new System.Drawing.Size(127, 17);
             this.label4.TabIndex = 9;
             this.label4.Text = "Allow fast running?";
             // 
             // label5
             // 
             this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(130, 138);
+            this.label5.Location = new System.Drawing.Point(173, 170);
+            this.label5.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(121, 13);
+            this.label5.Size = new System.Drawing.Size(159, 17);
             this.label5.TabIndex = 10;
             this.label5.Text = "Allow third person view?";
             // 
             // label6
             // 
             this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(130, 158);
+            this.label6.Location = new System.Drawing.Point(173, 194);
+            this.label6.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(130, 26);
+            this.label6.Size = new System.Drawing.Size(171, 34);
             this.label6.TabIndex = 11;
             this.label6.Text = "Max jump height (blocks).\r\nNegatives = client default.";
             // 
             // label7
             // 
             this.label7.AutoSize = true;
-            this.label7.Location = new System.Drawing.Point(130, 42);
+            this.label7.Location = new System.Drawing.Point(173, 52);
+            this.label7.Margin = new System.Windows.Forms.Padding(4, 0, 4, 0);
             this.label7.Name = "label7";
-            this.label7.Size = new System.Drawing.Size(110, 26);
+            this.label7.Size = new System.Drawing.Size(143, 34);
             this.label7.TabIndex = 12;
             this.label7.Text = "Allow walking through\r\nblocks?";
             // 
             // btnDiscard
             // 
-            this.btnDiscard.Location = new System.Drawing.Point(93, 192);
+            this.btnDiscard.Location = new System.Drawing.Point(124, 236);
+            this.btnDiscard.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnDiscard.Name = "btnDiscard";
-            this.btnDiscard.Size = new System.Drawing.Size(75, 23);
+            this.btnDiscard.Size = new System.Drawing.Size(100, 28);
             this.btnDiscard.TabIndex = 13;
             this.btnDiscard.Text = "Discard";
             this.btnDiscard.UseVisualStyleBackColor = true;
@@ -202,9 +221,10 @@
             // 
             // btnSave
             // 
-            this.btnSave.Location = new System.Drawing.Point(12, 192);
+            this.btnSave.Location = new System.Drawing.Point(16, 236);
+            this.btnSave.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnSave.Name = "btnSave";
-            this.btnSave.Size = new System.Drawing.Size(75, 23);
+            this.btnSave.Size = new System.Drawing.Size(100, 28);
             this.btnSave.TabIndex = 14;
             this.btnSave.Text = "Save";
             this.btnSave.UseVisualStyleBackColor = true;
@@ -212,9 +232,10 @@
             // 
             // btnDefaults
             // 
-            this.btnDefaults.Location = new System.Drawing.Point(174, 192);
+            this.btnDefaults.Location = new System.Drawing.Point(232, 236);
+            this.btnDefaults.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.btnDefaults.Name = "btnDefaults";
-            this.btnDefaults.Size = new System.Drawing.Size(75, 23);
+            this.btnDefaults.Size = new System.Drawing.Size(100, 28);
             this.btnDefaults.TabIndex = 15;
             this.btnDefaults.Text = "Defaults";
             this.btnDefaults.UseVisualStyleBackColor = true;
@@ -222,9 +243,9 @@
             // 
             // HackControlDialog
             // 
-            this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
+            this.AutoScaleDimensions = new System.Drawing.SizeF(8F, 16F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(259, 227);
+            this.ClientSize = new System.Drawing.Size(345, 279);
             this.Controls.Add(this.btnDefaults);
             this.Controls.Add(this.btnSave);
             this.Controls.Add(this.btnDiscard);
@@ -243,6 +264,7 @@
             this.Controls.Add(this.chkFlying);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedDialog;
             this.Icon = ((System.Drawing.Icon)(resources.GetObject("$this.Icon")));
+            this.Margin = new System.Windows.Forms.Padding(4, 4, 4, 4);
             this.MaximizeBox = false;
             this.MinimizeBox = false;
             this.Name = "HackControlDialog";
